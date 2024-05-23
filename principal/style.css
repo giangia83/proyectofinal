@@ -1,0 +1,417 @@
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;  
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color:#e5e7eb;
+    color: #fff;
+    overflow-x: hidden;
+    font-weight: 600;
+    font-size :16px;
+    font-feature-settings: "calt" 0;
+    letter-spacing: -0.56px;
+    line-height :21.6px;
+    color:rgb(34, 34, 34);
+  
+}
+
+
+
+/* Agrega más medios de comunicación según sea necesario */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Anchura */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #313131;
+    
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#c45c5c, #c02f4e);
+
+}
+
+/* Handle al pasar el mouse */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(#c45c5c, #c02f4e);
+}
+
+
+header {
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgb(221, 221, 221); /* línea de color claro */
+    background-color:rgb(255, 255, 255);
+    font-weight: 480;
+
+}
+
+.header-down {
+    
+    display: flex;
+    justify-content: left;
+
+    padding: 10px 20px;
+    border-bottom: 1px solid rgb(221, 221, 221); /* línea de color claro */
+    background-color:rgb(247, 247, 247);
+    font-weight: 480;
+    position: relative;
+}
+
+.header-down a {
+    
+   margin-left: 7.55rem;
+    
+}
+
+  
+#icon{
+
+    width: 32px;
+    height: 32px;
+   background-color: rgb(243, 243, 243);
+    padding: 0.5rem;
+    
+    }
+
+.logo {
+    letter-spacing: -0.56px;
+line-height :21.6px;
+ 
+    text-decoration: none;
+    font-size: 16px; /* Tamaño de fuente uniforme */
+    margin-right: 20px; /* Espacio entre el logo y el siguiente elemento */
+    font-feature-settings: "calt" 0;
+    color:rgb(34, 34, 34);
+    
+}
+
+.logo:hover{
+
+
+    color: #e0e0e0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+   
+}
+
+.placeholder{
+
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-weight: 600;
+   
+}
+
+.dropbtn {
+    background-color: transparent;
+    border: none;
+    color:rgb(34, 34, 34);
+    cursor: pointer;
+ 
+    font-size: 16px;
+}
+
+.dropbtn:hover  {
+   color: #bbbbbb;
+
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color:rgb(255, 255, 255);
+    min-width: 280px;
+    min-height: 200px;
+    z-index: 2;
+    border: 1px solid #413b41;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 7px;
+    padding: 0.8rem;
+    margin-top: 1.3rem;
+    font-weight: 480;
+}
+
+.titulillo {
+    -webkit-font-smoothing: antialiased;
+    border-bottom: 1px #444 solid;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 4px;
+    padding: 0.92rem;
+    
+}
+
+.dropdown-content a {
+    color: #fff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+
+
+.show {
+    display: block;
+}
+
+.titulillo{
+   
+    -webkit-font-smoothing: antialiased;
+ border-bottom: 1px #444 solid;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 4px;
+    padding: 0.92rem;
+    
+
+}
+
+
+.dropdown-content a:hover {
+    color: #cccccc;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color:rgb(255, 255, 255);
+   
+    border-radius: 5px;
+}
+
+
+
+
+
+.header-center {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+   
+   
+}
+
+.header-center input {
+    flex-grow: 1; /* El input ocupa todo el espacio disponible */
+    padding: 12px;
+    border-radius: 30px;
+    background-color: rgb(255, 255, 255);
+    color: #1b1b1b;
+    margin-right: 10px; /* Espacio entre el input y el icono */
+    text-align: left; /* Centra el texto dentro del input */
+   
+}
+
+
+.fa {
+    color:rgb(34, 34, 34);
+    font-size: 16px; /* Tamaño uniforme para los iconos */
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+
+/* Estilos para el segundo encabezado */
+
+
+
+.titulo{
+
+
+
+
+margin-top: 1.5rem;
+margin-bottom: 1.5rem;
+
+}
+
+
+
+
+
+ .gradient {
+        background: linear-gradient(180deg, transparent, #e5e7eb);
+       bottom:17.6vw;
+        height: 30%;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        z-index: 0;
+      
+ }
+
+
+ @media (min-width: 1200px) {
+    .container{
+        max-width: 1340px;
+    }
+}
+
+
+
+
+/* Media queries para hacer la tarjeta más receptiva */
+
+
+
+
+/* Agrega más media queries según sea necesario para adaptarse a diferentes tamaños de pantalla */
+
+
+
+
+
+.img-fluid{
+
+width: 100%;
+
+
+}
+
+
+/* Estilos del aside */
+aside {
+  
+    padding: 20px;
+   
+    border-right: 1px solid rgb(228, 228, 228); /* línea de color claro */
+    overflow-y: auto;
+    margin-top: 3.40rem;
+    height: 160%;
+    width: 260px;
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255);
+    overflow-x: hidden;
+    padding-top: 20px;
+    transition: width 0.5s ease; /* Transición más lenta */
+    color: rgb(34, 34, 34); /* Color de texto blanco */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    margin-bottom: 10px;
+}
+
+nav ul li a {
+    color: rgb(34, 34, 34);
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    text-decoration: none;
+    color: rgb(94, 94, 94);
+    
+}
+
+.info{
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "calt" 0;
+    background-color: #333;
+    color: #ffffff;
+    padding: 1rem;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: grid;
+    max-width: 55.3rem;
+    border: 1px solid #443747; /* línea de color claro */
+    background-color: rgb(17, 9, 16);
+    line-height: 0.57px;
+    background-color: rgb(22, 14, 22);
+   height: 16.1rem;
+    width: 36rem;
+   
+    margin-top: -19.2rem;
+    background-image: linear-gradient(to top, rgba(7, 7, 7, 0.452), rgba(0, 0, 0, 0)), url('/img/bg-a352b7ab2e3b.png');
+    background-size:  cover;
+   background-repeat: no-repeat;
+   background-position-x: center;
+   filter: hue-rotate(15deg); /* Aplica un filtro para hacer la imagen más morada */
+    
+   
+
+
+}
+
+
+.info2{
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "calt" 0;
+    background-color: #333;
+    color: #ffffff;
+    padding: 1rem;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    display: grid;
+    max-width: 55.3rem;
+    border: 1px solid #443747; /* línea de color claro */
+    background-color: rgb(17, 9, 16);
+    line-height: 0.57px;
+    background-color: rgb(22, 14, 22);
+   height: 16.1rem;
+    width: 36rem;
+     margin-left: auto;
+    margin-top: -19.2rem;
+    background-image: linear-gradient(to top, rgba(7, 7, 7, 0.452), rgba(0, 0, 0, 0)), url('/img/bg-a352b7ab2e3b.png');
+    background-size:  cover;
+   background-repeat: no-repeat;
+   background-position-x: center;
+   filter: hue-rotate(15deg); /* Aplica un filtro para hacer la imagen más morada */
+   
+   
+
+
+}
+
+.col-lg-3, col-md-6, mb-4, mb-lg-0{
+
+    margin-top: 1.5rem;
+  
+}
+
+
+
+/* CARRUSEL */
+

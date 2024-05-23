@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENTO</title>
+    <!-- Enlace al archivo CSS -->
+
+    
+    <link rel="stylesheet" href="/views/style.css">
+
+    <!-- Icono de la pestaña del navegador -->
+    <link rel="icon" type="image/x-icon" href="/img/twentyfour.png">
+</head>
+<body>
+
+<header>
+    <!-- Sección izquierda del encabezado -->
+    <div class="header-left">
+        <a href="#" class="logo">Inicio</a>
+        <a href="#" class="logo">Documentación</a>
+        <!-- Menú desplegable de la cuenta -->
+        <div class="dropdown">
+            <button class="dropbtn">Cuenta <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+            <div class="dropdown-content">
+                <!-- Opciones de la cuenta -->
+                <p class="titulillo">Elige entre las siguientes opciones</p>
+                <a href="#">Editar perfil</a>
+                <a href="/html/index.html">Cerrar sesión</a>
+                <a href="#" style="color: rgb(168, 44, 44); font-weight: 500;">Eliminar cuenta</a>
+            </div>
+        </div>
+    </div>
+    <!-- Sección central del encabezado -->
+    <div class="header-center">
+        <!-- Barra de búsqueda -->
+        <input type="text" class="placeholder" placeholder="Buscar en EVENTO"><i class="fa-sharp fa-light fa-magnifying-glass"></i>
+    </div>
+    <!-- Sección derecha del encabezado -->
+    <div class="header-right">
+        <!-- Enlace al inicio -->
+        <a href="pagina.html"><img src="/img/logo/meetworks.png" id="imgmeet" alt="" height="30px"></a>
+    </div>
+</header>
+
+<main>
+    <!-- Título principal -->
+    <h1 id="tituloprincipal"><span id="nombreUsuario"></span></h1>
+    <!-- Información del usuario -->
+    <div class="info">
+        <p><span id="congregacionUsuario">Gianfranco Iadarola, Colinas de la Rosa (Circuito 7)</p>
+    </div>
+    <!-- Título secundario y subtexto -->
+    <h1 id="nombreUsuario">Tu espacio de trabajo</h1>
+    <p id="sub">Explora las diferentes opciones disponibles.</p>
+    <!-- Cuadrícula de opciones -->
+    <div class="grid-container">
+        <!-- Opciones -->
+        <div class="grid-item" data-url="#">
+            <img src="\img\PNGPEOPLE1.png" alt="Imagen" id="icon">
+            <h2>Ver lista de publicadores</a></h2>
+            <p>Accede a la lista completa de los publicadores registrados en la plataforma.</p>
+        </div>
+        <div class="grid-item" data-url="/html/asignaciones.html">
+            <img src="\img\PNGPENCIL1.png" alt="Imagen" id="icon">
+            <h2><a href="#" style="text-decoration: none; text-decoration-color: none; color: inherit;">Crear asignaciones</a></h2>
+            <p>Crea asignaciones para la reunión Vida y Ministerio.</p>
+        </div>
+        <div class="grid-item" data-url="/html/mecanicas.html">
+            <img src="\img\PNGMECANICO1.png" alt="Imagen" id="icon">
+            <h2>Crear asignaciones mecánicas</h2>
+            <p>Registra y asigna tareas relacionadas con los privilegios.</p>
+        </div>
+        <div class="grid-item" data-url="url-de-tu-pagina">
+            <img src="\img\pngmaleta1.png" alt="Imagen" id="icon">
+            <h2>Crear grupos de predicación</h2>
+            <p>Organiza y administra grupos de predicación de la semana.</p>
+        </div>
+    </div>
+
+    <!-- Sección de novedades -->
+    <h1 id="tituloprincipal2">Novedades</h1>
+    <p id="sub2">Versión de MeetWorks 2.0</p>
+    <!-- Información de novedades -->
+    <div class="info2">
+        <p>Se ha renovado totalmente la interfaz 20/04/2024</p>
+    </div>
+</main>
+
+<!-- Barra lateral izquierda -->
+<aside>
+    <nav>
+        <!-- Opciones de navegación -->
+        <ul>
+            <li><a href="/html/aprende.html">Aprende a usar Meetworks</a></li>
+            <p> Comprende los aspectos esenciales para utilizar MeetWorks24.</p>
+            <li><a href="/html/soporte.html">Centro de soporte</a></li>
+            <p> ¿Necesitas ayuda? Contáctanos.</p>
+            <li><a href="/html/about.html">Acerca de MeetWorks</a></li>
+            <p> Descubre el trabajo que hay detrás de esta plataforma.</p>
+            <li>ID de Usuario</li>
+            <p> USR1zghrpoc31</p>
+            <button id="copy">Copiar ID de Usuario</button>
+        </ul>
+    </nav>
+</aside>
+
+<!-- Barra lateral derecha -->
+<aside class="aside2">
+    <nav>
+        <!-- Información adicional -->
+        <ul>
+            <div class="info3" id="calendar">
+                <!-- Contenido generado dinámicamente -->
+            </div>
+            <div class="info3">
+                <p>No tienes notificaciones</p>
+            </div>
+            <div class="info3">
+                <p>No tienes notificaciones</p>
+            </div>
+            <div class="info4">
+                <p>Lorem ipsum brother</p>
+            </div>
+        </ul>
+    </nav>
+</aside>
+
+<!-- Scripts -->
+<script src="/js/inicio.js"></script>
+
+
+</body>
+</html>

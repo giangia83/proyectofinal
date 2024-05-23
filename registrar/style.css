@@ -1,0 +1,79 @@
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;  
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color:#fdfdfd;
+    color: #fff;
+    overflow-x: hidden;
+    font-weight: 600;
+    font-size :16px;
+    font-feature-settings: "calt" 0;
+    letter-spacing: -0.56px;
+    line-height :21.6px;
+    color:rgb(34, 34, 34);
+  
+}
+
+
+
+
+ 
+#icon{
+
+    width: 32px;
+    height: 32px;
+   background-color: rgb(243, 243, 243);
+    padding: 0.5rem;
+    
+    }
+
+.logo {
+    letter-spacing: -0.56px;
+line-height :21.6px;
+ 
+    text-decoration: none;
+    font-size: 16px; /* Tamaño de fuente uniforme */
+    margin-right: 20px; /* Espacio entre el logo y el siguiente elemento */
+    font-feature-settings: "calt" 0;
+    color:rgb(34, 34, 34);
+}
+
+.logo:hover{
+
+
+    color: #e0e0e0;
+}
+
+
+
+header {
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgb(221, 221, 221); /* línea de color claro */
+    background-color:#fdfdfd;
+    font-weight: 480;
+    
+}
+
+.form-div{
+
+margin-top:4rem;
+background-color:#fdf7f70c;
+border: 1px solid rgb(221, 221, 221); /* línea de color claro */
+padding: 1rem;
+border-radius: 11px;
+
+
+}
+
+footer{
+
+position: relative;
+margin-top: 7rem;
+}
