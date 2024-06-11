@@ -3,6 +3,7 @@ const app = express()
 const mongoose = require('mongoose')
 const path = require('path')
 const userRouter = require('./controllers/usuarios')
+const port = process.env.PORT || 3001;
 
 //conexion a la bd
 try {
