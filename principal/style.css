@@ -404,12 +404,108 @@ nav ul li a:hover {
 
 
 }
+@media (max-width:500px) {
+    
+    .header-down{
 
-.col-lg-3, col-md-6, mb-4, mb-lg-0{
+        display: none;
+    
+    
+    
+    
+    }
 
-    margin-top: 1.5rem;
+
+
+
+    .col-lg-3{
+
+        height: 10rem;
+   
+
+        justify-content: left;
+
+
+
+    }
+
+   .p-4{
+    margin: 0;
+
+    height: 10rem;
+
+   }
+
+   .img-fluid{
+    
+
+   width: 100px;
+   }
   
+   .img-fluid{
+
+    margin-right: 50px;
+
+   }
+
+   
+    
+
+   
+   h5{
+
+    font-size: 15px;
+   
+        }
+
+        h5, text-dark{
+
+          margin-top: -65px;
+           
+                }
+
+.btn{
+
+    display: none;
+
+
+
+
 }
+
+
+
+
+   .small, text-muted, font-italic{
+
+    margin-left: 120px;
+
+
+
+   }
+
+   .card{
+justify-content: right;
+text-align: right;
+
+   }
+
+    h3{
+
+font-size: 15px;
+
+    }
+    .media-body, text-right{
+
+        font-size: 10px;
+        margin-top: 5rem;
+
+
+
+    }
+
+}
+
 
 
 
