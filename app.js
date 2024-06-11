@@ -1,5 +1,3 @@
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const express = require('express');
 const mongoose = require('mongoose');
