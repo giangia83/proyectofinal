@@ -9,8 +9,7 @@ const port = process.env.PORT || 3001;
 // Conexión a la base de datos
 try {
     mongoose.connect('mongodb+srv://giangia83:gian2005@starclean.krrul4s.mongodb.net/?retryWrites=true&w=majority&appName=starclean', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
+       
     });
     console.log('Conexión a la base de datos establecida');
 } catch (error) {
