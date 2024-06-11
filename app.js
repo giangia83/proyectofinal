@@ -6,7 +6,7 @@ const userRouter = require('./controllers/usuarios')
 
 //conexion a la bd
 try {
-    mongoose.connect('')
+    mongoose.connect('mongodb+srv://giangia83:gian2005@starclean.krrul4s.mongodb.net/?retryWrites=true&w=majority&appName=starclean')
     console.log('Lista la conexion BD')
 } catch (error){
     console.log(error)

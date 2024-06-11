@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "express": "^4.19.2",
+    "mongodb": "^6.7.0",
     "node": "^20.14.0",
     "nodemon": "^3.1.3"
   }
