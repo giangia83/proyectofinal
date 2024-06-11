@@ -1,0 +1,231 @@
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;  
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color:#f8f8f8;
+    color: #fff;
+    overflow-x: hidden;
+    font-weight: 600;
+    font-size :16px;
+    font-feature-settings: "calt" 0;
+    letter-spacing: -0.56px;
+    line-height :21.6px;
+    color:rgb(34, 34, 34);
+  
+}
+
+
+.header-down {
+    
+  display: flex;
+  justify-content: left;
+
+  padding: 10px 20px;
+  border-bottom: 1px solid rgb(221, 221, 221); /* línea de color claro */
+  background-color:rgb(247, 247, 247);
+  font-weight: 480;
+  position: relative;
+}
+
+.header-down a {
+  
+ margin-left: 7.55rem;
+  
+}
+
+
+ 
+#icon{
+
+    width: 32px;
+    height: 32px;
+   background-color: rgb(243, 243, 243);
+    padding: 0.5rem;
+    
+    }
+
+    
+
+.logo {
+    letter-spacing: -0.56px;
+line-height :21.6px;
+ 
+    text-decoration: none;
+    font-size: 16px; /* Tamaño de fuente uniforme */
+    margin-right: 20px; /* Espacio entre el logo y el siguiente elemento */
+    font-feature-settings: "calt" 0;
+    color:rgb(34, 34, 34);
+}
+
+.logo:hover{
+
+
+    color: #e0e0e0;
+}
+
+
+
+.header-center {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+ 
+  margin-left:20px;
+}
+
+.header-center input {
+  flex-grow: 1; /* El input ocupa todo el espacio disponible */
+  padding: 12px;
+  border-radius: 30px;
+  background-color: rgb(255, 255, 255);
+  color: #1b1b1b;
+  margin-right: 10px; /* Espacio entre el input y el icono */
+  text-align: left; /* Centra el texto dentro del input */
+ 
+}
+
+
+
+.fa {
+  color:rgb(34, 34, 34);
+  font-size: 16px; /* Tamaño uniforme para los iconos */
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+
+/* Estilos para el segundo encabezado */
+
+
+
+header {
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgb(221, 221, 221); /* línea de color claro */
+    background-color:#fdfdfd;
+    font-weight: 480;
+    
+}
+
+.form-div{
+
+margin-top:4rem;
+background-color:#fdf7f70c;
+border: 1px solid rgb(221, 221, 221); /* línea de color claro */
+padding: 1rem;
+border-radius: 11px;
+
+
+}
+
+footer{
+
+position: relative;
+margin-top: 7rem;
+}
+
+
+.titulo{
+
+margin-top: 2rem;
+
+}
+
+.cambiar-clave{
+
+   
+
+        margin-top:3.5rem;
+        background-color:#fdf7f70c;
+        border: 1px solid rgb(221, 221, 221); /* línea de color claro */
+        padding: 1rem;
+        border-radius: 11px;
+        
+        
+        
+
+
+}
+
+
+.form-div-last{
+
+margin-bottom: 3rem;
+
+}
+
+.button-5 {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #fa8e00;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+   
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 25ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+  }
+  
+  .button-5:hover,
+  .button-5:focus {
+    background-color: #fb8332;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  }
+  
+  
+  
+  .button-5:active {
+    background-color: #c85000;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    
+  }
+
+  .card{
+margin-top: 3rem;
+    background-color:#fdf7f70c;
+
+box-shadow: none;
+  }
+
+.align-items-right{
+
+align-items: right;
+
+}
+
+.card-body{
+
+background-color: #FFFFFF;
+
+}
+
+.form-row{
+
+  
+}

@@ -88,6 +88,53 @@ header {
     
 }
 
+
+
+
+/* CSS */
+.button-5 {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #fa8e00;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+   
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 25ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+  }
+  
+  .button-5:hover,
+  .button-5:focus {
+    background-color: #fb8332;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  }
+  
+  
+  
+  .button-5:active {
+    background-color: #c85000;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    
+  }
+
   
 #icon{
 
@@ -416,7 +463,11 @@ nav ul li a:hover {
     }
 
 
+.cuentainfo{
 
+display: none;
+
+}
 
     .col-lg-3{
 
@@ -441,15 +492,20 @@ nav ul li a:hover {
 
    width: 100px;
    }
+
+   .hero{
+
+width: 100%;
+
+   }
   
    .img-fluid{
 
-    margin-right: 50px;
+    margin-right: -0px;
 
    }
 
    
-    
 
    
    h5{
@@ -461,7 +517,7 @@ nav ul li a:hover {
         h5, text-dark{
 
           margin-top: -65px;
-           
+           text-align: right;
                 }
 
 .btn{
@@ -479,14 +535,14 @@ nav ul li a:hover {
    .small, text-muted, font-italic{
 
     margin-left: 120px;
-
+text-align: right;
 
 
    }
 
    .card{
 justify-content: right;
-text-align: right;
+
 
    }
 
