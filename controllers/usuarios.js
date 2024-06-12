@@ -1,17 +1,19 @@
 const express = require('express');
-const userRouter = express.Router();
+const router = express.Router();
 const Usuario = require('../models/usuario');
 
-userRouter.post('/', async (request, response) => {
-    const { nombre, correo, contraseña, direccion, ciudad } = request.body;
+router.post('/', async (req, res) => {
+    const { nombre, correo, contraseña, direccion, ciudad } = req.body;
 
     try {
+        // Verificar si ya existe un usuario con el mismo correo electrónico
         const usuarioExistente = await Usuario.findOne({ correo });
 
         if (usuarioExistente) {
-            return response.status(400).json({ error: 'El correo electrónico ya está en uso' });
+            return res.status(400).json({ error: 'El correo electrónico ya está en uso' });
         }
 
+        // Crear un nuevo usuario
         const nuevoUsuario = new Usuario({
             nombre,
             correo,
@@ -20,12 +22,14 @@ userRouter.post('/', async (request, response) => {
             ciudad
         });
 
+        // Guardar el nuevo usuario en la base de datos
         await nuevoUsuario.save();
-        return response.status(200).json({ mensaje: 'Usuario registrado exitosamente' });
+
+        return res.status(200).json({ mensaje: 'Usuario registrado exitosamente' });
     } catch (error) {
         console.error(error);
-        return response.status(500).json({ error: 'Error en el servidor' });
+        return res.status(500).json({ error: 'Error en el servidor' });
     }
 });
 
-module.exports = userRouter;
+module.exports = router;

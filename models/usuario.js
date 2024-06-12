@@ -21,7 +21,7 @@ const usuarioSchema = new mongoose.Schema({
     ciudad: {
         type: String,
         required: true
-    },
+    }
     // Otros campos que puedas necesitar
 });
 
@@ -33,6 +33,6 @@ usuarioSchema.set('toJSON', {
     }
 });
 
-const Usuario = mongoose.model('usuario', usuarioSchema);
+const Usuario = mongoose.model('Usuario', usuarioSchema);
 
 module.exports = Usuario;
