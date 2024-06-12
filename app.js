@@ -1,4 +1,4 @@
-const sass = require('sass');
+
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -8,8 +8,8 @@ const userRouter = require('./controllers/usuarios');
 const app = express();
 const port = process.env.PORT || 3001;
 
-const result = sass.compile('styles.scss');
-console.log(result.css);
+
+
 // Conexión a la base de datos
 try {
     mongoose.connect('mongodb+srv://giangia83:gian2005@starclean.krrul4s.mongodb.net/?retryWrites=true&w=majority&appName=starclean', {
