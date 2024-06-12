@@ -14,6 +14,14 @@ const usuarioSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    direccion: {
+        type: String,
+        required: true
+    },
+    ciudad: {
+        type: String,
+        required: true
+    },
     // Otros campos que puedas necesitar
 });
 
