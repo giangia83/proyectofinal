@@ -1,10 +1,10 @@
-// Importa el modelo de usuario
 const Usuario = require('../models/usuario');
 
 // Crear Selectores
 const formC = document.querySelector('#form-create');
-const formL = document.querySelector('#form-login');
-const loginInput = document.querySelector('#login-input');
+const formL = document.querySelector('#login-form'); // Cambiado el identificador a "login-form"
+const loginInput = document.querySelector('#inputEmail'); // Cambiado el id a "inputEmail"
+const passwordInput = document.querySelector('#inputPassword'); // Cambiado el id a "inputPassword"
 const createInput = document.querySelector('#create-input');
 const noti = document.querySelector('.notification');
 
@@ -51,9 +51,9 @@ formC.addEventListener('submit', async e => {
 formL.addEventListener('submit', async e => {
     e.preventDefault();
 
-    // Validar si el campo de nombre está vacío
-    if (!loginInput.value) {
-        noti.textContent = 'El campo no puede estar vacío';
+    // Validar si el campo de nombre o contraseña está vacío
+    if (!loginInput.value || !passwordInput.value) {
+        noti.textContent = 'El campo de correo o contraseña no puede estar vacío';
         noti.classList.add('show-notification');
         setTimeout(() => {
             noti.classList.remove('show-notification');
@@ -65,16 +65,16 @@ formL.addEventListener('submit', async e => {
         // Consultar si el usuario existe en la base de datos
         const existeUsuario = await Usuario.findOne({ nombre: loginInput.value });
 
-        if (!existeUsuario) {
-            noti.innerHTML = 'El Usuario no existe';
+        if (!existeUsuario || existeUsuario.contraseña !== passwordInput.value) {
+            noti.innerHTML = 'Correo o contraseña incorrectos';
             noti.classList.add('show-notification');
             setTimeout(() => {
                 noti.classList.remove('show-notification');
             }, 2000);
         } else {
-            // Si el usuario existe, redirigir a la página de cuenta
+            // Si el usuario existe y la contraseña es correcta, redirigir a la página de home (/home)
             localStorage.setItem('usuario', JSON.stringify(existeUsuario));
-            window.location.href = '/iniciarsesion/';
+            window.location.href = '/home'; // Cambio de la URL de redirección
         }
     } catch (error) {
         console.error('Error al buscar usuario:', error);
