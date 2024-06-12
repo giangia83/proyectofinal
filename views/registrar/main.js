@@ -14,7 +14,7 @@ registroForm.addEventListener('submit', async (event) => {
 
     try {
         // Realiza la operación de registro en la base de datos
-        const respuesta = await fetch('/usuarios', { // Reemplaza '/usuarios/registro' con la ruta correspondiente a tu API
+        const respuesta = await fetch('controllers/usuarios', { // Reemplaza '/usuarios/registro' con la ruta correspondiente a tu API
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
