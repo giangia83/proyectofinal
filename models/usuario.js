@@ -33,6 +33,6 @@ usuarioSchema.set('toJSON', {
     }
 });
 
-const Usuario = mongoose.model('Usuario', usuarioSchema);
+const Usuario = mongoose.model('usuarios', usuarioSchema);
 
 module.exports = Usuario;
