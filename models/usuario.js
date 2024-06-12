@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Definir el esquema del usuario
 const usuarioSchema = new mongoose.Schema({
     nombre: {
         type: String,
@@ -8,7 +9,7 @@ const usuarioSchema = new mongoose.Schema({
     correo: {
         type: String,
         required: true,
-        unique: true // Para garantizar que no haya usuarios duplicados con el mismo correo electrónico
+        unique: true // Garantiza que no haya usuarios duplicados con el mismo correo electrónico
     },
     contraseña: {
         type: String,
@@ -21,10 +22,11 @@ const usuarioSchema = new mongoose.Schema({
     ciudad: {
         type: String,
         required: true
-    }
+    },
     // Otros campos que puedas necesitar
 });
 
+// Opcional: configurar opciones adicionales del esquema
 usuarioSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString();
@@ -33,6 +35,8 @@ usuarioSchema.set('toJSON', {
     }
 });
 
+// Crear el modelo de usuario a partir del esquema
 const Usuario = mongoose.model('Usuario', usuarioSchema);
 
+// Exportar el modelo para poder usarlo en otras partes de la aplicación
 module.exports = Usuario;
