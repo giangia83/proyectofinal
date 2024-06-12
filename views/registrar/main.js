@@ -33,7 +33,7 @@ registroForm.addEventListener('submit', async (event) => {
             // Guarda el usuario en la base de datos
             async function guardarUsuario() {
                 // Realiza la operación de guardar usuario
-                const respuestaUsuario = await fetch('/usuarios', {
+                const respuestaUsuario = await fetch('/api/users', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -42,6 +42,7 @@ registroForm.addEventListener('submit', async (event) => {
                         nombre: nombre
                     })
                 });
+                
                 const usuarioGuardado = await respuestaUsuario.json();
                 console.log('Usuario guardado:', usuarioGuardado);
             }
