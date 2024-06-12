@@ -8,7 +8,7 @@ const userRouter = require('./controllers/usuarios');
 const app = express();
 const port = process.env.PORT || 3001;
 
-const result = sass.compile('style.scss');
+const result = sass.compile('styles.scss');
 console.log(result.css);
 // Conexión a la base de datos
 try {
