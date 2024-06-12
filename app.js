@@ -20,10 +20,10 @@ try {
 }
 
 // Rutas de frontend - Servir archivos estáticos
-app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
+app.use('/', express.static(path.resolve(__dirname, 'views', 'iniciar')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
 app.use('/informacion', express.static(path.resolve(__dirname, 'infocuenta')));
-app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'iniciar')));
+app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'home')));
 app.use('/tuspedidos', express.static(path.resolve(__dirname, 'pedidos')));
 app.use('/registrarse', express.static(path.resolve(__dirname, 'registrar')));
 app.use('/configuracion', express.static(path.resolve(__dirname, 'plantila-configuracion')));

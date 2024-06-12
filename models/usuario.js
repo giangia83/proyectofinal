@@ -1,21 +1,30 @@
-const mongoose = require('mongoose')
-const userRouter = require('../controllers/usuarios')
+const mongoose = require('mongoose');
 
-//definir el esquema para el usuario
 const usuarioSchema = new mongoose.Schema({
-    nombre:String
-})
+    nombre: {
+        type: String,
+        required: true
+    },
+    correo: {
+        type: String,
+        required: true,
+        unique: true // Para garantizar que no haya usuarios duplicados con el mismo correo electrónico
+    },
+    contraseña: {
+        type: String,
+        required: true
+    },
+    // Otros campos que puedas necesitar
+});
 
-//configurar la respuesta del usuario en el esquema
-usuarioSchema.set('toJSON',{
-    transform:(document,returnedObject)=>{
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
+usuarioSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v; // Elimina el campo __v si lo deseas
     }
-})
+});
 
-//registrar el modelo
-const user = mongoose.model('user',usuarioSchema)
+const Usuario = mongoose.model('Usuario', usuarioSchema);
 
-//exportar
-module.exports = user
+module.exports = Usuario;
