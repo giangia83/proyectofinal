@@ -1,41 +1,63 @@
+// Selecciona el formulario de registro por su ID
+const registroForm = document.querySelector('#registro-form');
 
-const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path');
-const userRouter = require('./controllers/usuarios');
+// Escucha el evento de envío del formulario
+registroForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Previene el comportamiento predeterminado de enviar el formulario
 
-const app = express();
-const port = process.env.PORT || 3001;
+    // Obtiene los valores ingresados por el usuario en el formulario
+    const nombre = document.querySelector('#inputNombre').value;
+    const correo = document.querySelector('#inputEmail').value;
+    const contraseña = document.querySelector('#inputPassword').value;
+    const direccion = document.querySelector('#inputDireccion').value;
+    const ciudad = document.querySelector('#inputCiudad').value;
 
+    try {
+        // Realiza la operación de registro en la base de datos
+        const respuesta = await fetch('/api/users', { // Reemplaza '/usuarios/registro' con la ruta correspondiente a tu API
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nombre: nombre,
+                correo: correo,
+                contraseña: contraseña,
+                direccion: direccion,
+                ciudad: ciudad
+            })
+        });
 
+        // Verifica si el registro fue exitoso
+        if (respuesta.ok) {
+            // Guarda el usuario en la base de datos
+            async function guardarUsuario() {
+                // Realiza la operación de guardar usuario
+                const respuestaUsuario = await fetch('/usuarios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre
+                    })
+                });
+                const usuarioGuardado = await respuestaUsuario.json();
+                console.log('Usuario guardado:', usuarioGuardado);
+            }
+            await guardarUsuario();
 
-// Conexión a la base de datos
-try {
-    mongoose.connect('mongodb+srv://giangia83:gian2005@starclean.krrul4s.mongodb.net/?retryWrites=true&w=majority&appName=starclean', {
-       
-    });
-    console.log('Conexión a la base de datos establecida');
-} catch (error) {
-    console.error('Error al conectar a la base de datos:', error);
-}
-
-// Rutas de frontend - Servir archivos estáticos
-app.use('/', express.static(path.resolve(__dirname, 'views', 'registrar')));
-app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
-app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocuenta')));
-app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
-app.use('/tuspedidos', express.static(path.resolve(__dirname, 'views', 'pedidos')));
-app.use('/registrarse', express.static(path.resolve(__dirname,'views', 'registrar')));
-app.use('/configuracion', express.static(path.resolve(__dirname,'views', 'plantila-configuracion')));
-app.use('/servicioalcliente', express.static(path.resolve(__dirname, 'views', 'serviciocliente')));
-
-// Middleware para procesar JSON
-app.use(express.json());
-
-// Rutas de backend
-app.use('/api/users', userRouter);
-
-// Iniciar el servidor
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Servidor escuchando en el puerto ${port}`);
+            // Redirige a la página de inicio de sesión
+            window.location.href = '/iniciarsesion';
+        } else {
+            // Maneja cualquier error de respuesta del servidor
+            console.error('Error al registrar usuario:', respuesta.statusText);
+            // Muestra un mensaje de error al usuario
+            alert('Error al registrar usuario. Por favor, inténtalo de nuevo más tarde.');
+        }
+    } catch (error) {
+        console.error('Error al procesar el formulario de registro:', error);
+        // Maneja el error de acuerdo a tus necesidades, por ejemplo, mostrando un mensaje de error al usuario
+        alert('Error al procesar el formulario de registro. Por favor, inténtalo de nuevo más tarde.');
+    }
 });

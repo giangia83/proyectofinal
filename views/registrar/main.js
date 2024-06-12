@@ -30,6 +30,13 @@ registroForm.addEventListener('submit', async (event) => {
 
         // Verifica si el registro fue exitoso
         if (respuesta.ok) {
+            // Guarda el usuario en la base de datos
+            async function guardarUsuario() {
+                // Realiza la operación de guardar usuario
+                console.log('Guardando usuario...');
+            }
+            await guardarUsuario();
+
             // Redirige a la página de inicio de sesión
             window.location.href = '/iniciarsesion';
         } else {
