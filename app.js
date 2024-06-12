@@ -22,11 +22,11 @@ try {
 // Rutas de frontend - Servir archivos estáticos
 app.use('/', express.static(path.resolve(__dirname, 'views', 'registrar')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
-app.use('/informacion', express.static(path.resolve(__dirname, 'infocuenta')));
-app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'iniciar')));
-app.use('/tuspedidos', express.static(path.resolve(__dirname, 'pedidos')));
-app.use('/registrarse', express.static(path.resolve(__dirname, 'registrar')));
-app.use('/configuracion', express.static(path.resolve(__dirname, 'plantila-configuracion')));
+app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocuenta')));
+app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
+app.use('/tuspedidos', express.static(path.resolve(__dirname, 'views', 'pedidos')));
+app.use('/registrarse', express.static(path.resolve(__dirname,'views', 'registrar')));
+app.use('/configuracion', express.static(path.resolve(__dirname,'views', 'plantila-configuracion')));
 app.use('/servicioalcliente', express.static(path.resolve(__dirname, 'views', 'serviciocliente')));
 
 // Middleware para procesar JSON
