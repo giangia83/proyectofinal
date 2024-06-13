@@ -10,19 +10,27 @@ registroForm.addEventListener('submit', async (event) => {
     const ciudad = document.querySelector('#inputCiudad').value;
 
     try {
-        const respuesta = await axios.post('/api/users', {
-            nombre: nombre,
-            correo: correo,
-            contraseña: contraseña,
-            direccion: direccion,
-            ciudad: ciudad
+        const respuesta = await fetch('/api/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nombre: nombre,
+                correo: correo,
+                contraseña: contraseña,
+                direccion: direccion,
+                ciudad: ciudad
+            })
         });
 
-        if (respuesta.status === 201) {
+        const datos = await respuesta.json();
+
+        if (respuesta.ok) {
             console.log('Usuario creado exitosamente');
             window.location.href = '/iniciarsesion';
         } else {
-            console.error('Error al registrar usuario:', respuesta.statusText);
+            console.error('Error al registrar usuario:', datos.error);
             alert('Error al registrar usuario. Por favor, inténtalo de nuevo más tarde.');
         }
     } catch (error) {
