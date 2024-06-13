@@ -1,5 +1,6 @@
 // Selecciona el formulario de registro por su ID
 const registroForm = document.querySelector('#registro-form');
+const axios = require('axios');
 
 // Escucha el evento de envío del formulario
 registroForm.addEventListener('submit', async (event) => {
@@ -14,7 +15,7 @@ registroForm.addEventListener('submit', async (event) => {
 
     try {
         // Realiza la operación de registro en la base de datos
-        const respuesta = await fetch('/api/users', { // Reemplaza '/usuarios/registro' con la ruta correspondiente a tu API
+        const respuesta = await axios.post('/api/users', { // Reemplaza '/usuarios/registro' con la ruta correspondiente a tu API
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
