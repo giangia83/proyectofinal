@@ -1,6 +1,4 @@
-// Selecciona el formulario de registro por su ID
 const registroForm = document.querySelector('#registro-form');
-const axios = require('axios');
 
 // Escucha el evento de envío del formulario
 registroForm.addEventListener('submit', async (event) => {
@@ -15,40 +13,16 @@ registroForm.addEventListener('submit', async (event) => {
 
     try {
         // Realiza la operación de registro en la base de datos
-        const respuesta = await axios.post('/api/users', { // Reemplaza '/usuarios/registro' con la ruta correspondiente a tu API
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nombre: nombre,
-                correo: correo,
-                contraseña: contraseña,
-                direccion: direccion,
-                ciudad: ciudad
-            })
+        const respuesta = await axios.post('/api/users', { 
+            nombre: nombre,
+            correo: correo,
+            contraseña: contraseña,
+            direccion: direccion,
+            ciudad: ciudad
         });
 
         // Verifica si el registro fue exitoso
-        if (respuesta.ok) {
-            // Guarda el usuario en la base de datos
-            async function guardarUsuario() {
-                // Realiza la operación de guardar usuario
-                const respuestaUsuario = await fetch('/api/users', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        nombre: nombre
-                    })
-                });
-                
-                const usuarioGuardado = await respuestaUsuario.json();
-                console.log('Usuario guardado:', usuarioGuardado);
-            }
-            await guardarUsuario();
-
+        if (respuesta.status === 201) {
             // Redirige a la página de inicio de sesión
             window.location.href = '/iniciarsesion';
         } else {
