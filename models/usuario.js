@@ -27,13 +27,13 @@ const usuarioSchema = new mongoose.Schema({
 });
 
 // Opcional: configurar opciones adicionales del esquema
-usuarioSchema.set('toJSON', {
+/* usuarioSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString();
         delete returnedObject._id;
         delete returnedObject.__v; // Elimina el campo __v si lo deseas
     }
-});
+}); */
 
 // Crear el modelo de usuario a partir del esquema
 const Usuario = mongoose.model('Usuario', usuarioSchema);
