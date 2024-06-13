@@ -3,21 +3,16 @@ const Usuario = require('../models/usuario');
 // Crear Selectores
 const formC = document.querySelector('#form-create');
 const formL = document.querySelector('#login-form'); // Cambiado el identificador a "login-form"
-const loginInput = document.querySelector('#inputEmail'); // Cambiado el id a "inputEmail"
-const passwordInput = document.querySelector('#inputPassword'); // Cambiado el id a "inputPassword"
-const createInput = document.querySelector('#create-input');
 const noti = document.querySelector('.notification');
 
 formC.addEventListener('submit', async e => {
     e.preventDefault();
 
+    const createInput = document.querySelector('#create-input'); // Mover aquí para evitar búsquedas repetidas
+
     // Validar si el campo de nombre está vacío
     if (!createInput.value) {
-        noti.textContent = 'El campo no puede estar vacío';
-        noti.classList.add('show-notification');
-        setTimeout(() => {
-            noti.classList.remove('show-notification');
-        }, 2000);
+        showNotification('El campo no puede estar vacío');
         return; // Detener la ejecución del resto del código si el campo está vacío
     }
 
@@ -26,38 +21,29 @@ formC.addEventListener('submit', async e => {
         const existeUsuario = await Usuario.findOne({ nombre: createInput.value });
 
         if (existeUsuario) {
-            noti.textContent = 'El usuario ya existe';
-            noti.classList.add('show-notification');
-            setTimeout(() => {
-                noti.classList.remove('show-notification');
-            }, 2000);
+            showNotification('El usuario ya existe');
         } else {
             // Si el usuario no existe, crear un nuevo usuario
             await Usuario.create({ nombre: createInput.value });
-            noti.innerHTML = `El usuario ${createInput.value} se ha registrado satisfactoriamente`;
-            noti.classList.add('show-notification');
-            setTimeout(() => {
-                noti.classList.remove('show-notification');
-            }, 2000);
+            showNotification(`El usuario ${createInput.value} se ha registrado satisfactoriamente`);
         }
 
         createInput.value = ''; // Limpiar el campo de entrada
     } catch (error) {
         console.error('Error al registrar usuario:', error);
-        // Manejar el error de acuerdo a tus necesidades
+        showNotification('Error al registrar usuario. Por favor, inténtalo de nuevo más tarde.');
     }
 });
 
 formL.addEventListener('submit', async e => {
     e.preventDefault();
 
+    const loginInput = document.querySelector('#inputEmail'); // Mover aquí para evitar búsquedas repetidas
+    const passwordInput = document.querySelector('#inputPassword'); // Mover aquí para evitar búsquedas repetidas
+
     // Validar si el campo de nombre o contraseña está vacío
     if (!loginInput.value || !passwordInput.value) {
-        noti.textContent = 'El campo de correo o contraseña no puede estar vacío';
-        noti.classList.add('show-notification');
-        setTimeout(() => {
-            noti.classList.remove('show-notification');
-        }, 2000);
+        showNotification('El campo de correo o contraseña no puede estar vacío');
         return; // Detener la ejecución del resto del código si el campo está vacío
     }
 
@@ -66,11 +52,7 @@ formL.addEventListener('submit', async e => {
         const existeUsuario = await Usuario.findOne({ nombre: loginInput.value });
 
         if (!existeUsuario || existeUsuario.contraseña !== passwordInput.value) {
-            noti.innerHTML = 'Correo o contraseña incorrectos';
-            noti.classList.add('show-notification');
-            setTimeout(() => {
-                noti.classList.remove('show-notification');
-            }, 2000);
+            showNotification('Correo o contraseña incorrectos');
         } else {
             // Si el usuario existe y la contraseña es correcta, redirigir a la página de home (/home)
             localStorage.setItem('usuario', JSON.stringify(existeUsuario));
@@ -78,6 +60,14 @@ formL.addEventListener('submit', async e => {
         }
     } catch (error) {
         console.error('Error al buscar usuario:', error);
-        // Manejar el error de acuerdo a tus necesidades
+        showNotification('Error al buscar usuario. Por favor, inténtalo de nuevo más tarde.');
     }
 });
+
+function showNotification(message) {
+    noti.textContent = message;
+    noti.classList.add('show-notification');
+    setTimeout(() => {
+        noti.classList.remove('show-notification');
+    }, 2000);
+}
