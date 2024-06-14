@@ -1,35 +1,36 @@
 const formL = document.querySelector('#login-form');
+const loginInput = document.querySelector('#inputEmail');
+const passwordInput = document.querySelector('#inputPassword');
 const noti = document.querySelector('.notification');
 
 formL.addEventListener('submit', async e => {
     e.preventDefault();
 
-    const loginInput = document.querySelector('#inputEmail').value;
-    const passwordInput = document.querySelector('#inputPassword').value;
-
-    if (!loginInput || !passwordInput) {
+    if (!loginInput.value || !passwordInput.value) {
         showNotification('El campo de correo o contraseña no puede estar vacío');
         return;
     }
 
     try {
-        const response = await fetch('/api/users', {
+        const url = '/api/users';
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: loginInput,
-                password: passwordInput
+                email: loginInput.value,
+                password: passwordInput.value
             })
         });
 
-        if (response.ok) {
-            window.location.href = '/cuenta';
-        } else {
-            const data = await response.json();
-            throw new Error(data.error);
+        if (!response.ok) {
+            throw new Error('Error al iniciar sesión');
         }
+
+        const data = await response.json();
+        localStorage.setItem('usuario', JSON.stringify(data));
+        window.location.href = '/cuenta'; // Redireccionar al usuario a la página de cuenta después del inicio de sesión
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         showNotification('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
