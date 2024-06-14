@@ -32,6 +32,26 @@ formL.addEventListener('submit', async e => {
     }
 });
 
+// Función para iniciar sesión utilizando el controlador correspondiente
+async function iniciarSesion(email, password) {
+    try {
+        // Llamar al controlador para buscar el usuario por correo electrónico
+        const usuario = await buscarUsuarioPorCorreo(email);
+
+        // Verificar si se encontró un usuario y si la contraseña coincide
+        if (usuario && usuario.contraseña === password) {
+            // Devolver el usuario encontrado si las credenciales son válidas
+            return usuario;
+        } else {
+            // Devolver null si las credenciales son inválidas
+            return null;
+        }
+    } catch (error) {
+        // Lanzar cualquier error que ocurra durante el proceso
+        throw error;
+    }
+}
+
 // Función para mostrar un mensaje en la interfaz de usuario
 function mostrarMensaje(mensaje) {
     alert(mensaje);
