@@ -56,3 +56,14 @@ async function iniciarSesion(email, password) {
 function mostrarMensaje(mensaje) {
     alert(mensaje);
 }
+
+// Asegurar que la función buscarUsuarioPorCorreo esté definida
+async function buscarUsuarioPorCorreo(correo) {
+    try {
+        // Llamar al controlador correspondiente para buscar el usuario por correo electrónico
+        // Debe ser implementada en otro archivo, como usuariosController.js
+        // y exportada adecuadamente para que pueda ser importada aquí
+    } catch (error) {
+        throw error;
+    }
+}
