@@ -1,13 +1,13 @@
 const formL = document.querySelector('#login-form');
 const loginInput = document.querySelector('#inputEmail');
 const passwordInput = document.querySelector('#inputPassword');
-const noti = document.querySelector('.notification');
+
 
 formL.addEventListener('submit', async e => {
     e.preventDefault();
 
     if (!loginInput.value || !passwordInput.value) {
-        showNotification('El campo de correo o contraseña no puede estar vacío');
+        console.error('no puede estar vacio:', error);
         return;
     }
 
@@ -33,14 +33,8 @@ formL.addEventListener('submit', async e => {
         window.location.href = '/cuenta'; // Redireccionar al usuario a la página de cuenta después del inicio de sesión
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
-        showNotification('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
+      
     }
 });
 
-function showNotification(message) {
-    noti.textContent = message;
-    noti.classList.add('show-notification');
-    setTimeout(() => {
-        noti.classList.remove('show-notification');
-    }, 2000);
-}
+
