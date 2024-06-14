@@ -1,4 +1,4 @@
-const Usuario = require('../models/usuario');
+
 
 // Crear Selectores
 const formC = document.querySelector('#form-create');
@@ -56,7 +56,7 @@ formL.addEventListener('submit', async e => {
         } else {
             // Si el usuario existe y la contraseña es correcta, redirigir a la página de home (/home)
             localStorage.setItem('usuario', JSON.stringify(existeUsuario));
-            window.location.href = '/home'; // Cambio de la URL de redirección
+            window.location.href = '/cuenta'; // Cambio de la URL de redirección
         }
     } catch (error) {
         console.error('Error al buscar usuario:', error);
