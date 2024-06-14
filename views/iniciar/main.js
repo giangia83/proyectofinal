@@ -71,3 +71,4 @@ function showNotification(message) {
         noti.classList.remove('show-notification');
     }, 2000);
 }
+console.log("script working");
