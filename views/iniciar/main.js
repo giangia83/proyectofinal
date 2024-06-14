@@ -10,13 +10,13 @@ formL.addEventListener('submit', async e => {
     e.preventDefault();
 
     // Extraer los valores de los campos de correo electrónico y contraseña
-    const email = loginInput.value;
+    const correo = loginInput.value;
     const password = passwordInput.value;
 
     // Intentar iniciar sesión con los datos proporcionados
     try {
         // Llamar al controlador para iniciar sesión
-        const usuario = await iniciarSesion(email, password);
+        const usuario = await iniciarSesion(correo, password);
 
         // Verificar si se encontró un usuario
         if (usuario) {
@@ -34,10 +34,10 @@ formL.addEventListener('submit', async e => {
 });
 
 // Función para iniciar sesión utilizando el controlador correspondiente
-async function iniciarSesion(email, password) {
+async function iniciarSesion(correo, password) {
     try {
         // Llamar al controlador para buscar el usuario por correo electrónico
-        const usuario = await buscarUsuarioPorCorreo(email);
+        const usuario = await buscarUsuarioPorCorreo(correo);
 
         // Verificar si se encontró un usuario y si la contraseña coincide
         if (usuario && usuario.contraseña === password) {
@@ -59,7 +59,7 @@ function mostrarMensaje(mensaje) {
 }
 
 // Asegurar que la función buscarUsuarioPorCorreo esté definida
-async function buscarUsuarioPorCorreo(email) {
+async function buscarUsuarioPorCorreo(correo) {
     try {
         // Llamar al controlador correspondiente para buscar el usuario por correo electrónico
         // Debe ser implementada en otro archivo, como usuariosController.js

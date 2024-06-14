@@ -1,9 +1,9 @@
 // iniciarSesionController.js
 
-async function iniciarSesion(email, contraseña) {
+async function iniciarSesion(correo, contraseña) {
     try {
         // Buscar el usuario por su correo electrónico
-        const usuario = await usuariosController.buscarUsuarioPorCorreo(email);
+        const usuario = await usuariosController.buscarUsuarioPorCorreo(correo);
 
         if (!usuario) {
             // El usuario no existe en la base de datos
