@@ -1,4 +1,5 @@
 // main.js
+const iniciarSesion = require('./iniciarSesion');
 
 const formL = document.querySelector('#login-form');
 const loginInput = document.querySelector('#inputEmail');

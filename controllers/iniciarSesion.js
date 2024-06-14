@@ -1,6 +1,6 @@
 // iniciarSesionController.js
 
-const usuariosController = require('./usuariosController');
+
 
 async function iniciarSesion(email, contraseña) {
     try {
