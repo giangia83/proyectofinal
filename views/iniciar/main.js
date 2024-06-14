@@ -31,9 +31,9 @@ formL.addEventListener('submit', async e => {
     }
 });
 
-async function buscarUsuarioPorEmail(email) {
+async function buscarUsuarioPorEmail(correo) {
     // Realizar una solicitud al servidor para buscar al usuario por su correo electrónico
-    const url = `/api/users?correo=${encodeURIComponent(email)}`;
+    const url = `/api/users?correo=${encodeURIComponent(correo)}`;
     const response = await fetch(url);
 
     if (!response.ok) {
