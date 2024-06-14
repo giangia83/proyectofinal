@@ -1,7 +1,5 @@
 // iniciarSesionController.js
 
-
-
 async function iniciarSesion(email, contraseña) {
     try {
         // Buscar el usuario por su correo electrónico

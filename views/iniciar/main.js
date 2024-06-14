@@ -1,5 +1,5 @@
 // main.js
-const iniciarSesion = require('./iniciarSesion');
+
 
 const formL = document.querySelector('#login-form');
 const loginInput = document.querySelector('#inputEmail');
@@ -59,7 +59,7 @@ function mostrarMensaje(mensaje) {
 }
 
 // Asegurar que la función buscarUsuarioPorCorreo esté definida
-async function buscarUsuarioPorCorreo(correo) {
+async function buscarUsuarioPorCorreo(email) {
     try {
         // Llamar al controlador correspondiente para buscar el usuario por correo electrónico
         // Debe ser implementada en otro archivo, como usuariosController.js
