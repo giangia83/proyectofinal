@@ -1,6 +1,7 @@
 // main.js
 
 
+const bootstrap = require('bootstrap')
 const formL = document.querySelector('#login-form');
 const loginInput = document.querySelector('#inputEmail');
 const passwordInput = document.querySelector('#inputPassword');
