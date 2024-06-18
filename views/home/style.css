@@ -135,6 +135,12 @@ header {
     
   }
 
+  .card{
+
+
+    margin-bottom: 2rem;
+  }
+
   
 #icon{
 
@@ -314,7 +320,7 @@ margin-bottom: 1.5rem;
 
  .gradient {
         background: linear-gradient(180deg, transparent, #e5e7eb);
-       bottom:17.6vw;
+       bottom:17.4vw;
         height: 30%;
         left: 0;
         position: absolute;

@@ -8,19 +8,9 @@
     
     
     <!-- BOOTSTRAP -->
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
-    <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
-    <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
-    <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
+   
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <!--  -->
-    
-    
-    
-    
-    
-    
     
     
     
@@ -31,25 +21,8 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
     <!-- Icono de la pestaña del navegador -->
     <link rel="stylesheet" href="/views/plantilla-configuracion/style.css">
  
@@ -109,7 +82,7 @@
                 
                 <section class="titulo">
                 
-                <h2 class="font-weight-bold mb-2">  Configuración de la cuenta  <a href="#" class="badge badge-warning">Nombre</a>    </h2>     
+                <h2 class="font-weight-bold mb-2">  Configuración de la cuenta <span class="badge bg-dark">Nombre</span>    </h2>     
 
               </section>
 
@@ -136,19 +109,22 @@
     <p class="text-muted">Cambiar contraseña </p>
       <div class="form-row">
        
-        <div class="form-group col-md-6">
-          <label for="inputPassword4"></label>
-          <input type="password" class="form-control" id="inputPassword4" placeholder="Ingresa antigua contraseña">
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Antigua clave" aria-label="Antigua clave">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Nueva clave" aria-label="Nueva clave">
+          </div>
+          
         </div>
-        <div class="form-group col-md-6">
-          <label for="inputPassword4"></label>
-          <input type="password" class="form-control" id="inputPassword4" placeholder="Ingresa nueva contraseña">
-        </div>
-      </div>
-     
 
+        
+      </div>
+     <br>
+
+      <button type="button" class="btn btn-success">Actualizar</button>
       
-      <button class="button-5" role="button">Cambiar contraseña</button>
     </form>
 
    
@@ -156,24 +132,26 @@
  
 
               </div>
+              
               <div class="form-div">
 
-              <form>
-
-                <p class="text-muted">Cambiar correo </p>
-                  <div class="form-row">
-                   
-                    
-                    <div class="form-group col-md-6">
-                      <label for="inputPassword4"></label>
-                      <input type="password" class="form-control" id="inputPassword4" placeholder="Ingresa nuevo correo">
+                <div class="form-row">
+                  <p class="text-muted">Cambiar correo </p>
+                  <div class="row">
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Nuevo correo" aria-label="Nueva clave">
                     </div>
-                  </div>
                  
-            
+                    
+                  </div>
+          
                   
-                  <button class="button-5" role="button">Cambiar correo</button>
-                </form>
+                </div>
+               <br>
+          
+                <button type="button" class="btn btn-success">Actualizar</button>
+                
+              </form>
 
 
 
