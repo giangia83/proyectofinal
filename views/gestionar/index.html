@@ -2,23 +2,21 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Gestión de Productos - Starclean C.A</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Gestión de Productos - Starclean C.A</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <!-- BOOTSTRAP -->
-
-
-
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <!--  -->
+  <!-- BOOTSTRAP -->
 
 
+
+  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+  <!--  -->
 
 
 
@@ -29,9 +27,9 @@
 
 
 
-    <!-- Enlace al archivo CSS de Bootstrap -->
 
 
+  <!-- Enlace al archivo CSS de Bootstrap -->
 
 
 
@@ -51,10 +49,12 @@
 
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- Icono de la pestaña del navegador -->
-    <link rel="stylesheet" href="/views/gestionar/style.css">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- Icono de la pestaña del navegador -->
+  <link rel="stylesheet" href="/views/gestionar/style.css">
 
 </head>
 
@@ -66,204 +66,279 @@
 
 
 
-    <header>
-        <!-- Sección izquierda del encabezado -->
-        <div class="header-left">
-            <a href="pagina.html"><img src="/img/starcleanlogo4.png" id="imgmeet" alt="" width="80px"></a>
+  <header>
+    <!-- Sección izquierda del encabezado -->
+    <div class="header-left">
+      <a href="pagina.html"><img src="/img/starcleanlogo4.png" id="imgmeet" alt="" width="80px"></a>
 
-            <!-- Menú desplegable de la cuenta -->
-            <div class="dropdown">
+      <!-- Menú desplegable de la cuenta -->
+      <div class="dropdown">
 
-                <div class="dropdown-content">
-                    <!-- Opciones de la cuenta -->
-                    <p class="titulillo">Elige entre las siguientes opciones</p>
-                    <a href="#">Editar perfil</a>
-                    <a href="/html/index.html">Cerrar sesión</a>
-                    <a href="#" style="color: rgb(168, 44, 44); font-weight: 500;">Eliminar cuenta</a>
+        <div class="dropdown-content">
+          <!-- Opciones de la cuenta -->
+          <p class="titulillo">Elige entre las siguientes opciones</p>
+          <a href="#">Editar perfil</a>
+          <a href="/html/index.html">Cerrar sesión</a>
+          <a href="#" style="color: rgb(168, 44, 44); font-weight: 500;">Eliminar cuenta</a>
+        </div>
+      </div>
+    </div>
+    <!-- Sección central del encabezado -->
+
+    <!-- Sección derecha del encabezado -->
+    <div class="header-right">
+      <!-- Enlace al inicio -->
+      <a href="#" class="logo"><a href="#" class="badge badge-primary">Cuenta admin </a>
+
+    </div>
+
+
+
+
+
+
+  </header>
+
+
+  <main>
+
+
+
+
+    <div class="container">
+      <!-- Content here -->
+
+
+
+      <div class="table-div">
+
+        <aside>
+          <!-- Contenido del sidenav -->
+          <nav>
+
+            <ul>
+
+              <li><a href="/html/aprende.html">Gestión de Productos </a></li>
+              <p> Agregar, editar y eliminar productos.</p>
+
+              <li><a href="/html/soporte.html">Gestión de Cotizaciones</a></li>
+              <p> Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
+              <li><a href="/html/about.html">Administración de Clientes</a></li>
+              <p> Mantén un registro de los clientes registrados y sus detalles.</p>
+
+
+            </ul>
+
+          </nav>
+        </aside>
+      </div>
+
+
+      <div class="container-right">
+
+        <div class="card">
+          <h5 class="card-header">Añade un nuevo producto </h5>
+          <div class="card-body">
+
+
+
+            <form class="row g-3">
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Nombre del producto</label>
+                <input type="text" class="form-control" id="inputEmail4">
+              </div>
+              <div class="col-md-6">
+
+                <label for="inputPassword4" class="form-label">Costo</label>
+                <input type="number" class="form-control" id="inputPassword4" placeholder="1.5$">
+              </div>
+              <div class="col-12">
+                <label for="inputAddress" class="form-label">PVP (Precio al público)</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="3$">
+              </div>
+              <div class="col-12">
+                <label for="inputAddress" class="form-label">Imagen del producto</label>
+                <div class="input-group mb-3">
+
+                  <input type="file" class="form-control" id="inputGroupFile01">
                 </div>
-            </div>
+              </div>
+
+              <div class="col-12">
+                <div class="input-group mb-3">
+                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">Categoría</button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Limpieza</a></li>
+                    <li><a class="dropdown-item" href="#">Papeleria</a></li>
+                    <li><a class="dropdown-item" href="#">Seguridad industrial</a></li>
+
+
+                  </ul>
+
+                </div>
+              </div>
+
+
+
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Subir producto</button>
+              </div>
+            </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </div>
         </div>
-        <!-- Sección central del encabezado -->
-
-        <!-- Sección derecha del encabezado -->
-        <div class="header-right">
-            <!-- Enlace al inicio -->
-            <a href="#" class="logo"><a href="#" class="badge badge-primary">Cuenta admin </a>
-
-        </div>
 
 
 
 
 
 
-    </header>
 
 
-    <main>
+        <div class="table-second">
+
+          <div class="card">
+            <h5 class="card-header">Eliminar un producto </h5>
 
 
+            <div class="row">
+              <div class="col-sm-6">
 
-
-        <div class="container">
-            <!-- Content here -->
-
-
-
-            <div class="table-div">
-
-                <aside>
-                    <!-- Contenido del sidenav -->
-                    <nav>
-
-                        <ul>
-
-                            <li><a href="/html/aprende.html">Gestión de Productos </a></li>
-                            <p> Agregar, editar y eliminar productos.</p>
-
-                            <li><a href="/html/soporte.html">Gestión de Cotizaciones</a></li>
-                            <p> Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
-                            <li><a href="/html/about.html">Administración de Clientes</a></li>
-                            <p> Mantén un registro de los clientes registrados y sus detalles.</p>
-
-
-                        </ul>
-
-                    </nav>
-                </aside>
-            </div>
-
-
-           <div class="container-right">
-
-            <div class="card">
-                <h5 class="card-header">Añade un nuevo producto </h5>
                 <div class="card-body">
-                  
-                   
-                   
-                    <form class="row g-3">
-                      <div class="col-md-6">
-                        <label for="inputEmail4" class="form-label">Nombre del producto</label>
-                        <input type="text" class="form-control" id="inputEmail4">
-                      </div>
-                      <div class="col-md-6">
-                        
-                        <label for="inputPassword4" class="form-label">Costo</label>
-                        <input type="number" class="form-control" id="inputPassword4" placeholder="1.5$">
-                      </div>
-                      <div class="col-12">
-                        <label for="inputAddress" class="form-label">PVP (Precio al público)</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="3$">
-                      </div>
-                      <div class="col-12">
-                        <label for="inputAddress" class="form-label">Imagen del producto</label>
-                      <div class="input-group mb-3">
-                      
-                        <input type="file" class="form-control" id="inputGroupFile01">
-                      </div>
-                    </div>
 
-                    <div class="col-12">
+
+                  <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      A list item
+                      <input class="form-check-input me-1" type="checkbox" value="">
+
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      A list item
+                      <input class="form-check-input me-1" type="checkbox" value="">
+
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      A list item
+                      <input class="form-check-input me-1" type="checkbox" value="">
+
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      A list item
+                      <input class="form-check-input me-1" type="checkbox" value="">
+
+                    </li>
+
+                  </ul>
+
+
+
+
+                  <section id="btn-eliminar">
+
+                    <a href="#" class="btn btn-danger">Eliminar producto(s)</a>
+                  </section>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="table-third">
+
+
+            <div class="card text-dark bg-light mb-3" style="max-width: 100%;">
+              <div class="card-header">Editar un producto</div>
+              <div class="card-body">
+
+                <!-- elegir producto -->
+
+                <label for="exampleDataList" class="form-label">Elige el producto a editar</label>
+                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Escribe para buscar">
+                <datalist id="datalistOptions">
+                  <option value="San Francisco">
+                  <option value="New York">
+                  <option value="Seattle">
+                  <option value="Los Angeles">
+                  <option value="Chicago">
+                </datalist>
+
+
+<br>
+
+                <form class="row g-3">
+
+
+
+
+
+                  <div class="col-md-6">
+
+
+
+
+                    <label for="inputEmail4" class="form-label">Cambiar nombre del producto</label>
+                    <input type="text" class="form-control" id="inputEmail4">
+                  </div>
+                  <div class="col-md-6">
+
+                    <label for="inputPassword4" class="form-label">Nuevo costo</label>
+                    <input type="number" class="form-control" id="inputPassword4" placeholder="1.5$">
+                  </div>
+                  <div class="col-12">
+                    <label for="inputAddress" class="form-label"> Nuevo PVP (Precio al público)</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="3$">
+                  </div>
+                  <div class="col-12">
+                    <label for="inputAddress" class="form-label">Nueva Imagen del producto</label>
                     <div class="input-group mb-3">
-                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Categoría</button>
+
+                      <input type="file" class="form-control" id="inputGroupFile01">
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Nueva Categoría</button>
                       <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Limpieza</a></li>
                         <li><a class="dropdown-item" href="#">Papeleria</a></li>
                         <li><a class="dropdown-item" href="#">Seguridad industrial</a></li>
-                      
-                       
+
+
                       </ul>
-                     
-                    </div>
-                    </div>
-
-
-                    
-                      <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Subir producto</button>
-                      </div>
-                    </form>
-
-
-
-
-
-
-
-
-
-
-
-
-                    
-                </div>
-              </div>
-
-              
-
-
-
-
-
-
-              <div class="table-second">
-
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Eliminar un producto</h5>
-                        <ul class="list-group">
-                          <li class="list-group-item d-flex justify-content-between align-items-center">
-                            A list item
-                            <input class="form-check-input me-1" type="checkbox" value="">
-                            
-                          </li>
-
-                          <li class="list-group-item d-flex justify-content-between align-items-center">
-                            A list item
-                            <input class="form-check-input me-1" type="checkbox" value="">
-                            
-                          </li>
-
-                          <li class="list-group-item d-flex justify-content-between align-items-center">
-                            A list item
-                            <input class="form-check-input me-1" type="checkbox" value="">
-                            
-                          </li>
-
-                          <li class="list-group-item d-flex justify-content-between align-items-center">
-                            A list item
-                            <input class="form-check-input me-1" type="checkbox" value="">
-                            
-                          </li>
-                         
-                        </ul>
-
-
-
-
-<section id="btn-eliminar">
-
-                        <a href="#" class="btn btn-danger">Eliminar producto(s)</a>
-                      </section>
-
-
 
                     </div>
+<br>
+                    <button type="submit" class="btn btn-success">Actualizar</button>
                   </div>
-                </div>
-              
-
-
-            <div class="table-third">
 
 
 
-             
-                      
-                    </div>
+
+
+
+              </div>
 
 
 
@@ -274,7 +349,7 @@
             </div>
 
 
-           </div>
+          </div>
 
 
 
@@ -295,15 +370,15 @@
 
 
 
-        </div>
+      </div>
+    </div>
 
 
 
 
 
 
-
-    </main>
+  </main>
 
 
 
