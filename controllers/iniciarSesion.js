@@ -3,10 +3,11 @@
 async function iniciarSesion(correo, contraseña) {
     try {
         // Buscar el usuario por su correo electrónico
-        const usuario = await usuariosController.buscarUsuarioPorCorreo(correo);
+        const usuario = await buscarUsuario.buscarUsuarioPorCorreo(correo);
 
         if (!usuario) {
             // El usuario no existe en la base de datos
+            console.log("No existe el usuario.")
             return null;
         }
 
@@ -17,6 +18,7 @@ async function iniciarSesion(correo, contraseña) {
         }
 
         // La autenticación fue exitosa
+        console.log("Usuario encontrado exitosamente.")
         return usuario;
     } catch (error) {
         // Manejar cualquier error que ocurra durante el proceso

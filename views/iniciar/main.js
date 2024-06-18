@@ -45,6 +45,7 @@ async function iniciarSesion(correo, password) {
             return usuario;
         } else {
             // Devolver null si las credenciales son inválidas
+            console.log("Invalido")
             return null;
         }
     } catch (error) {
