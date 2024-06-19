@@ -480,4 +480,13 @@ border:1px solid,  rgb(235, 235, 235);
   background-color: #c85000;
   box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
   
+}.margin-left-header{
+
+    margin-left: 1rem;
+}
+
+.cerrar-sesion{
+
+color: rgb(218, 5, 5);
+
 }

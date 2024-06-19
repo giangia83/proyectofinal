@@ -196,29 +196,17 @@ line-height :21.6px;
 
 }
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-    margin-right: 20px;
+
+.margin-left-header{
+
+    margin-left: 1rem;
 }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color:rgb(255, 255, 255);
-    min-width: 280px;
-    min-height: 200px;
-    z-index: 2;
-    border: 1px solid #413b41;
-    border-radius: 7px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 7px;
-    padding: 0.8rem;
-    margin-top: 1.3rem;
-    font-weight: 480;
-}
+.cerrar-sesion{
 
+color: rgb(218, 5, 5);
+
+}
 .titulillo {
     -webkit-font-smoothing: antialiased;
     border-bottom: 1px #444 solid;

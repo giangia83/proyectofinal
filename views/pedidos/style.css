@@ -601,3 +601,14 @@ position: relative;
 
 width: 200%;
 }
+
+.margin-left-header{
+
+    margin-left: 1rem;
+}
+
+.cerrar-sesion{
+
+color: rgb(218, 5, 5);
+
+}

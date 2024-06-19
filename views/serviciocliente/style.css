@@ -540,6 +540,7 @@ font-size: 1.5rem;
 box-shadow: none;
 background-color:#ffffff;
 border:1px solid,  rgb(235, 235, 235);
+
 }
 
 
@@ -600,4 +601,15 @@ z-index: -4;
 position: relative;
 
 width: 200%;
+}
+
+.margin-left-header{
+
+    margin-left: 1rem;
+}
+
+.cerrar-sesion{
+
+color: rgb(218, 5, 5);
+
 }
