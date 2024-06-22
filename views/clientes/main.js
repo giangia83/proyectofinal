@@ -27,7 +27,7 @@ async function cargarUsuarios() {
             cardHeader.id = `heading-${user._id}`;
 
             const button = document.createElement('button');
-            button.classList.add('btn', 'btn-link', 'collapsed');
+            button.classList.add('btn', 'btn-primary', 'collapsed');
             button.setAttribute('type', 'button');
             button.setAttribute('data-bs-toggle', 'collapse');
             button.setAttribute('data-bs-target', `#collapse-${user._id}`);
