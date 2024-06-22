@@ -1,18 +1,17 @@
+// public/main.js
+
 async function cargarUsuarios() {
     try {
-        // Realizar la petición GET a la API de usuarios
-        const response = await fetch('/api/users');
+        const response = await fetch('/controllers/searchId');
         const users = await response.json();
 
         if (!response.ok) {
             throw new Error(users.message || 'Error al cargar usuarios');
         }
 
-        // Obtener el contenedor de los acordeones
         const accordion = document.getElementById('accordion');
-        accordion.innerHTML = ''; // Limpiar el contenido actual del acordeón
+        accordion.innerHTML = ''; // Limpiar el contenido actual del accordion
 
-        // Recorrer todos los usuarios y crear un acordeón para cada uno
         users.forEach(user => {
             const card = document.createElement('div');
             card.classList.add('card', 'mb-3');
@@ -42,7 +41,6 @@ async function cargarUsuarios() {
             const cardBody = document.createElement('div');
             cardBody.classList.add('card-body');
 
-            // Contenido del acordeón (información del usuario)
             const ul = document.createElement('ul');
             ul.classList.add('list-group');
 
@@ -70,7 +68,6 @@ async function cargarUsuarios() {
             liRif.classList.add('list-group-item');
             liRif.textContent = `RIF: ${user.rif}`;
 
-            // Agregar elementos a la lista
             ul.appendChild(liNombre);
             ul.appendChild(liTelefono);
             ul.appendChild(liDireccion);
@@ -90,5 +87,4 @@ async function cargarUsuarios() {
     }
 }
 
-// Ejecutar la función para cargar usuarios al cargar la página
 window.addEventListener('DOMContentLoaded', cargarUsuarios);

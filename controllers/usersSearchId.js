@@ -1,9 +1,11 @@
+
+
 const express = require('express');
-const userRouter = express.Router();
+const router = express.Router();
 const Usuario = require('../models/usuario');
 
 // Obtener todos los usuarios
-exports.getAllUsers = async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const users = await Usuario.find(); // Busca todos los usuarios en la base de datos
 
@@ -12,4 +14,6 @@ exports.getAllUsers = async (req, res) => {
         console.error('Error al buscar usuarios:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
-};
+});
+
+module.exports = router;
