@@ -11,6 +11,12 @@ registroForm.addEventListener('submit', async (event) => {
     const rif = document.querySelector('#inputRif').value;
     const number = document.querySelector('#inputNumber').value;
 
+    // Validación básica de campos
+    if (!nombre || !correo || !contraseña || !direccion || !ciudad || !rif || !number) {
+        alert('Por favor completa todos los campos.');
+        return;
+    }
+
     try {
         const respuesta = await fetch('/api/users', {
             method: 'POST',
@@ -34,7 +40,7 @@ registroForm.addEventListener('submit', async (event) => {
             console.log('Usuario creado exitosamente');
             window.location.href = '/iniciarsesion';
         } else {
-            console.error('Error al registrar usuario:', datos.error);
+            console.error('Error al registrar usuario:', datos.error || respuesta.statusText);
             alert('Error al registrar usuario. Por favor, inténtalo de nuevo más tarde.');
         }
     } catch (error) {
