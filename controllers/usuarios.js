@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/usuario');
 
-// Manejar la creación de un nuevo usuario
+// Crear un nuevo usuario
 router.post('/', async (req, res) => {
     // Extraer los datos del usuario del cuerpo de la solicitud
     const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
@@ -38,5 +38,16 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = router;
+// Obtener todos los usuarios
+router.get('/', async (req, res) => {
+    try {
+        const users = await Usuario.find(); // Busca todos los usuarios en la base de datos
 
+        res.status(200).json(users); // Envía los usuarios encontrados como respuesta
+    } catch (error) {
+        console.error('Error al buscar usuarios:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+module.exports = router;
