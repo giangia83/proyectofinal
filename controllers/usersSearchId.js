@@ -1,9 +1,9 @@
 // usersSearchId.js
 const express = require('express');
 const router = express.Router();
-// controllers/usuarios.js
 
-const User = require('../models/User'); // Importa el modelo de usuario
+
+const User = require('../models/usuarios'); // Importa el modelo de usuario
 
 // Obtener todos los usuarios
 exports.getAllUsers = async (req, res) => {
