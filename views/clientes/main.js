@@ -2,7 +2,7 @@
 
 async function cargarUsuarios() {
     try {
-        const response = await fetch('/controllers/searchId');
+        const response = await fetch('/controllers/usersSearchId');
         const users = await response.json();
 
         if (!response.ok) {
