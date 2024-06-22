@@ -8,6 +8,8 @@ registroForm.addEventListener('submit', async (event) => {
     const contraseña = document.querySelector('#inputPassword').value;
     const direccion = document.querySelector('#inputDireccion').value;
     const ciudad = document.querySelector('#inputCiudad').value;
+    const rif = document.querySelector('#inputRif').value;
+    const number = document.querySelector('#inputNumber').value;
 
     try {
         const respuesta = await fetch('/api/users', {
@@ -20,7 +22,9 @@ registroForm.addEventListener('submit', async (event) => {
                 correo: correo,
                 contraseña: contraseña,
                 direccion: direccion,
-                ciudad: ciudad
+                ciudad: ciudad,
+                rif: rif,
+                number: number
             })
         });
 

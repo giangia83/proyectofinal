@@ -23,6 +23,14 @@ const usuarioSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    rif: {
+        type: String,
+        required: true
+    },
+    number: {
+        type: String,
+        required: true
+    },
     // Otros campos que puedas necesitar
 });
 

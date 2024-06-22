@@ -5,7 +5,7 @@ const Usuario = require('../models/usuario');
 // Manejar la creación de un nuevo usuario
 router.post('/', async (req, res) => {
     // Extraer los datos del usuario del cuerpo de la solicitud
-    const { nombre, correo, contraseña, direccion, ciudad } = req.body;
+    const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
 
     try {
         // Validar si algún campo está vacío
@@ -20,7 +20,9 @@ router.post('/', async (req, res) => {
             correo,
             contraseña,
             direccion,
-            ciudad
+            ciudad,
+            rif,
+            number
         });
 
         // Guardar el nuevo usuario en la base de datos
