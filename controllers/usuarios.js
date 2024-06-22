@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Usuario = require('../models/usuario');
+const Usuario = require('../models/usuarios');
 
 // Manejar la creación de un nuevo usuario
 router.post('/', async (req, res) => {
