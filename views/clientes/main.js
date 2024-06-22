@@ -2,16 +2,18 @@ async function cargarUsuarios() {
     try {
         // Realizar la petición GET a la API de usuarios
         const response = await fetch('/api/users');
-        const usuarios = await response.json(); 
+        const users = await response.json();
+
         if (!response.ok) {
-            throw new Error(usuarios.message || 'Error al cargar usuarios');
+            throw new Error(users.message || 'Error al cargar usuarios');
         }
 
         // Obtener el contenedor de los acordeones
         const accordion = document.getElementById('accordion');
+        accordion.innerHTML = ''; // Limpiar el contenido actual del acordeón
 
         // Recorrer todos los usuarios y crear un acordeón para cada uno
-        usuarios.forEach(user => {
+        users.forEach(user => {
             const card = document.createElement('div');
             card.classList.add('card', 'mb-3');
 
