@@ -1,73 +1,60 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Tu código JavaScript que interactúa con el DOM debe estar aquí dentro de este bloque
+async function cargarUsuarios() {
+    try {
+        // Realizar la petición GET a la API de usuarios
+        const response = await fetch('/api/users');
+        const users = await response.json();
 
+        if (!response.ok) {
+            throw new Error(users.message || 'Error al cargar usuarios');
+        }
+
+        return users; // Devuelve la lista de usuarios cargados
+    } catch (error) {
+        console.error('Error al cargar usuarios:', error);
+        throw error;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Cargar los usuarios al cargar la página
+    let usuarios;
+    try {
+        usuarios = await cargarUsuarios();
+    } catch (error) {
+        console.error('Error al cargar usuarios:', error);
+        alert('Error al cargar usuarios. Por favor, inténtalo de nuevo más tarde.');
+        return;
+    }
+
+    // Obtener el formulario de inicio de sesión y los campos de correo y contraseña
     const formL = document.querySelector('#login-form');
     const loginInput = document.querySelector('#inputEmail');
     const passwordInput = document.querySelector('#inputPassword');
 
-    // Agregar un evento de escucha para el envío del formulario de inicio de sesión
     formL.addEventListener('submit', async e => {
         e.preventDefault();
 
-        // Extraer los valores de los campos de correo electrónico y contraseña
         const correo = loginInput.value;
         const password = passwordInput.value;
 
-        // Intentar iniciar sesión con los datos proporcionados
         try {
-            // Llamar al controlador para iniciar sesión
-            const usuario = await iniciarSesion(correo, password);
+            // Buscar el usuario por correo electrónico en la lista cargada
+            const usuario = usuarios.find(user => user.correo === correo);
 
-            // Verificar si se encontró un usuario
-            if (usuario) {
-                // El inicio de sesión fue exitoso, redirigir al usuario a la página de cuenta
+            if (usuario && usuario.contraseña === password) {
+                // Inicio de sesión exitoso, redirigir al usuario a la página de cuenta
                 window.location.href = '/cuenta';
             } else {
-                // Mostrar un mensaje de error si el inicio de sesión falla
+                // Mostrar mensaje de error si las credenciales son inválidas
                 mostrarMensaje('Credenciales inválidas. Por favor, inténtalo de nuevo.');
             }
         } catch (error) {
-            // Mostrar un mensaje de error si hay algún problema durante el proceso de inicio de sesión
             console.error('Error al iniciar sesión:', error);
             mostrarMensaje('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
         }
     });
 
-    // Función para iniciar sesión utilizando el controlador correspondiente
-    async function iniciarSesion(correo, password) {
-        try {
-            // Llamar al controlador para buscar el usuario por correo electrónico
-            const usuario = await buscarUsuarioPorCorreo(correo);
-
-            // Verificar si se encontró un usuario y si la contraseña coincide
-            if (usuario && usuario.contraseña === password) {
-                // Devolver el usuario encontrado si las credenciales son válidas
-                return usuario;
-            } else {
-                // Devolver null si las credenciales son inválidas
-                console.log("Credenciales inválidas");
-                return null;
-            }
-        } catch (error) {
-            // Lanzar cualquier error que ocurra durante el proceso
-            throw error;
-        }
-    }
-
-    // Función para mostrar un mensaje en la interfaz de usuario
     function mostrarMensaje(mensaje) {
         alert(mensaje);
     }
-
-    // Asegurar que la función buscarUsuarioPorCorreo esté definida
-    async function buscarUsuarioPorCorreo(correo) {
-        try {
-            // Llamar al controlador correspondiente para buscar el usuario por correo electrónico
-            // Debe ser implementada en otro archivo, como usuariosController.js
-            // y exportada adecuadamente para que pueda ser importada aquí
-        } catch (error) {
-            throw error;
-        }
-    }
-
 });
