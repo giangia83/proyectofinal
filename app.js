@@ -3,10 +3,25 @@ const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
 
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
 const app = express();
 const port = process.env.PORT || 3001;
 
+app.use(cookieParser());
 
+// Middleware para manejar sesiones
+app.use(session({
+    secret: 'Hk^6(0p3Q{=r#Lm$gU', // Secreto utilizado para firmar la cookie de sesión
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false, // Debería ser true en producción con HTTPS
+        httpOnly: true, // La cookie solo es accesible desde el servidor
+        maxAge: 24 * 60 * 60 * 1000 // Tiempo de expiración de la sesión en milisegundos (1 día)
+    }
+}));
 
 // Conexión a la base de datos
 try {

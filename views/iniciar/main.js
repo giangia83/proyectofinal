@@ -16,7 +16,7 @@ async function cargarUsuarios() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Cargar los usuarios al cargar la página
+    // Cargar los usuarios al cargar la página (opcional)
     let usuarios;
     try {
         usuarios = await cargarUsuarios();
@@ -38,15 +38,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         const password = passwordInput.value;
 
         try {
-            // Buscar el usuario por correo electrónico en la lista cargada
-            const usuario = usuarios.find(user => user.correo === correo);
+            // Realizar la solicitud POST para iniciar sesión
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ correo, contraseña })
+            });
 
-            if (usuario && usuario.contraseña === password) {
-                // Inicio de sesión exitoso, redirigir al usuario a la página de cuenta
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Inicio de sesión satisfactorio.")
+                // Redirigir al usuario a la página de cuenta después del inicio de sesión exitoso
                 window.location.href = '/cuenta';
             } else {
                 // Mostrar mensaje de error si las credenciales son inválidas
-                mostrarMensaje('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+                mostrarMensaje(data.error || 'Error al iniciar sesión');
             }
         } catch (error) {
             console.error('Error al iniciar sesión:', error);
