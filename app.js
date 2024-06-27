@@ -27,7 +27,8 @@ app.use(session({
 app.get('/cuenta', (req, res) => {
     // Verificar si el usuario está autenticado
     if (req.cookies.usuario) {
-        res.send(`Bienvenido, ${req.cookies.usuario}!`);
+        res.redirect('/cuenta');
+        console.log(`Bienvenido, ${req.cookies.usuario}!`);
     } else {
         res.redirect('/iniciarsesion'); // Redirigir a la página de inicio de sesión si no hay sesión activa
     }
