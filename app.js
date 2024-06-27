@@ -53,6 +53,17 @@ app.use(express.json());
 // Rutas de backend
 app.use('/api/users', userRouter);
 
+
+app.post('/api/login', async (req, res) => {
+    // Aquí puedes manejar la lógica de inicio de sesión si es necesario
+    res.status(501).json({ error: 'Ruta de inicio de sesión no implementada' });
+});
+
+
+
+
+
+
 // Iniciar el servidor
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);

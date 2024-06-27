@@ -1,26 +1,8 @@
 // main.js
 
-async function cargarUsuarios() {
-    try {
-        // Realizar la petición GET a la API de usuarios
-        const response = await fetch('/api/users');
-        const users = await response.json();
-
-        if (!response.ok) {
-            throw new Error(users.message || 'Error al cargar usuarios');
-        }
-
-        return users; // Devuelve la lista de usuarios cargados
-    } catch (error) {
-        console.error('Error al cargar usuarios:', error);
-        throw error;
-    }
-}
-
-// Función para iniciar sesión en el servidor
 async function iniciarSesion(correo, contraseña) {
     try {
-        const response = await fetch('/api/users', {
+        const response = await fetch('/api/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
