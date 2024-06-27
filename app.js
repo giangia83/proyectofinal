@@ -9,13 +9,13 @@ const compression = require('compression');
 
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-app.use(compression());
+
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
 
 app.use(cookieParser());
-
+app.use(compression());
 // Middleware para manejar sesiones
 app.use(session({
     secret:  process.env.SESSION_SECRET, // Secreto utilizado para firmar la cookie de sesión
