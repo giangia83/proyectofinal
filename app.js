@@ -23,16 +23,7 @@ app.use(session({
     }
 }));
 
-// Ruta para manejar la sesión de usuario
-app.get('/cuenta', (req, res) => {
-    // Verificar si el usuario está autenticado
-    if (req.cookies.usuario) {
-        res.redirect('/cuenta');
-        console.log(`Bienvenido, ${req.cookies.usuario}!`);
-    } else {
-        res.redirect('/iniciarsesion'); // Redirigir a la página de inicio de sesión si no hay sesión activa
-    }
-});
+
 
 // Conexión a la base de datos
 try {
@@ -66,8 +57,40 @@ app.use('/api/users', userRouter);
 
 
 app.post('/api/login', async (req, res) => {
-    // Aquí puedes manejar la lógica de inicio de sesión si es necesario
-    res.status(501).json({ error: 'Ruta de inicio de sesión no implementada' });
+    const { correo, contraseña } = req.body;
+
+    try {
+        // Aquí deberías implementar la lógica para encontrar el usuario en tu base de datos
+        // y verificar las credenciales
+        const usuario = await Usuario.findOne({ correo });
+
+        if (!usuario || usuario.contraseña !== contraseña) {
+            // Si las credenciales no son válidas, devolver un error
+            return res.status(401).json({ error: 'Credenciales inválidas' });
+        }
+
+        // Si las credenciales son válidas, establecer la cookie de sesión
+        req.session.usuario = usuario.nombre; // Establecer cualquier dato de usuario que necesites en la sesión
+
+        // Devolver una respuesta exitosa
+        res.status(200).json({ message: 'Inicio de sesión exitoso' });
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        res.status(500).json({ error: 'Error interno al iniciar sesión' });
+    }
+});
+
+// Ruta para manejar la sesión de usuario
+app.get('/cuenta', (req, res) => {
+    // Verificar si el usuario está autenticado
+    if (req.cookies.usuario) {
+        console.log(`Bienvenido, ${req.cookies.usuario}!`);
+        // Aquí deberías renderizar la página de cuenta o enviar algún tipo de respuesta
+        // en lugar de redirigir nuevamente a '/cuenta'
+        res.sendFile(path.resolve(__dirname, 'views', 'cuenta', 'index.html')); // Ejemplo de cómo enviar un archivo estático
+    } else {
+        res.redirect('/iniciarsesion'); // Redirigir a la página de inicio de sesión si no hay sesión activa
+    }
 });
 
 
