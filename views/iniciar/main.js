@@ -38,6 +38,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const contraseña = passwordInput.value;
 
         try {
+            // Buscar el usuario por correo electrónico en la lista cargada
+            const usuario = usuarios.find(user => user.correo === correo);
+
+            if (!usuario) {
+                throw new Error('Usuario no encontrado');
+            }
+
             // Realizar la solicitud POST para iniciar sesión
             const response = await fetch('/api/login', {
                 method: 'POST',
@@ -50,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const data = await response.json();
 
             if (response.ok) {
-                alert("Inicio de sesión satisfactorio.")
+                alert("Inicio de sesión satisfactorio.");
                 // Redirigir al usuario a la página de cuenta después del inicio de sesión exitoso
                 window.location.href = '/cuenta';
             } else {
