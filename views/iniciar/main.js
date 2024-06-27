@@ -30,11 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 
-
-
-
-
-
     let usuarios;
     try {
         usuarios = await cargarUsuarios();

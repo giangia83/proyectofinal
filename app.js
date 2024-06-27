@@ -1,19 +1,24 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
 
+/* optimizar pagina */
+const compression = require('compression');
+
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-
+app.use(compression());
 const app = express();
 const port = process.env.PORT || 3001;
+const mongoURI = process.env.MONGODB_URI;
 
 app.use(cookieParser());
 
 // Middleware para manejar sesiones
 app.use(session({
-    secret: 'Hk^6(0p3Q{=r#Lm$gU', // Secreto utilizado para firmar la cookie de sesión
+    secret:  process.env.SESSION_SECRET, // Secreto utilizado para firmar la cookie de sesión
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -27,7 +32,7 @@ app.use(session({
 
 // Conexión a la base de datos
 try {
-    mongoose.connect('mongodb+srv://giangia83:gian2005@starclean.krrul4s.mongodb.net/?retryWrites=true&w=majority&appName=starclean', {
+    mongoose.connect(mongoURI, {
        
     });
     console.log('Conexión a la base de datos establecida');
@@ -55,30 +60,23 @@ app.use(express.json());
 // Rutas de backend
 app.use('/api/users', userRouter);
 
-
 app.post('/api/login', async (req, res) => {
-    const { correo, contraseña } = req.body;
-
     try {
-        // Aquí deberías implementar la lógica para encontrar el usuario en tu base de datos
-        // y verificar las credenciales
+        const { correo, contraseña } = req.body;
         const usuario = await Usuario.findOne({ correo });
 
         if (!usuario || usuario.contraseña !== contraseña) {
-            // Si las credenciales no son válidas, devolver un error
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
-        // Si las credenciales son válidas, establecer la cookie de sesión
-        req.session.usuario = usuario.nombre; // Establecer cualquier dato de usuario que necesites en la sesión
-
-        // Devolver una respuesta exitosa
+        req.session.usuario = usuario.nombre;
         res.status(200).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
+
 
 // Ruta para manejar la sesión de usuario
 app.get('/cuenta', (req, res) => {
