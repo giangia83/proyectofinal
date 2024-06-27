@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
 
         const correo = loginInput.value;
-        const password = passwordInput.value;
+        const contraseña = passwordInput.value;
 
         try {
             // Realizar la solicitud POST para iniciar sesión
