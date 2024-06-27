@@ -1,3 +1,5 @@
+// main.js
+
 async function cargarUsuarios() {
     try {
         // Realizar la petición GET a la API de usuarios
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 throw new Error('Usuario no encontrado');
             }
 
-            // Realizar la solicitud POST para iniciar sesión
+            // Realizar la solicitud POST para iniciar sesión utilizando la función iniciarSesion
             const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
@@ -74,3 +76,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         alert(mensaje);
     }
 });
+
