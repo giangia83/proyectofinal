@@ -17,6 +17,24 @@ async function cargarUsuarios() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Cargar los usuarios al cargar la página
+
+    const usuarioCookie = getCookie('usuario');
+
+    if (usuarioCookie) {
+        // Si hay una cookie de usuario, redirigir directamente a la página de cuenta
+        window.location.href = '/cuenta';
+    } else {
+        // Si no hay cookie de usuario, mostrar la página de inicio de sesión
+        console.log('No hay cookie de usuario. Mostrar página de inicio de sesión.');
+    }
+
+
+
+
+
+
+
+
     let usuarios;
     try {
         usuarios = await cargarUsuarios();
@@ -60,3 +78,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         alert(mensaje);
     }
 });
+
+// Función para obtener el valor de una cookie por nombre
+function getCookie(usuario) {
+    const cookieValue = document.cookie.match('(^|;)\\s*' + usuario + '\\s*=\\s*([^;]+)');
+    return cookieValue ? cookieValue.pop() : null;
+}
