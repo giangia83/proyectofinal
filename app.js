@@ -52,7 +52,7 @@ app.use(express.json());
 
 // Rutas de backend
 app.use('/api/users', userRouter);
-app.post('/api/login', iniciarSesion);
+app.post('/api/login', iniciarSesion.iniciarSesion);
 // Iniciar el servidor
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
