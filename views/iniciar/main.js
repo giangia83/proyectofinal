@@ -42,6 +42,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const usuario = usuarios.find(user => user.correo === correo);
 
             if (usuario && usuario.contraseña === password) {
+                // Guardar la sesión del usuario utilizando cookies
+                document.cookie = `usuario=${usuario.nombre}; path=/`;
                 // Inicio de sesión exitoso, redirigir al usuario a la página de cuenta
                 window.location.href = '/cuenta';
             } else {

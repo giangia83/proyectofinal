@@ -23,6 +23,16 @@ app.use(session({
     }
 }));
 
+// Ruta para manejar la sesión de usuario
+app.get('/cuenta', (req, res) => {
+    // Verificar si el usuario está autenticado
+    if (req.cookies.usuario) {
+        res.send(`Bienvenido, ${req.cookies.usuario}!`);
+    } else {
+        res.redirect('/iniciarsesion'); // Redirigir a la página de inicio de sesión si no hay sesión activa
+    }
+});
+
 // Conexión a la base de datos
 try {
     mongoose.connect('mongodb+srv://giangia83:gian2005@starclean.krrul4s.mongodb.net/?retryWrites=true&w=majority&appName=starclean', {
