@@ -2,7 +2,7 @@
 
 async function iniciarSesion(correo, contraseña) {
     try {
-        const response = await fetch('/api/users/login', {
+        const response = await fetch('/api/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
