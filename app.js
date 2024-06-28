@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const exphbs = require('express-handlebars');
+const exphbs = require('handlebars');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
