@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const exphbs  = require('express-handlebars');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
@@ -11,6 +12,9 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 const app = express();
+
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
 
@@ -67,10 +71,23 @@ app.post('/api/login', async (req, res) => {
 
         if (!usuario || usuario.contraseña !== contraseña) {
             return res.status(401).json({ error: 'Credenciales inválidas' });
+
+
         }
 
-        req.session.usuario = usuario.nombre;
-        res.status(200).json({ message: 'Inicio de sesión exitoso' });
+
+        req.session.usuario = {
+            nombre: usuario.nombre,
+            correo: usuario.correo,
+            direccion: usuario.direccion,
+            ciudad: usuario.ciudad,
+            rif: usuario.rif,
+            // Agregar otros datos según sea necesario
+        };
+
+
+      
+        res.status(200).json({ message: 'Inicio de sesión exitoso', usuario });
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
@@ -92,6 +109,18 @@ app.get('/cuenta', (req, res) => {
 });
 
 
+app.get('/infocuenta', (req, res) => {
+   
+    req.session.usuario = {
+        nombre: usuario.nombre,
+        correo: usuario.correo,
+        direccion: usuario.direccion,
+        ciudad: usuario.ciudad,
+        rif: usuario.rif,
+        // Agregar otros datos según sea necesario
+    };
+    res.render('infocuenta', { usuario });
+});
 
 
 
