@@ -14,9 +14,9 @@ const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
 
 // Configuración de Handlebars como motor de plantillas
-app.engine('handlebars', exphbs());
-app.set('view engine', 'handlebars');
 
+app.set('view engine', 'handlebars');
+app.engine('handlebars', exphbs());
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
