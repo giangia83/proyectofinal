@@ -16,7 +16,11 @@ const mongoURI = process.env.MONGODB_URI;
 // Configuración de Handlebars como motor de plantillas
 
 app.set('view engine', 'handlebars');
-app.engine('handlebars', exphbs());
+
+app.engine('handlebars', handlebars({
+    layoutsDir: __dirname + '/views/',
+}));
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
