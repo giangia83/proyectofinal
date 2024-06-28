@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const handlebars = require('handlebars');
+const exphbs = require('handlebars');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
@@ -17,7 +17,7 @@ const mongoURI = process.env.MONGODB_URI;
 
 app.set('view engine', 'handlebars');
 
-app.engine('handlebars', handlebars({
+app.engine('handlebars', exphbs{
     layoutsDir: __dirname + '/views/',
 }));
 
