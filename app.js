@@ -17,7 +17,7 @@ const mongoURI = process.env.MONGODB_URI;
 
 app.set('view engine', 'handlebars');
 
-app.engine('handlebars', exphbs{
+app.engine('handlebars', exphbs({
     layoutsDir: __dirname + '/views/',
 }));
 
