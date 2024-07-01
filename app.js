@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 
+const upload = multer({ storage: storage });
+
 const userRouter = require('./controllers/usuarios');
 const productoRouter = require('./controllers/productos');
 
@@ -27,7 +29,7 @@ const storage = multer.diskStorage({
 });
 
 // Opciones de carga de archivos
-const upload = multer({ storage: storage });
+
 
 app.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     // Verificar si se subió correctamente el archivo
