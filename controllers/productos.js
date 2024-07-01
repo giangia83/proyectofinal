@@ -1,9 +1,10 @@
 const express = require('express');
-const router = express.Router();
 const { upload } = require('../app'); // Asegúrate de ajustar la ruta según la ubicación de app.js
+const router = express.Router();
+
 
 // Ruta para subir un producto con imagen
-router.post('/gestionar', upload.single('imagen'), async (req, res) => {
+router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     // Verificar si se subió correctamente el archivo
     if (!req.file) {
         return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
@@ -29,3 +30,4 @@ router.post('/gestionar', upload.single('imagen'), async (req, res) => {
 });
 
 
+module.exports = router;

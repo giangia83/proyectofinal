@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
-const upload = multer().single('imagen')
+const upload = multer({ storage: storage });
 
 
 // Configuración de Handlebars como motor de plantillas
@@ -138,7 +138,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
-module.exports = { app, upload };
+
 module.exports = router;
 // Exportar upload para que esté disponible en otros archivos
 
