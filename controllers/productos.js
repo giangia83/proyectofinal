@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const path = require('path');
+
 const Producto = require('../models/producto'); // Asegúrate de importar el modelo Producto
 
 // Configuración de Multer para la subida de archivos

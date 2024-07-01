@@ -80,6 +80,7 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 // Rutas de API
 app.use('/api/users', userRouter);
 app.use('/api/productos', productoRouter);
+app.use('/api/subir-producto');
 
 
 
