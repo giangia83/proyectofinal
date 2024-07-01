@@ -1,43 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
+const upload = require('../middleware/upload'); // Middleware de Multer
 
-// Obtener todos los productos
-router.get('/', async (req, res) => {
+// Ruta para subir un producto
+router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     try {
-        const productos = await Producto.find();
-        res.json(productos);
-    } catch (error) {
-        console.error('Error al obtener productos:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-
-// Agregar un nuevo producto
-router.post('/', async (req, res) => {
-    try {
-        const { nombre, precio, costo, categoria, imagen } = req.body;
-
-        if (!nombre || !precio || !costo || !categoria || !imagen) {
-            return res.status(400).json({ error: 'Todos los campos son obligatorios' });
-        }
+        const { nombre, precio, costo, categoria } = req.body;
+        const imagen = req.file.filename; // Nombre del archivo subido por Multer
 
         const nuevoProducto = new Producto({
             nombre,
             precio,
             costo,
             categoria,
-            imagen
+            imagen: '/uploads/' + imagen // Ruta donde se guarda la imagen
         });
 
         await nuevoProducto.save();
-        res.status(201).json({ mensaje: 'Producto creado exitosamente' });
+        res.status(201).json({ message: 'Producto agregado correctamente' });
     } catch (error) {
-        console.error('Error al crear producto:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        console.error('Error al subir el producto:', error);
+        res.status(500).json({ error: 'Error interno al subir el producto' });
     }
 });
-
-// Más rutas como editar y eliminar productos según sea necesario
 
 module.exports = router;

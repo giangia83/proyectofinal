@@ -2,7 +2,9 @@ require('dotenv').config();
 const express = require('express');
 
 const mongoose = require('mongoose');
+const multer = require('multer');
 const path = require('path');
+
 const userRouter = require('./controllers/usuarios');
 const productoRouter = require('./controllers/productos');
 
@@ -13,6 +15,24 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
+
+// Configuración de Multer
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/'); // Directorio donde se almacenarán los archivos subidos
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname)); // Nombre del archivo en el servidor
+    }
+});
+
+// Opciones de carga de archivos
+const upload = multer({ storage: storage });
+
+
+
+
+
 
 // Configuración de Handlebars como motor de plantillas
 
@@ -92,6 +112,14 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+// Ruta para subir archivos 
+app.post('/subir-producto', upload.single('imagen'), (req, res) => {
+    // Aquí puedes manejar la lógica después de subir el producto
+    // req.file contiene la información del archivo subido
+    console.log('Producto subido:', req.body);
+    console.log('Archivo subido:', req.file);
+    res.send('Producto subido correctamente');
+  });
 app.get('/cuenta', (req, res) => {
     if (req.session.usuario) {
         console.log(`Bienvenido, ${req.session.usuario.nombre}!`);
@@ -108,6 +136,11 @@ app.get('/infocuenta', (req, res) => {
         res.redirect('/iniciarsesion');
     }
 });
+
+
+
+// Middleware para servir archivos estáticos en la carpeta de uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Iniciar el servidor
 app.listen(port, '0.0.0.0', () => {

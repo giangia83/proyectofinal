@@ -26,25 +26,24 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('imagen', imagen);
 
         try {
-            // Enviar la solicitud POST al servidor
-            const response = await fetch('/api/productos', {
+            // Enviar la solicitud POST al servidor utilizando fetch
+            const response = await fetch('/subir-producto', {
                 method: 'POST',
                 body: formData
             });
 
+            // Manejar la respuesta del servidor
             const data = await response.json();
 
-            // Mostrar mensaje de éxito o error
             if (response.ok) {
-                alert(data.mensaje);
-                // Limpiar el formulario después de agregar el producto
-                formAgregarProducto.reset();
+                alert(data.message); // Mostrar mensaje de éxito
+                formAgregarProducto.reset(); // Limpiar el formulario
             } else {
-                alert('Error al agregar el producto.');
+                alert(data.error); // Mostrar mensaje de error
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Error en el servidor.');
+            alert('Error en el servidor.'); // Mostrar mensaje de error genérico
         }
     });
 });
