@@ -5,8 +5,6 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 
-
-
 const userRouter = require('./controllers/usuarios');
 const productoRouter = require('./controllers/productos');
 
@@ -92,7 +90,7 @@ mongoose.connect(mongoURI, {
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use( 'public', express.static(path.join(__dirname, 'public')));
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'gestionar')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
@@ -168,3 +166,5 @@ app.listen(port, '0.0.0.0', () => {
 });
 
 module.exports = router;
+// Exportar upload para que esté disponible en otros archivos
+module.exports = { upload };
