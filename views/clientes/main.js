@@ -4,11 +4,6 @@ async function cargarUsuarios() {
         const response = await fetch('/api/users');
         const users = await response.json();
 
-
-
-
-
-        
         if (!response.ok) {
             throw new Error(users.message || 'Error al cargar usuarios');
         }

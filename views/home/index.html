@@ -29,7 +29,7 @@
   <header>
     <!-- Sección izquierda del encabezado -->
     <div class="header-left">
-      <a href="/"><img src="/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
+      <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
       <!-- Menú desplegable de la cuenta -->
       <div class="margin-left-header">
       </div>
@@ -38,13 +38,13 @@
     <!-- Sección central del encabezado -->
     <div class="header-center">
       <!-- Barra de búsqueda -->
-      <input type="text" class="form-control" placeholder="Buscar eventos">
+      <input type="text" class="form-control" placeholder="Buscar producto">
     </div>
     <!-- Sección derecha del encabezado -->
     <div class="header-right">
       <!-- Enlace al inicio -->
 
-      <div class="dropdown">
+      <div class="dropdown hover-dropdown">
 
         <svg xmlns="http://www.w3.org/2000/svg" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
           aria-expanded="false" class="icon icon-tabler icon-tabler-user-circle" width="42" height="42"
@@ -56,10 +56,10 @@
           <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
         </svg>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul class="dropdown-menu "  aria-labelledby="dropdownMenuButton1">
           <li><a class="dropdown-item" href="/tuspedidos">Pedidos</a></li>
-          <li><a class="dropdown-item" href="/cuenta">Cuenta</a></li>
-          <li><a class="dropdown-item cerrar-sesion" href="#">Cerrar sesión</a></li>
+          <li><a class="dropdown-item" href="/iniciarsesion">Iniciar sesión</a></li>
+
 
         </ul>
       </div>
@@ -69,12 +69,24 @@
   <nav>
 
     <div class="header-down">
-      <a href="#" class="logo">Limpieza</a>
-      <a href="#" class="logo">Seguridad Industrial</a>
-      <a href="#" class="logo">Papeleria</a>
-      <a href="#" class="logo">Mi cuenta</a>
-      <a href="#" class="logo">Mis pedidos</a>
-      <a href="#" class="logo">Pedir cotización</a>
+      <div class="container">
+        <div class="row special-row">
+          <div class="col">
+           <a href=/productos class="link-none">Productos de limpieza</a> 
+          </div>
+          <div class="col">
+            <a href=/productos class="link-none">Seguridad industrial</a> 
+          </div>
+          <div class="col">
+            <a href=/productos class="link-none">Productos de papeleria</a> 
+          </div>
+          <div class="col">
+            <a href=/productos class="link-none">Contacto</a> 
+          </div>
+          
+          
+        </div>
+      </div>
     </div>
 
   </nav>
@@ -88,23 +100,8 @@
 
       <div class="hero">
         <img src="https://http2.mlstatic.com/D_NQ_997000-MLA76445319011_052024-OO.webp" class="img-fluid hero">
-        <div class="gradient"> </div>
+        
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
       <div class="container py-5">
@@ -115,8 +112,10 @@
 
           <div class="row">
             <div class="col-xl-3 col-sm-6 col-12">
-              <div class="card">
+              <div class="card card-special">
+                
                 <div class="card-content">
+                  <a href=/tuspedidos class="link-none-two">
                   <div class="card-body">
                     <div class="media d-flex">
                       <div class="align-self-center">
@@ -132,15 +131,18 @@
                         <span>Ver carrito</span>
 
                       </div>
+                  
                     </div>
+                  </a>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-xl-3 col-sm-6 col-12">
-              <div class="card">
+              <div class="card card-special">
                 <div class="card-content">
                   <div class="card-body">
+                    <a href=/tuspedidos class="link-none-two">
                     <div class="media d-flex">
                       <div class="align-self-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="116" height="46" fill="currentColor"
@@ -155,14 +157,18 @@
                         <span>Ver perfil</span>
                       </div>
                     </div>
+                 </a>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-xl-3 col-sm-6 col-12">
-              <div class="card">
+              <div class="card card-special">
                 <div class="card-content">
                   <div class="card-body">
+
+                    <a href=/tuspedidos class="link-none-two">
+
                     <div class="media d-flex">
                       <div class="align-self-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="116" height="46" fill="currentColor"
@@ -176,14 +182,16 @@
                         <span>Ver productos</span>
                       </div>
                     </div>
+                  </a>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-xl-3 col-sm-6 col-12">
-              <div class="card">
+              <div class="card card-special">
                 <div class="card-content">
                   <div class="card-body">
+                    <a href=/tuspedidos class="link-none-two">
                     <div class="media d-flex">
                       <div class="align-self-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="116" height="46" fill="currentColor"
@@ -199,6 +207,7 @@
                         <span>Revisar historial</span>
                       </div>
                     </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -222,9 +231,8 @@
 
 
         <!-- First Row [Prosucts]-->
-        <h2 class="font-weight-bold mb-2">Productos de limpieza</h2>
-        <p class="font-italic text-muted mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt.</p>
+        <h2 class="font-weight-bold mb-2">Productos relevantes</h2>
+        <p class="font-italic text-muted mb-4">Una selección de productos para tí.</p>
 
         <div class="row pb-5 mb-4">
           <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">

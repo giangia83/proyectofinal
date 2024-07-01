@@ -141,6 +141,9 @@ header {
     margin-bottom: 2rem;
   }
 
+
+
+
   
 #icon{
 
@@ -557,7 +560,71 @@ font-size: 15px;
 }
 
 
+.hover-dropdown:hover{
 
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+
+    transform: scale(1.05); /* Hace la card un 5% más grande */
+     stroke: #c85000;
+  
+   
+}
+
+
+.link-none{
+
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    color: inherit; /* Hereda el color del texto de su contenedor */
+    display: block; /* Asegura que el enlace ocupe todo el espacio de la card */
+
+}
+
+.link-none-two{
+
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    color: inherit; /* Hereda el color del texto de su contenedor */
+    
+
+}
+
+.link-none-two:hover{
+
+    color: white;
+
+}
+
+.link-none:hover{
+    transition: transform 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    transform: scale(1.02); /* Hace la card un 5% más grande */
+color: #ED7556;
+font-weight: 500;
+
+}
+
+.special-row{
+
+
+
+
+}
 
 /* CARRUSEL */
+
+.card{
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+margin-bottom: 20px;
+box-shadow: none;
+background-color:#ffffff;
+border:1px solid,  rgb(235, 235, 235);
+}
+
+.card-special:hover {
+    transform: scale(1.05); /* Hace la card un 5% más grande */
+    background-color: #FB8332; /* Cambia el color de fondo al hacer hover */
+    color: #ffffff;
+    border:1px solid,  #dadada;
+}
 

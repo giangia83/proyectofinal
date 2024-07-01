@@ -426,16 +426,34 @@ font-size: 1.5rem;
 
 
 
+.card-link {
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    color: inherit; /* Hereda el color del texto de su contenedor */
+    display: block; /* Asegura que el enlace ocupe todo el espacio de la card */
+}
+
+.card-link:hover {
+    text-decoration: none; /* Mantén el subrayado eliminado al hacer hover */
+    color: inherit; /* Hereda el color del texto de su contenedor */
+}
+
 
 
 .card{
-
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
 margin-bottom: 20px;
 box-shadow: none;
 background-color:#ffffff;
 border:1px solid,  rgb(235, 235, 235);
 }
 
+.card:hover {
+    transform: scale(1.05); /* Hace la card un 5% más grande */
+    background-color: #FB8332; /* Cambia el color de fondo al hacer hover */
+    color: #ffffff;
+    border:1px solid,  #dadada;
+}
 
 
 /* CSS */

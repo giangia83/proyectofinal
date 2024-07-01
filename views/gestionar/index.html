@@ -15,21 +15,7 @@
   <!--  -->
 
 
-
-
-
-
-
-
-
-
-
-
   <!-- Enlace al archivo CSS de Bootstrap -->
-
-
-
-
 
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
   <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
@@ -40,16 +26,10 @@
 
 <body>
 
-
-
-
-
-
-
   <header>
     <!-- Sección izquierda del encabezado -->
     <div class="header-left">
-      <a href="/"><img src="/img/starcleanlogo4.png" id="imgmeet" alt="" width="80px"></a>
+      <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
 
       <!-- Menú desplegable de la cuenta -->
       <div class="dropdown">
@@ -73,22 +53,11 @@
     </div>
 
 
-
-
-
-
   </header>
-
-
   <main>
-
-
-
 
     <div class="container">
       <!-- Content here -->
-
-
 
       <div class="table-div">
 
@@ -98,23 +67,19 @@
 
             <ul>
 
-              <li><a href="/html/aprende.html">Gestión de Productos </a></li>
+              <li><a href="/gestion">Gestión de Productos </a></li>
               <p> Agregar, editar y eliminar productos.</p>
 
               <li><a href="/html/soporte.html">Gestión de Cotizaciones</a></li>
               <p> Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
               <li><a href="/html/about.html">Administración de Clientes</a></li>
               <p> Mantén un registro de los clientes registrados y sus detalles.</p>
-
-
             </ul>
 
           </nav>
         </aside>
       </div>
-
-
-      <div class="container-right">
+  <div class="container-right">
 
         <div class="card">
           <h5 class="card-header">Añade un nuevo producto </h5>
@@ -125,30 +90,30 @@
             <form class="row g-3">
               <div class="col-md-6">
                 <label for="inputEmail4" class="form-label">Nombre del producto</label>
-                <input type="text" class="form-control" id="inputEmail4">
+                <input type="text" class="form-control" id="inputNombre">
               </div>
               <div class="col-md-6">
 
                 <label for="inputPassword4" class="form-label">Costo</label>
-                <input type="number" class="form-control" id="inputPassword4" placeholder="1.5$">
+                <input type="number" class="form-control" id="inputCosto" placeholder="1.5$">
               </div>
               <div class="col-12">
                 <label for="inputAddress" class="form-label">PVP (Precio al público)</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="3$">
+                <input type="text" class="form-control" id="inputPrecio" placeholder="3$">
               </div>
               <div class="col-12">
                 <label for="inputAddress" class="form-label">Imagen del producto</label>
                 <div class="input-group mb-3">
 
-                  <input type="file" class="form-control" id="inputGroupFile01">
+                  <input type="file" class="form-control" id="inputImagen">
                 </div>
               </div>
 
               <div class="col-12">
                 <div class="input-group mb-3">
-                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" 
                     aria-expanded="false">Categoría</button>
-                  <ul class="dropdown-menu">
+                  <ul class="dropdown-menu" id="dropdownCategoria">
                     <li><a class="dropdown-item" href="#">Limpieza</a></li>
                     <li><a class="dropdown-item" href="#">Papeleria</a></li>
                     <li><a class="dropdown-item" href="#">Seguridad industrial</a></li>

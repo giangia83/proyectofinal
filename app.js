@@ -4,6 +4,7 @@ const exphbs = require('handlebars');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
+const productoRouter = require('./controllers/productos');
 
 const compression = require('compression');
 const session = require('express-session');
@@ -18,7 +19,7 @@ const mongoURI = process.env.MONGODB_URI;
 app.set('view engine', 'handlebars');
 
 app.engine('handlebars', exphbs({
-    layoutsDir: __dirname + '/views/',
+    layoutsDir: __dirname + '/views/infocuenta/',
 }));
 
 // Middleware
@@ -50,7 +51,8 @@ mongoose.connect(mongoURI, {
 
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
-app.use('/', express.static(path.resolve(__dirname, 'views', 'iniciar')));
+
+app.use('/', express.static(path.resolve(__dirname, 'views', 'gestionar')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
 app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocuenta')));
 app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
@@ -59,9 +61,14 @@ app.use('/registrarse', express.static(path.resolve(__dirname, 'views', 'registr
 app.use('/configuracion', express.static(path.resolve(__dirname, 'views', 'plantila-configuracion')));
 app.use('/servicioalcliente', express.static(path.resolve(__dirname, 'views', 'serviciocliente')));
 app.use('/clientes', express.static(path.resolve(__dirname, 'views', 'clientes')));
+app.use('/gestion', express.static(path.resolve(__dirname, 'views', 'gestionar')));
+app.use('/administrar', express.static(path.resolve(__dirname, 'views', 'admin')));
+app.use('/cotizaciones', express.static(path.resolve(__dirname, 'views', 'cotizaciones')));
+app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'productos')));
 
 // Rutas de API
 app.use('/api/users', userRouter);
+app.use('/api/productos', productoRouter);
 
 // Rutas de autenticación y sesión
 app.post('/api/login', async (req, res) => {
