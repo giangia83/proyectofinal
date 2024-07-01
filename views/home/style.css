@@ -65,7 +65,7 @@ header {
     align-items: center;
     padding: 10px 20px;
 
-    background-color:#FFE600;
+    background-color:#FAB73B;
     font-weight: 480;
 
 }
@@ -79,7 +79,7 @@ header {
 
     padding: 10px 20px;
    
-    background-color:#FFE600;
+    background-color:#FAB73B;
     font-weight: 480;
     position: relative;
 }
@@ -174,9 +174,12 @@ line-height :21.6px;
     color: #e0e0e0;
 }
 
+
+
 .header-left {
     display: flex;
     align-items: center;
+    
    
 }
 
@@ -186,6 +189,8 @@ line-height :21.6px;
     font-weight: 600;
    
 }
+
+
 
 .dropbtn {
     background-color: transparent;
@@ -639,6 +644,6 @@ font-size: 15px;
     border-radius: 7%;
     border: none;
     box-shadow: rgba(10, 0, 0, 0.13)0 1px 3px 0;
-    margin-left: 10px;
+    margin-left: 27%;
    
     }
