@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../app'); // Ajusta la ruta según donde esté ubicado app.js o la configuración de Multer
+const upload = require('../app'); // Asegúrate de ajustar la ruta según la ubicación de app.js
 
 // Ruta para subir un producto con imagen
 router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
@@ -28,4 +28,4 @@ router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     }
 });
 
-module.exports = router;
+

@@ -27,8 +27,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 // Opciones de carga de archivos
-
-
 app.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     // Verificar si se subió correctamente el archivo
     if (!req.file) {
@@ -79,8 +77,7 @@ app.use(session({
 
 // Conexión a la base de datos
 mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+ 
 })
 .then(() => {
     console.log('Conexión a la base de datos establecida');
@@ -164,7 +161,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
-
+module.exports = upload;
 module.exports = router;
 // Exportar upload para que esté disponible en otros archivos
-module.exports = { upload };
+
