@@ -150,13 +150,13 @@ app.get('/infocuenta', (req, res) => {
 
 
 // Middleware para servir archivos estáticos en la carpeta de uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Iniciar el servidor
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
-
+module.exports = upload;
 module.exports = router;
 // Exportar upload para que esté disponible en otros archivos
 
