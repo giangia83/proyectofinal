@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 // Opciones de carga de archivos
 app.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     // Verificar si se subió correctamente el archivo
