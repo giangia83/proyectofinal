@@ -12,7 +12,7 @@ const compression = require('compression');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
-const upload = multer({ dest: '../public/uploads' })
+
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -20,35 +20,17 @@ const mongoURI = process.env.MONGODB_URI;
 
 // Configuración de Multer
 
-
-// Opciones de carga de archivos
-app.post('/subir-producto', upload.single('imagen'), async (req, res) => {
-    // Verificar si se subió correctamente el archivo
-    if (!req.file) {
-        return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
-    }
-
-    // Crear un nuevo producto con la información recibida
-    const nuevoProducto = new Producto({
-        nombre: req.body.nombre,
-        precio: req.body.precio,
-        costo: req.body.costo,
-        categoria: req.body.categoria,
-        imagen: req.file.path.replace('public', '') // Guarda la ruta de la imagen (URL relativa)
-    });
-
-    try {
-        // Guardar el nuevo producto en la base de datos
-        const productoGuardado = await nuevoProducto.save();
-        res.status(201).json({ mensaje: 'Producto subido correctamente', producto: productoGuardado });
-    } catch (error) {
-        console.error('Error al guardar el producto:', error);
-        res.status(500).json({ error: 'Error interno al guardar el producto' });
+// Configuración de Multer
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './public/uploads/'); // Directorio donde se almacenarán los archivos subidos
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
 
-
-
+const upload = multer({ storage: storage });
 // Configuración de Handlebars como motor de plantillas
 
 
