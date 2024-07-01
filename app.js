@@ -161,7 +161,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
-module.exports = upload;
+module.exports = { upload };
 module.exports = router;
 // Exportar upload para que esté disponible en otros archivos
 
