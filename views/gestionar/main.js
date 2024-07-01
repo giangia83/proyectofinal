@@ -1,3 +1,6 @@
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const formAgregarProducto = document.querySelector('#formAgregarProducto');
 
