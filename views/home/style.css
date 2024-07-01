@@ -64,8 +64,8 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    border-bottom: 1px solid rgb(221, 221, 221); /* línea de color claro */
-    background-color:rgb(255, 255, 255);
+
+    background-color:#FFE600;
     font-weight: 480;
 
 }
@@ -78,8 +78,8 @@ header {
     justify-content: left;
 
     padding: 10px 20px;
-    border-bottom: 1px solid rgb(221, 221, 221); /* línea de color claro */
-    background-color:rgb(247, 247, 247);
+   
+    background-color:#FFE600;
     font-weight: 480;
     position: relative;
 }
@@ -280,6 +280,8 @@ color: rgb(218, 5, 5);
     text-align: left; /* Centra el texto dentro del input */
    
 }
+
+
 
 
 .fa {
@@ -625,3 +627,18 @@ border:1px solid,  rgb(235, 235, 235);
     border:1px solid,  #dadada;
 }
 
+.special-row{
+
+font-size: 15px;
+
+}
+
+.form-control{
+
+    max-width: 40%;
+    border-radius: 7%;
+    border: none;
+    box-shadow: rgba(10, 0, 0, 0.13)0 1px 3px 0;
+    margin-left: 10px;
+   
+    }

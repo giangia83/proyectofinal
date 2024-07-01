@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../app'); // Ajusta la ruta según donde esté ubicado app.js o la configuración de Multer
 
 
 const multer = require('multer');
