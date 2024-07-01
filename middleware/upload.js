@@ -2,8 +2,28 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../app'); // Ajusta la ruta según donde esté ubicado app.js o la configuración de Multer
 
+
+const multer = require('multer');
+
+// Configuración de Multer para la subida de archivos
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+
+const upload = multer({ storage: storage });
+
+module.exports = upload;
+
+
+
+
 // Ruta para subir un producto con imagen
-router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
+router.post('/api/subir-producto', upload.single('imagen'), async (req, res) => {
     // Verificar si se subió correctamente el archivo
     if (!req.file) {
         return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
@@ -28,4 +48,4 @@ router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = upload;
