@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const exphbs = require('handlebars');
+
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
@@ -16,11 +16,7 @@ const mongoURI = process.env.MONGODB_URI;
 
 // Configuración de Handlebars como motor de plantillas
 
-app.set('view engine', 'handlebars');
 
-app.engine('handlebars', exphbs({
-    layoutsDir: __dirname + '/views/infocuenta/',
-}));
 
 // Middleware
 app.use(express.json());
