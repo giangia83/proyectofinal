@@ -19,18 +19,40 @@ const mongoURI = process.env.MONGODB_URI;
 // Configuración de Multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads/'); // Directorio donde se almacenarán los archivos subidos
+        cb(null, './public/uploads/'); // Directorio donde se almacenarán los archivos subidos
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname)); // Nombre del archivo en el servidor
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
 
 // Opciones de carga de archivos
 const upload = multer({ storage: storage });
 
+app.post('/subir-archivo', upload.single('archivo'), async (req, res) => {
+    // Verificar si se subió correctamente el archivo
+    if (!req.file) {
+        return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
+    }
 
+    // Crear un nuevo producto con la información recibida
+    const nuevoProducto = new Producto({
+        nombre: req.body.nombre,
+        precio: req.body.precio,
+        costo: req.body.costo,
+        categoria: req.body.categoria,
+        imagen: req.file.path.replace('public', '') // Guarda la ruta de la imagen (URL relativa)
+    });
 
+    try {
+        // Guardar el nuevo producto en la base de datos
+        const productoGuardado = await nuevoProducto.save();
+        res.status(201).json({ mensaje: 'Producto subido correctamente', producto: productoGuardado });
+    } catch (error) {
+        console.error('Error al guardar el producto:', error);
+        res.status(500).json({ error: 'Error interno al guardar el producto' });
+    }
+});
 
 
 
@@ -113,13 +135,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Ruta para subir archivos 
-app.post('/subir-producto', upload.single('imagen'), (req, res) => {
-    // Aquí puedes manejar la lógica después de subir el producto
-    // req.file contiene la información del archivo subido
-    console.log('Producto subido:', req.body);
-    console.log('Archivo subido:', req.file);
-    res.send('Producto subido correctamente');
-  });
+
 app.get('/cuenta', (req, res) => {
     if (req.session.usuario) {
         console.log(`Bienvenido, ${req.session.usuario.nombre}!`);
