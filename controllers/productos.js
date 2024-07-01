@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Ruta para subir un producto con imagen
-router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
+router.post('/api/subir-producto', upload.single('imagen'), async (req, res) => {
     // Verificar si se subió correctamente el archivo
     if (!req.file) {
         return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
