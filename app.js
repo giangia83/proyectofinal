@@ -12,20 +12,15 @@ const compression = require('compression');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
+const upload = multer({ dest: '../public/uploads' })
+
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
 
 // Configuración de Multer
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/uploads/'); // Directorio donde se almacenarán los archivos subidos
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
-const upload = multer({ storage });
+
+
 // Opciones de carga de archivos
 app.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     // Verificar si se subió correctamente el archivo
