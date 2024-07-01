@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
-const upload = require('../app/'); // Middleware de Multer
+const upload = require('../app'); // Middleware de Multer
 
 // Ruta para subir un producto
 router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
