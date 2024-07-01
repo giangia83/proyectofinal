@@ -1,7 +1,20 @@
 const express = require('express');
-const upload  = require('../app'.upload); // Asegúrate de ajustar la ruta según la ubicación de app.js
 const router = express.Router();
-const Producto = require('../models/producto'); // Importar el modelo Producto
+const multer = require('multer');
+const path = require('path');
+const Producto = require('../models/producto'); // Asegúrate de importar el modelo Producto
+
+// Configuración de Multer para la subida de archivos
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now());
+    }
+});
+
+const upload = multer({ storage: storage });
 
 // Ruta para subir un producto con imagen
 router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
@@ -28,6 +41,5 @@ router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
         res.status(500).json({ error: 'Error interno al guardar el producto' });
     }
 });
-
 
 module.exports = router;
