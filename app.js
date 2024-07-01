@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
 // Opciones de carga de archivos
 const upload = multer({ storage: storage });
 
-app.post('/subir-archivo', upload.single('archivo'), async (req, res) => {
+app.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     // Verificar si se subió correctamente el archivo
     if (!req.file) {
         return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
@@ -89,6 +89,8 @@ mongoose.connect(mongoURI, {
 
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'gestionar')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
@@ -162,3 +164,5 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
+
+module.exports = router;
