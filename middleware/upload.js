@@ -1,18 +1,31 @@
-const multer = require('multer');
-const path = require('path');
-const upload = require('../app')
-// Configuración de almacenamiento para Multer
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/uploads'); // Directorio donde se almacenarán los archivos
-    },
-    filename: function (req, file, cb) {
-        // Generar un nombre único para el archivo
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+const express = require('express');
+const router = express.Router();
+const upload = require('../app'); // Ajusta la ruta según donde esté ubicado app.js o la configuración de Multer
+
+// Ruta para subir un producto con imagen
+router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
+    // Verificar si se subió correctamente el archivo
+    if (!req.file) {
+        return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
+    }
+
+    // Crear un nuevo producto con la información recibida
+    const nuevoProducto = new Producto({
+        nombre: req.body.nombre,
+        precio: req.body.precio,
+        costo: req.body.costo,
+        categoria: req.body.categoria,
+        imagen: req.file.path.replace('public', '') // Guarda la ruta de la imagen (URL relativa)
+    });
+
+    try {
+        // Guardar el nuevo producto en la base de datos
+        const productoGuardado = await nuevoProducto.save();
+        res.status(201).json({ mensaje: 'Producto subido correctamente', producto: productoGuardado });
+    } catch (error) {
+        console.error('Error al guardar el producto:', error);
+        res.status(500).json({ error: 'Error interno al guardar el producto' });
     }
 });
 
-// Configurar la instancia de Multer
-const upload = multer({ storage: storage });
-
-module.exports = upload;
+module.exports = router;

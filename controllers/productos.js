@@ -1,27 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const Producto = require('../models/producto');
-const upload = require('../app'); // Middleware de Multer
+const upload = require('../app'); // Ajusta la ruta según donde esté ubicado app.js o la configuración de Multer
 
-// Ruta para subir un producto
+// Ruta para subir un producto con imagen
 router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
+    // Verificar si se subió correctamente el archivo
+    if (!req.file) {
+        return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
+    }
+
+    // Crear un nuevo producto con la información recibida
+    const nuevoProducto = new Producto({
+        nombre: req.body.nombre,
+        precio: req.body.precio,
+        costo: req.body.costo,
+        categoria: req.body.categoria,
+        imagen: req.file.path.replace('public', '') // Guarda la ruta de la imagen (URL relativa)
+    });
+
     try {
-        const { nombre, precio, costo, categoria } = req.body;
-        const imagen = req.file.filename; // Nombre del archivo subido por Multer
-
-        const nuevoProducto = new Producto({
-            nombre,
-            precio,
-            costo,
-            categoria,
-            imagen: '/uploads/' + imagen // Ruta donde se guarda la imagen
-        });
-
-        await nuevoProducto.save();
-        res.status(201).json({ message: 'Producto agregado correctamente' });
+        // Guardar el nuevo producto en la base de datos
+        const productoGuardado = await nuevoProducto.save();
+        res.status(201).json({ mensaje: 'Producto subido correctamente', producto: productoGuardado });
     } catch (error) {
-        console.error('Error al subir el producto:', error);
-        res.status(500).json({ error: 'Error interno al subir el producto' });
+        console.error('Error al guardar el producto:', error);
+        res.status(500).json({ error: 'Error interno al guardar el producto' });
     }
 });
 
