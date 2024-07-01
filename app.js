@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(compression());
 
-module.exports = upload;
+
 
 // Configuración de sesión
 app.use(session({
@@ -167,7 +167,7 @@ app.get('/infocuenta', (req, res) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
-
+module.exports = { app, upload };
 module.exports = router;
 // Exportar upload para que esté disponible en otros archivos
 

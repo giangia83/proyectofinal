@@ -1,5 +1,5 @@
 const express = require('express');
-const upload  = require('../app'); // Asegúrate de ajustar la ruta según la ubicación de app.js
+const upload  = require('../app'.upload); // Asegúrate de ajustar la ruta según la ubicación de app.js
 const router = express.Router();
 const Producto = require('../models/producto'); // Importar el modelo Producto
 
