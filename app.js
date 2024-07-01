@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 
-const upload = multer({ storage: storage });
+
 
 const userRouter = require('./controllers/usuarios');
 const productoRouter = require('./controllers/productos');
@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
-
+const upload = multer({ storage: storage });
 // Opciones de carga de archivos
 
 
