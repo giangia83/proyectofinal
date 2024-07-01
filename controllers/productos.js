@@ -1,7 +1,7 @@
 const express = require('express');
 const upload  = require('../app'); // Asegúrate de ajustar la ruta según la ubicación de app.js
 const router = express.Router();
-
+const Producto = require('../models/producto'); // Importar el modelo Producto
 
 // Ruta para subir un producto con imagen
 router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
