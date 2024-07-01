@@ -156,7 +156,8 @@ app.get('/infocuenta', (req, res) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
-module.exports = upload;
+
 module.exports = router;
 // Exportar upload para que esté disponible en otros archivos
 
+module.exports = { app, upload };
