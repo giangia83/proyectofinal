@@ -13,7 +13,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
-const upload = require('../middleware/upload'); // Importa el middleware de Multer
+
 // Configuración de Multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
