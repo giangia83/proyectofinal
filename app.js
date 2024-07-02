@@ -45,10 +45,12 @@ mongoose.connect(mongoURI, {
 //storage a
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './public/uploads');
+        cb(null, 'uploads/'); // Ruta donde se guardarán los archivos de imagen
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname); // Nombre original del archivo
     },
 });
-  
 
 const upload = multer({ storage: storage }).single('image');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
