@@ -55,7 +55,7 @@ const Storage = multer.diskStorage({
 
 const upload = multer({
     storage:Storage
-}).single('testImage')
+}).single('image')
 
 
 app.post('/upload', (req, res) => {
