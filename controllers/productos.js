@@ -1,13 +1,11 @@
+// controllers/productos.js
 const express = require('express');
 const router = express.Router();
-const upload = require('../middleware/upload')
-const Producto = require('../models/producto'); // Asegúrate de importar el modelo Producto
-
-
-
+const upload = require('../middleware/upload'); // Importar el middleware de subida de archivos
+const Producto = require('../models/producto');
 
 // Ruta para subir un producto con imagen
-router.post('/api/subir-producto', upload.single('imagen'), async (req, res) => {
+router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     // Verificar si se subió correctamente el archivo
     if (!req.file) {
         return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
