@@ -69,8 +69,8 @@ app.post('/upload', (req, res) => {
             costo: req.body.costo,
             categoria: req.body.categoria,
             image: {
-                data: req.file.buffer, // Datos binarios del archivo
-                contentType: req.file.mimetype // Tipo de contenido del archivo
+                data: imageUrl, // Guardar la URL en lugar de req.file.buffer
+                contentType: req.file.mimetype
             }
         });
 
