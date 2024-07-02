@@ -17,6 +17,8 @@ const S3_BUCKET_NAME = 'starclean-bucket'; // Reemplaza con el nombre de tu buck
 const s3 = new AWS.S3();
 const multerS3 = require('multer-s3');
 
+
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
