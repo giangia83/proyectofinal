@@ -6,7 +6,8 @@ const userRouter = require('./controllers/usuarios');
 const productosRouter = require('./controllers/productos'); // Asegúrate de la ruta correcta
 const productosController = require('./controllers/productos'); // Importa el controlador de productos
 
-const subirProductoRouter = require('./middleware/upload'); // Importa el enrutador
+const uploadMiddleware = require('./middleware/upload');
+
 const compression = require('compression');
 const session = require('express-session');
 const fs = require('fs');
@@ -70,7 +71,7 @@ app.post('/api/subir-producto', productosController.subirProducto, productosCont
 
 
 
-app.post('/subir-producto', upload.single('imagen'), (req, res) => {
+app.post('/subir-producto', uploadMiddleware, (req, res) => {
     fs.readFile(req.file.path, (err, data) => {
       if (err) {
         console.error(err);
