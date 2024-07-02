@@ -74,11 +74,13 @@ app.post('/upload', (req, res) => {
         });
 
         newProduct.save()
-            .then(() => res.send('success'))
-            .catch(err => {
-                console.log(err);
-                res.status(500).send('Error saving image details');
-            });
+        .then(savedProduct => {
+            res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Error saving image details');
+        });
     });
 });
 
