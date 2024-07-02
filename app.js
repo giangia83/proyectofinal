@@ -54,7 +54,7 @@ const storage = multer.diskStorage({
   
 
 const upload = multer({ storage: storage }).single('image');
-app.use('/upload', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.post('/upload', (req, res) => {
     upload(req, res, (err) => {
