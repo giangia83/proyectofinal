@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
-const productosController = require('../controllers/productosController');
+const productosController = require('../controllers/productos');
 
 // Middleware para manejar la subida de imagen y guardar el producto
 router.post('/', productosController.subirProducto, productosController.guardarProducto);
