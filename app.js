@@ -3,7 +3,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
-const productoRouter = require('./controllers/productos');
+
+const productosController = require('./controllers/productos'); // Importa el controlador de productos
+
 const subirProductoRouter = require('./middleware/upload'); // Importa el enrutador
 const compression = require('compression');
 const session = require('express-session');
@@ -13,6 +15,7 @@ const Producto = require('../models/producto');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
+
 // Configuración de Multer
 // Configuración de Handlebars como motor de plantillas
 // Middleware
@@ -61,9 +64,9 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 
 // Rutas de API
 app.use('/api/users', userRouter);
-app.use('/api/productos', productoRouter); // Montar el router de productos
-app.use('/api/subir-producto', subirProductoRouter);
 
+app.use('/api/productos', productosRouter); // Monta el enrutador de productos
+app.post('/api/subir-producto', productosController.subirProducto, productosController.guardarProducto);
 
 
 
