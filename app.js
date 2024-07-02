@@ -5,7 +5,7 @@ const path = require('path');
 const userRouter = require('./controllers/usuarios');
 const productosRouter = require('./controllers/productos'); // Asegúrate de la ruta correcta
 const Handlebars = require('handlebars');
-const exphbs  = require('express-handlebars');
+
 const compression = require('compression');
 const session = require('express-session');
 const fs = require('fs');
@@ -27,12 +27,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Configuración de Handlebars como motor de plantillas
-app.engine('html', exphbs({
-    extname: '.html', // Extensión de los archivos de vistas
-    layoutsDir: path.join(__dirname, 'views'), // Directorio de las plantillas
-}));
-app.set('view engine', 'html'); // Establece el motor de plantillas
+
 
 
 
