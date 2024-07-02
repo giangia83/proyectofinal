@@ -61,14 +61,18 @@ app.post('/upload', (req, res) => {
             console.log(err);
             return res.status(500).send('Error subiendo archivo');
         }
-        const imageUrl = `/uploads/${req.file.filename}`; // Ruta donde se guarda localmente la imagen
+
+        console.log('Archivo subido correctamente:', req.file);
+
+        const imageUrl = path.join(__dirname, 'uploads', req.file.filename);
+
         const newProduct = new Producto({
             nombre: req.body.nombre,
             precio: req.body.precio, 
             costo: req.body.costo,
             categoria: req.body.categoria,
             image: {
-                data: imageUrl, // Guardar la URL en lugar de req.file.buffer
+                data: imageUrl, // Guardar la URL 
                 contentType: req.file.mimetype
             }
         });
