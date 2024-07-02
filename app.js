@@ -12,7 +12,7 @@ const mongoURI = process.env.MONGODB_URI;
 const multer = require('multer');
 
 
-const Producto = require("/models/producto")
+const Producto = require("./models/producto")
 
 
 
