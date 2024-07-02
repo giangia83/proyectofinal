@@ -4,21 +4,39 @@ const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
 const productosRouter = require('./controllers/productos'); // Asegúrate de la ruta correcta
-const productosController = require('./controllers/productos'); // Importa el controlador de productos
-
-const uploadMiddleware = require('./middleware/upload');
-
+const Handlebars = require('handlebars');
+const exphbs  = require('express-handlebars');
 const compression = require('compression');
 const session = require('express-session');
 const fs = require('fs');
 const cookieParser = require('cookie-parser');
-const Producto = require('./models/producto');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
-
+const upload = require('../middleware/upload'); // Importa el middleware de Multer
 // Configuración de Multer
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/'); // Directorio donde se guardarán las imágenes
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname)); // Nombre del archivo en el servidor (timestamp + extensión)
+    }
+});
+
+const upload = multer({ storage: storage });
+
 // Configuración de Handlebars como motor de plantillas
+app.engine('html', exphbs({
+    extname: '.html', // Extensión de los archivos de vistas
+    layoutsDir: path.join(__dirname, 'views'), // Directorio de las plantillas
+}));
+app.set('view engine', 'html'); // Establece el motor de plantillas
+
+
+
+
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
@@ -64,43 +82,45 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 app.use('/api/users', userRouter);
 
 app.use('/api/productos', productosRouter); // Monta el enrutador de productos
-app.post('/api/subir-producto', productosController.subirProducto, productosController.guardarProducto);
 
 
+// Ruta para subir una imagen y guardar un producto
 
-app.post('/subir-producto', uploadMiddleware, (req, res) => {
-    fs.readFile(req.file.path, (err, data) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Error al leer la imagen');
-      }
-      var encode_image = data.toString('base64');
-      var finalImg = {
-        contentType: req.file.mimetype,
-        image: Buffer.from(encode_image, 'base64')
-      };
-  
-      MongoClient.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
-        if (err) {
-          console.error('Error al conectar con MongoDB:', err);
-          return res.status(500).send('Error interno del servidor');
+router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
+    try {
+        // Verificar si se subió correctamente el archivo
+        if (!req.file) {
+            return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
         }
-        
-        const db = client.db(); // Aquí especifica el nombre de la base de datos si es diferente a `mongoURI`
-        db.collection('quotes').insertOne(finalImg, (err, result) => {
-          if (err) {
-            client.close();
-            console.error('Error al insertar en la base de datos:', err);
-            return res.status(500).send('Error al guardar la imagen en la base de datos');
-          }
-          
-          client.close();
-          console.log('Imagen guardada en la base de datos');
-          res.redirect('/');
+
+        // Validar los datos recibidos del formulario
+        const { nombre, precio, costo, categoria } = req.body;
+        if (!nombre || !precio || !costo || !categoria) {
+            return res.status(400).json({ error: 'Por favor completa todos los campos.' });
+        }
+
+        // Crear un nuevo producto con la información recibida
+        const nuevoProducto = new Producto({
+            nombre,
+            precio,
+            costo,
+            categoria,
+            imagen: {
+                data: req.file.buffer,
+                contentType: req.file.mimetype
+            }
         });
-      });
-    });
-  });
+
+        // Guardar el nuevo producto en la base de datos
+        const productoGuardado = await nuevoProducto.save();
+
+        // Enviar respuesta al cliente con el producto guardado
+        res.status(201).json({ mensaje: 'Producto subido correctamente', producto: productoGuardado });
+    } catch (error) {
+        console.error('Error al subir producto:', error);
+        res.status(500).json({ error: 'Error interno al guardar el producto' });
+    }
+});
 
 
 // Rutas de autenticación y sesión
@@ -158,6 +178,6 @@ app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
 module.exports = app;
-
+module.exports = router;
 // Exportar upload para que esté disponible en otros archivos
 
