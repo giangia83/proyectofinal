@@ -3,33 +3,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
-const productosRouter = require('./controllers/productos'); // Asegúrate de la ruta correcta
-const Handlebars = require('handlebars');
-
 const compression = require('compression');
 const session = require('express-session');
-const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
 const multer = require('multer');
 
-// Configuración de Multer
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/'); // Directorio donde se guardarán las imágenes
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname)); // Nombre del archivo en el servidor (timestamp + extensión)
-    }
-});
 
-const upload = multer({ storage: storage });
-
-
-
-
+const Producto = require("/models/producto")
 
 
 
@@ -57,6 +40,51 @@ mongoose.connect(mongoURI, {
     console.log('Conexión a la base de datos establecida');
 })
 .catch(err => console.error('Error al conectar a la base de datos:', err));
+
+
+
+//storage
+
+const Storage = multer.diskStorage({
+
+    destination:'uploads'
+    filename: (req,file,cb)=> {
+        cb(null, file.originalname)
+    },
+});
+
+const upload = multer({
+    storage:Storage
+}).single('testImage')
+
+app.get("/", (req, res) => {
+    res.send("upload file")
+})
+
+app.post('upload', (req,res)=>{
+    upload(req,res, (err)=>{
+        if(err){
+            console.log(err)
+        }
+        else{
+            const newImage = new Producto({
+                nombre: req.body.nombre,
+                precio: req.body.price,
+                costo: req.body.costo,
+                categoria: req.body.categoria,
+                imagen:{
+                    data:req.file.filename,
+                    contentType:'image/png'
+                }
+                newImage.save()
+                .then(()=>res.send('sucess')).catch(err=>console.log(err))
+            })
+        }
+})
+
+
+
+
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
 app.use( 'public', express.static(path.join(__dirname, 'public')));
@@ -74,50 +102,13 @@ app.use('/administrar', express.static(path.resolve(__dirname, 'views', 'admin')
 app.use('/cotizaciones', express.static(path.resolve(__dirname, 'views', 'cotizaciones')));
 app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'productos')));
 
+
+
 // Rutas de API
 app.use('/api/users', userRouter);
 
-app.use('/api/subir-producto', productosRouter); // Monta el enrutador de productos
-
-
 // Ruta para subir una imagen y guardar un producto
-
-router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
-    try {
-        // Verificar si se subió correctamente el archivo
-        if (!req.file) {
-            return res.status(400).json({ error: 'No se ha seleccionado ningún archivo para subir.' });
-        }
-
-        // Validar los datos recibidos del formulario
-        const { nombre, precio, costo, categoria } = req.body;
-        if (!nombre || !precio || !costo || !categoria) {
-            return res.status(400).json({ error: 'Por favor completa todos los campos.' });
-        }
-
-        // Crear un nuevo producto con la información recibida
-        const nuevoProducto = new Producto({
-            nombre,
-            precio,
-            costo,
-            categoria,
-            imagen: {
-                data: req.file.buffer,
-                contentType: req.file.mimetype
-            }
-        });
-
-        // Guardar el nuevo producto en la base de datos
-        const productoGuardado = await nuevoProducto.save();
-
-        // Enviar respuesta al cliente con el producto guardado
-        res.status(201).json({ mensaje: 'Producto subido correctamente', producto: productoGuardado });
-    } catch (error) {
-        console.error('Error al subir producto:', error);
-        res.status(500).json({ error: 'Error interno al guardar el producto' });
-    }
-});
-
+ 
 
 // Rutas de autenticación y sesión
 app.post('/api/login', async (req, res) => {
