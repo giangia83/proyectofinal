@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
-
+const productosRouter = require('./controllers/productos'); // Asegúrate de la ruta correcta
 const productosController = require('./controllers/productos'); // Importa el controlador de productos
 
 const subirProductoRouter = require('./middleware/upload'); // Importa el enrutador
