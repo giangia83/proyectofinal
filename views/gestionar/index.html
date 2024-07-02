@@ -87,50 +87,41 @@
 
 
 
-            <form class="row g-3" id="formAgregarProducto" action="/api/subir-producto" method="post" enctype="multipart/form-data">
-              <div class="col-md-6">
-                <label for="inputEmail4" class="form-label">Nombre del producto</label>
-                <input type="text" class="form-control" id="inputNombre">
-              </div>
-              <div class="col-md-6">
-
-                <label for="inputPassword4" class="form-label">Costo</label>
-                <input type="number" class="form-control" id="inputCosto" placeholder="1.5$">
-              </div>
-              <div class="col-12">
-                <label for="inputAddress" class="form-label">PVP (Precio al público)</label>
-                <input type="text" class="form-control" id="inputPrecio" placeholder="3$">
-              </div>
-              <div class="col-12">
-                <label for="inputAddress" class="form-label">Imagen del producto</label>
-                <div class="input-group mb-3">
-
-                  <input type="file"  class="form-control" id="inputImagen" name="imagen" accept="image/*">
-                </div>
-              </div>
-
-              <div class="col-12">
-                <div class="input-group mb-3">
-                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" 
-                    aria-expanded="false">Categoría</button>
-                  <ul class="dropdown-menu" id="dropdownCategoria">
-                    <li><a class="dropdown-item" href="#">Limpieza</a></li>
-                    <li><a class="dropdown-item" href="#">Papeleria</a></li>
-                    <li><a class="dropdown-item" href="#">Seguridad industrial</a></li>
-
-
-                  </ul>
-
-                </div>
-              </div>
-
-
-
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary">Subir producto</button>
-              </div>
-            </form>
-
+            <div class="container">
+          
+              <form class="row g-3" id="formAgregarProducto" action="/upload" method="post" enctype="multipart/form-data">
+                  <div class="col-md-6">
+                      <label for="inputNombre" class="form-label">Nombre del producto</label>
+                      <input type="text" class="form-control" id="inputNombre" name="nombre">
+                  </div>
+                  <div class="col-md-6">
+                      <label for="inputCosto" class="form-label">Costo</label>
+                      <input type="number" class="form-control" id="inputCosto" name="costo" placeholder="1.5">
+                  </div>
+                  <div class="col-12">
+                      <label for="inputPrecio" class="form-label">PVP (Precio al público)</label>
+                      <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="3">
+                  </div>
+                  <div class="col-12">
+                      <label for="inputImagen" class="form-label">Imagen del producto</label>
+                      <input type="file" class="form-control" id="inputImagen" name="imagen" accept="image/*">
+                  </div>
+                  <div class="col-12">
+                      <div class="input-group mb-3">
+                          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" 
+                              aria-expanded="false">Categoría</button>
+                          <ul class="dropdown-menu" id="dropdownCategoria">
+                              <li><a class="dropdown-item" href="#">Limpieza</a></li>
+                              <li><a class="dropdown-item" href="#">Papeleria</a></li>
+                              <li><a class="dropdown-item" href="#">Seguridad industrial</a></li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="col-12">
+                      <button type="submit" class="btn btn-primary">Subir producto</button>
+                  </div>
+              </form>
+          </div>
 
           </div>
         </div>

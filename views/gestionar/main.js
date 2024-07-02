@@ -1,49 +1,56 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const formAgregarProducto = document.querySelector('#formAgregarProducto');
+document.getElementById('formAgregarProducto').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Evitar el envío estándar del formulario
 
-    formAgregarProducto.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    // Obtener valores del formulario
+    const nombre = document.getElementById('inputNombre').value;
+    const costo = document.getElementById('inputCosto').value;
+    const precio = document.getElementById('inputPrecio').value;
+    const imagen = document.getElementById('inputImagen').files[0]; // Archivo de imagen seleccionado
+    const categoria = document.querySelector('#dropdownCategoria .dropdown-item.active'); // Obtener la categoría seleccionada
 
-        // Obtener valores del formulario
-        const nombre = document.querySelector('#inputNombre').value;
-        const precio = document.querySelector('#inputPrecio').value;
-        const costo = document.querySelector('#inputCosto').value;
-        const categoria = document.querySelector('#dropdownCategoria').textContent.trim(); // Obtener texto del dropdown
-        const imagen = document.querySelector('#inputImagen').files[0]; // Archivo de imagen
+    // Validar que los campos no estén vacíos
+    if (nombre.trim() === '' || costo.trim() === '' || precio.trim() === '' || !imagen || !categoria) {
+        alert('Todos los campos son requeridos, incluyendo la categoría');
+        return;
+    }
 
-        // Validación básica del formulario
-        if (!nombre || !precio || !costo || !categoria || !imagen) {
-            alert('Por favor completa todos los campos.');
-            return;
+    // Obtener el texto de la categoría seleccionada
+    const categoriaSeleccionada = categoria.textContent.trim();
+
+    // Crear objeto FormData para enviar datos y archivos al servidor
+    const formData = new FormData();
+    formData.append('nombre', nombre);
+    formData.append('costo', costo);
+    formData.append('precio', precio);
+    formData.append('imagen', imagen);
+    formData.append('categoria', categoriaSeleccionada);
+
+    try {
+        // Enviar datos al servidor usando fetch API
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al subir producto');
         }
 
-        // Crear objeto FormData para enviar los datos
-        const formData = new FormData();
-        formData.append('nombre', nombre);
-        formData.append('precio', precio);
-        formData.append('costo', costo);
-        formData.append('categoria', categoria);
-        formData.append('imagen', imagen);
+        const data = await response.json();
+        console.log('Producto subido exitosamente:', data);
+        // Aquí puedes manejar la respuesta del servidor según sea necesario
+    } catch (error) {
+        console.error('Error al subir producto:', error);
+        alert('Hubo un problema al subir el producto. Por favor, intenta nuevamente.');
+    }
+});
 
-        try {
-            // Enviar la solicitud POST al servidor utilizando fetch
-            const response = await fetch('/subir-producto', {
-                method: 'POST',
-                body: formData
-            });
-
-            // Manejar la respuesta del servidor
-            const data = await response.json();
-
-            if (response.ok) {
-                alert(data.mensaje); // Mostrar mensaje de éxito
-                formAgregarProducto.reset(); // Limpiar el formulario
-            } else {
-                alert(data.error); // Mostrar mensaje de error
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error en el servidor.'); // Mostrar mensaje de error genérico
-        }
+// Agregar evento click a cada opción del dropdown para marcar como activa
+document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        this.classList.add('active');
     });
 });
