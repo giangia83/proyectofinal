@@ -47,7 +47,7 @@ mongoose.connect(mongoURI, {
 
 const Storage = multer.diskStorage({
 
-    destination:'uploads'
+    destination:'uploads',
     filename: (req,file,cb)=> {
         cb(null, file.originalname)
     },
@@ -60,27 +60,32 @@ const upload = multer({
 app.get("/", (req, res) => {
     res.send("upload file")
 })
+app.post('/upload', (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error subiendo archivo');
+        }
 
-app.post('upload', (req,res)=>{
-    upload(req,res, (err)=>{
-        if(err){
-            console.log(err)
-        }
-        else{
-            const newImage = new Producto({
-                nombre: req.body.nombre,
-                precio: req.body.price,
-                costo: req.body.costo,
-                categoria: req.body.categoria,
-                imagen:{
-                    data:req.file.filename,
-                    contentType:'image/png'
-                },
-                newImage.save()
-                .then(()=>res.send('sucess')).catch(err=>console.log(err))
-            })
-        }
-})
+        const newImage = new Producto({
+            nombre: req.body.nombre,
+            precio: req.body.precio, // Corregido a req.body.precio en lugar de req.body.price
+            costo: req.body.costo,
+            categoria: req.body.categoria,
+            imagen: {
+                data: req.file.filename,
+                contentType: 'image/png'
+            }
+        });
+
+        newImage.save()
+            .then(() => res.send('success'))
+            .catch(err => {
+                console.log(err);
+                res.status(500).send('Error saving image details');
+            });
+    });
+});
 
 
 
@@ -165,6 +170,4 @@ app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
 module.exports = app;
-module.exports = router;
-// Exportar upload para que esté disponible en otros archivos
 
