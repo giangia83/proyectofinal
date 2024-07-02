@@ -46,9 +46,7 @@ mongoose.connect(mongoURI, {
 
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
-
 app.use( 'public', express.static(path.join(__dirname, 'public')));
-
 app.use('/', express.static(path.resolve(__dirname, 'views', 'gestionar')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
 app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocuenta')));
