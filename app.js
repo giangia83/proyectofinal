@@ -57,9 +57,7 @@ const upload = multer({
     storage:Storage
 }).single('testImage')
 
-app.get("/", (req, res) => {
-    res.send("upload file")
-})
+
 app.post('/upload', (req, res) => {
     upload(req, res, (err) => {
         if (err) {
