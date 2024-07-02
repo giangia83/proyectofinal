@@ -68,7 +68,7 @@ app.post('/upload', (req, res) => {
             precio: req.body.precio, 
             costo: req.body.costo,
             categoria: req.body.categoria,
-            imagen: {
+            image: {
                 data: req.file.filename,
                 contentType: 'image/png'
             }
