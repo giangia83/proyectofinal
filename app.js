@@ -43,7 +43,6 @@ mongoose.connect(mongoURI, {
     console.log('Conexión a la base de datos establecida');
 })
 .catch(err => console.error('Error al conectar a la base de datos:', err));
-
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
 app.use( 'public', express.static(path.join(__dirname, 'public')));
