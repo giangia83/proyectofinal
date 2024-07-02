@@ -10,7 +10,7 @@ const path = require('path');
 
 const userRouter = require('./controllers/usuarios');
 const productoRouter = require('./controllers/productos');
-
+const subirProductoRouter = require('./middleware/upload'); // Importa el enrutador
 const compression = require('compression');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -80,7 +80,7 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 // Rutas de API
 app.use('/api/users', userRouter);
 app.use('/api/productos', productoRouter);
-app.use('/api/subir-producto', productoRouter);
+app.use(subirProductoRouter);
 
 
 

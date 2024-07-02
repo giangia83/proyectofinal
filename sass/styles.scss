@@ -1,5 +1,6 @@
 // Importa Bootstrap desde tu instalación npm
 @import "../node_modules/bootstrap/scss/bootstrap";
-
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
 
 $primary: #d98200;

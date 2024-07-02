@@ -47,4 +47,4 @@ router.post('/api/subir-producto', upload.single('imagen'), async (req, res) => 
     }
 });
 
-module.exports = upload;
+module.exports = router;

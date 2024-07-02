@@ -65,7 +65,7 @@ header {
     align-items: center;
     padding: 10px 20px;
 
-    background-color:#FAB73B;
+    background-color:#FFED00;
     font-weight: 480;
 
 }
@@ -79,7 +79,7 @@ header {
 
     padding: 10px 20px;
    
-    background-color:#FAB73B;
+    background-color:#FFED00;
     font-weight: 480;
     position: relative;
 }
@@ -144,8 +144,28 @@ header {
   }
 
 
+.right{
 
 
+margin-left: 14px;
+
+
+
+}
+
+.btn-special{
+
+background-color: #FFED00;
+border: none;
+color: #1b1b1b;
+}
+
+.btn-special:hover{
+
+    background-color: #FFED00;
+    border: none;
+    color: #EA5730;
+    }
   
 #icon{
 
@@ -337,7 +357,11 @@ margin-bottom: 1.5rem;
 }
 
 
+.cuentainfo{
+margin-top: -6rem;
 
+
+}
 
 /* Media queries para hacer la tarjeta más receptiva */
 
@@ -566,6 +590,12 @@ font-size: 15px;
 
     }
 
+    .show{
+
+display: flex;
+
+    }
+
 }
 
 
@@ -627,9 +657,9 @@ border:1px solid,  rgb(235, 235, 235);
 
 .card-special:hover {
     transform: scale(1.05); /* Hace la card un 5% más grande */
-    background-color: #FB8332; /* Cambia el color de fondo al hacer hover */
+    background-color: #F49600; /* Cambia el color de fondo al hacer hover */
     color: #ffffff;
-    border:1px solid,  #dadada;
+    border:1px solid,  #E5E7EB;
 }
 
 .special-row{
@@ -640,10 +670,31 @@ font-size: 15px;
 
 .form-control{
 
-    max-width: 40%;
+    max-width: 30rem;
     border-radius: 7%;
     border: none;
     box-shadow: rgba(10, 0, 0, 0.13)0 1px 3px 0;
-    margin-left: 27%;
+    margin-left: 3rem;
    
     }
+
+    .form-control:hover{
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      
+       
+        }
+
+
+        .expand{
+
+            min-width: 100%;
+          
+        }
+
+        .dropdown-menu{
+
+            z-index: 5;
+
+
+
+        }
