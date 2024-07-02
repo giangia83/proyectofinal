@@ -43,14 +43,15 @@ mongoose.connect(mongoURI, {
 
 
 //storage a
-
 const storage = multer.diskStorage({
-
-    destination:'uploads',
-    filename: (req,file,cb)=> {
-        cb(null, file.originalname)
+    destination: function (req, file, cb) {
+      cb(null, path.join(__dirname, 'uploads'));
     },
-});
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    }
+  });
+  
 
 const upload = multer({ storage: storage }).single('image');
 app.use('/upload', express.static(path.join(__dirname, 'uploads')));
