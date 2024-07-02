@@ -10,8 +10,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
 const multer = require('multer');
-
-
+const fs = require('fs');
 const Producto = require("./models/producto")
 
 
@@ -62,7 +61,7 @@ app.post('/upload', (req, res) => {
             console.log(err);
             return res.status(500).send('Error subiendo archivo');
         }
-
+        const imageUrl = `/uploads/${req.file.filename}`; // Ruta donde se guarda localmente la imagen
         const newProduct = new Producto({
             nombre: req.body.nombre,
             precio: req.body.precio, 
