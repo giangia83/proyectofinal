@@ -30,4 +30,6 @@ router.post('/subir-producto', upload.single('imagen'), async (req, res) => {
     }
 });
 
+
+
 module.exports = router;
