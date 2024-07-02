@@ -12,8 +12,10 @@ const mongoURI = process.env.MONGODB_URI;
 const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
-
-
+const AWS = require('aws-sdk');
+const S3_BUCKET_NAME = 'starclean-bucket'; // Reemplaza con el nombre de tu bucket en S3
+const s3 = new AWS.S3();
+const multerS3 = require('multer-s3');
 
 // Middleware
 app.use(express.json());
@@ -31,6 +33,13 @@ app.use(session({
     }
 }));
 
+AWS.config.update({
+    accessKeyId: 'AKIAVRUVWE3ONRPQGYXD',
+    secretAccessKey: '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',
+    region: 'us-east-2' // Reemplaza con la región de tu bucket de S3
+});
+
+
 // Conexión a la base de datos
 mongoose.connect(mongoURI, {
  
@@ -45,14 +54,34 @@ mongoose.connect(mongoURI, {
 //storage a
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // Ruta donde se guardarán los archivos de imagen
+        cb(null, 'uploads'); // Ruta donde se guardarán los archivos de imagen
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname); // Nombre original del archivo
     },
 });
 
-const upload = multer({ storage: storage }).single('image');
+
+
+
+const upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: S3_BUCKET_NAME,
+        acl: 'public-read', // Permite a cualquiera leer los archivos subidos
+        metadata: function (req, file, cb) {
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+            cb(null, Date.now().toString() + '-' + file.originalname); // Genera una clave única para cada archivo
+        }
+    })
+}).single('image'); // Nombre del campo del formulario que contiene el archiv
+
+
+
+
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.post('/upload', (req, res) => {
