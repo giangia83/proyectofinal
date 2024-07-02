@@ -75,7 +75,7 @@ app.post('upload', (req,res)=>{
                 imagen:{
                     data:req.file.filename,
                     contentType:'image/png'
-                }
+                },
                 newImage.save()
                 .then(()=>res.send('sucess')).catch(err=>console.log(err))
             })
