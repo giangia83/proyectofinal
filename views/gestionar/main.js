@@ -54,3 +54,26 @@ document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
         this.classList.add('active');
     });
 });
+
+async function obtenerProductos() {
+    try {
+        const response = await fetch('/api/productos'); // Endpoint para obtener productos desde el servidor
+        const productos = await response.json();
+
+        const productosHTML = productos.map(producto => `
+            <div class="producto">
+                <h2>${producto.nombre}</h2>
+                <p>Precio: ${producto.precio}</p>
+                <p>Categoría: ${producto.categoria}</p>
+                <img src="${producto.image.data}" alt="${producto.nombre}">
+            </div>
+        `).join('');
+
+        document.getElementById('productos').innerHTML = productosHTML;
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+    }
+}
+
+// Llamar a la función para obtener y mostrar productos al cargar la página
+window.onload = obtenerProductos;
