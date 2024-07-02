@@ -1,3 +1,5 @@
+const multer  = require('multer')
+const upload = multer({ dest: './public/uploads/' })
 
 
 
@@ -50,3 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+app.post('/api/subir-producto', upload.single('imagen'), function (req, res) {
+    // req.file es el nombre de tu archivo en el formulario anterior, en este caso 'uploaded_file'
+    // req.body contendrá los campos de texto, si los hubiera.
+    console.log(req.file, req.body)
+ });

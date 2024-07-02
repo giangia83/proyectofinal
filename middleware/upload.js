@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
-
 const multer = require('multer');
+const Producto = require('../models/producto'); // Asegúrate de importar tu modelo de Producto
 
 // Configuración de Multer para la subida de archivos
 const storage = multer.diskStorage({
@@ -15,11 +14,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
-module.exports = upload;
-
-
-
 
 // Ruta para subir un producto con imagen
 router.post('/api/subir-producto', upload.single('imagen'), async (req, res) => {
