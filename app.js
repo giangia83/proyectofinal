@@ -34,8 +34,8 @@ app.use(session({
 }));
 
 AWS.config.update({
-    accessKeyId: 'AKIAVRUVWE3ONRPQGYXD',
-    secretAccessKey: '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',
+    accessKeyId:AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
     region: 'us-east-2' // Reemplaza con la región de tu bucket de S3
 });
 
