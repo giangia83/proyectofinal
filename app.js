@@ -45,7 +45,7 @@ mongoose.connect(mongoURI, {
 
 //storage
 
-const Storage = multer.diskStorage({
+const storage = multer.diskStorage({
 
     destination:'uploads',
     filename: (req,file,cb)=> {
@@ -53,9 +53,7 @@ const Storage = multer.diskStorage({
     },
 });
 
-const upload = multer({
-    storage:Storage
-}).single('image')
+const upload = multer({ storage: storage }).single('image');
 
 
 app.post('/upload', (req, res) => {
@@ -65,9 +63,9 @@ app.post('/upload', (req, res) => {
             return res.status(500).send('Error subiendo archivo');
         }
 
-        const newImage = new Producto({
+        const newProduct = new Producto({
             nombre: req.body.nombre,
-            precio: req.body.precio, // Corregido a req.body.precio en lugar de req.body.price
+            precio: req.body.precio, 
             costo: req.body.costo,
             categoria: req.body.categoria,
             imagen: {
@@ -76,7 +74,7 @@ app.post('/upload', (req, res) => {
             }
         });
 
-        newImage.save()
+        newProduct.save()
             .then(() => res.send('success'))
             .catch(err => {
                 console.log(err);
