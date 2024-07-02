@@ -77,7 +77,7 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 // Rutas de API
 app.use('/api/users', userRouter);
 
-app.use('/api/productos', productosRouter); // Monta el enrutador de productos
+app.use('/api/subir-producto', productosRouter); // Monta el enrutador de productos
 
 
 // Ruta para subir una imagen y guardar un producto
