@@ -1,42 +1,24 @@
 require('dotenv').config();
 const express = require('express');
-
 const mongoose = require('mongoose');
-
-
-
-
 const path = require('path');
-
 const userRouter = require('./controllers/usuarios');
 const productoRouter = require('./controllers/productos');
 const subirProductoRouter = require('./middleware/upload'); // Importa el enrutador
 const compression = require('compression');
 const session = require('express-session');
+const fs = require('fs');
 const cookieParser = require('cookie-parser');
-
-
-
+const Producto = require('../models/producto');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
 // Configuración de Multer
-
-
-
-
-
 // Configuración de Handlebars como motor de plantillas
-
-
-
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(compression());
-
-
-
 // Configuración de sesión
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -85,6 +67,39 @@ app.use('/api/subir-producto', subirProductoRouter);
 
 
 
+app.post('/subir-producto', upload.single('imagen'), (req, res) => {
+    fs.readFile(req.file.path, (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Error al leer la imagen');
+      }
+      var encode_image = data.toString('base64');
+      var finalImg = {
+        contentType: req.file.mimetype,
+        image: Buffer.from(encode_image, 'base64')
+      };
+  
+      MongoClient.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+        if (err) {
+          console.error('Error al conectar con MongoDB:', err);
+          return res.status(500).send('Error interno del servidor');
+        }
+        
+        const db = client.db(); // Aquí especifica el nombre de la base de datos si es diferente a `mongoURI`
+        db.collection('quotes').insertOne(finalImg, (err, result) => {
+          if (err) {
+            client.close();
+            console.error('Error al insertar en la base de datos:', err);
+            return res.status(500).send('Error al guardar la imagen en la base de datos');
+          }
+          
+          client.close();
+          console.log('Imagen guardada en la base de datos');
+          res.redirect('/');
+        });
+      });
+    });
+  });
 
 
 // Rutas de autenticación y sesión

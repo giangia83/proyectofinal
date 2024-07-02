@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Enviar la solicitud POST al servidor utilizando fetch
-            const response = await fetch('/api/subir-producto', {
+            const response = await fetch('/subir-producto', {
                 method: 'POST',
                 body: formData
             });
