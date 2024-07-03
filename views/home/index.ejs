@@ -218,11 +218,13 @@
                         </svg>
                       </div>
                       <div class="media-body text-right">
-                     
-                        <% usuario.forEach(function (Usuario) { %>
-                        <h3>  <%= usuario.nombre %> </h3>
-                      <% }) %>
-                          </div>
+                        <% if (usuario) { %>
+                          <h3><%= usuario.nombre %>!</h3>
+                          <!-- Aquí puedes mostrar más detalles del usuario si es necesario -->
+                      <% } else { %>
+                          <p>Inicia sesión </p>
+                          <!-- Aquí puedes agregar un formulario de inicio de sesión si lo deseas -->
+                      <% } %>
                     </div>
                       </div>
                     </div>
