@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Guardar la sesión del usuario utilizando cookies
                 document.cookie = `usuario=${usuario.nombre}; path=/`;
                 // Inicio de sesión exitoso, redirigir al usuario a la página de cuenta
-                window.location.href = '/';
+                window.location.href = '/cuenta';
             } else {
                 // Mostrar mensaje de error si las credenciales son inválidas
                 mostrarMensaje('Credenciales inválidas. Por favor, inténtalo de nuevo.');

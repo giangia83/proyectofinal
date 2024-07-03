@@ -104,17 +104,14 @@ app.post('/upload', (req, res) => {
 
 
 
-app.use(express.static(path.join(__dirname,'./public')))
+
 // Rutas de archivos estáticos
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 
-
-app.use('/public', express.static(path.join(__dirname, 'public')));
-
-app.use('public', express.static(path.join(__dirname, 'public')));
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
 app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocuenta')));
 app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
