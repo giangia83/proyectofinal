@@ -13,8 +13,8 @@ const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
 const AWS = require('aws-sdk');
-const S3_BUCKET_NAME = 'starclean-bucket'; // Reemplaza con el nombre de tu bucket en S3
-const s3 = new AWS.S3();
+
+
 const multerS3 = require('multer-s3');
 
 
@@ -35,11 +35,6 @@ app.use(session({
     }
 }));
 
-AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: 'us-east-2' // Reemplaza con la región de tu bucket de S3
-});
 
 
 // Conexión a la base de datos
@@ -53,19 +48,16 @@ mongoose.connect(mongoURI, {
 
 
 
-//storage a
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads'); // Ruta donde se guardarán los archivos de imagen
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname); // Nombre original del archivo
-    },
+
+
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: 'us-east-2' // Reemplaza con la región de tu bucket de S3
 });
 
-
-
-
+const s3 = new AWS.S3();
+const S3_BUCKET_NAME = 'starclean-bucket'; // Reemplaza con el nombre de tu bucket en S3
 const upload = multer({
     storage: multerS3({
         s3: s3,
