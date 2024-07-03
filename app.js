@@ -109,6 +109,9 @@ app.post('/upload', (req, res) => {
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
+app.get('/', (req, res) => {
+    res.render('home/index'); // No necesitas especificar la extensión .ejs
+});
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
@@ -161,13 +164,16 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Ruta para subir archivos 
-app.get('/', async (req, res) => {
+app.get('/cuenta', async (req, res) => {
     try {
         if (req.session.usuario) {
             // Si hay una sesión de usuario activa, obtener los datos del usuario desde la base de datos
             const usuario = await Usuario.findById(req.session.usuario._id);
             res.render('index', { usuario });
-        } 
+        } else {
+            // Si no hay cookie de usuario, redirigir al usuario a la página de inicio de sesión
+            res.redirect('/iniciarsesion');
+        }
     } catch (error) {
         console.error('Error al obtener datos del usuario:', error);
         res.status(500).json({ error: 'Error interno al obtener datos del usuario' });
