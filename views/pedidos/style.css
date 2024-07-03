@@ -612,3 +612,18 @@ width: 200%;
 color: rgb(218, 5, 5);
 
 }
+
+
+.btn-special{
+
+    background-color: #F7F7F7;
+    border: none;
+    color: #1b1b1b;
+    }
+
+    .btn-special:hover{
+
+        background-color: #F7F7F7;
+        border: none;
+        color: #1b1b1b;
+        }
