@@ -66,6 +66,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('image');
 
+// Middleware para pasar usuario a todas las vistas
+app.use((req, res, next) => {
+    res.locals.usuario = req.session.usuario;
+    next();
+});
+
 
 app.post('/upload', (req, res) => {
     upload(req, res, (err) => {
@@ -110,7 +116,7 @@ app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/', (req, res) => {
-    res.render('home/index'); // No necesitas especificar la extensión .ejs
+    res.render('home/index');
 });
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
@@ -163,19 +169,6 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// Ruta para subir archivos 
-app.get('/cuenta', async (req, res) => {
-    try {
-        if (req.session.usuario) {
-            // Si hay una sesión de usuario activa, obtener los datos del usuario desde la base de datos
-            const usuario = await Usuario.findById(req.session.usuario._id);
-            res.render('/index.ejs', { usuario });
-        } 
-    } catch (error) {
-        console.error('Error al obtener datos del usuario:', error);
-        res.status(500).json({ error: 'Error interno al obtener datos del usuario' });
-    }
-});
 
 
 app.get('/infocuenta', (req, res) => {
