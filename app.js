@@ -109,9 +109,7 @@ app.use(express.static(path.join(__dirname,'./public')))
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.get('/', (req, res) => {
-    res.render('home/index'); // No necesitas especificar la extensión .ejs
-});
+
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
@@ -166,12 +164,12 @@ app.post('/api/login', async (req, res) => {
 
 // Ruta para subir archivos 
 
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
     const usuarioCookie = req.session.usuario;
 
     if (usuarioCookie) {
         // Si hay una cookie de usuario, mostrar la página de cuenta con el nombre del usuario
-        res.render('home/index', { usuario: usuarioCookie });
+        res.render('index.ejs', { usuario: usuarioCookie });
     } else {
         // Si no hay cookie de usuario, redirigir al usuario a la página de inicio de sesión
         res.redirect('/iniciarsesion');
