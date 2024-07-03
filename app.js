@@ -13,6 +13,9 @@ const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
 
+/* marko for html */
+
+
 const uploadDirectory = path.join(__dirname, 'uploads');
 
 // Crear la carpeta uploads si no existe
@@ -20,10 +23,13 @@ if (!fs.existsSync(uploadDirectory)) {
     fs.mkdirSync(uploadDirectory);
 }
 
+
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(compression());
+
 // Configuración de sesión
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -95,11 +101,17 @@ app.post('/upload', (req, res) => {
 
 
 
+
+
 app.use(express.static(path.join(__dirname,'./public')))
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
+
+app.set('view engine', 'ejs');
+
+
 app.use( 'public', express.static(path.join(__dirname, 'public')));
-app.use('/', express.static(path.resolve(__dirname, 'views', 'gestionar')));
+app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
 app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocuenta')));
 app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
