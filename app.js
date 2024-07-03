@@ -12,7 +12,7 @@ const mongoURI = process.env.MONGODB_URI;
 const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
-const Usuario = require("/.models/usuario")
+
 
 /* marko for html */
 let ejs = require('ejs');
