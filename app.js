@@ -134,6 +134,10 @@ app.get('/iniciarsesion', (req, res) => {
     res.render('iniciar/index');
 });
 
+app.get('/tuspedidos', (req, res) => {
+    res.render('pedidos/index');
+});
+
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
