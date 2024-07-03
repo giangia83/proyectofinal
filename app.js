@@ -164,7 +164,7 @@ app.post('/api/login', async (req, res) => {
 
 // Ruta para subir archivos 
 
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
     const usuarioCookie = req.session.usuario;
 
     if (usuarioCookie) {
