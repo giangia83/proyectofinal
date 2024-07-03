@@ -60,38 +60,44 @@ const s3 = new AWS.S3();
 const S3_BUCKET_NAME = 'starclean-bucket'; // Reemplaza con el nombre de tu bucket en S3
 
 // Ruta para subir una imagen y guardar un producto
+// Ruta para subir un archivo a S3 y guardar detalles del producto
 app.post('/upload', async (req, res) => {
     try {
-        const { nombre, precio, costo, categoria } = req.body;
-        const imageFile = req.file; // Archivo subido por el cliente
+        const { nombre, precio, costo, categoria } = req.body; // Extraer datos del producto desde el formulario
+        const file = req.files.image; // Suponiendo que tu campo en el formulario se llama 'image'
 
-        // Subir el archivo al bucket de S3
         const params = {
             Bucket: S3_BUCKET_NAME,
-            Key: `${Date.now().toString()}-${imageFile.originalname}`, // Genera una clave única para cada archivo
-            Body: fs.createReadStream(imageFile.path),
-            ACL: 'public-read', // Permite a cualquiera leer los archivos subidos
-            ContentType: imageFile.mimetype
+            Key: Date.now().toString() + '-' + file.name, // Nombre único para el archivo en S3
+            Body: file.data, // Contenido del archivo
+            ACL: 'public-read', // Permisos de acceso
+            ContentType: file.mimetype // Tipo de contenido del archivo
         };
 
-        const data = await s3.upload(params).promise();
-
-        console.log('Archivo subido correctamente:', data.Location);
-
-        // Guardar detalles del producto en la base de datos
-        const newProduct = new Producto({
-            nombre,
-            precio,
-            costo,
-            categoria,
-            image: {
-                data: data.Location, // Guardar la URL del archivo en S3
-                contentType: imageFile.mimetype
+        // Subir el archivo a S3
+        s3.upload(params, async (err, data) => {
+            if (err) {
+                console.error('Error al subir archivo a S3:', err);
+                return res.status(500).send('Error subiendo archivo a S3');
             }
-        });
 
-        const savedProduct = await newProduct.save();
-        res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
+            console.log('Archivo subido correctamente a S3:', data.Location);
+
+            // Guardar detalles del producto en la base de datos
+            const newProduct = new Producto({
+                nombre,
+                precio,
+                costo,
+                categoria,
+                image: {
+                    data: data.Location, // Guardar la URL del archivo en S3
+                    contentType: file.mimetype
+                }
+            });
+
+            const savedProduct = await newProduct.save();
+            res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
+        });
     } catch (err) {
         console.error('Error al subir archivo o guardar producto:', err);
         res.status(500).send('Error al subir archivo o guardar producto');
@@ -101,6 +107,11 @@ app.post('/upload', async (req, res) => {
 
 
 
+
+
+
+
+        
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
 app.use( 'public', express.static(path.join(__dirname, 'public')));
