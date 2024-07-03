@@ -63,18 +63,24 @@ const S3_BUCKET_NAME = 'starclean-bucket'; // Reemplaza con el nombre de tu buck
 // Ruta para subir un archivo a S3 y guardar detalles del producto
 app.post('/upload', async (req, res) => {
     try {
-        const { nombre, precio, costo, categoria } = req.body; // Extraer datos del producto desde el formulario
-        const file = req.files.image; // Suponiendo que tu campo en el formulario se llama 'image'
+        const { nombre, precio, costo, categoria } = req.body;
+
+        // Verificar si hay archivos en la solicitud
+        if (!req.files || !req.files.image) {
+            return res.status(400).send('No se ha proporcionado ningún archivo');
+        }
+
+        const file = req.files.image;
 
         const params = {
             Bucket: S3_BUCKET_NAME,
-            Key: Date.now().toString() + '-' + file.name, // Nombre único para el archivo en S3
-            Body: file.data, // Contenido del archivo
-            ACL: 'public-read', // Permisos de acceso
-            ContentType: file.mimetype // Tipo de contenido del archivo
+            Key: Date.now().toString() + '-' + file.name,
+            Body: file.data,
+            ACL: 'public-read',
+            ContentType: file.mimetype
         };
 
-        // Subir el archivo a S3
+        // Subir archivo a S3
         s3.upload(params, async (err, data) => {
             if (err) {
                 console.error('Error al subir archivo a S3:', err);
@@ -90,7 +96,7 @@ app.post('/upload', async (req, res) => {
                 costo,
                 categoria,
                 image: {
-                    data: data.Location, // Guardar la URL del archivo en S3
+                    data: data.Location,
                     contentType: file.mimetype
                 }
             });
@@ -98,6 +104,7 @@ app.post('/upload', async (req, res) => {
             const savedProduct = await newProduct.save();
             res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
         });
+
     } catch (err) {
         console.error('Error al subir archivo o guardar producto:', err);
         res.status(500).send('Error al subir archivo o guardar producto');
