@@ -50,7 +50,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //storage 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads'); // Ruta relativa correcta
+        cb(null, path.join(__dirname,'./public/upload'))
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname); // Nombre original del archivo
@@ -95,7 +95,7 @@ app.post('/upload', (req, res) => {
 
 
 
-
+app.use(express.static(path.join(__dirname,'./public')))
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
 app.use( 'public', express.static(path.join(__dirname, 'public')));
