@@ -169,7 +169,7 @@ app.get('/cuenta', async (req, res) => {
         if (req.session.usuario) {
             // Si hay una sesión de usuario activa, obtener los datos del usuario desde la base de datos
             const usuario = await Usuario.findById(req.session.usuario._id);
-            res.render('index', { usuario });
+            res.render('/index.ejs', { usuario });
         } 
     } catch (error) {
         console.error('Error al obtener datos del usuario:', error);
