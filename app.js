@@ -194,6 +194,17 @@ app.get('/infocuenta', (req, res) => {
     }
 });
 
+// Ruta para cerrar sesión
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error al cerrar sesión:', err);
+            return res.status(500).json({ error: 'Error al cerrar sesión' });
+        }
+        res.clearCookie('usuario'); // Borra la cookie 'usuario'
+        res.redirect('/'); // Redirige al inicio u otra página después de cerrar sesión
+    });
+});
 
 
 // Middleware para servir archivos estáticos en la carpeta de uploads
