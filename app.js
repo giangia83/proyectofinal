@@ -12,6 +12,7 @@ const mongoURI = process.env.MONGODB_URI;
 const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
+const Usuario = require("/.models/usuario")
 
 /* marko for html */
 let ejs = require('ejs');
@@ -165,8 +166,8 @@ app.post('/api/login', async (req, res) => {
 
 // Ruta para subir archivos 
 
-app.get('/cuenta', (req, res) => {
-    const usuarioCookie = req.cookies.usuario;
+app.get('/home', (req, res) => {
+    const usuarioCookie = req.session.usuario;
 
     if (usuarioCookie) {
         // Si hay una cookie de usuario, mostrar la página de cuenta con el nombre del usuario
