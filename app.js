@@ -12,7 +12,7 @@ const mongoURI = process.env.MONGODB_URI;
 const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
-
+const Usuario = require("./models/usuario")
 
 /* marko for html */
 let ejs = require('ejs');
@@ -164,14 +164,19 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Ruta para subir archivos 
-
-app.get('/', (req, res) => {
-    if (req.session.usuario) {
-        // Si hay una sesión de usuario activa, renderizar la vista 'index.ejs' con los datos del usuario
-        res.render('index', { usuario: req.session.usuario });
-    } else {
-        // Si no hay sesión de usuario, redirigir al usuario a la página de inicio de sesión
-        res.redirect('/iniciarsesion');
+app.get('/', async (req, res) => {
+    try {
+        if (req.session.usuario) {
+            // Si hay una sesión de usuario activa, obtener los datos del usuario desde la base de datos
+            const usuario = await Usuario.findById(req.session.usuario._id);
+            res.render('index', { usuario });
+        } else {
+            // Si no hay sesión de usuario, redirigir al usuario a la página de inicio de sesión
+            res.redirect('/iniciarsesion');
+        }
+    } catch (error) {
+        console.error('Error al obtener datos del usuario:', error);
+        res.status(500).json({ error: 'Error interno al obtener datos del usuario' });
     }
 });
 
