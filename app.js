@@ -172,7 +172,7 @@ app.get('/', async (req, res) => {
             res.render('index', { usuario });
         } else {
             // Si no hay sesión de usuario, redirigir al usuario a la página de inicio de sesión
-            res.redirect('/iniciarsesion');
+           console.log("No se ha iniciado sesión")
         }
     } catch (error) {
         console.error('Error al obtener datos del usuario:', error);
