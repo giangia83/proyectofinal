@@ -9,12 +9,9 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
-const multer = require('multer'); 
+const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
-const AWS = require('aws-sdk');
-const multerS3 = require('multer-s3')
-
 
 
 
@@ -34,8 +31,6 @@ app.use(session({
     }
 }));
 
-
-
 // Conexión a la base de datos
 mongoose.connect(mongoURI, {
  
@@ -47,78 +42,55 @@ mongoose.connect(mongoURI, {
 
 
 
-
-
-AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: 'us-east-2' // Reemplaza con la región de tu bucket de S3
+//storage a
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads'); // Ruta donde se guardarán los archivos de imagen
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname); // Nombre original del archivo
+    },
 });
 
-const s3 = new AWS.S3();
+const upload = multer({ storage: storage }).single('image');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Configuración de multer para subir archivos locales
-const uploadLocal = multer({
-    dest: 'uploads/' // Directorio local temporal para almacenar archivos subidos
-});
-
-const S3_BUCKET_NAME = 'starclean-bucket'; 
-
-
-const uploadS3 = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: S3_BUCKET_NAME, // Reemplaza con el nombre de tu bucket en S3
-        contentType: multerS3.AUTO_CONTENT_TYPE,
-        acl: 'public-read',
-        key: function (req, file, cb) {
-            cb(null, Date.now().toString() + '-' + file.originalname); // Nombre del archivo en S3
-        }
-    })
-});
-
-// Ruta para subir una imagen y guardar un producto
-// Ruta para subir un archivo a S3 y guardar detalles del producto
-// Ruta para subir una imagen a MongoDB y guardar detalles del producto
-app.post('/upload', uploadS3.single('image'), async (req, res) => {
-    try {
-        const { nombre, precio, costo, categoria } = req.body;
-
-        // Verificar si hay archivo subido a S3
-        if (!req.file) {
-            return res.status(400).send('No se ha proporcionado ningún archivo');
+app.post('/upload', (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error subiendo archivo');
         }
 
-        const imageUrl = req.file.location; // URL del archivo en S3
+        console.log('Archivo subido correctamente:', req.file);
 
-        // Guardar detalles del producto en la base de datos (ejemplo usando Mongoose)
+        const imageUrl = path.join(__dirname, 'uploads', req.file.filename);
+
         const newProduct = new Producto({
-            nombre,
-            precio,
-            costo,
-            categoria,
+            nombre: req.body.nombre,
+            precio: req.body.precio, 
+            costo: req.body.costo,
+            categoria: req.body.categoria,
             image: {
-                data: imageUrl,
+                data: imageUrl, // Guardar la URL 
                 contentType: req.file.mimetype
             }
         });
 
-        const savedProduct = await newProduct.save();
-        res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
-    } catch (err) {
-        console.error('Error al subir archivo o guardar producto:', err);
-        res.status(500).send('Error al subir archivo o guardar producto');
-    }
+        newProduct.save()
+        .then(savedProduct => {
+            res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Error saving image details');
+        });
+    });
 });
 
 
 
-/* s */
 
-
-
-
-        
 // Rutas de archivos estáticos
 app.use('/views', express.static(path.join(__dirname, 'views')));
 app.use( 'public', express.static(path.join(__dirname, 'public')));
@@ -142,10 +114,7 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 app.use('/api/users', userRouter);
 
 // Ruta para subir una imagen y guardar un producto
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Error interno del servidor');
-});
+ 
 
 // Rutas de autenticación y sesión
 app.post('/api/login', async (req, res) => {
@@ -202,4 +171,3 @@ app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
 });
 module.exports = app;
-
