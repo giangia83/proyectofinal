@@ -220,10 +220,12 @@
                       <div class="media-body text-right">
                         <% if (usuario) { %>
                           <h3><%= usuario.nombre %>!</h3>
+                          <span>Ir a tu cuenta</span>
                           <!-- Aquí puedes mostrar más detalles del usuario si es necesario -->
                       <% } else { %>
-                          <p>Inicia sesión </p>
-                          <!-- Aquí puedes agregar un formulario de inicio de sesión si lo deseas -->
+                          <h3>Inicia sesión </h3>
+                          <span>O crea una nueva cuenta</span>
+                     
                       <% } %>
                     </div>
                       </div>

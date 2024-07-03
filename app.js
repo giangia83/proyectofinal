@@ -116,7 +116,9 @@ app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/', (req, res) => {
-    res.render('home/index');
+    res.render('home/index', {
+        usuario: req.session.usuario // Pasar el usuario a la vista
+    });
 });
 
 app.get('/iniciarsesion', (req, res) => {
