@@ -170,10 +170,7 @@ app.get('/cuenta', async (req, res) => {
             // Si hay una sesión de usuario activa, obtener los datos del usuario desde la base de datos
             const usuario = await Usuario.findById(req.session.usuario._id);
             res.render('index', { usuario });
-        } else {
-            // Si no hay cookie de usuario, redirigir al usuario a la página de inicio de sesión
-            res.redirect('/iniciarsesion');
-        }
+        } 
     } catch (error) {
         console.error('Error al obtener datos del usuario:', error);
         res.status(500).json({ error: 'Error interno al obtener datos del usuario' });

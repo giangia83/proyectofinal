@@ -219,10 +219,9 @@
                       </div>
                       <div class="media-body text-right">
                      
-                        <% if (usuario) { %>
-                          <div>
-                            <h3> <%= usuario.nombre %></h3>
-                            
+                        <% usuario.forEach(function (Usuario) { %>
+                        <h3>  <%= usuario.Name %> </h3>
+                      <% }) %>
                           </div>
                       <% } else { %>
                           <p>Inicia sesión</p>
