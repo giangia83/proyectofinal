@@ -13,7 +13,12 @@ const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
 
+const uploadDirectory = path.join(__dirname, 'uploads');
 
+// Crear la carpeta uploads si no existe
+if (!fs.existsSync(uploadDirectory)) {
+    fs.mkdirSync(uploadDirectory);
+}
 
 // Middleware
 app.use(express.json());
@@ -41,11 +46,11 @@ mongoose.connect(mongoURI, {
 .catch(err => console.error('Error al conectar a la base de datos:', err));
 
 
-
-//storage a
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+//storage 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads'); // Ruta donde se guardarán los archivos de imagen
+        cb(null, 'uploads'); // Ruta relativa correcta
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname); // Nombre original del archivo
@@ -53,7 +58,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage }).single('image');
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 app.post('/upload', (req, res) => {
     upload(req, res, (err) => {
