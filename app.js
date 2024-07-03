@@ -62,7 +62,7 @@ const uploadLocal = multer({
     dest: 'uploads/' // Directorio local temporal para almacenar archivos subidos
 });
 
-const S3_BUCKET_NAME = 'starclean-bucket'; // Reemplaza con el nombre de tu bucket en S3
+const S3_BUCKET_NAME = 'starclean-bucket'; 
 
 
 const uploadS3 = multer({
@@ -142,7 +142,10 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 app.use('/api/users', userRouter);
 
 // Ruta para subir una imagen y guardar un producto
- 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Error interno del servidor');
+});
 
 // Rutas de autenticación y sesión
 app.post('/api/login', async (req, res) => {
