@@ -113,7 +113,7 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.use( 'public', express.static(path.join(__dirname, 'public')));
+app.use('public', express.static(path.join(__dirname, 'public')));
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
 app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocuenta')));
@@ -135,6 +135,7 @@ app.use('/api/users', userRouter);
 
 // Ruta para subir una imagen y guardar un producto
  
+
 
 // Rutas de autenticación y sesión
 app.post('/api/login', async (req, res) => {
@@ -165,16 +166,15 @@ app.post('/api/login', async (req, res) => {
 // Ruta para subir archivos 
 
 app.get('/', (req, res) => {
-    const usuarioCookie = req.session.usuario;
-
-    if (usuarioCookie) {
-        // Si hay una cookie de usuario, mostrar la página de cuenta con el nombre del usuario
-        res.render('index.ejs', { usuario: usuarioCookie });
+    if (req.session.usuario) {
+        // Si hay una sesión de usuario activa, renderizar la vista 'index.ejs' con los datos del usuario
+        res.render('index', { usuario: req.session.usuario });
     } else {
-        // Si no hay cookie de usuario, redirigir al usuario a la página de inicio de sesión
+        // Si no hay sesión de usuario, redirigir al usuario a la página de inicio de sesión
         res.redirect('/iniciarsesion');
     }
 });
+
 
 app.get('/infocuenta', (req, res) => {
     if (req.session.usuario) {
