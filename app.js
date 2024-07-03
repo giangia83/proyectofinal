@@ -9,12 +9,11 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
-/* const multer = require('multer'); */
+const multer = require('multer'); 
 const fs = require('fs');
 const Producto = require("./models/producto")
 const AWS = require('aws-sdk');
-
-
+const multerS3 = require('multer-s3')
 
 
 
@@ -57,54 +56,55 @@ AWS.config.update({
 });
 
 const s3 = new AWS.S3();
+
+// Configuración de multer para subir archivos locales
+const uploadLocal = multer({
+    dest: 'uploads/' // Directorio local temporal para almacenar archivos subidos
+});
+
 const S3_BUCKET_NAME = 'starclean-bucket'; // Reemplaza con el nombre de tu bucket en S3
+
+
+const uploadS3 = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: S3_BUCKET_NAME, // Reemplaza con el nombre de tu bucket en S3
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        acl: 'public-read',
+        key: function (req, file, cb) {
+            cb(null, Date.now().toString() + '-' + file.originalname); // Nombre del archivo en S3
+        }
+    })
+});
 
 // Ruta para subir una imagen y guardar un producto
 // Ruta para subir un archivo a S3 y guardar detalles del producto
-app.post('/upload', async (req, res) => {
+// Ruta para subir una imagen a MongoDB y guardar detalles del producto
+app.post('/upload', uploadS3.single('image'), async (req, res) => {
     try {
         const { nombre, precio, costo, categoria } = req.body;
 
-        // Verificar si hay archivos en la solicitud
-        if (!req.files || !req.files.image) {
+        // Verificar si hay archivo subido a S3
+        if (!req.file) {
             return res.status(400).send('No se ha proporcionado ningún archivo');
         }
 
-        const file = req.files.image;
+        const imageUrl = req.file.location; // URL del archivo en S3
 
-        const params = {
-            Bucket: S3_BUCKET_NAME,
-            Key: Date.now().toString() + '-' + file.name,
-            Body: file.data,
-            ACL: 'public-read',
-            ContentType: file.mimetype
-        };
-
-        // Subir archivo a S3
-        s3.upload(params, async (err, data) => {
-            if (err) {
-                console.error('Error al subir archivo a S3:', err);
-                return res.status(500).send('Error subiendo archivo a S3');
+        // Guardar detalles del producto en la base de datos (ejemplo usando Mongoose)
+        const newProduct = new Producto({
+            nombre,
+            precio,
+            costo,
+            categoria,
+            image: {
+                data: imageUrl,
+                contentType: req.file.mimetype
             }
-
-            console.log('Archivo subido correctamente a S3:', data.Location);
-
-            // Guardar detalles del producto en la base de datos
-            const newProduct = new Producto({
-                nombre,
-                precio,
-                costo,
-                categoria,
-                image: {
-                    data: data.Location,
-                    contentType: file.mimetype
-                }
-            });
-
-            const savedProduct = await newProduct.save();
-            res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
         });
 
+        const savedProduct = await newProduct.save();
+        res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
     } catch (err) {
         console.error('Error al subir archivo o guardar producto:', err);
         res.status(500).send('Error al subir archivo o guardar producto');
