@@ -9,13 +9,13 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
-const multer = require('multer');
+/* const multer = require('multer'); */
 const fs = require('fs');
 const Producto = require("./models/producto")
 const AWS = require('aws-sdk');
 
 
-const multerS3 = require('multer-s3');
+
 
 
 
@@ -58,57 +58,44 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 const S3_BUCKET_NAME = 'starclean-bucket'; // Reemplaza con el nombre de tu bucket en S3
-const upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: S3_BUCKET_NAME,
-        acl: 'public-read', // Permite a cualquiera leer los archivos subidos
-        metadata: function (req, file, cb) {
-            cb(null, { fieldName: file.fieldname });
-        },
-        key: function (req, file, cb) {
-            cb(null, Date.now().toString() + '-' + file.originalname); // Genera una clave única para cada archivo
-        }
-    })
-}).single('image'); // Nombre del campo del formulario que contiene el archiv
 
+// Ruta para subir una imagen y guardar un producto
+app.post('/upload', async (req, res) => {
+    try {
+        const { nombre, precio, costo, categoria } = req.body;
+        const imageFile = req.file; // Archivo subido por el cliente
 
+        // Subir el archivo al bucket de S3
+        const params = {
+            Bucket: S3_BUCKET_NAME,
+            Key: `${Date.now().toString()}-${imageFile.originalname}`, // Genera una clave única para cada archivo
+            Body: fs.createReadStream(imageFile.path),
+            ACL: 'public-read', // Permite a cualquiera leer los archivos subidos
+            ContentType: imageFile.mimetype
+        };
 
+        const data = await s3.upload(params).promise();
 
+        console.log('Archivo subido correctamente:', data.Location);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-app.post('/upload', (req, res) => {
-    upload(req, res, (err) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send('Error subiendo archivo');
-        }
-
-        console.log('Archivo subido correctamente:', req.file);
-
-        const imageUrl = path.join(__dirname, 'uploads', req.file.filename);
-
+        // Guardar detalles del producto en la base de datos
         const newProduct = new Producto({
-            nombre: req.body.nombre,
-            precio: req.body.precio, 
-            costo: req.body.costo,
-            categoria: req.body.categoria,
+            nombre,
+            precio,
+            costo,
+            categoria,
             image: {
-                data: imageUrl, // Guardar la URL 
-                contentType: req.file.mimetype
+                data: data.Location, // Guardar la URL del archivo en S3
+                contentType: imageFile.mimetype
             }
         });
 
-        newProduct.save()
-        .then(savedProduct => {
-            res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send('Error saving image details');
-        });
-    });
+        const savedProduct = await newProduct.save();
+        res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
+    } catch (err) {
+        console.error('Error al subir archivo o guardar producto:', err);
+        res.status(500).send('Error al subir archivo o guardar producto');
+    }
 });
 
 
