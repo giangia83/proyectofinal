@@ -171,7 +171,7 @@ app.get('/home', (req, res) => {
 
     if (usuarioCookie) {
         // Si hay una cookie de usuario, mostrar la página de cuenta con el nombre del usuario
-        res.render('home', { usuario: usuarioCookie });
+        res.render('home/index', { usuario: usuarioCookie });
     } else {
         // Si no hay cookie de usuario, redirigir al usuario a la página de inicio de sesión
         res.redirect('/iniciarsesion');
