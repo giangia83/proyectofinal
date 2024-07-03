@@ -109,7 +109,7 @@ app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/', (req, res) => {
-    res.render(path.join(__dirname, '../views/home/index.ejs'));
+    res.render('home/index'); // No necesitas especificar la extensión .ejs
 });
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
