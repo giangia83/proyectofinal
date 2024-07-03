@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (usuarioCookie) {
         // Si hay una cookie de usuario, redirigir directamente a la página de cuenta
-        window.location.href = '/cuenta';
+        window.location.href = '/home';
     } else {
         // Si no hay cookie de usuario, mostrar la página de inicio de sesión
         console.log('No hay cookie de usuario. Mostrar página de inicio de sesión.');

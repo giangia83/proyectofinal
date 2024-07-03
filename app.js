@@ -14,7 +14,7 @@ const fs = require('fs');
 const Producto = require("./models/producto")
 
 /* marko for html */
-
+let ejs = require('ejs');
 
 const uploadDirectory = path.join(__dirname, 'uploads');
 
@@ -109,7 +109,7 @@ app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/', (req, res) => {
-    res.render('home');
+    res.render(path.join(__dirname, '../views/home/index.ejs'));
 });
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
@@ -166,10 +166,13 @@ app.post('/api/login', async (req, res) => {
 // Ruta para subir archivos 
 
 app.get('/cuenta', (req, res) => {
-    if (req.session.usuario) {
-        console.log(`Bienvenido, ${req.session.usuario.nombre}!`);
-        res.render('cuenta', { usuario: req.session.usuario });
+    const usuarioCookie = req.cookies.usuario;
+
+    if (usuarioCookie) {
+        // Si hay una cookie de usuario, mostrar la página de cuenta con el nombre del usuario
+        res.render('home', { usuario: usuarioCookie });
     } else {
+        // Si no hay cookie de usuario, redirigir al usuario a la página de inicio de sesión
         res.redirect('/iniciarsesion');
     }
 });

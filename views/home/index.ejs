@@ -218,13 +218,15 @@
                         </svg>
                       </div>
                       <div class="media-body text-right">
-                       
-                        <h3>{{ user.nombre }}</h3> <!-- Display user's name -->
-                        <span>Ver perfil</span>
-
-
-
-                        <span>Ver perfil</span>
+                     
+                        <% if (usuario) { %>
+                          <div>
+                            <h3> <%= usuario.nombre %></h3>
+                            
+                          </div>
+                      <% } else { %>
+                          <p>Inicia sesión para ver tu perfil.</p>
+                      <% } %>
                       </div>
                     </div>
                  </a>
