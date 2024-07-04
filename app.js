@@ -67,8 +67,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single('image');
 
 // Middleware para pasar usuario a todas las vistas
-// Middleware para pasar usuario a todas las vistas basado solo en la cookie
-// Middleware para pasar usuario a todas las vistas basado solo en la cookie
+
 app.use((req, res, next) => {
     // Obtener el nombre de usuario desde la cookie 'usuario'
     const usuarioNombre = req.cookies.usuario;
@@ -122,6 +121,8 @@ app.post('/upload', (req, res) => {
 
 
 
+// Rutas de API
+app.use('/api/users', userRouter);
 
 
 // Rutas de archivos estáticos
@@ -142,9 +143,7 @@ app.get('/iniciarsesion', (req, res) => {
 });
 
 app.get('/registrarse', (req, res) => {
-    res.render('registrar/index', {
-        usuario: res.locals.usuario || { nombre: '' }
-    });
+    res.render('registrar/index')
 });
 
 app.get('/tuspedidos', (req, res) => {
@@ -170,8 +169,6 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 
 
 
-// Rutas de API
-app.use('/api/users', userRouter);
 
 // Ruta para subir una imagen y guardar un producto
  
