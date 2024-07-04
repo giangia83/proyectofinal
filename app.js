@@ -208,6 +208,7 @@ app.get('/logout', (req, res) => {
             return res.status(500).json({ error: 'Error al cerrar sesión' });
         }
         res.clearCookie('usuario'); // Borra la cookie 'usuario'
+        req.session.usuario.destroy();
         res.redirect('/'); // Redirige al inicio u otra página después de cerrar sesión
     });
 });
