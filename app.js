@@ -135,7 +135,7 @@ app.get('/iniciarsesion', (req, res) => {
 });
 
 app.get('/tuspedidos', (req, res) => {
-    res.render('pedidos', {
+    res.render('pedidos/index', {
         usuario: req.session.usuario // Puedes pasar el usuario a la vista si es necesario
     });
 });
@@ -207,7 +207,7 @@ app.get('/logout', (req, res) => {
             console.error('Error al cerrar sesión:', err);
             return res.status(500).json({ error: 'Error al cerrar sesión' });
         }
-        req.session.destroy()
+     
         res.clearCookie('usuario'); // Borra la cookie 'usuario'
         res.redirect('/'); // Redirige al inicio u otra página después de cerrar sesión
     });
