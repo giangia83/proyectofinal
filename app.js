@@ -135,7 +135,7 @@ app.get('/', (req, res) => {
 
 
 
-
+/* rutas */
 
 
 app.get('/tuspedidos', (req, res) => {
