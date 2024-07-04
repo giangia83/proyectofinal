@@ -67,18 +67,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single('image');
 
 // Middleware para pasar usuario a todas las vistas
-// Middleware para pasar usuario a todas las vistas
 app.use((req, res, next) => {
-    // Intentar obtener el nombre de usuario de la cookie
-    const usuarioNombre = req.cookies.usuario;
-
-    if (usuarioNombre) {
-        res.locals.usuario = { nombre: usuarioNombre };
+    // Verificar si hay un usuario guardado en la sesión
+    if (req.session.usuario) {
+        res.locals.usuario = req.session.usuario;
+    } else {
+        // Si no hay usuario en la sesión, intentar obtenerlo de la cookie
+        const usuarioNombre = req.cookies.usuario;
+        if (usuarioNombre) {
+            res.locals.usuario = { nombre: usuarioNombre };
+        }
     }
-
     next();
 });
-
 
 
 app.post('/upload', (req, res) => {
@@ -125,7 +126,7 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/', (req, res) => {
     res.render('home/index', {
-        nombre: req.cookies.usuario // Pasar el usuario a la vista
+        usuario: req.session.usuario  // Pasar el usuario a la vista
     });
 });
 
@@ -191,7 +192,13 @@ app.post('/api/login', async (req, res) => {
 
 
 
-
+app.get('/infocuenta', (req, res) => {
+    if (req.session.usuario) {
+        res.render('infocuenta', { usuario: req.session.usuario });
+    } else {
+        res.redirect('/iniciarsesion');
+    }
+});
 
 // Ruta para cerrar sesión
 app.get('/logout', (req, res) => {
