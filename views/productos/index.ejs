@@ -303,11 +303,13 @@
               <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
                   <div class="card rounded shadow-sm border-0 myCard card-add">
                       <div class="card-body p-4">
-                          <img src="<%= producto.file.data %>" alt="" class="img-fluid">
+                          <img src="<%= producto.file.data %>" alt="Imagen del producto" class="img-fluid">
                           <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
                           <p class="small text-muted font-italic"><%= producto.categoria %></p>
-                          <!-- Aquí podrías agregar el resto de la información si la necesitas -->
+                          <!-- Botón para agregar al carrito -->
                           <button class="btn btn-primary addToCart" data-nombre="<%= producto.nombre %>">Agregar al carrito</button>
+                          <!-- Icono de check oculto -->
+                          <span class="check-icon" style="display: none;"><i class="fas fa-check-circle"></i></span>
                       </div>
                   </div>
               </div>
