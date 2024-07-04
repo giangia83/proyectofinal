@@ -92,7 +92,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
     }
 
     // Construir la URL completa del archivo subido
-    const imageUrl = path.join(__dirname, 'uploads', req.file.filename);
+    const imageUrl = '/uploads/' + req.file.filename;
 
     // Crear un nuevo objeto Producto con los datos recibidos
     const newProduct = new Producto({
