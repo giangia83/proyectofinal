@@ -142,11 +142,6 @@ app.get('/iniciarsesion', (req, res) => {
     });
 });
 
-app.get('/gestion', (req, res) => {
-    res.render('gestionar/index', {
-        usuario: res.locals.usuario || { nombre: '' }
-    });
-});
 
 
 
