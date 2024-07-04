@@ -79,3 +79,4 @@ function getCookie(usuario) {
     const cookieValue = document.cookie.match('(^|;)\\s*' + usuario + '\\s*=\\s*([^;]+)');
     return cookieValue ? cookieValue.pop() : null;
 }
+

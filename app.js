@@ -67,19 +67,18 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single('image');
 
 // Middleware para pasar usuario a todas las vistas
+// Middleware para pasar usuario a todas las vistas
 app.use((req, res, next) => {
-    // Verificar si hay un usuario guardado en la sesión
-    if (req.session.usuario) {
-        res.locals.usuario = req.session.usuario;
-    } else {
-        // Si no hay usuario en la sesión, intentar obtenerlo de la cookie
-        const usuarioNombre = req.cookies.usuario;
-        if (usuarioNombre) {
-            res.locals.usuario = { nombre: usuarioNombre };
-        }
+    // Intentar obtener el nombre de usuario de la cookie
+    const usuarioNombre = req.cookies.usuario;
+
+    if (usuarioNombre) {
+        res.locals.usuario = { nombre: usuarioNombre };
     }
+
     next();
 });
+
 
 
 app.post('/upload', (req, res) => {
@@ -126,7 +125,7 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/', (req, res) => {
     res.render('home/index', {
-        usuario: req.session.usuario || { nombre: req.cookies.usuario } // Pasar el usuario a la vista
+        nombre: req.cookies.usuario // Pasar el usuario a la vista
     });
 });
 
@@ -192,13 +191,7 @@ app.post('/api/login', async (req, res) => {
 
 
 
-app.get('/infocuenta', (req, res) => {
-    if (req.session.usuario) {
-        res.render('infocuenta', { usuario: req.session.usuario });
-    } else {
-        res.redirect('/iniciarsesion');
-    }
-});
+
 
 // Ruta para cerrar sesión
 app.get('/logout', (req, res) => {
@@ -207,8 +200,8 @@ app.get('/logout', (req, res) => {
             console.error('Error al cerrar sesión:', err);
             return res.status(500).json({ error: 'Error al cerrar sesión' });
         }
+        req.session.destroy()
         res.clearCookie('usuario'); // Borra la cookie 'usuario'
-        req.session.usuario.destroy();
         res.redirect('/'); // Redirige al inicio u otra página después de cerrar sesión
     });
 });
