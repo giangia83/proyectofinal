@@ -120,7 +120,13 @@ app.post('/upload', (req, res) => {
 
 
 
-
+app.use((req, res, next) => {
+    if (req.url.slice(-1) === '?') {
+        res.redirect(301, req.url.slice(0, -1)); // Redirecciona eliminando el signo de interrogación
+    } else {
+        next(); // Continúa con la siguiente ruta
+    }
+});
 // Rutas de API
 app.use('/api/users', userRouter);
 
@@ -169,13 +175,7 @@ app.use('/administrar', express.static(path.resolve(__dirname, 'views', 'admin')
 app.use('/cotizaciones', express.static(path.resolve(__dirname, 'views', 'cotizaciones')));
 app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'productos')));
 
-app.use((req, res, next) => {
-    if (req.url.slice(-1) === '?') {
-        res.redirect(301, req.url.slice(0, -1)); // Redirecciona eliminando el signo de interrogación
-    } else {
-        next(); // Continúa con la siguiente ruta
-    }
-});
+
 
 
 
