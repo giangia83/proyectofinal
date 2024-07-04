@@ -58,7 +58,7 @@ mongoose.connect(mongoURI, {
 //storage 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads')
+        cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Nombre original del archivo
@@ -85,7 +85,7 @@ app.use((req, res, next) => {
 });
 
 
-app.post('/upload', upload.single('image'), (req, res) => {
+app.post('/upload', upload.single('file'), (req, res) => {
     // Verificar si se subió un archivo correctamente
     if (!req.file) {
         return res.status(400).send('No se ha cargado ningún archivo');
@@ -100,7 +100,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
         precio: req.body.precio,
         costo: req.body.costo,
         categoria: req.body.categoria,
-        image: {
+        file: {
             data: imageUrl, // Guardar la URL completa del archivo
             contentType: req.file.mimetype
         }

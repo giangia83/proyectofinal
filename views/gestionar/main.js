@@ -5,11 +5,11 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
     const nombre = document.getElementById('inputNombre').value;
     const costo = document.getElementById('inputCosto').value;
     const precio = document.getElementById('inputPrecio').value;
-    const image = document.getElementById('inputImagen').files[0]; // Archivo de imagen seleccionado
+    const file = document.getElementById('inputImagen').files[0]; // Archivo de imagen seleccionado
     const categoria = document.querySelector('#dropdownCategoria .dropdown-item.active'); // Obtener la categoría seleccionada
 
     // Validar que los campos no estén vacíos
-    if (nombre.trim() === '' || costo.trim() === '' || precio.trim() === '' || !image || !categoria) {
+    if (nombre.trim() === '' || costo.trim() === '' || precio.trim() === '' || !file|| !categoria) {
         alert('Todos los campos son requeridos, incluyendo la categoría');
         return;
     }
@@ -22,7 +22,7 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
     formData.append('nombre', nombre);
     formData.append('costo', costo);
     formData.append('precio', precio);
-    formData.append('image', image);
+    formData.append('file', file);
     formData.append('categoria', categoriaSeleccionada);
 
     try {
