@@ -171,7 +171,7 @@ app.use('/administrar', express.static(path.resolve(__dirname, 'views', 'admin')
 app.use('/cotizaciones', express.static(path.resolve(__dirname, 'views', 'cotizaciones')));
 app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'productos')));
 
-
+app.use("/main",express.static(__dirname + '/main'));
 
 
 
