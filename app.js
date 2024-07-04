@@ -121,8 +121,7 @@ app.post('/upload', (req, res) => {
 
 
 
-// Rutas de API
-app.use('/api/users', userRouter);
+
 
 
 // Rutas de archivos estáticos
@@ -174,7 +173,8 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 
 
 // Ruta para subir una imagen y guardar un producto
- 
+ // Rutas de API
+app.use('/api/users', userRouter);
 
 
 // Rutas de autenticación y sesión
