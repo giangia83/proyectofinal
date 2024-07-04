@@ -146,13 +146,14 @@
         </svg>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <% if (usuario) { %>
+          <% if  (usuario && usuario.nombre) { %>
               <!-- Mostrar solo si el usuario está autenticado -->
               <li><a class="dropdown-item" href="/cuenta">Cuenta</a></li>
               <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
           <% } else { %>
               <!-- Mostrar solo si el usuario no está autenticado -->
               <li><a class="dropdown-item" href="/iniciarsesion">Iniciar sesión</a></li>
+              <li><a class="dropdown-item" href="/registrarse">Registrarse</a></li>
           <% } %>
       </ul>
       
@@ -212,7 +213,7 @@
               <div class="card card-special">
                 <div class="card-content">
                   <div class="card-body">
-                    <a href=/iniciarsesion class="link-none-two">
+                    <a class="link-none-two"  <% if (usuario && usuario.nombre) { %>href="/infocuenta"<% } else { %>href="/iniciarsesion"<% } %>>
                     <div class="media d-flex">
                       <div class="align-self-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="116" height="46" fill="currentColor"

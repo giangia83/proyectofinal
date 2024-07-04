@@ -141,6 +141,12 @@ app.get('/iniciarsesion', (req, res) => {
     });
 });
 
+app.get('/registrarse', (req, res) => {
+    res.render('registrar/index', {
+        usuario: res.locals.usuario || { nombre: '' }
+    });
+});
+
 app.get('/tuspedidos', (req, res) => {
     res.render('pedidos/index', {
         usuario: req.session.usuario // Puedes pasar el usuario a la vista si es necesario
