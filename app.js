@@ -143,7 +143,7 @@ app.get('/iniciarsesion', (req, res) => {
 });
 
 app.get('/registrarse', (req, res) => {
-    res.render('registrar/index')
+    res.render('registrar/index/')
 });
 
 app.get('/tuspedidos', (req, res) => {
