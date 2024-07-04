@@ -139,11 +139,6 @@ app.get('/', (req, res) => {
 
 /* rutas */
 
-app.get('/verproductos', (req, res) => {
-    res.render('productos/index', {
-        usuario: req.session.usuario // Puedes pasar el usuario a la vista si es necesario
-    });
-});
 
 app.get('/tuspedidos', (req, res) => {
     res.render('pedidos/index', {
