@@ -54,7 +54,7 @@ mongoose.connect(mongoURI, {
 .catch(err => console.error('Error al conectar a la base de datos:', err));
 
 
-
+app.use('/upload', express.static(path.join(__dirname, 'uploads')));
 //storage 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -142,7 +142,11 @@ app.get('/iniciarsesion', (req, res) => {
     });
 });
 
-
+app.get('/gestion', (req, res) => {
+    res.render('gestionar/index', {
+        usuario: res.locals.usuario || { nombre: '' }
+    });
+});
 
 
 
