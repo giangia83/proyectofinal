@@ -149,7 +149,7 @@ app.get('/tuspedidos', (req, res) => {
 app.get('/verproductos', async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
-        res.render('productos/index', { productos }); // Renderizar la vista 'productos/index' con los productos obtenidos
+        res.render('productos/index', { productos, usuario: req.session.usuario }); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');

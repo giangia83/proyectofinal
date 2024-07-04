@@ -218,8 +218,8 @@
                         </svg>
                       </div>
                       <div class="media-body text-right">
-                        <h3>Gianfranco</h3>
-                        <span>Ver perfil</span>
+                      <h3>1</h3>
+                      </ul>
                       </div>
                     </div>
                  </a>
@@ -301,7 +301,7 @@
         <div class="row pb-5 mb-4">
           <% productos.forEach(producto => { %>
               <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                  <div class="card rounded shadow-sm border-0 myCard card-add">
+                  <div class="card rounded shadow-sm border-0 myCard card-add" data-producto-id="<%= producto._id %>">
                       <div class="card-body p-4">
                           <!-- Imagen del producto -->
                           <img src="<%= producto.file.data %>" alt="Imagen del producto" class="img-fluid product-image">
@@ -316,7 +316,6 @@
               </div>
           <% }); %>
       </div>
-  </div>
       
 
 
