@@ -146,8 +146,14 @@ app.get('/tuspedidos', (req, res) => {
     });
 });
 
-app.get('/verproductos', (req, res) => {
-    res.render('productos/index'); // Renderizar la vista 'productos' cuando se acceda a /verproductos
+app.get('/verproductos', async (req, res) => {
+    try {
+        const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
+        res.render('productos/index', { productos }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
 });
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
