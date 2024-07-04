@@ -68,6 +68,7 @@ const upload = multer({ storage: storage }).single('image');
 
 // Middleware para pasar usuario a todas las vistas
 // Middleware para pasar usuario a todas las vistas basado solo en la cookie
+// Middleware para pasar usuario a todas las vistas basado solo en la cookie
 app.use((req, res, next) => {
     // Obtener el nombre de usuario desde la cookie 'usuario'
     const usuarioNombre = req.cookies.usuario;
@@ -129,12 +130,15 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/', (req, res) => {
     res.render('home/index', {
-        usuario: req.session.usuario || { nombre: req.cookies.usuario } // Pasar el usuario a la vista
+        usuario: res.locals.usuario || { nombre: '' }  // Si no hay usuario, pasa un objeto vacío o maneja según tu lógica
     });
 });
 
+// Ruta para la página de inicio de sesión
 app.get('/iniciarsesion', (req, res) => {
-    res.render('iniciar/index');
+    res.render('iniciar/index', {
+        usuario: res.locals.usuario || { nombre: '' }
+    });
 });
 
 app.get('/tuspedidos', (req, res) => {
