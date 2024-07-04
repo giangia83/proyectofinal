@@ -278,8 +278,6 @@
               </div>
             </div>
           </div>
-
-
         </div>
 
 
@@ -298,115 +296,24 @@
         <h2 class="font-weight-bold mb-2">Selecciona los productos que necesitas    </h2>           </h2> 
         <p class="font-italic text-muted mb-4">Este es el primer paso para realizar tu cotización <span class="badge bg-primary">1/3</span>  </p> 
 
+
+
         <div class="row pb-5 mb-4">
-          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-            <!-- Card-->
-            <div class="card rounded shadow-sm border-0 card-add">
-              <div class="card-body p-4" ><img
-                  src="https://http2.mlstatic.com/D_Q_NP_814274-MLA49501174437_032022-V.webp" alt="" class="img-fluid ">
-                <h5> <a href="#" class="text-dark">Mopa n3</a></h5>
-                <p class="small text-muted font-italic">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-       
+          <% productos.forEach(producto => { %>
+              <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                  <div class="card rounded shadow-sm border-0 myCard card-add">
+                      <div class="card-body p-4">
+                          <img src="<%= producto.file.data %>" alt="" class="img-fluid">
+                          <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
+                          <p class="small text-muted font-italic"><%= producto.categoria %></p>
+                          <!-- Aquí podrías agregar el resto de la información si la necesitas -->
+                          <button class="btn btn-primary addToCart" data-nombre="<%= producto.nombre %>">Agregar al carrito</button>
+                      </div>
+                  </div>
               </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-            <!-- Card-->
-            <div class="card rounded shadow-sm border-0">
-              <div class="card-body p-4"><img
-                  src="https://http2.mlstatic.com/D_Q_NP_653892-MLA49501174410_032022-V.webp" alt="" class="img-fluid">
-                <h5> <a href="#" class="text-dark">Awesome product</a></h5>
-                <p class="small text-muted font-italic">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-            <!-- Card-->
-
-            <div class="card rounded shadow-sm border-0">
-              <div class="card-body p-4"><img
-                  src="https://http2.mlstatic.com/D_Q_NP_653892-MLA49501174410_032022-V.webp" alt="" class="img-fluid ">
-                <h5> <a href="#" class="text-dark">Awesome product</a></h5>
-                <p class="small text-muted font-italic">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-            <!-- Card-->
-
-            <div class="card rounded shadow-sm border-0">
-              <div class="card-body p-4"><img
-                  src="https://http2.mlstatic.com/D_Q_NP_653892-MLA49501174410_032022-V.webp" alt="" class="img-fluid ">
-                <h5> <a href="#" class="text-dark">Awesome product</a></h5>
-                <p class="small text-muted font-italic">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-            <!-- Card-->
-
-            <div class="card rounded shadow-sm border-0">
-              <div class="card-body p-4"><img
-                  src="https://http2.mlstatic.com/D_Q_NP_653892-MLA49501174410_032022-V.webp" alt="" class="img-fluid ">
-                <h5> <a href="#" class="text-dark">Awesome product</a></h5>
-                <p class="small text-muted font-italic">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-            <!-- Card-->
-
-            <div class="card rounded shadow-sm border-0">
-              <div class="card-body p-4"><img
-                  src="https://http2.mlstatic.com/D_Q_NP_653892-MLA49501174410_032022-V.webp" alt="" class="img-fluid">
-                <h5> <a href="#" class="text-dark">Awesome product</a></h5>
-                <p class="small text-muted font-italic">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-            <!-- Card-->
-
-
-            <div class="card rounded shadow-sm border-0">
-              <div class="card-body p-4"><img
-                  src="https://http2.mlstatic.com/D_Q_NP_653892-MLA49501174410_032022-V.webp" alt="" class="img-fluid ">
-                <h5> <a href="#" class="text-dark">Awesome product</a></h5>
-                <p class="small text-muted font-italic">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-            <!-- Card-->
-
-
-            <div class="card rounded shadow-sm border-0">
-              <div class="card-body p-4"><img
-                  src="https://http2.mlstatic.com/D_Q_NP_728686-MLA49501174352_032022-V.webp" alt="" class="img-fluid ">
-                <h5> <a href="#" class="text-dark">Awesome product</a></h5>
-                <p class="small text-muted font-italic">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-       
+          <% }); %>
+      </div>
+      
 
 
 
@@ -551,7 +458,7 @@
 
 
 
-
+<script src="main.js"></script>
 </body>
 
 </html>

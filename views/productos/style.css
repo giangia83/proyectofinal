@@ -700,26 +700,45 @@ font-size: 15px;
 
         }
 
-        .card-add{
-
-            transition: all 25ms;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-           
-          
-
+        .card-add {
+            transition: transform 0.3s ease;
+            border: 1px solid transparent;
+            overflow: hidden;
+            cursor: pointer; /* Cambiar el cursor al hacer hover */
+            position: relative; /* Necesario para posicionar el icono */
             
-        }
-
-        .card-add:hover{
+          }
         
-            transition: all 259ms;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-            transition: transform 4.3s ease,;
-            transform: scale(1.05); /* Hace la card un 5% más grande */
-
+          .card-add:hover {
             
-        }
+            border-color: #0D6EFD;
+            transform: scale(1.05);
+          }
+        
+          .card-add .card-body {
+            position: relative; /* Ajustar posición del icono */
+          }
+        
+          .check-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0); /* Escala inicial del icono */
+            transition: transform 0.3s ease; /* Transición para la escala */
+          }
+        
+          .selected .check-icon {
+            transform: translate(-50%, -50%) scale(1); /* Mostrar el icono al hacer click */
+          }
+        
+          .img-fluid {
+            transition: opacity 0.3s ease; /* Transición de opacidad para la imagen */
+          }
+        
+          .selected .img-fluid {
+            opacity: 0; /* Ocultar la imagen cuando está seleccionado */
+          }
+        
+          .hidden {
+            display: none; /* Ocultar el elemento cuando tiene la clase 'hidden' */
+          }
