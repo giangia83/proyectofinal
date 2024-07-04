@@ -151,6 +151,10 @@ app.get('/tuspedidos', (req, res) => {
     });
 });
 
+app.get('/verproductos', (req, res) => {
+    res.render('productos/index'); // Renderizar la vista 'productos' cuando se acceda a /verproductos
+});
+
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
