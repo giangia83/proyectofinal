@@ -133,12 +133,6 @@ app.get('/', (req, res) => {
     });
 });
 
-// Ruta para la página de inicio de sesión
-app.get('/iniciarsesion', (req, res) => {
-    res.render('iniciar/index', {
-        usuario: res.locals.usuario || { nombre: '' }
-    });
-});
 
 
 
