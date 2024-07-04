@@ -146,9 +146,11 @@
         </svg>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href="/tuspedidos">Pedidos</a></li>
+        
           <% if (usuario) { %>
+            
               <!-- Mostrar solo si el usuario está autenticado -->
+              <li><a class="dropdown-item" href="/cuenta">Cuenta</a></li>
               <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
           <% } else { %>
               <!-- Mostrar solo si el usuario no está autenticado -->

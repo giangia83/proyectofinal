@@ -135,7 +135,9 @@ app.get('/iniciarsesion', (req, res) => {
 });
 
 app.get('/tuspedidos', (req, res) => {
-    res.render('pedidos/index');
+    res.render('pedidos', {
+        usuario: req.session.usuario // Puedes pasar el usuario a la vista si es necesario
+    });
 });
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
