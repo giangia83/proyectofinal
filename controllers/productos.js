@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
 
-// Ruta para obtener todos los productos
+// Ruta para obtener todos los productos (API)
 router.get('/productos', async (req, res) => {
     try {
         const productos = await Producto.find();
@@ -14,10 +14,10 @@ router.get('/productos', async (req, res) => {
 });
 
 // Ruta para renderizar la vista con productos
-router.get('/productos', async (req, res) => {
+router.get('/verproductos', async (req, res) => {
     try {
         const productos = await Producto.find();
-        res.render('productos', { productos }); // Aquí renderiza la vista 'productos' con los productos obtenidos
+        res.render('productos', { productos }); // Renderiza la vista 'productos' con los productos obtenidos
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Error al obtener productos' });

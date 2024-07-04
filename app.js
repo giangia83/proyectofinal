@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
+const productosRouter = require('./controllers/productos');
+
 const compression = require('compression');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -171,7 +173,7 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 // Ruta para subir una imagen y guardar un producto
  // Rutas de API
 app.use('/api/users', userRouter);
-
+app.use('/api', productosRouter); // Ruta base para las rutas del enrutador de productos
 
 // Rutas de autenticación y sesión
 app.post('/api/login', async (req, res) => {
