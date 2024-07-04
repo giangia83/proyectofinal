@@ -85,38 +85,36 @@ app.use((req, res, next) => {
 });
 
 
-
 app.post('/upload', upload.single('image'), (req, res) => {
-    upload(req, res, (err) => {
-        if (!req.file) {
-            console.log(err);
-            return res.status(400).send('No se ha cargado ningun archivo');
+    // Verificar si se subió un archivo correctamente
+    if (!req.file) {
+        return res.status(400).send('No se ha cargado ningún archivo');
+    }
+
+    // Construir la URL completa del archivo subido
+    const imageUrl = path.join(__dirname, 'uploads', req.file.filename);
+
+    // Crear un nuevo objeto Producto con los datos recibidos
+    const newProduct = new Producto({
+        nombre: req.body.nombre,
+        precio: req.body.precio,
+        costo: req.body.costo,
+        categoria: req.body.categoria,
+        image: {
+            data: imageUrl, // Guardar la URL completa del archivo
+            contentType: req.file.mimetype
         }
-        res.send(`Archivo cargado: ${req.file.filename}`); 
-        console.log('Archivo subido correctamente:', req.file);
+    });
 
-        const imageUrl = path.join(__dirname, 'uploads', req.file.filename);
-
-        const newProduct = new Producto({
-            nombre: req.body.nombre,
-            precio: req.body.precio, 
-            costo: req.body.costo,
-            categoria: req.body.categoria,
-            image: {
-                data: imageUrl, // Guardar la URL 
-                contentType: req.file.mimetype
-            }
-        });
-
-        newProduct.save()
+    // Guardar el producto en la base de datos
+    newProduct.save()
         .then(savedProduct => {
             res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).send('Error saving image details');
+            console.error('Error al guardar el producto:', err);
+            res.status(500).send('Error al guardar el producto en la base de datos');
         });
-    });
 });
 
 
