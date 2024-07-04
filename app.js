@@ -58,14 +58,14 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //storage 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname,'./public/upload'))
+        cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname); // Nombre original del archivo
-    },
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Nombre original del archivo
+    }
 });
 
-const upload = multer({ storage: storage }).single('image');
+const upload = multer({ storage: storage });
 
 // Middleware para pasar usuario a todas las vistas
 
@@ -86,13 +86,13 @@ app.use((req, res, next) => {
 
 
 
-app.post('/upload', (req, res) => {
+app.post('/upload', upload.single('image'), (req, res) => {
     upload(req, res, (err) => {
-        if (err) {
+        if (!req.file) {
             console.log(err);
-            return res.status(500).send('Error subiendo archivo');
+            return res.status(400).send('No se ha cargado ningun archivo');
         }
-
+        res.send(`Archivo cargado: ${req.file.filename}`); 
         console.log('Archivo subido correctamente:', req.file);
 
         const imageUrl = path.join(__dirname, 'uploads', req.file.filename);
