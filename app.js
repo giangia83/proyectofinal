@@ -149,7 +149,7 @@ app.get('/tuspedidos', (req, res) => {
 app.get('/verproductos', async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
-        res.render('productos/index', { productos, usuario: req.session.usuario, nombre: usuarioNombre }); // Renderizar la vista 'productos/index' con los productos obtenidos
+        res.render('productos/index', { productos, usuario: req.session.usuario }); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');
@@ -206,29 +206,8 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// Ruta para obtener el usuario actual basado en la sesión
-app.get('/api/getCurrentUser', async (req, res) => {
-    try {
-        if (!req.session.usuario) {
-            return res.status(401).json({ error: 'Usuario no autenticado' });
-        }
 
-        // Aquí obtienes los datos del usuario de req.session.usuario
-        const userData = {
-            nombre: req.session.usuario.nombre,
-            correo: req.session.usuario.correo,
-            direccion: req.session.usuario.direccion,
-            ciudad: req.session.usuario.ciudad,
-            rif: req.session.usuario.rif,
-            // Agregar otros datos según sea necesario
-        };
 
-        res.status(200).json(userData);
-    } catch (error) {
-        console.error('Error al obtener usuario:', error);
-        res.status(500).json({ error: 'Error interno al obtener usuario' });
-    }
-});
 
 
 
