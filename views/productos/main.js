@@ -27,14 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (card.classList.contains('selected')) {
                 // Deshacer selección
-              
+                card.classList.remove('selected');
                 checkIcon.classList.add('hidden'); // Ocultar el ícono de check
+                card.style.transform = 'scale(1)'; // Restaurar tamaño normal de la tarjeta
                 const productId = card.getAttribute('data-producto-id');
                 removeFromCart(productId);
             } else {
                 // Seleccionar
                 card.classList.add('selected');
                 checkIcon.classList.remove('hidden'); // Mostrar el ícono de check
+                card.style.transform = 'scale(0.95)'; // Reducir tamaño de la tarjeta al seleccionar
                 const productId = card.getAttribute('data-producto-id');
                 const productName = card.querySelector('h5 a').textContent;
                 const productCategory = card.querySelector('.font-italic').textContent;
@@ -67,3 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(`Producto con ID ${productId} eliminado del carrito.`);
     }
 });
+
+function irAVerCarrito() {
+    // Obtener productos seleccionados del localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Redireccionar a la página /vercarrito y pasar los productos como parámetro
+    window.location.href = '/vercarrito?productos=' + encodeURIComponent(JSON.stringify(cart));
+}
