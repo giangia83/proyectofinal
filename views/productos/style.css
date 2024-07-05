@@ -700,7 +700,6 @@ font-size: 15px;
 
         }
 /* styles.css */
-
 .card-add {
     transition: transform 0.3s ease;
     border: 1px solid transparent;
@@ -722,12 +721,13 @@ font-size: 15px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 0;
 }
 
 .myCard.selected .check-icon {
     transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
 }
 
 .img-fluid {
@@ -740,10 +740,9 @@ font-size: 15px;
 }
 
 .myCard {
-    transition: transform 0.3s ease-out, opacity 0.3 ease;
+    transition: transform 0.3s ease-out, opacity 0.3s ease;
     cursor: pointer;
     position: relative;
-    
 }
 
 .myCard.selected {
@@ -761,11 +760,6 @@ font-size: 15px;
 }
 
 .selected .product-image {
-    filter: blur(4px); /* Hace la imagen borrosa */
-    opacity: 0.7; /* Reduce la opacidad de la imagen */
-}
-
-.selected .check-icon {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
+    filter: blur(4px);
+    opacity: 0.7;
 }
