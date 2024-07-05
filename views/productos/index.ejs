@@ -298,24 +298,43 @@
 
 
 
-        <div class="row pb-5 mb-4">
-          <% productos.forEach(producto => { %>
-              <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                  <div class="card rounded shadow-sm border-0 addToCart myCard card-add" data-producto-id="<%= producto._id %>">
-                      <div class="card-body p-4">
-                          <!-- Imagen del producto -->
-                          <img src="<%= producto.file.data %>" alt="Imagen del producto" class="img-fluid product-image">
-                          <!-- Nombre del producto -->
-                          <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
-                          <!-- Categoría del producto -->
-                          <p class="small text-muted font-italic"><%= producto.categoria %></p>
-                          <!-- Icono de check oculto -->
-                          <span class="check-icon hidden"><i class="fas fa-check-circle"></i></span>
-                      </div>
-                  </div>
+     <div class="row pb-5 mb-4">
+    <% productos.forEach(producto => { %>
+        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <div class="card rounded shadow-sm border-0 addToCart myCard card-add" data-producto-id="<%= producto._id %>">
+                <div class="card-body p-4">
+                    <!-- Imagen del producto -->
+                    <img src="<%= producto.file.data %>" alt="Imagen del producto" class="img-fluid product-image">
+                    <!-- Nombre del producto -->
+                    <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
+                    <!-- Categoría del producto -->
+                    <p class="small text-muted font-italic"><%= producto.categoria %></p>
+                    <!-- Icono de check oculto -->
+                    <span class="check-icon hidden"><i class="fas fa-check-circle"></i></span>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+</div>
+<div class="row pb-5 mb-4">
+  <% productos.forEach(producto => { %>
+      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+          <div class="card rounded shadow-sm border-0 addToCart myCard card-add" data-producto-id="<%= producto._id %>">
+              <div class="card-body p-4">
+                  <!-- Imagen del producto -->
+                  <img src="<%= producto.file.data %>" alt="Imagen del producto" class="img-fluid product-image">
+                  <!-- Nombre del producto -->
+                  <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
+                  <!-- Categoría del producto -->
+                  <p class="small text-muted font-italic"><%= producto.categoria %></p>
+                  <!-- Icono de check oculto -->
+                  <span class="check-icon hidden"><i class="fas fa-check-circle"></i></span>
               </div>
-          <% }); %>
+          </div>
       </div>
+  <% }); %>
+</div>
+
       
 
 
