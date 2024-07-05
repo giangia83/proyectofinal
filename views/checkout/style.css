@@ -357,11 +357,7 @@ margin-bottom: 1.5rem;
 }
 
 
-.cuentainfo{
-margin-top: -6rem;
 
-
-}
 
 /* Media queries para hacer la tarjeta más receptiva */
 
@@ -493,11 +489,7 @@ nav ul li a:hover {
     }
 
 
-.cuentainfo{
 
-display: none;
-
-}
 
     .col-lg-3{
 
@@ -576,19 +568,7 @@ justify-content: right;
 
    }
 
-    h3{
-
-font-size: 15px;
-
-    }
-    .media-body, text-right{
-
-        font-size: 10px;
-        margin-top: 5rem;
-
-
-
-    }
+ 
 
     .show{
 
@@ -700,71 +680,16 @@ font-size: 15px;
 
         }
 
-        .card-add {
-            transition: transform 0.3s ease;
-            border: 1px solid transparent;
-            overflow: hidden;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .card-add:hover {
-            transform: scale(1.05);
-        }
-        
-        .card-add .card-body {
-            position: relative;
-        }
-        
-        .check-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
-        }
-        
-        .myCard.selected .check-icon {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-        
-        .img-fluid {
-            transition: filter 0.3s ease, opacity 0.3s ease;
-        }
-        
-        .myCard.selected .img-fluid {
-            filter: blur(3px);
-            opacity: 0;
-        }
-        
-        .myCard {
-            transition: transform 0.3s ease-out, opacity 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .myCard.selected {
-            transform: scale(0.95);
-        }
-        
-        .myCard .card-body {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .myCard.selected .card-body {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .selected .product-image {
-            filter: blur(4px);
-            opacity: 0.7;
-        }
-        
         .texto-info{
 
             margin-top:-5rem ;
         }
+
+
+
+
+
+/*  */
+
+
+

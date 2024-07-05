@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Starclean C.A</title>
+
+
+
+  <!-- BOOTSTRAP -->
+
+  <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+  <!-- Icono de la pestaña del navegador -->
+  <link rel="stylesheet" href="/views/productos/style.css">
+  <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
+</head>
+
+<body>
+
+
+
+
+
+
+
+  <header>
+  
+    <!-- Sección izquierda del encabezado -->
+    <div class="header-left">
+      <div class="logo-star">
+      <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px">    </a>
+     
+     
+     
+     
+     
+
+    </div>
+
+
+
+
+    
+      <!-- Menú desplegable de la cuenta -->
+      <div class="margin-left-header">
+
+        <div class="dropdown">
+          <a class="btn btn-secondary dropdown-toggle btn-special" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+            Categorías
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <li><button class="dropdown-item" type="button">Limpieza</button></li>
+            <li><button class="dropdown-item" type="button">Seguridad industrial</button></li>
+            <li><button class="dropdown-item" type="button">Papelería</button></li>
+          </ul>
+        </div>
+
+       
+
+      
+        
+      </div>
+
+
+        <a href=/tuspedidos class="btn btn-secondary e btn-special" type="button" aria-expanded="false">
+          Mis compras
+        </a>
+       
+        <a href=/servicioalcliente class="btn btn-secondary e btn-special" type="button" aria-expanded="false">
+          Contacto
+        </a>
+       
+
+
+     
+
+
+      
+    </div>
+    </div>
+    <!-- Sección central del encabezado -->
+    <div class="header-center">
+      <!-- Barra de búsqueda -->
+      <input type="text" class="form-control" placeholder="  Buscar producto"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+    
+      <a  href=/cuenta class="btn btn-secondary e btn-special" type="button" aria-expanded="false">
+        Mi cuenta
+     </a>
+
+    
+      
+
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+           
+            <div class="modal-body">
+              <div class="card" style="width: 18rem;">
+
+
+
+
+
+                
+                <ul class="list-group list-group-flush expand">
+                  <li class="list-group-item">An item</li>
+                  <li class="list-group-item">A second item</li>
+                  <li class="list-group-item">A third item</li>
+                </ul>
+              
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary show" data-bs-dismiss="modal">Cerrar</button>
+         
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+    </div>
+    <!-- Sección derecha del encabezado -->
+    <div class="header-right">
+      <!-- Enlace al inicio -->
+
+      <div class="dropdown hover-dropdown">
+
+        <svg xmlns="http://www.w3.org/2000/svg" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+          aria-expanded="false" class="icon icon-tabler icon-tabler-user-circle" width="42" height="42"
+          viewBox="0 0 24 24" stroke-width="1" stroke="#000000" fill="none" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+          <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+          <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+        </svg>
+        </button>
+        <ul class="dropdown-menu "  aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="/tuspedidos">Pedidos</a></li>
+          <li><a class="dropdown-item" href="/iniciarsesion">Iniciar sesión</a></li>
+
+
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <img src="/public/img/starcleanfull1.webp" class="img-fluid hero">
+      
+    </div>
+    <div class="container">
+      <!-- Content here -->
+
+
+
+
+      
+
+
+      <div class="container py-5">
+        <!-- For Demo Purpose-->
+
+
+
+
+
+
+    
+
+
+
+
+        <!--  -->
+
+<div class="texto-info">
+        <!-- First Row [Prosucts]-->
+        <h2 class="font-weight-bold mb-2">Selecciona los productos que necesitas    </h2>           </h2> 
+        <p class="font-italic text-muted mb-4">Este es el primer paso para realizar tu cotización  </p> 
+      </div>
+
+
+       <div class="row pb-5 mb-4">
+    <% productos.forEach(producto => { %>
+        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <div class="card rounded shadow-sm border-0 myCard card-add" data-producto-id="<%= producto._id %>">
+                <div class="card-body p-4">
+                    <!-- Contenedor para la imagen y el ícono -->
+                    <div class="image-container">
+                        <!-- Imagen del producto -->
+                        <img src="<%= producto.file.data %>" alt="Imagen del producto" class="img-fluid product-image">
+                        <!-- Imagen del check -->
+                        <img src="/public/img/icons8-check-48.png" alt="Check" class="check-icon hidden">
+                    </div>
+                    <!-- Nombre del producto -->
+                    <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
+                    <!-- Categoría del producto -->
+                    <p class="small text-muted font-italic"><%= producto.categoria %></p>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+</div>
+
+        
+        <button class="continueButton btn btn-5">Continuar</button>
+
+
+
+      
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+  </main>
+
+
+
+
+
+
+
+
+
+
+<script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/views/productos/main.js">
+
+
+
+
+
+
+  
+</script>
+</body>
+
+</html>

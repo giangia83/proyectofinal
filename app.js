@@ -156,9 +156,20 @@ app.get('/verproductos', async (req, res) => {
     }
 });
 
+app.get('/vercarrito', async (req, res) => {
+    try {
+        const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
+        res.render('carrito/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
+
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/cuenta', express.static(path.resolve(__dirname, 'views', 'cuenta')));
+app.use('/vercarrito', express.static(path.resolve(__dirname, 'views', 'carrito')));
 app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocuenta')));
 app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
 app.use('/tuspedidos', express.static(path.resolve(__dirname, 'views', 'pedidos')));
