@@ -28,13 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (card.classList.contains('selected')) {
                 // Deshacer selección
                 card.classList.remove('selected');
-                checkIcon.style.transform = 'scale(0)'; // Ocultar el ícono de check
+                checkIcon.classList.add('hidden'); // Ocultar el ícono de check
                 const productId = card.getAttribute('data-producto-id');
                 removeFromCart(productId);
             } else {
                 // Seleccionar
                 card.classList.add('selected');
-                checkIcon.style.transform = 'scale(1)'; // Mostrar el ícono de check
+                checkIcon.classList.remove('hidden'); // Mostrar el ícono de check
                 const productId = card.getAttribute('data-producto-id');
                 const productName = card.querySelector('h5 a').textContent;
                 const productCategory = card.querySelector('.font-italic').textContent;
