@@ -218,9 +218,15 @@
                         </svg>
                       </div>
                       <div class="media-body text-right">
-                      <h3>1</h3>
-                      </ul>
-                      </div>
+                        <% if (usuario && usuario.nombre) { %>
+                            <h3><%= usuario.nombre %></h3>
+                            <span>Ir a tu cuenta</span>
+                            <!-- Mostrar más detalles del usuario si es necesario -->
+                        <% } else { %>
+                            <h3>Inicia sesión</h3>
+                            <span>O crea una cuenta</span>
+                        <% } %>
+                    </div>
                     </div>
                  </a>
                   </div>
