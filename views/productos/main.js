@@ -3,20 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cards.forEach(card => {
         card.addEventListener('click', () => {
-            // Toggle para mostrar/ocultar el check icon
             const checkIcon = card.querySelector('.check-icon');
 
             if (card.classList.contains('selected')) {
-                // Ocultar check icon y eliminar del carrito
-                
-                checkIcon.style.transform = 'translate(-50%, -50%) scale(0)';
+                // Deshacer selección
                 card.classList.remove('selected');
                 const productId = card.getAttribute('data-producto-id');
                 removeFromCart(productId);
             } else {
-                // Mostrar check icon y agregar al carrito
-                checkIcon.classList.remove('hidden');
-                checkIcon.style.transform = 'translate(-50%, -50%) scale(1)';
+                // Seleccionar
                 card.classList.add('selected');
                 const productId = card.getAttribute('data-producto-id');
                 const productName = card.querySelector('h5 a').textContent;

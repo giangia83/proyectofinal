@@ -723,6 +723,7 @@ font-size: 15px;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: transform 0.3s ease;
+    opacity: 0;
 }
 
 .myCard.selected .check-icon {
@@ -739,9 +740,10 @@ font-size: 15px;
 }
 
 .myCard {
-    transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out, opacity 0.3 ease;
     cursor: pointer;
     position: relative;
+    
 }
 
 .myCard.selected {
@@ -756,4 +758,14 @@ font-size: 15px;
 .myCard.selected .card-body {
     opacity: 0;
     visibility: hidden;
+}
+
+.selected .product-image {
+    filter: blur(4px); /* Hace la imagen borrosa */
+    opacity: 0.7; /* Reduce la opacidad de la imagen */
+}
+
+.selected .check-icon {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
 }
