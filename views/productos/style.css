@@ -737,3 +737,38 @@ font-size: 15px;
     filter: blur(3px);
     opacity: 0;
 }
+
+.myCard {
+    transition: transform 0.3s ease-out;
+    cursor: pointer;
+    position: relative;
+}
+
+.myCard.selected {
+    transform: scale(0.95);
+}
+
+.myCard .card-body {
+    position: relative;
+    z-index: 1;
+}
+
+.myCard.selected .card-body {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.check-icon {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease-in-out;
+    z-index: 2;
+}
+
+.myCard.selected .check-icon {
+    display: block;
+    transform: translate(-50%, -50%) scale(1);
+}

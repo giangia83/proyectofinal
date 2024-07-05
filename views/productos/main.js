@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (checkIcon.style.display === 'block') {
                 // Ocultar check icon y eliminar del carrito
-                checkIcon.style.display = 'none';
+                checkIcon.style.transform = 'translate(-50%, -50%) scale(0)';
                 const productId = card.getAttribute('data-producto-id');
                 removeFromCart(productId);
             } else {
                 // Mostrar check icon y agregar al carrito
-                checkIcon.style.display = 'block';
+                checkIcon.style.transform = 'translate(-50%, -50%) scale(1)';
                 const productId = card.getAttribute('data-producto-id');
                 const productName = card.querySelector('h5 a').textContent;
                 const productCategory = card.querySelector('.font-italic').textContent;
