@@ -6,14 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Toggle para mostrar/ocultar el check icon
             const checkIcon = card.querySelector('.check-icon');
 
-            if (checkIcon.style.display === 'block') {
+            if (card.classList.contains('selected')) {
                 // Ocultar check icon y eliminar del carrito
                 checkIcon.style.transform = 'translate(-50%, -50%) scale(0)';
+                card.classList.remove('selected');
                 const productId = card.getAttribute('data-producto-id');
                 removeFromCart(productId);
             } else {
                 // Mostrar check icon y agregar al carrito
                 checkIcon.style.transform = 'translate(-50%, -50%) scale(1)';
+                card.classList.add('selected');
                 const productId = card.getAttribute('data-producto-id');
                 const productName = card.querySelector('h5 a').textContent;
                 const productCategory = card.querySelector('.font-italic').textContent;
