@@ -192,35 +192,20 @@
 
      
         <h2 class="mb-4">Carrito de Compras</h2>
-        
-        <% if (productos && productos.length > 0) { %>
-            <div class="row">
-                <% productos.forEach(producto => { %>
-                    <div class="col-md-6 mb-4">
-                        <div class="card rounded shadow-sm border-0">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <img src="<%= producto.image %>" alt="Imagen del producto" class="img-fluid">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5><%= producto.name %></h5>
-                                        <p class="small text-muted"><%= producto.category %></p>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <p>Precio: $<%= producto.price %></p>
-                                        <label for="cantidad-<%= producto.id %>">Cantidad:</label>
-                                        <input type="number" id="cantidad-<%= producto.id %>" name="cantidad" min="1" value="1" class="form-control cantidad-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <% }); %>
-            </div>
-        <% } else { %>
-            <p>No hay productos en el carrito.</p>
-        <% } %>
+      
+        <h1>Productos en tu carrito:</h1>
+        <form action="/actualizarcarrito" method="POST">
+          <ul>
+              <% cart.forEach(producto => { %>
+                  <li>
+                      <strong><%= producto.name %></strong> - <%= producto.category %>
+                      <img src="<%= producto.image %>" alt="<%= producto.name %>">
+                      <input type="number" name="cantidad<%= producto.id %>" value="1" min="1" max="10">
+                  </li>
+              <% }); %>
+          </ul>
+          <button type="submit">Actualizar Carrito</button>
+      </form>
 
         <div class="mt-4">
             <a href="/finalizarpedido" class="btn btn-primary">Finalizar Pedido</a>

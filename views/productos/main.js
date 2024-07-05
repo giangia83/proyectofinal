@@ -74,6 +74,14 @@ function irAVerCarrito() {
     // Obtener productos seleccionados del localStorage
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     
-    // Redireccionar a la página /vercarrito y pasar los productos como parámetro
-    window.location.href = '/vercarrito?productos=' + encodeURIComponent(JSON.stringify(cart));
+    // Redireccionar a la página /vercarrito solo si hay productos en el carrito
+    if (cart.length > 0) {
+        // Convertir el array de productos a JSON codificado para pasar como parámetro
+        const cartJson = encodeURIComponent(JSON.stringify(cart));
+        // Redirigir a la página de carrito con los productos seleccionados
+        window.location.href = '/vercarrito?productos=' + cartJson;
+    } else {
+        // Mostrar un mensaje o tomar alguna acción si el carrito está vacío
+        console.log('El carrito está vacío.');
+    }
 }

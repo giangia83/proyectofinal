@@ -158,13 +158,16 @@ app.get('/verproductos', async (req, res) => {
 
 app.get('/vercarrito', async (req, res) => {
     try {
+        const productosCarrito = req.query.productos;
+        const cart = JSON.parse(decodeURIComponent(productosCarrito));
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
-        res.render('carrito/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+        res.render('carrito/index', { productos, usuario: res.locals.usuario || { nombre: '' }, cart }); // Corregir la sintaxis aquí
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');
     }
 });
+
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
