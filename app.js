@@ -206,6 +206,30 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+// Ruta para obtener el usuario actual basado en la sesión
+app.get('/api/getCurrentUser', async (req, res) => {
+    try {
+        if (!req.session.usuario) {
+            return res.status(401).json({ error: 'Usuario no autenticado' });
+        }
+
+        // Aquí obtienes los datos del usuario de req.session.usuario
+        const userData = {
+            nombre: req.session.usuario.nombre,
+            correo: req.session.usuario.correo,
+            direccion: req.session.usuario.direccion,
+            ciudad: req.session.usuario.ciudad,
+            rif: req.session.usuario.rif,
+            // Agregar otros datos según sea necesario
+        };
+
+        res.status(200).json(userData);
+    } catch (error) {
+        console.error('Error al obtener usuario:', error);
+        res.status(500).json({ error: 'Error interno al obtener usuario' });
+    }
+});
+
 
 
 app.get('/infocuenta', (req, res) => {
@@ -229,14 +253,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-// Ruta para obtener el usuario actual basado en la sesión
-app.get('/api/getCurrentUser', (req, res) => {
-    if (req.session.usuario) {
-        res.status(200).json(req.session.usuario);
-    } else {
-        res.status(401).json({ error: 'Usuario no autenticado' });
-    }
-});
+
 
 
 
