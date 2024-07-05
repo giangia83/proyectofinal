@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cookies = document.cookie.split(';').map(cookie => cookie.trim());
         for (const cookie of cookies) {
             const parts = cookie.split('=');
-            if (parts[0] === 'usuario') {
+            if (parts[0].trim() === 'usuario') {
                 return decodeURIComponent(parts[1]);
             }
         }
