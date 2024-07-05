@@ -27,14 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (card.classList.contains('selected')) {
                 // Deshacer selección
-                card.classList.remove('selected');
+              
                 checkIcon.classList.add('hidden'); // Ocultar el ícono de check
                 const productId = card.getAttribute('data-producto-id');
                 removeFromCart(productId);
             } else {
                 // Seleccionar
-                card.classList.add('selected');
-                checkIcon.classList.remove('hidden'); // Mostrar el ícono de check
+            
+                card.classList.remove('selected');
+               
                 const productId = card.getAttribute('data-producto-id');
                 const productName = card.querySelector('h5 a').textContent;
                 const productCategory = card.querySelector('.font-italic').textContent;
