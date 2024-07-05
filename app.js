@@ -229,6 +229,16 @@ app.get('/logout', (req, res) => {
     });
 });
 
+// Ruta para obtener el usuario actual basado en la sesión
+app.get('/api/getCurrentUser', (req, res) => {
+    if (req.session.usuario) {
+        res.status(200).json(req.session.usuario);
+    } else {
+        res.status(401).json({ error: 'Usuario no autenticado' });
+    }
+});
+
+
 
 // Middleware para servir archivos estáticos en la carpeta de uploads
 
