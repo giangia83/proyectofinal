@@ -194,17 +194,19 @@
         <h2 class="mb-4">Carrito de Compras</h2>
       
         <h1>Productos en tu carrito:</h1>
-        <form action="/actualizarcarrito" method="POST">
-          <ul>
+        <form action="/proseguircompra" method="POST">
+          <ul class="product-list">
               <% cart.forEach(producto => { %>
-                  <li>
-                      <strong><%= producto.name %></strong> - <%= producto.category %>
-                      <img src="<%= producto.image %>" alt="<%= producto.name %>">
-                      <input type="number" name="cantidad<%= producto.id %>" value="1" min="1" max="10">
+                  <li class="d-flex align-items-center">
+                      <img src="<%= producto.image %>" alt="<%= producto.name %>" class="product-image">
+                      <div>
+                          <strong><%= producto.name %></strong> - <%= producto.category %><br>
+                          <input type="number" name="cantidad<%= producto.id %>" value="1" min="1" max="10">
+                      </div>
                   </li>
               <% }); %>
           </ul>
-          <button type="submit">Actualizar Carrito</button>
+          <button type="submit" class="btn btn-primary btn-proceed mt-3">Proseguir con la compra</button>
       </form>
 
         <div class="mt-4">

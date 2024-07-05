@@ -20,7 +20,25 @@ body {
 
 /* Agrega más medios de comunicación según sea necesario */
 
-
+.product-list {
+    list-style-type: none;
+    padding: 0;
+}
+.product-list li {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+.product-image {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.btn-proceed {
+    margin-top: 10px;
+}
 
 
 
