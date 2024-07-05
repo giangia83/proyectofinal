@@ -701,7 +701,6 @@ font-size: 15px;
         }
 /* styles.css */
 
-
 .card-add {
     transition: transform 0.3s ease;
     border: 1px solid transparent;
@@ -724,7 +723,6 @@ font-size: 15px;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: transform 0.3s ease;
-    z-index: 2;
 }
 
 .myCard.selected .check-icon {
