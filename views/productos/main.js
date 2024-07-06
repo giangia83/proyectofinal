@@ -1,59 +1,72 @@
 document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.myCard');
 
+    // Función para obtener el nombre de usuario desde la cookie
+    function getUsuarioDesdeCookie() {
+        const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+        for (const cookie of cookies) {
+            const parts = cookie.split('=');
+            if (parts[0].trim() === 'usuario') {
+                return decodeURIComponent(parts[1]);
+            }
+        }
+        return null;
+    }
+
+    // Obtener el nombre de usuario actual
+    const usuario = getUsuarioDesdeCookie();
+
+    if (!usuario) {
+        console.error('No se pudo obtener el nombre de usuario desde la cookie.');
+        return;
+    }
+
     cards.forEach(card => {
         card.addEventListener('click', () => {
-            const productId = card.getAttribute('data-producto-id');
-            const productName = card.querySelector('h5 a').textContent;
-            const productCategory = card.querySelector('.font-italic').textContent;
-            const productImage = card.querySelector('.product-image').getAttribute('src');
+            const checkIcon = card.querySelector('.check-icon');
 
-            const product = {
-                id: productId,
-                name: productName,
-                category: productCategory,
-                image: productImage,
-            };
-
-            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-            const found = cart.some(item => item.id === productId);
-            if (!found) {
-                // Añadir producto al carrito
-                cart.push(product);
-                sessionStorage.setItem('cart', JSON.stringify(cart));
-                console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
-
-                // Animación para desaparecer la tarjeta seleccionada
-                card.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
-                card.style.opacity = '0';
-                card.style.transform = 'scale(0.8) translateY(-20px)';
-                card.style.pointerEvents = 'none'; // Deshabilitar eventos de ratón durante la animación
-                setTimeout(() => {
-                    card.style.display = 'none';
-                    card.remove();
-                    // Reordenar visualmente las tarjetas restantes
-                    reorganizarTarjetas();
-                }, 300); // Esperar 300ms (duración de la transición) antes de eliminar completamente la tarjeta
+            if (card.classList.contains('selected')) {
+                // Deshacer selección
+                card.classList.remove('selected');
+                checkIcon.classList.add('hidden'); // Ocultar el ícono de check
+                card.style.transform = 'scale(1)'; // Restaurar tamaño normal de la tarjeta
+                const productId = card.getAttribute('data-producto-id');
+                removeFromCart(productId);
             } else {
-                console.log(`El producto '${productName}' ya está en el carrito.`);
+                // Seleccionar
+                card.classList.add('selected');
+             
+                card.style.transform = 'scale(0.95)'; // Reducir tamaño de la tarjeta al seleccionar
+                const productId = card.getAttribute('data-producto-id');
+                const productName = card.querySelector('h5 a').textContent;
+                const productCategory = card.querySelector('.font-italic').textContent;
+                const productImage = card.querySelector('.product-image').getAttribute('src');
+
+                const product = {
+                    id: productId,
+                    name: productName,
+                    category: productCategory,
+                    image: productImage,
+                };
+
+                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                const found = cart.some(item => item.id === productId);
+                if (!found) {
+                    cart.push(product);
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
+                } else {
+                    console.log(`El producto '${productName}' ya está en el carrito.`);
+                }
             }
         });
     });
 
-    function reorganizarTarjetas() {
-        // Obtener todas las tarjetas visibles después de eliminar una
-        const visibleCards = Array.from(document.querySelectorAll('.myCard'));
-
-        // Calcular el espacio entre tarjetas
-        const gap = 20; // Espacio en píxeles entre tarjetas
-        const cardWidth = visibleCards[0].offsetWidth + gap; // Ancho de la tarjeta más el espacio
-
-        // Ajustar la posición de las tarjetas restantes
-        visibleCards.forEach((card, index) => {
-            card.style.transition = 'transform 0.3s ease-out';
-            const offsetLeft = index * cardWidth;
-            card.style.transform = `translateX(${offsetLeft}px)`;
-        });
+    function removeFromCart(productId) {
+        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        cart = cart.filter(item => item.id !== productId);
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        console.log(`Producto con ID ${productId} eliminado del carrito.`);
     }
 
     function irAVerCarrito() {
