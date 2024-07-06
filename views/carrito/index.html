@@ -191,27 +191,33 @@
       </div>
 
      
-        <h2 class="mb-4">Carrito de Compras</h2>
+        
       
-        <h1>Productos en tu carrito:</h1>
-        <form action="/proseguircompra" method="POST">
-          <ul class="product-list">
-              <% cart.forEach(producto => { %>
-                  <li class="d-flex align-items-center">
-                      <img src="<%= producto.image %>" alt="<%= producto.name %>" class="product-image">
-                      <div>
-                          <strong><%= producto.name %></strong> - <%= producto.category %><br>
-                          <input type="number" name="cantidad<%= producto.id %>" value="1" min="1" max="10">
-                      </div>
-                  </li>
-              <% }); %>
-          </ul>
-          <button type="submit" class="btn btn-primary btn-proceed mt-3">Proseguir con la compra</button>
-      </form>
+      
+       <form action="/proseguircompra" method="POST">
+    <ul class="list-group">
+        <% cart.forEach(producto => { %>
+            <li class="list-group-item d-flex align-items-center">
+                <div class="d-flex flex-column flex-md-row align-items-center">
+                    <img src="<%= producto.image %>" alt="<%= producto.name %>" class="product-image me-md-3 mb-3 mb-md-0" style="max-width: 100px;">
+                    <div>
+                        <h5 class="mb-0"><%= producto.name %></h5>
+                        <p class="mb-0"><small><%= producto.category %></small></p>
+                        <div class="input-group mt-2" style="max-width: 150px;">
+                            <input type="number" name="cantidad<%= producto.id %>" class="form-control" value="1" min="1" max="10">
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <% }); %>
+    </ul>
+ 
+</form>
+
 
         <div class="mt-4">
-            <a href="/finalizarpedido" class="btn btn-primary">Finalizar Pedido</a>
-            <a href="/verproductos" class="btn btn-secondary">Volver a Ver Productos</a>
+          <button type="submit" class="btn btn-primary btn-proceed mt-3">Proseguir con la compra</button>
+            <a href="/verproductos" class="btn btn-secondary mt-3">Volver a Ver Productos</a>
         </div>
   
 

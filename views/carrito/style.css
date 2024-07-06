@@ -26,9 +26,9 @@ body {
 }
 .product-list li {
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+ 
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 20px;
 }
 .product-image {
     max-width: 100px;
