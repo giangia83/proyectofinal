@@ -32,12 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 usuario: usuario,
                 productos: cart.map(producto => ({
                     id: producto.id,
-                    nombre: producto.nombre, // Utilizamos 'nombre' en lugar de 'name'
+                    nombre: producto.name, // Aquí usamos 'name' según el HTML proporcionado
                     categoria: producto.category,
                     cantidad: producto.cantidad || 1,
                 })),
             };
-            
 
             try {
                 const response = await fetch('/proseguircompra', {

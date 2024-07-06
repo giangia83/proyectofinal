@@ -224,42 +224,33 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
+const express = require('express');
+const router = express.Router();
+const Cotizacion = require('../models/Cotizacion');
 
-app.post('/proseguircompra', async (req, res) => {
-    const { productos, usuario } = req.body;
+// Endpoint para guardar la cotización
+router.post('/proseguircompra', async (req, res) => {
+    const { usuario, productos } = req.body;
 
     try {
-        // Verificar si se recibieron productos válidos
-        if (!productos || !Array.isArray(productos) || productos.length === 0) {
-            return res.status(400).json({ error: 'No se recibieron productos válidos para la cotización' });
-        }
-
-        // Verificar si se recibió un usuario válido
-        if (!usuario || typeof usuario !== 'string') {
-            return res.status(400).json({ error: 'No se recibió un nombre de usuario válido' });
-        }
-
-        // Crear una nueva cotización en la base de datos
+        // Crear una nueva instancia de Cotizacion
         const nuevaCotizacion = new Cotizacion({
             usuario,
-            productos: productos.map(producto => ({
-                id: producto.id,
-                nombre: producto.nombre, // Utilizamos 'nombre' en lugar de 'name'
-                categoria: producto.categoria,
-                cantidad: producto.cantidad || 1,
-            })),
+            productos,
         });
 
-        // Guardar la cotización en la base de datos
-        await nuevaCotizacion.save();
+        // Guardar en la base de datos
+        const cotizacionGuardada = await nuevaCotizacion.save();
 
-        // Responder con un mensaje de éxito
-        res.json({ message: 'Cotización recibida y guardada exitosamente' });
+        // Enviar respuesta al cliente
+        res.status(201).json(cotizacionGuardada);
     } catch (error) {
         console.error('Error al guardar la cotización:', error);
-        res.status(500).json({ error: 'Error interno del servidor al guardar la cotización' });
+        res.status(500).json({ error: 'Error al guardar la cotización' });
     }
 });
+
+module.exports = router;
 
 
 
