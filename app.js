@@ -218,6 +218,7 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
+const Cotizacion = require('./models/Cotizacion'); // Asegúrate de que estás importando correctamente el modelo de Cotizacion
 
 app.post('/proseguircompra', async (req, res) => {
     const { productos } = req.body;
@@ -232,7 +233,7 @@ app.post('/proseguircompra', async (req, res) => {
 
         // Puedes buscar más información del usuario en la base de datos si es necesario
         // Por ejemplo:
-        const usuario = await Usuario.findOne({ nombre: usuarioNombre });
+        // const usuario = await Usuario.findOne({ nombre: usuarioNombre });
 
         // Verificar si productos está definido y es un array antes de mapear sobre él
         if (!productos || !Array.isArray(productos)) {
@@ -244,9 +245,9 @@ app.post('/proseguircompra', async (req, res) => {
             usuario: usuarioNombre,
             productos: productos.map(producto => ({
                 id: producto.id,
-                nombre: producto.name,
-                categoria: producto.category,
-                cantidad: producto.quantity,
+                nombre: producto.nombre,
+                categoria: producto.categoria,
+                cantidad: producto.cantidad,
             })),
         });
 
@@ -260,6 +261,7 @@ app.post('/proseguircompra', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor al guardar la cotización' });
     }
 });
+
 
 app.get('/tuspedidos', async (req, res) => {
     try {
