@@ -3,12 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cards.forEach(card => {
         card.addEventListener('click', () => {
-            const checkIcon = card.querySelector('.check-icon');
-
+          
             if (card.classList.contains('selected')) {
                 // Deshacer selección
                 card.classList.remove('selected');
-                checkIcon.classList.add('hidden'); // Ocultar el ícono de check
+              
                 card.style.transform = 'scale(1)'; // Restaurar tamaño normal de la tarjeta
                 card.style.backgroundColor = ''; // Restaurar color de fondo original si se había cambiado
                 card.querySelector('h5 a').style.color = ''; // Restaurar color de texto original
@@ -17,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // Seleccionar
                 card.classList.add('selected');
-                checkIcon.classList.remove('hidden'); // Mostrar el ícono de check
+              
                 card.style.transform = 'scale(0.95)'; // Reducir tamaño de la tarjeta al seleccionar
                 card.style.backgroundColor = '#cdeccd'; // Cambiar color de fondo al seleccionar (verde claro)
                 card.querySelector('h5 a').style.color = '#ffffff'; // Cambiar color de texto a blanco
