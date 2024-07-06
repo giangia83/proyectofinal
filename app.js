@@ -20,7 +20,7 @@ const Usuario = require("./models/usuario")
 let ejs = require('ejs');
 
 const uploadDirectory = path.join(__dirname, 'uploads');
-
+app.use(express.static(__dirname+'/public/uploads'));
 // Crear la carpeta uploads si no existe
 if (!fs.existsSync(uploadDirectory)) {
     fs.mkdirSync(uploadDirectory);
@@ -60,7 +60,7 @@ mongoose.connect(mongoURI, {
 //storage 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/')
+        cb(null, __dirname+'/public/uploads')
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Nombre original del archivo
@@ -94,7 +94,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     }
 
     // Construir la URL completa del archivo subido
-    const imageUrl = '/uploads/' + req.file.filename;
+    const imageUrl = '/public/uploads/' + req.file.filename;
 
     // Crear un nuevo objeto Producto con los datos recibidos
     const newProduct = new Producto({
@@ -108,6 +108,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
         }
     });
 
+    
     // Guardar el producto en la base de datos
     newProduct.save()
         .then(savedProduct => {
