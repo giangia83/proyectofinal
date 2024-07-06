@@ -218,7 +218,7 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
-const Cotizacion = require('./models/Cotizacion'); // Asegúrate de que estás importando correctamente el modelo de Cotizacion
+
 
 app.post('/proseguircompra', async (req, res) => {
     const { productos } = req.body;
