@@ -59,5 +59,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Tu lógica para manejar las tarjetas y la selección de productos va aquí...
+  
 });

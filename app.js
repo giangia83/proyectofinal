@@ -223,14 +223,23 @@ app.post('/proseguircompra', async (req, res) => {
     const { productos } = req.body;
 
     try {
-        // Obtener el nombre de usuario desde res.locals.usuario
-        const usuarioNombre = res.locals.usuario.nombre;
+        // Verificar si res.locals.usuario está definido y obtener el nombre de usuario
+        const usuarioNombre = res.locals.usuario ? res.locals.usuario.nombre : null;
 
-        // Buscar el usuario en la base de datos si es necesario para obtener más información
+        if (!usuarioNombre) {
+            return res.status(400).json({ error: 'No se pudo obtener el usuario para la cotización' });
+        }
+
+        // Puedes buscar más información del usuario en la base de datos si es necesario
         // Por ejemplo:
         const usuario = await Usuario.findOne({ nombre: usuarioNombre });
 
-        // Guardar la cotización en la base de datos
+        // Verificar si productos está definido y es un array antes de mapear sobre él
+        if (!productos || !Array.isArray(productos)) {
+            return res.status(400).json({ error: 'Formato de productos inválido' });
+        }
+
+        // Crear un nuevo objeto de Cotizacion con los datos recibidos
         const nuevaCotizacion = new Cotizacion({
             usuario: usuarioNombre,
             productos: productos.map(producto => ({
@@ -241,12 +250,14 @@ app.post('/proseguircompra', async (req, res) => {
             })),
         });
 
+        // Guardar la cotización en la base de datos
         await nuevaCotizacion.save();
 
+        // Responder con un mensaje de éxito
         res.json({ message: 'Cotización recibida y guardada exitosamente' });
     } catch (error) {
         console.error('Error al guardar la cotización:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        res.status(500).json({ error: 'Error interno del servidor al guardar la cotización' });
     }
 });
 
