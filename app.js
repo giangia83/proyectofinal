@@ -225,7 +225,7 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-app.post('/proseguircompra', async (req, res) => {
+aapp.post('/proseguircompra', async (req, res) => {
     const { productos, usuario } = req.body;
 
     try {
@@ -260,6 +260,7 @@ app.post('/proseguircompra', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor al guardar la cotización' });
     }
 });
+
 
 
 

@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-   
-
     // Función para obtener el nombre de usuario desde la cookie
     function getUsuarioDesdeCookie() {
         const cookies = document.cookie.split(';').map(cookie => cookie.trim());
@@ -21,20 +19,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Obtener el carrito desde sessionStorage
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
     const cotizacionForm = document.getElementById('cotizacionForm');
     if (cotizacionForm) {
         cotizacionForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const formData = new FormData(cotizacionForm);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-
-           
-            // Agregar usuario a los datos a enviar
-            data.usuario = usuario;
+            // Preparar los datos a enviar
+            const data = {
+                usuario: usuario,
+                productos: cart.map(producto => ({
+                    id: producto.id,
+                    nombre: producto.nombre,
+                    categoria: producto.categoria,
+                    cantidad: producto.cantidad || 1, // Asegurar que haya una cantidad (por defecto 1)
+                })),
+            };
 
             try {
                 const response = await fetch('/proseguircompra', {
@@ -63,6 +65,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-  
 });
