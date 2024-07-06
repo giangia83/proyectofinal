@@ -3,185 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Starclean C.A</title>
+    <title>Tus Pedidos - Starclean C.A</title>
    
-  
-    
-    <!-- BOOTSTRAP -->
-   
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <!--  -->
-    
-    
-
-    <!-- Enlace al archivo CSS de Bootstrap -->
-
-
-
-
-
-
-    <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
-    <!-- Icono de la pestaña del navegador -->
+    <!-- Estilos personalizados -->
     <link rel="stylesheet" href="/views/pedidos/style.css">
- 
 </head>
 <body>
-  
 
-
-
-
-
-    
-  <% include ../components/header.ejs %>
-
-
-        <nav>
-
-            <div class="header-down">
-
- 
-
-              
-              <a href=/tuspedidos class="btn btn-secondary e btn-special" type="button" aria-expanded="false">
-                Mis compras
-              </a>
-             
-              <a href=/servicioalcliente class="btn btn-secondary e btn-special" type="button" aria-expanded="false">
-                Contacto
-              </a>
-             
-            </div>
-
-        </nav>
-        <main>
-        
-
- 
-
-            <div class="container">
-                <!-- Content here -->
-                <h2 class="font-weight-bold mb-2">  Tus pedidos  <span class="badge bg-primary">Empresarial</span>
-                </h2>           
-                
-
-                <div class="table-div">
-               
-              </div>
-
-             
-
-
-
-
-
-
-              <div class="accordion" id="accordionPanelsStayOpenExample">
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                      Orden #1 (Fecha)
-                    </button>
-                  </h2>
-                
-                
-                
-                
-                
-                
-                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                    <div class="accordion-body">
-                   
-
-
-
-
-                      <div class="table-div">
-                        <table class="table table-bordered caption-top">
-                          <caption></caption>
-                          <tr>
-        
-                            <th>Producto</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            
-                            
-                          </tr>
-                          <tr>
-                            <td>Alfreds Futterkiste</td>
-                            <td>Maria Anders</td>
-                            <td>Germany</td>
-                          </tr>
-                          <tr>
-                            <td>Centro comercial Moctezuma</td>
-                            <td>Francisco Chang</td>
-                            <td>Mexico</td>
-                          </tr>
-                        </table>
-                    
-<!-- Button trigger modal -->
-<button type="button" class="button-7" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Ver detalles
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ver detalles</h5>
-    
-      </div>
-      <div class="modal-body">
-        (Total de la compra)
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="button-5" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="button-6">Eliminar</button>
-      </div>
+<header>
+    <!-- Encabezado -->
+    <div class="header-left">
+        <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
     </div>
-  </div>
-</div>
+    <div class="header-center">
+        <input type="text" class="form-control" placeholder="Buscar eventos">
+    </div>
+    <div class="header-right">
+        <!-- Menú desplegable del usuario -->
+        <div class="dropdown">
+            <svg xmlns="http://www.w3.org/2000/svg" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                aria-expanded="false" class="icon icon-tabler icon-tabler-user-circle" width="42" height="42"
+                viewBox="0 0 24 24" stroke-width="1" stroke="#000000" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+            </svg>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="/tuspedidos">Pedidos</a></li>
+                <li><a class="dropdown-item" href="/cuenta">Cuenta</a></li>
+                <li><a class="dropdown-item cerrar-sesion" href="#">Cerrar sesión</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
 
+<nav>
+    <!-- Navegación -->
+    <div class="header-down">
+        <a href="/tuspedidos" class="btn btn-secondary e btn-special" type="button" aria-expanded="false">
+            Mis compras
+        </a>
+        <a href="/servicioalcliente" class="btn btn-secondary e btn-special" type="button" aria-expanded="false">
+            Contacto
+        </a>
+    </div>
+</nav>
 
+<main class="container">
+    <!-- Contenido principal -->
+    <h2 class="font-weight-bold mb-2">Tus pedidos <span class="badge bg-primary">Empresarial</span></h2>
 
+    <div class="accordion" id="accordionPedidos">
+        <% cotizaciones.forEach((cotizacion, index) => { %>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading<%= index %>">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
+                        Orden #<%= index + 1 %> (<%= cotizacion.fecha.toLocaleDateString() %>)
+                    </button>
+                </h2>
+                <div id="collapse<%= index %>" class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
+                    aria-labelledby="heading<%= index %>" data-bs-parent="#accordionPedidos">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered caption-top">
+                                <caption></caption>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                                <% cotizacion.productos.forEach(producto => { %>
+                                    <tr>
+                                        <td><%= producto.nombre %></td>
+                                        <td><%= producto.precio %></td>
+                                        <td><%= producto.cantidad %></td>
+                                    </tr>
+                                <% }); %>
+                            </table>
+                        </div>
 
+                        <!-- Botón para ver detalles -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDetalles<%= index %>">
+                            Ver detalles
+                        </button>
+
+                        <!-- Modal de detalles -->
+                        <div class="modal fade" id="modalDetalles<%= index %>" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Detalles del pedido</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Aquí puedes mostrar más detalles del pedido -->
+                                        <p>Total de la compra: <%= cotizacion.total %> </p>
+                                        <p>Estado del pedido: <%= cotizacion.estado %> </p>
+                                        <!-- Puedes añadir más detalles según lo necesario -->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-danger">Eliminar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              
-
-
-
-                
-
-
             </div>
+        <% }); %>
+    </div>
+</main>
 
-          
-
-           
-
-
-
-        </main>
-   
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- Bootstrap JS y otros scripts -->
+<script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
 </body>
 </html>

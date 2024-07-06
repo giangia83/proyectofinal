@@ -21,49 +21,43 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const checkIcon = card.querySelector('.check-icon');
+    const cotizacionForm = document.getElementById('cotizacionForm');
+    if (cotizacionForm) {
+        cotizacionForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
 
-            if (card.classList.contains('selected')) {
-                // Deshacer selección
-              
-                checkIcon.classList.add('hidden'); // Ocultar el ícono de check
-                const productId = card.getAttribute('data-producto-id');
-                removeFromCart(productId);
-            } else {
-                // Seleccionar
-                card.classList.add('selected');
-                checkIcon.classList.remove('hidden'); // Mostrar el ícono de check
-                const productId = card.getAttribute('data-producto-id');
-                const productName = card.querySelector('h5 a').textContent;
-                const productCategory = card.querySelector('.font-italic').textContent;
-                const productImage = card.querySelector('.product-image').getAttribute('src');
+            const formData = new FormData(cotizacionForm);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
 
-                const product = {
-                    id: productId,
-                    name: productName,
-                    category: productCategory,
-                    image: productImage,
-                };
+            // Agregar usuario a los datos a enviar
+            data.usuario = usuario;
 
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                const found = cart.some(item => item.id === productId);
-                if (!found) {
-                    cart.push(product);
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
+            try {
+                const response = await fetch('/proseguircompra', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    console.log('Cotización guardada exitosamente:', responseData);
+                    // Redirigir o mostrar mensaje de éxito al usuario
                 } else {
-                    console.log(`El producto '${productName}' ya está en el carrito.`);
+                    console.error('Error al guardar la cotización:', response.statusText);
+                    // Mostrar mensaje de error al usuario
                 }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+                // Mostrar mensaje de error al usuario
             }
         });
-    });
-
-    function removeFromCart(productId) {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        cart = cart.filter(item => item.id !== productId);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        console.log(`Producto con ID ${productId} eliminado del carrito.`);
     }
+
+    // Tu lógica para manejar las tarjetas y la selección de productos va aquí...
 });

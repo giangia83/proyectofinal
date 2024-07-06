@@ -5,6 +5,8 @@ const path = require('path');
 const userRouter = require('./controllers/usuarios');
 const productosRouter = require('./controllers/productos');
 
+const Cotizacion = require('./models/cotizacion');
+
 const compression = require('compression');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -142,11 +144,6 @@ app.get('/', (req, res) => {
 /* rutas */
 
 
-app.get('/tuspedidos', (req, res) => {
-    res.render('pedidos/index', {
-        usuario: req.session.usuario // Puedes pasar el usuario a la vista si es necesario
-    });
-});
 
 app.get('/verproductos', async (req, res) => {
     try {
@@ -222,9 +219,52 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+app.post('/proseguircompra', async (req, res) => {
+    const { productos } = req.body;
 
+    try {
+        // Obtener el nombre de usuario desde res.locals.usuario
+        const usuarioNombre = res.locals.usuario.nombre;
 
+        // Buscar el usuario en la base de datos si es necesario para obtener más información
+        // Por ejemplo:
+        const usuario = await Usuario.findOne({ nombre: usuarioNombre });
 
+        // Guardar la cotización en la base de datos
+        const nuevaCotizacion = new Cotizacion({
+            usuario: usuarioNombre,
+            productos: productos.map(producto => ({
+                id: producto.id,
+                nombre: producto.name,
+                categoria: producto.category,
+                cantidad: producto.quantity,
+            })),
+        });
+
+        await nuevaCotizacion.save();
+
+        res.json({ message: 'Cotización recibida y guardada exitosamente' });
+    } catch (error) {
+        console.error('Error al guardar la cotización:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+app.get('/tuspedidos', async (req, res) => {
+    try {
+        // Obtener el nombre de usuario desde la sesión o cookie
+        const usuarioNombre = req.cookies.usuario; // O donde tengas guardado el nombre de usuario
+
+        // Consultar las cotizaciones del usuario desde la base de datos
+        const cotizaciones = await Cotizacion.find({ usuario: usuarioNombre }).sort({ fecha: -1 });
+
+        // Renderizar la vista 'pedidos/index' con las cotizaciones del usuario
+        res.render('pedidos/index', { cotizaciones,  usuario: res.locals.usuario || { nombre: '' } });
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error);
+        res.status(500).send('Error al obtener los pedidos del usuario');
+    }
+});
 
 
 app.get('/infocuenta', (req, res) => {
