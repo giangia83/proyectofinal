@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.myCard');
+   
 
     // Función para obtener el nombre de usuario desde la cookie
     function getUsuarioDesdeCookie() {
@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 data[key] = value;
             });
 
+           
             // Agregar usuario a los datos a enviar
             data.usuario = usuario;
 
@@ -48,13 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     const responseData = await response.json();
                     console.log('Cotización guardada exitosamente:', responseData);
                     // Redirigir o mostrar mensaje de éxito al usuario
+                    // Ejemplo de redirección después de guardar la cotización
+                    window.location.href = '/'; // Puedes redirigir a una página de éxito
                 } else {
                     console.error('Error al guardar la cotización:', response.statusText);
                     // Mostrar mensaje de error al usuario
+                    alert('Hubo un problema al enviar la cotización. Por favor, inténtalo nuevamente.');
                 }
             } catch (error) {
                 console.error('Error en la solicitud:', error);
                 // Mostrar mensaje de error al usuario
+                alert('Hubo un problema al enviar la cotización. Por favor, inténtalo nuevamente.');
             }
         });
     }

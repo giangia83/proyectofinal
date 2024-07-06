@@ -158,9 +158,15 @@ app.get('/verproductos', async (req, res) => {
 app.get('/vercarrito', async (req, res) => {
     try {
         const productosCarrito = req.query.productos;
+        
+        // Decodificar y parsear los productos del carrito
         const cart = JSON.parse(decodeURIComponent(productosCarrito));
+        
+        // Puedes ajustar esto para consultar solo los productos que están en el carrito
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
-        res.render('carrito/index', { productos, usuario: res.locals.usuario || { nombre: '' }, cart }); // Corregir la sintaxis aquí
+        
+        // Renderizar la vista 'carrito/index' con los productos, el usuario y los productos en el carrito
+        res.render('carrito/index', { productos, usuario: res.locals.usuario || { nombre: '' }, cart });
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');
@@ -219,35 +225,28 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-
 app.post('/proseguircompra', async (req, res) => {
-    const { productos } = req.body;
+    const { productos, usuario } = req.body;
 
     try {
-        // Verificar si res.locals.usuario está definido y obtener el nombre de usuario
-        const usuarioNombre = res.locals.usuario ? res.locals.usuario.nombre : null;
-
-        if (!usuarioNombre) {
-            return res.status(400).json({ error: 'No se pudo obtener el usuario para la cotización' });
+        // Verificar si se recibieron productos válidos
+        if (!productos || !Array.isArray(productos) || productos.length === 0) {
+            return res.status(400).json({ error: 'No se recibieron productos válidos para la cotización' });
         }
 
-        // Puedes buscar más información del usuario en la base de datos si es necesario
-        // Por ejemplo:
-        // const usuario = await Usuario.findOne({ nombre: usuarioNombre });
-
-        // Verificar si productos está definido y es un array antes de mapear sobre él
-        if (!productos || !Array.isArray(productos)) {
-            return res.status(400).json({ error: 'Formato de productos inválido' });
+        // Verificar si se recibió un usuario válido
+        if (!usuario || typeof usuario !== 'string') {
+            return res.status(400).json({ error: 'No se recibió un nombre de usuario válido' });
         }
 
-        // Crear un nuevo objeto de Cotizacion con los datos recibidos
+        // Crear una nueva cotización en la base de datos
         const nuevaCotizacion = new Cotizacion({
-            usuario: usuarioNombre,
+            usuario,
             productos: productos.map(producto => ({
                 id: producto.id,
                 nombre: producto.nombre,
                 categoria: producto.categoria,
-                cantidad: producto.cantidad,
+                cantidad: producto.cantidad || 1, // Asegurar que haya una cantidad (por defecto 1)
             })),
         });
 
@@ -261,6 +260,7 @@ app.post('/proseguircompra', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor al guardar la cotización' });
     }
 });
+
 
 
 app.get('/tuspedidos', async (req, res) => {
