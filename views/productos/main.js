@@ -49,11 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     image: productImage,
                 };
 
-                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
                 const found = cart.some(item => item.id === productId);
                 if (!found) {
                     cart.push(product);
-                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    localStorage.setItem('cart', JSON.stringify(cart));
                     console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
                 } else {
                     console.log(`El producto '${productName}' ya está en el carrito.`);
@@ -63,12 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function removeFromCart(productId) {
-        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
         cart = cart.filter(item => item.id !== productId);
-        sessionStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cart', JSON.stringify(cart));
         console.log(`Producto con ID ${productId} eliminado del carrito.`);
     }
 });
+
 
 function irAVerCarrito() {
     // Obtener productos seleccionados del sessionStorage
