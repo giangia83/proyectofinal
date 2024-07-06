@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // Seleccionar
                 card.classList.add('selected');
-             
+                checkIcon.classList.remove('hidden'); // Mostrar el ícono de check
                 card.style.transform = 'scale(0.95)'; // Reducir tamaño de la tarjeta al seleccionar
                 const productId = card.getAttribute('data-producto-id');
                 const productName = card.querySelector('h5 a').textContent;
@@ -68,20 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('cart', JSON.stringify(cart));
         console.log(`Producto con ID ${productId} eliminado del carrito.`);
     }
-
-    function irAVerCarrito() {
-        // Obtener productos seleccionados del sessionStorage
-        const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-        
-        // Redireccionar a la página /vercarrito solo si hay productos en el carrito
-        if (cart.length > 0) {
-            // Convertir el array de productos a JSON codificado para pasar como parámetro
-            const cartJson = encodeURIComponent(JSON.stringify(cart));
-            // Redirigir a la página de carrito con los productos seleccionados
-            window.location.href = '/vercarrito?productos=' + cartJson;
-        } else {
-            // Mostrar un mensaje o tomar alguna acción si el carrito está vacío
-            console.log('El carrito está vacío.');
-        }
-    }
 });
+
+function irAVerCarrito() {
+    // Obtener productos seleccionados del sessionStorage
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    
+    // Redireccionar a la página /vercarrito solo si hay productos en el carrito
+    if (cart.length > 0) {
+        // Convertir el array de productos a JSON codificado para pasar como parámetro
+        const cartJson = encodeURIComponent(JSON.stringify(cart));
+        // Redirigir a la página de carrito con los productos seleccionados
+        window.location.href = '/vercarrito?productos=' + cartJson;
+    } else {
+        // Mostrar un mensaje o tomar alguna acción si el carrito está vacío
+        console.log('El carrito está vacío.');
+    }
+}
