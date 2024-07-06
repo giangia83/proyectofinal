@@ -244,8 +244,8 @@ app.post('/proseguircompra', async (req, res) => {
             usuario,
             productos: productos.map(producto => ({
                 id: producto.id,
-                nombre: producto.nombre,
-                categoria: producto.categoria,
+                nombre: producto.name,
+                categoria: producto.category,
                 cantidad: producto.cantidad || 1, // Asegurar que haya una cantidad (por defecto 1)
             })),
         });
