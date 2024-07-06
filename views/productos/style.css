@@ -757,7 +757,7 @@ font-size: 15px;
         .myCard.selected .card-body {
             opacity: 0;
             visibility: hidden;
-            background-color: #cdeccd; /* Fondo verde claro cuando seleccionada */
+            
         }
         
         .selected .product-image {
@@ -768,12 +768,4 @@ font-size: 15px;
         .texto-info{
 
             margin-top:-5rem ;
-        }
-
-        .myCard.selected h5 a {
-            color: #ffffff; /* Texto blanco */
-        }
-        
-        .myCard.selected .font-italic {
-            color: #ffffff; /* Texto blanco */
         }
