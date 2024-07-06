@@ -225,7 +225,7 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-aapp.post('/proseguircompra', async (req, res) => {
+app.post('/proseguircompra', async (req, res) => {
     const { productos, usuario } = req.body;
 
     try {
