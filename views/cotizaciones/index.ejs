@@ -138,12 +138,14 @@
               </li>
             <% }) %>
           </ul>
-          <p class="card-text">
+          <div class="card-text">
             <strong>Total de productos:</strong> <%= calcularTotalProductos(cotizacion) %><br>
             <strong>Total de la cotización:</strong> <%= calcularTotalCotizacion(cotizacion) %><br>
             <strong>Porcentaje de ganancia:</strong> <%= calcularPorcentajeGanancia(cotizacion) %>%<br>
             <strong>Estado:</strong> <%= cotizacion.estado %><br>
           </p>
+
+          <div class="btn-group" role="group" aria-label="Botones"></div>
           <form action="/vercotizaciones/verificar/<%= cotizacion._id %>" method="POST">
             <button type="submit" class="btn btn-success">Verificar</button>
           </form>
@@ -153,6 +155,8 @@
           <form action="/vercotizaciones/<%= cotizacion.usuario %>" method="GET">
             <button type="submit" class="btn btn-warning">Ver detalles del usuario</button>
           </form>
+        </div>
+        
         </div>
       </div>
     </div>
