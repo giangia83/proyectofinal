@@ -248,7 +248,7 @@ app.post('/proseguircompra', async (req, res) => {
     }
 });
 
-module.exports = router;
+
 
 
 
