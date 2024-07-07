@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     id: producto.id,
                     nombre: producto.name, // Aquí usamos 'name' según el HTML proporcionado
                     categoria: producto.category,
-                    cantidad: producto.cantidad || 1,
+                    cantidad: parseInt(document.getElementsByName(`cantidad${producto.id}`)[0].value, 10),
                 })),
             };
 
