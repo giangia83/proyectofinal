@@ -199,13 +199,13 @@ app.use('/servicioalcliente', express.static(path.resolve(__dirname, 'views', 's
 app.use('/clientes', express.static(path.resolve(__dirname, 'views', 'clientes')));
 app.use('/gestion', express.static(path.resolve(__dirname, 'views', 'gestionar')));
 app.use('/administrar', express.static(path.resolve(__dirname, 'views', 'admin')));
-app.use('/cotizaciones', express.static(path.resolve(__dirname, 'views', 'cotizaciones')));
+app.use('/vercotizaciones', express.static(path.resolve(__dirname, 'views', 'cotizaciones')));
 app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'productos')));
 
 app.use("/main",express.static(__dirname + '/main'));
 
 
-app.use('/cotizaciones', cotizacionesRouter);
+app.use('/vercotizaciones', cotizacionesRouter);
 // Ruta para subir una imagen y guardar un producto
  // Rutas de API
 app.use('/api/users', userRouter);

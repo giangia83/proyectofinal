@@ -4,7 +4,7 @@ const Cotizacion = require('../models/cotizacion');
 const Usuario = require('../models/usuario');
 const Producto = require('../models/producto')
 // Ruta para obtener todas las cotizaciones
-router.get('/cotizaciones', async (req, res) => {
+router.get('/vercotizaciones', async (req, res) => {
     try {
         const productos = await Producto.find();
         const cotizaciones = await Cotizacion.find();
