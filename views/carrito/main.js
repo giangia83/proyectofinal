@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Preparar los datos a enviar
             const data = {
                 usuario: usuario,
+                estado: 'Pendiente',
                 productos: cart.map(producto => ({
                     id: producto.id,
                     nombre: producto.name, // Aquí usamos 'name' según el HTML proporcionado

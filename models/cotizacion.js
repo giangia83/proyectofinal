@@ -22,6 +22,12 @@ const cotizacionSchema = new mongoose.Schema({
             type: Number,
             default: 1,
         },
+        estado:{
+            type: String,
+            default: 'Pendiente',
+            
+
+        }
     }],
 });
 
