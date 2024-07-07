@@ -118,6 +118,46 @@
 
 
 
+          
+<!-- cotizaciones -->
+<div class="accordion" id="accordionCotizaciones">
+  <% cotizaciones.forEach((cotizacion, index) => { %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading<%= index %>">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
+          Cotización por: <%= cotizacion.usuario %>
+        </button>
+      </h2>
+      <div id="collapse<%= index %>" class="accordion-collapse collapse show" aria-labelledby="heading<%= index %>" data-bs-parent="#accordionCotizaciones">
+        <div class="accordion-body">
+          <h5 class="card-title">Productos:</h5>
+          <ul class="list-group">
+            <% cotizacion.productos.forEach(producto => { %>
+              <li class="list-group-item">
+                <%= producto.nombre %> - Precio unitario: <%= producto.precio %> - Cantidad: <%= producto.cantidad %>
+              </li>
+            <% }) %>
+          </ul>
+          <p class="card-text">
+            <strong>Total de productos:</strong> <%= calcularTotalProductos(cotizacion) %><br>
+            <strong>Total de la cotización:</strong> <%= calcularTotalCotizacion(cotizacion) %><br>
+            <strong>Porcentaje de ganancia:</strong> <%= calcularPorcentajeGanancia(cotizacion) %>%<br>
+            <strong>Estado:</strong> <%= cotizacion.estado %><br>
+          </p>
+          <form action="/cotizaciones/verificar/<%= cotizacion._id %>" method="POST">
+            <button type="submit" class="btn btn-success">Verificar</button>
+          </form>
+          <form action="/cotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+          </form>
+          <form action="/usuarios/<%= cotizacion.usuario %>" method="GET">
+            <button type="submit" class="btn btn-warning">Ver detalles del usuario</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>
 
 
 <!-- cotizaciones end -->

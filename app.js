@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
 const productosRouter = require('./controllers/productos');
-const cotizacionesRouter = require('./controllers/cotizaciones.js'); // Ruta relativa al archivo cotizaciones.js
+const cotizacionesRouter = require('./controllers/cotizaciones'); // Ruta relativa al archivo cotizaciones.js
 const Cotizacion = require('./models/cotizacion');
 
 const compression = require('compression');
