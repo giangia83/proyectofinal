@@ -16,7 +16,7 @@ router.get('/vercotizaciones', async (req, res) => {
 });
 
 // Ruta para actualizar el estado de una cotización a "Verificada"
-router.post('/cotizaciones/verificar/:id', async (req, res) => {
+router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const cotizacion = await Cotizacion.findById(id);
@@ -33,7 +33,7 @@ router.post('/cotizaciones/verificar/:id', async (req, res) => {
 });
 
 // Ruta para eliminar una cotización
-router.post('/cotizaciones/eliminar/:id', async (req, res) => {
+router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
     const { id } = req.params;
     try {
         await Cotizacion.findByIdAndDelete(id);
