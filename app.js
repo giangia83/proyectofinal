@@ -84,14 +84,38 @@ app.use((req, res, next) => {
 
     // Verificar si hay un nombre de usuario en la cookie
     if (usuarioNombre) {
-        res.locals.usuario = { nombre: usuarioNombre };
-    } else {
-        // Si no hay cookie de usuario, asegurarse de no definir res.locals.usuario
-        delete res.locals.usuario;
-    }
+        // Consultar la base de datos para obtener los detalles del usuario
+        Usuario.findOne({ nombre: usuarioNombre })
+            .then(usuario => {
+                if (usuario) {
+                    // Si encontramos al usuario, configuramos res.locals.usuario con sus detalles
+                    res.locals.usuario = {
+                        nombre: usuario.nombre,
+                        correo: usuario.correo,
+                        direccion: usuario.direccion,
+                        number: usuario.number,
+                        rif: usuario.rif,
+                        ciudad: usuario.ciudad,
 
-    next();
+                       
+                    };
+                } else {
+                    // Manejar el caso en el que no se encuentre el usuario
+                    delete res.locals.usuario; // Asegurarse de no definir res.locals.usuario
+                }
+                next();
+            })
+            .catch(error => {
+                console.error('Error al obtener el usuario:', error);
+                delete res.locals.usuario; // Manejar errores de consulta a la base de datos
+                next();
+            });
+    } else {
+        delete res.locals.usuario; // Si no hay cookie de usuario, asegurarse de no definir res.locals.usuario
+        next();
+    }
 });
+
 
 
 app.post('/upload', upload.single('file'), (req, res) => {
