@@ -26,7 +26,7 @@ const cotizacionSchema = new mongoose.Schema({
         },
         cantidad: {
             type: Number,
-            required: true;
+            required: true,
         },
       
     }],
