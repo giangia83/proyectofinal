@@ -75,7 +75,7 @@ const upload = multer({ storage: storage });
 
 
 
-app.use('/cotizaciones', cotizacionesRouter);
+
 
 
 app.use((req, res, next) => {
@@ -205,7 +205,7 @@ app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'produc
 app.use("/main",express.static(__dirname + '/main'));
 
 
-
+app.use('/cotizaciones', cotizacionesRouter);
 // Ruta para subir una imagen y guardar un producto
  // Rutas de API
 app.use('/api/users', userRouter);
