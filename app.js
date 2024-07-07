@@ -224,9 +224,7 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
-const express = require('express');
-const router = express.Router();
-const Cotizacion = require('../models/Cotizacion');
+
 
 // Endpoint para guardar la cotización
 router.post('/proseguircompra', async (req, res) => {
