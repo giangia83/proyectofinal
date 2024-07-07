@@ -8,7 +8,7 @@ const { calcularTotalProductos, calcularTotalCotizacion, calcularPorcentajeGanan
 router.get('/vercotizaciones', async (req, res) => {
     try {
         const producto = await Producto.find();
-       
+        res.render('cotizaciones/index', { productos, cotizaciones, calcularTotalProductos, calcularTotalCotizacion, calcularPorcentajeGanancia });
         const cotizaciones = await Cotizacion.find();
         res.render('cotizaciones/index', {producto, cotizaciones });
     } catch (error) {
