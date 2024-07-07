@@ -128,25 +128,16 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
-
-
-
 // Rutas de archivos estáticos
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/', (req, res) => {
     res.render('home/index', {
-        usuario: res.locals.usuario || { nombre: '' }  // Si no hay usuario, pasa un objeto vacío o maneja según tu lógica
+        usuario: res.locals.usuario || { nombre: '' }  // Si no hay usuario, pasa un objeto vacío 
     });
 });
-
-
-
 /* rutas */
-
-
 app.get('/verproductos', async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
@@ -304,11 +295,8 @@ app.get('/tuspedidos', async (req, res) => {
 
 
 app.get('/informacion', (req, res) => {
-    if (req.session.usuario) {
-        res.render('infocuenta/index', { usuario: req.session.usuario });
-    } else {
-        res.redirect('/iniciarsesion');
-    }
+   
+        res.render('infocuenta/index', { usuario: res.locals.usuario });
 });
 
 // Ruta para cerrar sesión
@@ -323,9 +311,6 @@ app.get('/logout', (req, res) => {
         res.redirect('/'); // Redirige al inicio u otra página después de cerrar sesión
     });
 });
-
-
-
 
 
 // Middleware para servir archivos estáticos en la carpeta de uploads
