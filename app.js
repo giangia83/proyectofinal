@@ -210,7 +210,7 @@ app.use('/api/users', userRouter);
 app.use('/api', productosRouter); // Ruta base para las rutas del enrutador de productos
 
 const adminEmail = 'jbiadarola@hotmail.com';
-const adminPassword = 'starclean321';
+const adminPassword = 'starclean123';
 
 app.post('/api/login', async (req, res) => {
     try {
