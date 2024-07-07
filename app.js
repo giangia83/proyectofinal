@@ -227,7 +227,7 @@ app.post('/api/login', async (req, res) => {
 
 
 // Endpoint para guardar la cotización
-router.post('/proseguircompra', async (req, res) => {
+app.post('/proseguircompra', async (req, res) => {
     const { usuario, productos } = req.body;
 
     try {
