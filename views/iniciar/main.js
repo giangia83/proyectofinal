@@ -23,12 +23,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (usuarioCookie) {
         // Si hay una cookie de usuario, redirigir directamente a la página de cuenta
         window.location.href = '/';
+        return; // Termina la ejecución para evitar que siga procesando el código
     } else {
         // Si no hay cookie de usuario, mostrar la página de inicio de sesión
         console.log('No hay cookie de usuario. Mostrar página de inicio de sesión.');
     }
-
-
 
     let usuarios;
     try {
@@ -47,6 +46,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     formL.addEventListener('submit', async e => {
         e.preventDefault();
 
+        const adminEmail = 'jbiadarola@hotmail.com';
+        const adminPassword = 'starclean123';
         const correo = loginInput.value;
         const password = passwordInput.value;
 
@@ -54,14 +55,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Buscar el usuario por correo electrónico en la lista cargada
             const usuario = usuarios.find(user => user.correo === correo);
 
-            if (usuario && usuario.contraseña === password) {
-                // Guardar la sesión del usuario utilizando cookies
-                document.cookie = `usuario=${usuario.nombre}; path=/`;
-                // Inicio de sesión exitoso, redirigir al usuario a la página de cuenta
-                window.location.href = '/cuenta';
+            if (usuario) {
+                if (usuario.contraseña === adminPassword && correo === adminEmail) {
+                    // Guardar la sesión del usuario utilizando cookies
+                    document.cookie = `usuario=${usuario.nombre}; path=/`;
+                    // Redirigir al usuario a la página de administrador
+                    window.location.href = '/administrador';
+                } else if (usuario.contraseña === password) {
+                    // Guardar la sesión del usuario utilizando cookies
+                    document.cookie = `usuario=${usuario.nombre}; path=/`;
+                    // Redirigir al usuario a la página de cuenta
+                    window.location.href = '/cuenta';
+                } else {
+                    // Mostrar mensaje de error si las credenciales son inválidas
+                    mostrarMensaje('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+                }
             } else {
-                // Mostrar mensaje de error si las credenciales son inválidas
-                mostrarMensaje('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+                // Mostrar mensaje de error si no se encontró al usuario
+                mostrarMensaje('Usuario no encontrado. Por favor, inténtalo de nuevo.');
             }
         } catch (error) {
             console.error('Error al iniciar sesión:', error);
