@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // Guardar la sesión del usuario utilizando cookies
                     document.cookie = `usuario=${usuario.nombre}; path=/`;
                     // Redirigir al usuario a la página de administrador
-                    window.location.href = '/administrador';
+                    window.location.href = '/administrar';
                 } else if (usuario.contraseña === password) {
                     // Guardar la sesión del usuario utilizando cookies
                     document.cookie = `usuario=${usuario.nombre}; path=/`;
