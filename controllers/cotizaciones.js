@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Cotizacion = require('../models/cotizacion');
-const Usuario = require('../models/usuario');
+
 const Producto = require('../models/producto')
 // Ruta para obtener todas las cotizaciones
+const { calcularTotalProductos, calcularTotalCotizacion, calcularPorcentajeGanancia } = require('../views/cotizaciones/main.js');
 router.get('/vercotizaciones', async (req, res) => {
     try {
         const producto = await Producto.find();

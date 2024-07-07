@@ -1,3 +1,5 @@
+// calculos.js
+
 // Función para calcular el total de productos en una cotización
 const calcularTotalProductos = (cotizacion) => {
     let total = 0;
