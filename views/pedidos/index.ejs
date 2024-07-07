@@ -58,69 +58,73 @@
     <h2 class="font-weight-bold mb-2">Tus pedidos <span class="badge bg-primary">Empresarial</span></h2>
 
     <div class="accordion" id="accordionPedidos">
-        <% cotizaciones.forEach((cotizacion, index) => { %>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="heading<%= index %>">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
-                        Orden #<%= index + 1 %> (<%= cotizacion.fecha.toLocaleDateString() %>)
-                    </button>
-                </h2>
-                <div id="collapse<%= index %>" class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
-                    aria-labelledby="heading<%= index %>" data-bs-parent="#accordionPedidos">
-                    <div class="accordion-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered caption-top">
-                                <caption></caption>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Precio</th>
-                                    <th>Cantidad</th>
-                                </tr>
-                                <% cotizacion.productos.forEach(producto => { %>
-                                    <tr>
-                                        <td><%= producto.nombre %></td>
-                                        <td><%= producto.precio %></td>
-                                        <td><%= producto.cantidad %></td>
-                                    </tr>
-                                <% }); %>
-                            </table>
-                        </div>
-
-                        <!-- Botón para ver detalles -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDetalles<%= index %>">
-                            Ver detalles
-                        </button>
-
-                        <!-- Modal de detalles -->
-                        <div class="modal fade" id="modalDetalles<%= index %>" tabindex="-1"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Detalles del pedido</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Aquí puedes mostrar más detalles del pedido -->
-                                        <p>Total de la compra: <%= cotizacion.total %> </p>
-                                        <p>Estado del pedido: <%= cotizacion.estado %> </p>
-                                        <!-- Puedes añadir más detalles según lo necesario -->
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-danger">Eliminar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <% }); %>
-    </div>
+      <% cotizaciones.forEach((cotizacion, index) => { %>
+          <div class="accordion-item">
+              <h2 class="accordion-header" id="heading<%= index %>">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
+                      Orden #<%= index + 1 %>
+                  </button>
+              </h2>
+              <div id="collapse<%= index %>" class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
+                  aria-labelledby="heading<%= index %>" data-bs-parent="#accordionPedidos">
+                  <div class="accordion-body">
+                      <div class="table-responsive">
+                          <table class="table table-bordered caption-top">
+                              <caption></caption>
+                              <tr>
+                                  <th>Producto</th>
+                                  <th>Precio</th>
+                                  <th>Cantidad</th>
+                              </tr>
+                              <% cotizacion.productos.forEach(producto => { %>
+                                  <tr>
+                                      <td><%= producto.nombre %></td>
+                                      <td><%= producto.precio %></td>
+                                      <td><%= producto.cantidad %></td>
+                                  </tr>
+                              <% }); %>
+                          </table>
+                      </div>
+  
+                      <!-- Botón para ver detalles -->
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDetalles<%= index %>">
+                          Ver detalles
+                      </button>
+  
+                      <!-- Modal de detalles -->
+                      <div class="modal fade" id="modalDetalles<%= index %>" tabindex="-1"
+                          aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Detalles del pedido</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                          aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <!-- Aquí puedes mostrar más detalles del pedido -->
+                                      <p>Total de la compra: <%= cotizacion.total %> </p>
+                                     
+                                      <!-- Puedes añadir más detalles según lo necesario -->
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary"
+                                          data-bs-dismiss="modal">Cerrar</button>
+                                      <button type="button" class="btn btn-danger">Eliminar</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      <% }); %>
+  </div>
+  
+                    
+                      
+      
 </main>
 
 <!-- Bootstrap JS y otros scripts -->
