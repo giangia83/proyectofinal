@@ -144,10 +144,10 @@
             <strong>Porcentaje de ganancia:</strong> <%= calcularPorcentajeGanancia(cotizacion) %>%<br>
             <strong>Estado:</strong> <%= cotizacion.estado %><br>
           </p>
-          <form action="/cotizaciones/verificar/<%= cotizacion._id %>" method="POST">
+          <form action="/vercotizaciones/verificar/<%= cotizacion._id %>" method="POST">
             <button type="submit" class="btn btn-success">Verificar</button>
           </form>
-          <form action="/cotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
+          <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
             <button type="submit" class="btn btn-danger">Eliminar</button>
           </form>
           <form action="/usuarios/<%= cotizacion.usuario %>" method="GET">

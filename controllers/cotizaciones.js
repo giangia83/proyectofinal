@@ -7,8 +7,9 @@ const Producto = require('../models/producto')
 router.get('/vercotizaciones', async (req, res) => {
     try {
         const productos = await Producto.find();
+        const usuario = await Usuario.findById(id);
         const cotizaciones = await Cotizacion.find();
-        res.render('cotizaciones/index', {productos, cotizaciones });
+        res.render('cotizaciones/index', {productos, cotizaciones, usuario });
     } catch (error) {
         console.error('Error al obtener cotizaciones:', error);
         res.status(500).send('Error interno al obtener cotizaciones');
@@ -25,7 +26,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         }
         cotizacion.estado = 'Verificada';
         await cotizacion.save();
-        res.redirect('/cotizaciones'); // Redirigir de vuelta a la lista de cotizaciones
+        res.redirect('/vercotizaciones'); // Redirigir de vuelta a la lista de cotizaciones
     } catch (error) {
         console.error('Error al verificar cotización:', error);
         res.status(500).send('Error interno al verificar cotización');
@@ -37,7 +38,7 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
     const { id } = req.params;
     try {
         await Cotizacion.findByIdAndDelete(id);
-        res.redirect('/cotizaciones'); // Redirigir de vuelta a la lista de cotizaciones
+        res.redirect('/vercotizaciones'); // Redirigir de vuelta a la lista de cotizaciones
     } catch (error) {
         console.error('Error al eliminar cotización:', error);
         res.status(500).send('Error interno al eliminar cotización');
