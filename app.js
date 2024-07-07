@@ -303,9 +303,9 @@ app.get('/tuspedidos', async (req, res) => {
 });
 
 
-app.get('/infocuenta', (req, res) => {
+app.get('/informacion', (req, res) => {
     if (req.session.usuario) {
-        res.render('infocuenta', { usuario: req.session.usuario });
+        res.render('infocuenta/index', { usuario: req.session.usuario });
     } else {
         res.redirect('/iniciarsesion');
     }
