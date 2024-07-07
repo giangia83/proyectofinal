@@ -81,94 +81,45 @@
 
         </nav>
         <main>
-        
-
- 
-
-            <div class="container">
-                <!-- Content here -->
-                <h2 class="font-weight-bold mb-2">  Tu cuenta  <span class="badge bg-primary">Empresarial</span>    </h2>           
-                
-<div class="table-div">
-
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="card">
-
-        <div class="card-header">
-          Información 
-        </div>
-
-        <div class="card-body">
-          <h5 class="card-title">
-
-
-<p>Nombre: {{ usuario.nombre }}</p>
-<p>Correo: {{ usuario.correo }}</p>
-<p>Dirección: {{ usuario.direccion }}</p>
-
-
-
-
-
-
-          </h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="card">
-
-        <div class="card-header">
-          Compras
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-       
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" style="width: 100%;">
-    <div class="card-header">
-      Categorias favoritas
-    </div>
-    <div class="card-body">
-
-      
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-     
-    </div>
-  </div>
-
+          <div class="container">
+              <h2 class="font-weight-bold mb-2">Tu cuenta <span class="badge bg-primary">Empresarial</span></h2>
   
-
-
-
-
-                </div>
-              
-
-
-
-                
-
-
-            </div>
-
-          
-
-           
-
-
-
-        </main>
-   
+              <div class="table-div">
+                  <div class="row">
+                      <div class="col-sm-6">
+                          <div class="card">
+                              <div class="card-header">Información</div>
+                              <div class="card-body">
+                                  <h5 class="card-title">
+                                      <p>Nombre: <%= usuario.nombre %></p>
+                                      <p>Correo: <%= usuario.correo %></p>
+                                      <p>Dirección: <%= usuario.direccion %></p>
+                                  </h5>
+                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-sm-6">
+                          <div class="card">
+                              <div class="card-header">Compras</div>
+                              <div class="card-body">
+                                  <h5 class="card-title">Special title treatment</h5>
+                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+  
+                  <div class="card" style="width: 100%;">
+                      <div class="card-header">Categorías favoritas</div>
+                      <div class="card-body">
+                          <h5 class="card-title">Special title treatment</h5>
+                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </main>
 
         
 
