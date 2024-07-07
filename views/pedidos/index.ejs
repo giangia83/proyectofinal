@@ -105,11 +105,7 @@
                                   <div class="modal-body">
                                       <!-- Aquí puedes mostrar más detalles del pedido -->
                                   
-                                      <% cotizaciones.forEach(cotizacion => { %>
-                                        <p>Estado: <%= cotizacion.estado %></p>
-                                        <!-- Aquí puedes mostrar otros detalles de la cotización -->
-                                    <% }); %>
-                                    
+                                      <p>Estado del pedido: <%= cotizacion.estado %> </p>
                                       <!-- Puedes añadir más detalles según lo necesario -->
                                   </div>
                                   <div class="modal-footer">
@@ -132,6 +128,6 @@
 </main>
 
 <!-- Bootstrap JS y otros scripts -->
-<script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+
 </body>
 </html>

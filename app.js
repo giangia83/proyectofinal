@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
 const productosRouter = require('./controllers/productos');
-
+const cotizacionesRouter = require('./controllers/cotizaciones'); // Ruta relativa al archivo cotizaciones.js
 const Cotizacion = require('./models/cotizacion');
 
 const compression = require('compression');
@@ -73,7 +73,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const upload = multer({ storage: storage });
 
-// Middleware para pasar usuario a todas las vistas
+
+
+app.use('/api', cotizacionesRouter); // Cambia '/api' por la ruta que desees utilizar
+
 
 app.use((req, res, next) => {
     // Obtener el nombre de usuario desde la cookie 'usuario'
@@ -142,7 +145,6 @@ app.get('/', (req, res) => {
 
 
 /* rutas */
-
 
 
 app.get('/verproductos', async (req, res) => {
