@@ -75,7 +75,7 @@ const upload = multer({ storage: storage });
 
 
 
-app.use('/', cotizacionesRouter);
+app.use('/cotizaciones', cotizacionesRouter);
 
 
 app.use((req, res, next) => {
