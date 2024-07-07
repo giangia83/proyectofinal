@@ -8,9 +8,9 @@ const { calcularTotalProductos, calcularTotalCotizacion, calcularPorcentajeGanan
 router.get('/vercotizaciones', async (req, res) => {
     try {
         const producto = await Producto.find();
-        res.render('cotizaciones/index', { producto, cotizaciones, calcularTotalProductos, calcularTotalCotizacion, calcularPorcentajeGanancia });
+   
         const cotizaciones = await Cotizacion.find();
-        res.render('cotizaciones/index', {producto, cotizaciones });
+        res.render('cotizaciones/index', { producto, cotizaciones, calcularTotalProductos, calcularTotalCotizacion, calcularPorcentajeGanancia });
     } catch (error) {
         console.error('Error al obtener cotizaciones:', error);
         res.status(500).send('Error interno al obtener cotizaciones');
