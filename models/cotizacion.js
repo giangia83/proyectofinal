@@ -5,6 +5,12 @@ const cotizacionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+      estado:{
+            type: String,
+            default: 'Pendiente',
+            
+
+        },
     productos: [{
         id: {
             type: String,
@@ -22,12 +28,7 @@ const cotizacionSchema = new mongoose.Schema({
             type: Number,
             default: 1,
         },
-        estado:{
-            type: String,
-            default: 'Pendiente',
-            
-
-        }
+      
     }],
 });
 
