@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Cotizacion = require('../models/cotizacion');
 const Usuario = require('../models/usuario');
-
+const Producto = require('../models/producto')
 // Ruta para obtener todas las cotizaciones
 router.get('/cotizaciones', async (req, res) => {
     try {
+        const productos = await Producto.find();
         const cotizaciones = await Cotizacion.find();
-        res.render('cotizaciones/index', { cotizaciones });
+        res.render('cotizaciones/index', {productos, cotizaciones });
     } catch (error) {
         console.error('Error al obtener cotizaciones:', error);
         res.status(500).send('Error interno al obtener cotizaciones');
