@@ -74,13 +74,13 @@
                               <caption></caption>
                               <tr>
                                   <th>Producto</th>
-                                  <th>Precio</th>
+                                  <th>Categoria</th>
                                   <th>Cantidad</th>
                               </tr>
                               <% cotizacion.productos.forEach(producto => { %>
                                   <tr>
                                       <td><%= producto.nombre %></td>
-                                      <td><%= producto.precio %></td>
+                                      <td><%= producto.categoria %></td>
                                       <td><%= producto.cantidad %></td>
                                   </tr>
                               <% }); %>
@@ -105,7 +105,11 @@
                                   <div class="modal-body">
                                       <!-- Aquí puedes mostrar más detalles del pedido -->
                                   
-                                      <p>Estado del pedido: <%= cotizacion.estado %> </p>
+                                      <% cotizaciones.forEach(cotizacion => { %>
+                                        <p>Estado: <%= cotizacion.estado %></p>
+                                        <!-- Aquí puedes mostrar otros detalles de la cotización -->
+                                    <% }); %>
+                                    
                                       <!-- Puedes añadir más detalles según lo necesario -->
                                   </div>
                                   <div class="modal-footer">
