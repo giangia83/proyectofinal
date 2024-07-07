@@ -6,10 +6,10 @@ const Producto = require('../models/producto')
 // Ruta para obtener todas las cotizaciones
 router.get('/vercotizaciones', async (req, res) => {
     try {
-        const productos = await Producto.find();
-        const usuario = await Usuario.findById(id);
+        const producto = await Producto.find();
+       
         const cotizaciones = await Cotizacion.find();
-        res.render('cotizaciones/index', {productos, cotizaciones, usuario });
+        res.render('cotizaciones/index', {producto, cotizaciones });
     } catch (error) {
         console.error('Error al obtener cotizaciones:', error);
         res.status(500).send('Error interno al obtener cotizaciones');
@@ -45,19 +45,6 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
     }
 });
 
-// Ruta para obtener detalles de un usuario por ID
-router.get('/usuarios/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-        const usuario = await Usuario.findById(id);
-        if (!usuario) {
-            return res.status(404).send('Usuario no encontrado');
-        }
-        res.render('usuario-detalle', { usuario });
-    } catch (error) {
-        console.error('Error al obtener detalles del usuario:', error);
-        res.status(500).send('Error interno al obtener detalles del usuario');
-    }
-});
+
 
 module.exports = router;
