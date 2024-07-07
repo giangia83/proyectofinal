@@ -7,7 +7,7 @@ const Usuario = require('../models/usuario');
 router.get('/cotizaciones', async (req, res) => {
     try {
         const cotizaciones = await Cotizacion.find();
-        res.render('cotizaciones', { cotizaciones });
+        res.render('cotizaciones/index', { cotizaciones });
     } catch (error) {
         console.error('Error al obtener cotizaciones:', error);
         res.status(500).send('Error interno al obtener cotizaciones');
