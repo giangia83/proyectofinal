@@ -155,6 +155,16 @@ app.get('/verproductos', async (req, res) => {
     }
 });
 
+app.get('/administrar', async (req, res) => {
+    try {
+        const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
+        res.render('admin/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
+
 app.get('/vercarrito', async (req, res) => {
     try {
         const productosCarrito = req.query.productos;
@@ -199,7 +209,9 @@ app.use("/main",express.static(__dirname + '/main'));
 app.use('/api/users', userRouter);
 app.use('/api', productosRouter); // Ruta base para las rutas del enrutador de productos
 
-// Rutas de autenticación y sesión
+const adminEmail = 'jbiadarola@hotmail.com';
+const adminPassword = 'starclean321';
+
 app.post('/api/login', async (req, res) => {
     try {
         const { correo, contraseña } = req.body;
@@ -209,6 +221,24 @@ app.post('/api/login', async (req, res) => {
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
+        // Verificar si el usuario es el admin
+        if (correo === adminEmail && contraseña === adminPassword) {
+            // Si es el admin, guardar los datos de sesión
+            req.session.usuario = {
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+                direccion: usuario.direccion,
+                ciudad: usuario.ciudad,
+                rif: usuario.rif,
+                // Agregar otros datos según sea necesario
+                esAdmin: true  // Puedes agregar un indicador de admin si lo necesitas en el front-end
+            };
+
+            // Redirigir a la interfaz de administración
+            return res.status(200).json({ message: 'Inicio de sesión exitoso como admin', redirectTo: '/administrar' });
+        }
+
+        // Si no es admin, guardar los datos de sesión normal
         req.session.usuario = {
             nombre: usuario.nombre,
             correo: usuario.correo,
@@ -224,6 +254,7 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
+
 
 
 // Endpoint para guardar la cotización

@@ -62,7 +62,7 @@
         <!-- Sección derecha del encabezado -->
         <div class="header-right">
             <!-- Enlace al inicio -->
-            <a href="#" class="logo"><a href="#" class="badge badge-primary">Cuenta admin </a>
+            <a href="#" class="logo"><a href="#" class="badge badge-primary">   <h3><%= usuario.nombre %></h3> </a>
 
         </div>
 
@@ -92,12 +92,12 @@
 
                         <ul>
 
-                            <li><a href="/html/aprende.html">Gestión de Productos </a></li>
+                            <li><a href="/gestion">Gestión de Productos </a></li>
                             <p> Agregar, editar y eliminar productos.</p>
 
-                            <li><a href="/html/soporte.html">Gestión de Cotizaciones</a></li>
+                            <li><a href="/cotizaciones">Gestión de Cotizaciones</a></li>
                             <p> Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
-                            <li><a href="/html/about.html">Administración de Clientes</a></li>
+                            <li><a href="/clientes">Administración de Clientes</a></li>
                             <p> Mantén un registro de los clientes registrados y sus detalles.</p>
 
 
@@ -135,7 +135,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Gestión de Pedidos</h5>
                         <p class="card-text">Administra los pedidos de los clientes.</p>
-                        <a href="#" class="btn btn-primary">Ver pedidos</a>
+                        <a href="/cotizaciones" class="btn btn-primary">Ver pedidos</a>
                     </div>
                   </div>
                 </div>
@@ -174,8 +174,8 @@
                               <input type="text" class="form-control" id="inputAddress" placeholder="Calle Macaira, Guatire">
                             </div>
                             <div class="col-12">
-                              <label for="inputAddress2" class="form-label">Instagram</label>
-                              <input type="text" class="form-control" id="inputAddress2" placeholder="@starclean">
+                              <label for="inputAddress2" class="form-label">RIF</label>
+                              <input type="text" class="form-control" id="inputAddress2" >
                             </div>
                            
                             <div class="col-12">
