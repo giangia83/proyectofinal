@@ -75,7 +75,7 @@ const upload = multer({ storage: storage });
 
 
 
-app.use('/api', cotizacionesRouter); // Cambia '/api' por la ruta que desees utilizar
+app.use('/', cotizacionesRouter);
 
 
 app.use((req, res, next) => {
