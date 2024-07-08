@@ -97,7 +97,7 @@ app.use((req, res, next) => {
                         rif: usuario.rif,
                         ciudad: usuario.ciudad,
 
-                       
+                        // Otros campos del usuario que desees mostrar
                     };
                 } else {
                     // Manejar el caso en el que no se encuentre el usuario
