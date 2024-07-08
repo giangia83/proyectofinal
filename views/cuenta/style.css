@@ -179,6 +179,7 @@ line-height :21.6px;
     font-weight: 480;
 }
 
+
 .titulillo {
     -webkit-font-smoothing: antialiased;
     border-bottom: 1px #444 solid;
@@ -507,4 +508,20 @@ border:1px solid,  rgb(235, 235, 235);
 
 color: rgb(218, 5, 5);
 
+}
+
+.btn-special {
+    background-color: #ffffff;
+    color: #1b1b1b;
+    border: none;
+    transition: all 0.1s ease; /* Transición suave para todos los cambios */
+    font-weight: normal; /* Establece el peso de la fuente inicialmente */
+  
+}
+
+.btn-special:hover {
+    color: #b4b4b4;
+   
+  
+    background-color: #ffffff;
 }
