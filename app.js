@@ -157,8 +157,15 @@ app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/', (req, res) => {
+    const screenWidth = 500;
+
+    // Decide qué imagen cargar basado en el tamaño de la pantalla
+    const imagePath = screenWidth <= 500 ? '/public/img/herostarmobile.webp' : '/public/img/herostar5.webp';
+
+    // Renderiza el archivo EJS y pasa la variable imagePath al contexto
     res.render('home/index', {
-        usuario: res.locals.usuario || { nombre: '' }  // Si no hay usuario, pasa un objeto vacío 
+        usuario: res.locals.usuario || { nombre: '' }, // Si no hay usuario, pasa un objeto vacío
+        imagePath: imagePath 
     });
 });
 /* rutas */
