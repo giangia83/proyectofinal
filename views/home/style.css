@@ -493,9 +493,10 @@ nav ul li a:hover {
     }
 
 
-.cuentainfo{
 
-display: none;
+
+.cuentainfo{
+    display: none
 
 }
 
@@ -535,7 +536,10 @@ width: 100%;
 
    }
 
-   
+   .display-mobile{
+    display: block;
+
+   }
 
    
    h5{
@@ -557,6 +561,10 @@ width: 100%;
 
 
 
+}
+
+.dropdown-mobile{
+    display: none;
 }
 
 
@@ -590,13 +598,24 @@ font-size: 15px;
 
     }
 
+
+   
     .show{
 
 display: flex;
 
     }
 
+.header-center{
+
+
+margin-right: 45px;
 }
+
+   
+}
+
+
 
 
 .hover-dropdown:hover{
@@ -644,6 +663,8 @@ font-weight: 500;
 
 
 
+
+
 /* CARRUSEL */
 
 .card{
@@ -671,7 +692,7 @@ font-size: 15px;
 
 .form-control{
 
-    max-width: 30rem;
+    max-width: 60%;
     border-radius: 7%;
     border: none;
     box-shadow: rgba(10, 0, 0, 0.13)0 1px 3px 0;
@@ -698,4 +719,8 @@ font-size: 15px;
 
 
 
-        }
+        }.display-mobile{
+            display: none;
+        
+           }
+        
