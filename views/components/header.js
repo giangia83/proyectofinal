@@ -15,13 +15,13 @@ function createHeader(usuario) {
     // HTML para la sección central del encabezado
     const centerSection = `
       <div class="header-center">
-        <a href="/tuspedidos" class="btn btn-secondary e btn-special" type="button" aria-expanded="false">Mis pedidos</a>
-        <a href="/servicioalcliente" class="btn btn-secondary e btn-special" type="button" aria-expanded="false">Contacto</a>
+        <a href="/tuspedidos" class="btn btn-secondary e btn-special btn-center" type="button" aria-expanded="false">Mis pedidos</a>
+        <a href="/servicioalcliente" class="btn btn-secondary e btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
       </div>
     `;
   
-    // HTML para la sección derecha del encabezado
-    const rightSection = `
+    // HTML para la sección derecha del encabezado en pantallas grandes
+    const rightSectionDesktop = `
       <div class="header-right">
         ${usuario ? usuario.nombre : ''}
         <div class="dropdown hover-dropdown">
@@ -44,11 +44,53 @@ function createHeader(usuario) {
       </div>
     `;
   
-    // Agrega las secciones al <header>
-    header.innerHTML = leftSection + centerSection + rightSection;
+    // HTML para la sección derecha del encabezado en pantallas móviles
+    const rightSectionMobile = `
+      <div class="header-right">
+        <div class="menu-hamburguesa" id="menuHamburguesa">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </div>
+        <div class="menu-desplegable" id="menuDesplegable">
+          <ul>
+            ${usuario ? `
+              <li><a href="/cuenta">Cuenta</a></li>
+              <li><a href="/logout">Cerrar sesión</a></li>
+            ` : `
+              <li><a href="/iniciarsesion">Iniciar sesión</a></li>
+              <li><a href="/registrarse">Registrarse</a></li>
+            `}
+            <li><a href="/tuspedidos">Mis pedidos</a></li>
+            <li><a href="/servicioalcliente">Contacto</a></li>
+            <li><a href="/informacion">Información de la cuenta</a></li>
+            <li><a href="/configuracion">Configurar cuenta</a></li>
+          </ul>
+        </div>
+      </div>
+    `;
+  
+    // Agrega las secciones al <header> según el tamaño de la pantalla
+    if (window.innerWidth <= 500) {
+      header.innerHTML = leftSection + centerSection + rightSectionMobile;
+    } else {
+      header.innerHTML = leftSection + centerSection + rightSectionDesktop;
+    }
   
     // Agrega el <header> al documento
     document.body.prepend(header);
+  
+    // Evento para abrir y cerrar el menú desplegable en móviles
+    const menuHamburguesa = document.getElementById('menuHamburguesa');
+    const menuDesplegable = document.getElementById('menuDesplegable');
+  
+    if (menuHamburguesa && menuDesplegable) {
+      menuHamburguesa.addEventListener('click', () => {
+        menuDesplegable.classList.toggle('activo');
+      });
+    }
   }
   
   // Ejemplo de uso:
