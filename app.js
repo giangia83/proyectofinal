@@ -171,6 +171,29 @@ app.get('/verproductos', async (req, res) => {
         res.status(500).send('Error al obtener productos');
     }
 });
+// En tu archivo principal de la aplicación (app.js o index.js)
+
+
+
+// Ruta para renderizar la página de servicio al cliente
+app.get('/servicioalcliente', async (req, res) => {
+    try {
+    
+        const usuarioAdmin = await Usuario.findOne({ correo: "jbiadarola@hotmail.com" });
+
+        // Verificar si se encontró el usuario admin
+        if (!usuarioAdmin) {
+            return res.status(404).send('Usuario admin no encontrado');
+        }
+
+      
+        res.render('serviciocliente/index', { usuario: usuarioAdmin });
+    } catch (error) {
+        console.error('Error al obtener el usuario admin:', error);
+        res.status(500).send('Error al obtener el usuario admin');
+    }
+});
+
 
 app.get('/administrar', async (req, res) => {
     try {

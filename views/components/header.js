@@ -113,7 +113,10 @@ const style=
 
 
       }
-    }</style>`;
+    }</style>
+    
+    
+    `;
   
     // HTML para la sección central del encabezado
     const centerSection = `
@@ -174,8 +177,7 @@ const style=
           </ul>
         </div>
       </div>
-    `;
-  
+    `;  
     // Agrega las secciones al <header> según el tamaño de la pantalla
     if (window.innerWidth <= 500) {
       header.innerHTML = leftSection + centerSection + rightSectionMobile + style;

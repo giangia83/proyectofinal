@@ -613,13 +613,32 @@ display: flex;
 
     }
 
-.header-center{
 
-
-margin-right: 45px;
-}
 
    
+.form-control{
+display: none;
+
+}
+
+.header-center {
+    padding: 10px; /* Ajusta el relleno en pantallas móviles */
+}
+
+.btn-center {
+    display: none; /* Oculta los botones en pantallas móviles */
+}
+
+.menu-hamburguesa {
+    display: block; /* Muestra el icono de hamburguesa en pantallas móviles */
+}
+
+.menu-desplegable.activo {
+    transform: translateX(0); /* Muestra el menú desplegable al activarlo */
+    display: block;
+}
+
+
 }
 
 
@@ -726,8 +745,31 @@ font-size: 15px;
 
 
 
-        }.display-mobile{
-            display: none;
-        
-           }
+        }
+
+
+
+
+           /* Estilos para el menú hamburguesa y menú desplegable en dispositivos móviles */
+.menu-hamburguesa {
+    cursor: pointer;
+    display: none; /* Ocultar por defecto en pantallas grandes */
+}
+
+.menu-desplegable {
+    display: none;
+    position: absolute;
+    top: 80px;
+    right: 22px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    z-index: 1000;
+    width: 200px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    border-radius: 20px;
+}
+
+
         
