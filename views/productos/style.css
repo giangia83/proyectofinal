@@ -22,19 +22,6 @@ body {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Anchura */
 ::-webkit-scrollbar {
     width: 10px;
@@ -65,7 +52,7 @@ header {
     align-items: center;
     padding: 10px 20px;
 
-    background-color:#FFED00;
+    background-color:#FFFFFF;
     font-weight: 480;
 
 }
@@ -155,14 +142,14 @@ margin-left: 14px;
 
 .btn-special{
 
-background-color: #FFED00;
+background-color: #ffffff;
 border: none;
 color: #1b1b1b;
 }
 
 .btn-special:hover{
 
-    background-color: #FFED00;
+    background-color: #ffffff;
     border: none;
     color: #EA5730;
     }
@@ -764,5 +751,75 @@ font-size: 15px;
             filter: blur(4px);
             opacity: 0.7;
         }
+
+        
+.header-center {
+    /* Ajusta según tus necesidades */
+    display: flex;
+   
+    align-items: center; /* Alinea verticalmente los elementos */
+    padding: 0px 30px; /* Añade relleno arriba y abajo */
+  }
+  
+  .btn-center {
+    margin-right: 20px ; /* Margen entre cada elemento <a> */
+  }
+  /* styles/styles.css */
+
+  .menu-hamburguesa {
+    cursor: pointer;
+    display: none; /* Oculta por defecto en pantallas grandes */
+  }
+  
+  .menu-desplegable {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000;
+    width: 200px; /* Ancho del menú desplegable en móviles */
+    transform: translateX(100%); /* Inicia oculto fuera de la pantalla */
+    transition: transform 0.3s ease; /* Transición al mostrar/ocultar */
+  }
+  
+  .menu-desplegable ul {
+    list-style-type: none;
+    text-decoration: none; 
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu-desplegable ul li {
+    list-style-type: none;
+    text-decoration: none;
+    margin-bottom: 10px; /* Espacio entre cada elemento del menú */
+  }
+  
+  @media (max-width: 500px) {
+    /* Estilos específicos para pantallas móviles */
+    .header-center {
+      padding: 10px; /* Ajusta el relleno en pantallas móviles */
+    }
+  
+    .btn-center {
+      display: none; /* Oculta los botones en pantallas móviles */
+    }
+  
+    .menu-hamburguesa {
+      display: block; /* Muestra el icono de hamburguesa en pantallas móviles */
+    }
+  
+    .menu-desplegable.activo {
+      transform: translateX(0); /* Muestra el menú desplegable al activarlo */
+    }
+
+    .menu-desplegable.activo {
+        display: block;
+    }
+  }
+  
         
       

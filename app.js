@@ -182,6 +182,16 @@ app.get('/administrar', async (req, res) => {
     }
 });
 
+app.get('/plantilla', async (req, res) => {
+    try {
+        // Obtener todos los productos desde la base de datos
+        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
+
 app.get('/vercarrito', async (req, res) => {
     try {
         const productosCarrito = req.query.productos;

@@ -407,9 +407,7 @@ nav ul li a:hover {
 
    
     
-   .btn-center {
-   display: none;
-  }
+   
    
   
 
@@ -522,7 +520,7 @@ color: rgb(218, 5, 5);
 }
 
 .btn-special:hover {
-    color: #b4b4b4;
+    color: #EA5730;
    
   
     background-color: #ffffff;
@@ -543,7 +541,6 @@ color: rgb(218, 5, 5);
   }
   /* styles/styles.css */
 
-  
   .menu-hamburguesa {
     cursor: pointer;
     display: none; /* Oculta por defecto en pantallas grandes */
@@ -565,11 +562,14 @@ color: rgb(218, 5, 5);
   
   .menu-desplegable ul {
     list-style-type: none;
+    text-decoration: none; 
     padding: 0;
     margin: 0;
   }
   
   .menu-desplegable ul li {
+    list-style-type: none;
+    text-decoration: none;
     margin-bottom: 10px; /* Espacio entre cada elemento del menú */
   }
   
@@ -589,6 +589,10 @@ color: rgb(218, 5, 5);
   
     .menu-desplegable.activo {
       transform: translateX(0); /* Muestra el menú desplegable al activarlo */
+    }
+
+    .menu-desplegable.activo {
+        display: block;
     }
   }
   

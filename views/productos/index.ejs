@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Starclean C.A</title>
+
+
+
+  <!-- BOOTSTRAP -->
+
+  <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+  <!-- Icono de la pestaña del navegador -->
+  <link rel="stylesheet" href="/views/productos/style.css">
+  <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
+</head>
+
+<body>
+
+
+
+
+
+
+
+  <script src="/views/components/header.js"></script>
+
+  <main>
+  
+
+
+    <div class="container">
+      <!-- Content here -->
+
+
+
+      <div class="container py-5">
+        <!-- For Demo Purpose-->
+
+
+
+
+
+
+    
+
+
+
+
+        <!--  -->
+
+<div class="texto-info">
+        <!-- First Row [Prosucts]-->
+        <h2 class="font-weight-bold mb-2">Selecciona los productos que necesitas    </h2>           </h2> 
+        <p class="font-italic text-muted mb-4">Este es el primer paso para realizar tu cotización  </p> 
+      </div>
+
+
+      <div class="row pb-5 mb-4">
+        <% productos.forEach(producto => { %>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <div class="card rounded shadow-sm border-0 myCard card-add" data-producto-id="<%= producto._id %>">
+                    <div class="card-body p-4">
+                        <!-- Contenedor para la imagen y el ícono -->
+                        <div class="image-container">
+                            <!-- Imagen del producto -->
+                            <img src="<%= producto.file.data %>" alt="Imagen del producto" class="img-fluid product-image">
+                            <!-- Imagen del check -->
+                          
+                        </div>
+                        <!-- Nombre del producto -->
+                        <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
+                        <!-- Categoría del producto -->
+                        <p class="small text-muted font-italic"><%= producto.categoria %></p>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+        
+<button class="continueButton btn btn-5" onclick="irAVerCarrito()">Continuar</button>
+
+
+
+
+      
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+  </main>
+
+
+
+
+
+
+
+
+
+
+<script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/views/productos/main.js">
+
+
+
+
+
+
+  
+</script>
+</body>
+
+</html>

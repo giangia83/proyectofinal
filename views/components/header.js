@@ -94,6 +94,13 @@ function createHeader(usuario) {
   }
   
   // Ejemplo de uso:
-  const usuario = { nombre: 'Nombre del Usuario' }; // Datos del usuario (simulado)
+  const usuario = {
+    nombre: '<%= usuario.nombre %>',
+    correo: '<%= usuario.correo %>',
+    direccion: '<%= usuario.direccion %>',
+    number: '<%= usuario.number %>',
+    rif: '<%= usuario.rif %>',
+    ciudad: '<%= usuario.ciudad %>',
+};
   createHeader(usuario);
   
