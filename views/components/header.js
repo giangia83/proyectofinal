@@ -15,6 +15,8 @@ const style=
    `<style>
    
    
+
+
    .btn-special{
 
     background-color: #ffffff;
@@ -107,21 +109,24 @@ const style=
   
       .menu-desplegable.activo {
           display: block;
+
+
+
       }
     }</style>`;
   
     // HTML para la sección central del encabezado
     const centerSection = `
       <div class="header-center">
-        <a href="/tuspedidos" class="btn btn-secondary e btn-special btn-center" type="button" aria-expanded="false">Mis pedidos</a>
-        <a href="/servicioalcliente" class="btn btn-secondary e btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
+        <a href="/tuspedidos" class="btn e btn-special btn-center" type="button" aria-expanded="false">Mis pedidos</a>
+        <a href="/servicioalcliente" class="btn e btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
       </div>
     `;
   
     // HTML para la sección derecha del encabezado en pantallas grandes
     const rightSectionDesktop = `
       <div class="header-right">
-        ${usuario ? usuario.nombre : ''}
+     
         <div class="dropdown hover-dropdown">
           <svg xmlns="http://www.w3.org/2000/svg" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="icon icon-tabler icon-tabler-user-circle" width="42" height="42" viewBox="0 0 24 24" stroke-width="1" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
