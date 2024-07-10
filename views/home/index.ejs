@@ -11,7 +11,7 @@
 
   <!-- BOOTSTRAP -->
 
-  <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+
   <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
   <!-- Icono de la pestaña del navegador -->
   <link rel="stylesheet" href="/views/home/style.css">
@@ -89,7 +89,7 @@
               <div class="card card-special">
                 <div class="card-content">
                   <div class="card-body">
-                    <a class="link-none-two" 
+                    <a class="link-none-two"  <% if (usuario && usuario.nombre) { %>href="/cuenta"<% } else { %>href="/iniciarsesion"<% } %>>
                     <div class="media d-flex">
                       <div class="align-self-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="116" height="46" fill="currentColor"
