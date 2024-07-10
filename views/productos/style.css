@@ -480,35 +480,20 @@ nav ul li a:hover {
     }
 
 
-.cuentainfo{
 
-display: none;
-
-}
 
     .col-lg-3{
 
         height: 10rem;
    
 
-        justify-content: left;
+      
 
 
 
     }
 
-   .p-4{
-    margin: 0;
-
-    height: 10rem;
-
-   }
-
-   .img-fluid{
-    
-
-   width: 100px;
-   }
+  
 
    .hero{
 
@@ -516,12 +501,6 @@ width: 100%;
 
    }
   
-   .img-fluid{
-
-    margin-right: -0px;
-
-   }
-
    
 
    
@@ -537,51 +516,6 @@ width: 100%;
            text-align: right;
                 }
 
-.btn{
-
-    display: none;
-
-
-
-
-}
-
-
-
-
-   .small, text-muted, font-italic{
-
-    margin-left: 120px;
-text-align: right;
-
-
-   }
-
-   .card{
-justify-content: right;
-
-
-   }
-
-    h3{
-
-font-size: 15px;
-
-    }
-    .media-body, text-right{
-
-        font-size: 10px;
-        margin-top: 5rem;
-
-
-
-    }
-
-    .show{
-
-display: flex;
-
-    }
 
 }
 

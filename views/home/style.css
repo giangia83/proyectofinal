@@ -797,3 +797,108 @@ font-size: 15px;
   }
 
         
+
+
+
+
+
+
+  .btn-special{
+
+    background-color: #FFED00;
+    border: none;
+    color: #1b1b1b;
+    }
+
+    .btn-special:hover{
+
+        background-color: #FFED00;
+        border: none;
+        color: #EA5730;
+        }
+   
+   .header-center {
+      /* Ajusta según tus necesidades */
+      display: flex;
+     
+      align-items: center; /* Alinea verticalmente los elementos */
+      padding: 0px 30px; /* Añade relleno arriba y abajo */
+    }
+    
+    .btn-center {
+      margin-right: 20px ; /* Margen entre cada elemento <a> */
+    }
+    /* styles/styles.css */
+  
+    .menu-hamburguesa {
+      cursor: pointer;
+      display: none; /* Oculta por defecto en pantallas grandes */
+    }
+  
+    
+    .menu-desplegable {
+      display: none;
+      position: absolute;
+      top: 80px;
+      right: 22px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      z-index: 1000;
+      width: 200px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      border-radius: 20px;
+    }
+  
+    a {
+      color: #333; /* Cambia el color de los enlaces a un tono oscuro */
+      text-decoration: none; /* Elimina el subrayado de los enlaces */
+      transition: color 0.3s ease; /* Agrega una transición suave para el color */
+    }
+  
+  
+  a:hover {
+      color: #666; /* Cambia el color al pasar el cursor */
+    }
+    
+    .menu-desplegable ul {
+      list-style-type: none;
+      text-decoration: none; 
+      padding: 0;
+      margin: 0;
+    }
+    
+    .menu-desplegable ul li {
+      list-style-type: none;
+      text-decoration: none;
+      margin-bottom: 10px; /* Espacio entre cada elemento del menú */
+    }
+    
+    @media (max-width: 500px) {
+      /* Estilos específicos para pantallas móviles */
+      .header-center {
+        padding: 10px; /* Ajusta el relleno en pantallas móviles */
+      }
+    
+      .btn-center {
+        display: none; /* Oculta los botones en pantallas móviles */
+      }
+    
+      .menu-hamburguesa {
+        display: block; /* Muestra el icono de hamburguesa en pantallas móviles */
+      }
+    
+      .menu-desplegable.activo {
+        transform: translateX(0); /* Muestra el menú desplegable al activarlo */
+      }
+  
+      .menu-desplegable.activo {
+          display: block;
+
+
+
+      }
+    }
+
+  
