@@ -1,7 +1,7 @@
 // scripts/header.js
 
 // Función para crear el encabezado
-function createHeader(usuario) {
+function createHeader() {
     // Crea el elemento <header>
     const header = document.createElement('header');
   
@@ -139,13 +139,13 @@ const style=
             <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
           </svg>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            ${usuario ? `
+           
               <li><a class="dropdown-item" href="/cuenta">Cuenta</a></li>
               <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
-            ` : `
+           
               <li><a class="dropdown-item" href="/iniciarsesion">Iniciar sesión</a></li>
               <li><a class="dropdown-item" href="/registrarse">Registrarse</a></li>
-            `}
+            
           </ul>
         </div>
       </div>
@@ -163,14 +163,14 @@ const style=
         </div>
         <div class="menu-desplegable" id="menuDesplegable">
           <ul>
-            ${usuario ? `
+            <% if (usuario && usuario.nombre) { %>
               <li><a href="/cuenta">Cuenta</a></li>
                 <li><a href="/tuspedidos">Mis pedidos</a></li>
               <li><a href="/logout">Cerrar sesión</a></li>
-            ` : `
+             <% } else { %>
               <li><a href="/iniciarsesion">Iniciar sesión</a></li>
               <li><a href="/registrarse">Registrarse</a></li>
-            `}
+            <% } %>
           
             <li><a href="/servicioalcliente">Contacto</a></li>
           
@@ -201,9 +201,6 @@ const style=
   }
   
   // Ejemplo de uso:
-  const usuario = {
-    nombre: '<%= usuario.nombre %>'
-  
-};
-  createHeader(usuario);
+ 
+  createHeader();
   
