@@ -202,12 +202,8 @@ const style=
   
   // Ejemplo de uso:
   const usuario = {
-    nombre: '<%= usuario.nombre %>',
-    correo: '<%= usuario.correo %>',
-    direccion: '<%= usuario.direccion %>',
-    number: '<%= usuario.number %>',
-    rif: '<%= usuario.rif %>',
-    ciudad: '<%= usuario.ciudad %>',
+    nombre: '<%= usuario.nombre %>'
+  
 };
   createHeader(usuario);
   

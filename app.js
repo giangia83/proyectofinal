@@ -219,7 +219,7 @@ app.get('/administrar', async (req, res) => {
 app.get('/clientes', async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
-        res.render('clientes/index', { usuario: res.locals.usuario }); // Renderizar la vista 'productos/index' con los productos obtenidos
+        res.render('clientes/index', { productos, usuario: res.locals.usuario }); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');
