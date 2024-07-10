@@ -58,6 +58,12 @@ body {
 }
 
 
+.only-mobile{
+
+            display: none;
+
+        }
+
 header {
     
     display: flex;
@@ -492,11 +498,15 @@ nav ul li a:hover {
     
     }
 
+    .only-mobile{
 
+        display: flex;
+    
+    }
 
 
 .cuentainfo{
-    display: none
+    display: none;
 
 }
 
@@ -561,14 +571,7 @@ width: 100%;
            text-align: right;
                 }
 
-.btn{
 
-    display: none;
-
-
-
-
-}
 
 .dropdown-mobile{
     display: none;
@@ -639,6 +642,14 @@ display: none;
 }
 
 
+
+
+
+
+
+
+
+
 }
 
 
@@ -700,6 +711,7 @@ margin-bottom: 20px;
 box-shadow: none;
 background-color:#ffffff;
 border:1px solid,  rgb(235, 235, 235);
+border-radius: 5px;
 }
 
 .card-special:hover {
@@ -771,5 +783,17 @@ font-size: 15px;
     border-radius: 20px;
 }
 
+
+.header-center {
+    /* Ajusta según tus necesidades */
+    display: flex;
+   
+    align-items: center; /* Alinea verticalmente los elementos */
+    padding: 0px 30px; /* Añade relleno arriba y abajo */
+  }
+  
+  .btn-center {
+    margin-right: 20px ; /* Margen entre cada elemento <a> */
+  }
 
         

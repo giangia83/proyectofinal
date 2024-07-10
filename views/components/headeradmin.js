@@ -19,14 +19,14 @@ const style=
 
    .btn-special{
 
-    background-color: ##FFED00;
+    background-color: #ffffff;
     border: none;
     color: #1b1b1b;
     }
 
     .btn-special:hover{
 
-        background-color: ##FFED00;
+        background-color: #ffffff;
         border: none;
         color: #EA5730;
         }
@@ -121,9 +121,9 @@ const style=
     // HTML para la sección central del encabezado
     const centerSection = `
       <div class="header-center">
-        <a href="/tuspedidos" class="btn e btn-special btn-center" type="button" aria-expanded="false">Mis pedidos</a>
-          <a href="/cuenta" class="btn e btn-special btn-center" type="button" aria-expanded="false">Mi cuenta</a>
-        <a href="/servicioalcliente" class="btn e btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
+        <a href="/gestion" class="btn e btn-special btn-center" type="button" aria-expanded="false">Gestionar productos</a>  
+          <a href="/vercotizaciones" class="btn e btn-special btn-center" type="button" aria-expanded="false">Administracion de cotizaciones</a>
+            <a href="/clientes" class="btn e btn-special btn-center" type="button" aria-expanded="false">Administracion de clientes</a>
       </div>
     `;
   
@@ -140,7 +140,11 @@ const style=
           </svg>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             ${usuario ? `
-              <li><a class="dropdown-item" href="/cuenta">Cuenta</a></li>
+            
+       <li>  <a href="/gestion" class="dropdown-item" type="button" aria-expanded="false">Productos</a>  </li>
+         <li>  <a href="/vercotizaciones" class="dropdown-item" type="button" aria-expanded="false">Cotizaciones</a></li>
+         <li>    <a href="/clientes" class="dropdown-item" type="button" aria-expanded="false">Clientes</a></li>
+     
               <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
             ` : `
               <li><a class="dropdown-item" href="/iniciarsesion">Iniciar sesión</a></li>

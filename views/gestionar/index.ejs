@@ -17,7 +17,7 @@
 
   <!-- Enlace al archivo CSS de Bootstrap -->
 
-  <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+
   <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
   <!-- Icono de la pestaña del navegador -->
   <link rel="stylesheet" href="/views/gestionar/style.css">
@@ -28,36 +28,8 @@
 
 
 
+  <script src="/views/components/headeradmin.js"></script>
 
-
-  <header>
-    <!-- Sección izquierda del encabezado -->
-    <div class="header-left">
-      <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
-
-      <!-- Menú desplegable de la cuenta -->
-      <div class="dropdown">
-
-        <div class="dropdown-content">
-          <!-- Opciones de la cuenta -->
-          <p class="titulillo">Elige entre las siguientes opciones</p>
-          <a href="#">Editar perfil</a>
-          <a href="/html/index.html">Cerrar sesión</a>
-          <a href="#" style="color: rgb(168, 44, 44); font-weight: 500;">Eliminar cuenta</a>
-        </div>
-      </div>
-    </div>
-    <!-- Sección central del encabezado -->
-
-    <!-- Sección derecha del encabezado -->
-    <div class="header-right">
-      <!-- Enlace al inicio -->
-      <a href="#" class="logo"><a href="#" class="badge badge-primary">Cuenta admin </a>
-
-    </div>
-
-
-  </header>
   <main>
 
     <div class="container">
@@ -147,42 +119,31 @@
               <div class="col-sm-6">
 
                 <div class="card-body">
-
-
-                  <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      A list item
-                      <input class="form-check-input me-1" type="checkbox" value="">
-
-                    </li>
-
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      A list item
-                      <input class="form-check-input me-1" type="checkbox" value="">
-
-                    </li>
-
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      A list item
-                      <input class="form-check-input me-1" type="checkbox" value="">
-
-                    </li>
-
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      A list item
-                      <input class="form-check-input me-1" type="checkbox" value="">
-
-                    </li>
-
+                  <ul class="list-group" id="listaProductos">
+                    <% productos.forEach(function(producto) { %>
+                      <li class="list-group-item" data-producto-id="<%= producto._id %>">
+                        <h6><%= producto.nombre %></h6>
+                        <p><strong>Precio:</strong> <%= producto.precio %></p>
+                        <p><strong>Costo:</strong> <%= producto.costo %></p>
+                        <p><strong>Categoría:</strong> <%= producto.categoria %></p>
+                        <input class="form-check-input me-1 eliminar-checkbox" type="checkbox" value="<%= producto._id %>">
+                      </li>
+                    <% }); %>
                   </ul>
-
-
-
-
+                
                   <section id="btn-eliminar">
-
-                    <a href="#" class="btn btn-danger">Eliminar producto(s)</a>
+                    <button id="btnEliminarProductos" class="btn btn-danger" onclick="eliminarProductos()">Eliminar producto(s)</button>
                   </section>
+                </div>
+                
+
+
+                 
+             
+
+
+
+
 
                 </div>
 
@@ -322,7 +283,7 @@
 
 
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
-<script src="main.js"></script>
+<script src="/views/gestionar/main.js"></script>
 
 </body>
 

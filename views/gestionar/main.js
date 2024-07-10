@@ -55,3 +55,44 @@ document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
     });
 });
 
+
+
+function eliminarProductos() {
+    // Obtener los IDs de los productos seleccionados
+    const checkboxes = document.getElementsByClassName('eliminar-checkbox');
+    const productosAEliminar = [];
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        productosAEliminar.push(checkboxes[i].value);
+      }
+    }
+  
+    // Enviar una solicitud POST para eliminar los productos
+    fetch('/eliminar-productos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ids: productosAEliminar })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Eliminar los productos del DOM
+        productosAEliminar.forEach(id => {
+          const productoElement = document.querySelector(`[data-producto-id="${id}"]`);
+          if (productoElement) {
+            productoElement.remove();
+          }
+        });
+        alert('Productos eliminados exitosamente');
+      } else {
+        alert('Hubo un error al eliminar los productos');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Hubo un error al eliminar los productos');
+    });
+  }
+  

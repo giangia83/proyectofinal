@@ -9,37 +9,14 @@
 
     <!-- BOOTSTRAP -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+    
     <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
     <!-- Icono de la pestaña del navegador -->
     <link rel="stylesheet" href="/views/clientes/style.css">
 </head>
 
 <body>
-    <header>
-        <!-- Sección izquierda del encabezado -->
-        <div class="header-left">
-            <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
-            <!-- Menú desplegable de la cuenta -->
-            <div class="dropdown">
-                <div class="dropdown-content">
-                    <!-- Opciones de la cuenta -->
-                    <p class="titulillo">Elige entre las siguientes opciones</p>
-                    <a href="#">Editar perfil</a>
-                    <a href="/html/index.html">Cerrar sesión</a>
-                    <a href="#" style="color: rgb(168, 44, 44); font-weight: 500;">Eliminar cuenta</a>
-                </div>
-            </div>
-        </div>
-        <!-- Sección central del encabezado -->
-
-        <!-- Sección derecha del encabezado -->
-        <div class="header-right">
-            <!-- Enlace al inicio -->
-            <a href="#" class="logo"><a href="#" class="badge badge-primary">Cuenta admin </a>
-        </div>
-    </header>
-
+    <script src="/views/components/headeradmin.js"></script>
     <main>
         <div class="container">
             <!-- Contenedor principal -->
@@ -77,7 +54,7 @@
             </div>
         </div>
     </main>
-
+    <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
     <script src="main.js"></script>
 </body>
 

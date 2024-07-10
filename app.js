@@ -62,7 +62,7 @@ mongoose.connect(mongoURI, {
 //storage 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/uploads')
+        cb(null, "uploads")
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Nombre original del archivo
@@ -194,11 +194,32 @@ app.get('/servicioalcliente', async (req, res) => {
     }
 });
 
+app.get('/gestionar', async (req, res) => {
+    try {
+        const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
+        res.render('gestion/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
+// En tu archivo principal de la aplicación (app.js o index.js)
+
 
 app.get('/administrar', async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
         res.render('admin/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
+
+app.get('/clientes', async (req, res) => {
+    try {
+        const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
+        res.render('clientes/index', { usuario: res.locals.usuario }); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');
@@ -365,6 +386,9 @@ app.get('/informacion', (req, res) => {
    
         res.render('infocuenta/index', { usuario: res.locals.usuario });
 });
+
+
+
 
 // Ruta para cerrar sesión
 app.get('/logout', (req, res) => {

@@ -25,7 +25,7 @@
 
     <!-- Enlace al archivo CSS de Bootstrap -->
 
-    <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+   
     <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
     <!-- Icono de la pestaña del navegador -->
     <link rel="stylesheet" href="/views/admin/style.css">
@@ -39,39 +39,7 @@
 
 
 
-
-    <header>
-        <!-- Sección izquierda del encabezado -->
-        <div class="header-left">
-            <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
-
-            <!-- Menú desplegable de la cuenta -->
-            <div class="dropdown">
-
-                <div class="dropdown-content">
-                    <!-- Opciones de la cuenta -->
-                    <p class="titulillo">Elige entre las siguientes opciones</p>
-                    <a href="#">Editar perfil</a>
-                    <a href="/html/index.html">Cerrar sesión</a>
-                    <a href="#" style="color: rgb(168, 44, 44); font-weight: 500;">Eliminar cuenta</a>
-                </div>
-            </div>
-        </div>
-        <!-- Sección central del encabezado -->
-
-        <!-- Sección derecha del encabezado -->
-        <div class="header-right">
-            <!-- Enlace al inicio -->
-            <a href="#" class="logo"><a href="#" class="badge badge-primary">   <h3><%= usuario.nombre %></h3> </a>
-
-        </div>
-
-
-
-
-
-
-    </header>
+  <script src="/views/components/headeradmin.js"></script>
 
 
     <main>
@@ -142,9 +110,9 @@
                 <div class="col-sm-6">
                   <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Estadísticas de Ventas</h5>
-                        <p class="card-text">Visualiza las estadísticas de ventas.</p>
-                        <a href="#" class="btn btn-primary">Ver estadísticas</a>
+                        <h5 class="card-title">Gestión d clientes</h5>
+                        <p class="card-text">Visualiza los clientes registrados</p>
+                        <a href="/clientes" class="btn btn-primary">Ver clientes</a>
                   </div>
                 </div>
               </div>
@@ -250,7 +218,7 @@
 
 
 
-
+    <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
 </body>
 
 </html>

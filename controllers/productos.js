@@ -25,4 +25,16 @@ router.get('/verproductos', async (req, res) => {
     }
 });
 
+router.post('/eliminar-productos', async (req, res) => {
+    const { ids } = req.body;
+  
+    try {
+      await Producto.deleteMany({ _id: { $in: ids } });
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error al eliminar productos:', error);
+      res.json({ success: false, error: 'Hubo un error al eliminar los productos' });
+    }
+  });
+
 module.exports = router;
