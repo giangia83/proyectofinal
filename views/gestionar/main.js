@@ -22,7 +22,7 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
     formData.append('nombre', nombre);
     formData.append('costo', costo);
     formData.append('precio', precio);
-    formData.append('file', file);
+   
     formData.append('categoria', categoriaSeleccionada);
 
     try {

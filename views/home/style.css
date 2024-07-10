@@ -877,6 +877,8 @@ font-size: 15px;
     
     @media (max-width: 500px) {
       /* Estilos específicos para pantallas móviles */
+
+     
       .header-center {
         padding: 10px; /* Ajusta el relleno en pantallas móviles */
       }
