@@ -156,11 +156,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.get('/', (req, res) => {
-    res.render('home/index', {
-        usuario: res.locals.usuario || { nombre: '' }  // Si no hay usuario, pasa un objeto vacío 
-    });
-});
+
 /* rutas */
 app.get('/verproductos', async (req, res) => {
     try {
@@ -172,7 +168,15 @@ app.get('/verproductos', async (req, res) => {
     }
 });
 // En tu archivo principal de la aplicación (app.js o index.js)
-
+app.get('/', (req, res) => {
+    try {
+        const productos = Producto.find(); // Obtener todos los productos desde la base de datos
+        res.render('home/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
 
 
 // Ruta para renderizar la página de servicio al cliente
