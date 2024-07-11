@@ -327,6 +327,10 @@ app.post('/api/login', async (req, res) => {
             return res.status(200).json({ message: 'Inicio de sesión exitoso como admin', redirectTo: '/administrar' });
         }
 
+
+
+        
+
         // Si no es admin, guardar los datos de sesión normal
         req.session.usuario = {
             nombre: usuario.nombre,

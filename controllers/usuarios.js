@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/usuario');
-
+const session = require('express-session');
 // Obtener todos los usuarios
 router.get('/', async (req, res) => {
     try {
@@ -30,13 +30,14 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
 router.post('/configuracion', async (req, res) => {
     // Verificar si hay un usuario en sesión
-    if (!req.session.usuario) {
+    if (!req.locals.usuario) {
         return res.status(401).json({ error: 'No has iniciado sesión' });
     }
 
-    const usuarioId = req.session.usuario._id; // Obtener el ID del usuario desde la sesión
+    const usuarioId = req.locals.usuario._id; // Obtener el ID del usuario desde la sesión
     const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body; // Extraer los datos actualizados del usuario
 
     try {
@@ -52,7 +53,7 @@ router.post('/configuracion', async (req, res) => {
         }
 
         // Actualizar los datos de sesión con la información actualizada del usuario
-        req.session.usuario = usuarioActualizado;
+        req.locals.usuario = usuarioActualizado;
 
         res.status(200).json(usuarioActualizado); // Enviar el usuario actualizado como respuesta
     } catch (error) {
