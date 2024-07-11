@@ -98,7 +98,7 @@ function createHeader(usuario) {
 function checkUserAndCreateHeader() {
     // Realiza una solicitud al servidor para obtener los detalles del usuario desde la cookie
   
-    fetch('/api/usuario')
+    fetch('/api/users')
         .then(response => response.json())
         .then(data => {
             // Llama a createHeader con los detalles del usuario obtenidos
