@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-router.put('/configuracion/', async (req, res) => {
+router.put('/configuracion', async (req, res) => {
     // Verificar si hay un usuario en sesión
     if (!req.session.usuario) {
         return res.status(401).json({ error: 'No has iniciado sesión' });
