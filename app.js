@@ -178,6 +178,15 @@ app.get('/', async (req, res) => {
     }
 });
 
+app.get('/configuracion', async (req, res) => {
+    try {
+        // Obtener todos los productos desde la base de datos
+        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
 
 // Ruta para renderizar la página de servicio al cliente
 app.get('/servicioalcliente', async (req, res) => {
@@ -243,15 +252,7 @@ app.get('/cuenta', async (req, res) => {
 });
 
 
-app.get('/configuracion', async (req, res) => {
-    try {
-        // Obtener todos los productos desde la base de datos
-        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
-    } catch (err) {
-        console.error('Error al obtener productos:', err);
-        res.status(500).send('Error al obtener productos');
-    }
-});
+
 
 app.get('/vercarrito', async (req, res) => {
     try {
@@ -280,7 +281,7 @@ app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocue
 app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
 app.use('/tuspedidos', express.static(path.resolve(__dirname, 'views', 'pedidos')));
 app.use('/registrarse', express.static(path.resolve(__dirname, 'views', 'registrar')));
-app.use('/configuracion', express.static(path.resolve(__dirname, 'views', 'plantila-configuracion')));
+
 app.use('/servicioalcliente', express.static(path.resolve(__dirname, 'views', 'serviciocliente')));
 app.use('/clientes', express.static(path.resolve(__dirname, 'views', 'clientes')));
 app.use('/gestion', express.static(path.resolve(__dirname, 'views', 'gestionar')));
