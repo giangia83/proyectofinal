@@ -168,9 +168,9 @@ app.get('/verproductos', async (req, res) => {
     }
 });
 // En tu archivo principal de la aplicación (app.js o index.js)
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     try {
-        const productos = Producto.find(); // Obtener todos los productos desde la base de datos
+        const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
         res.render('home/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
         console.error('Error al obtener productos:', err);
