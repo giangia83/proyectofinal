@@ -31,37 +31,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/configuracion', async (req, res) => {
-    // Verificar si hay un usuario en sesión
-    if (!req.locals.usuario) {
-        return res.status(401).json({ error: 'No has iniciado sesión' });
-    }
-
-    const usuarioId = req.locals.usuario._id; // Obtener el ID del usuario desde la sesión
-    const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body; // Extraer los datos actualizados del usuario
-
-    try {
-        // Buscar y actualizar el usuario por su ID
-        const usuarioActualizado = await Usuario.findByIdAndUpdate(
-            usuarioId,
-            { nombre, correo, contraseña, direccion, ciudad, rif, number },
-            { new: true } // Devuelve el documento actualizado
-        );
-
-        if (!usuarioActualizado) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
-        // Actualizar los datos de sesión con la información actualizada del usuario
-        req.locals.usuario = usuarioActualizado;
-
-        res.status(200).json(usuarioActualizado); // Enviar el usuario actualizado como respuesta
-    } catch (error) {
-        console.error('Error al actualizar configuración de usuario:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-
 // Eliminar un usuario por su ID
 router.delete('/:id', async (req, res) => {
     const { id } = req.params; // Obtener el ID del usuario desde los parámetros de la solicitud
