@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-router.put('/configuracion', async (req, res) => {
+router.post('/configuracion', async (req, res) => {
     // Verificar si hay un usuario en sesión
     if (!req.session.usuario) {
         return res.status(401).json({ error: 'No has iniciado sesión' });
@@ -60,6 +60,7 @@ router.put('/configuracion', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
 // Eliminar un usuario por su ID
 router.delete('/:id', async (req, res) => {
     const { id } = req.params; // Obtener el ID del usuario desde los parámetros de la solicitud
