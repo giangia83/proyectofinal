@@ -27,7 +27,8 @@
       <section class="card">
         <h5 class="card-header">Cambiar configuración de la cuenta</h5>
         <div class="card-body">
-          <form action="/configuracion" method="PUT">
+          <form action="/configuracion" method="POST">
+            <input type="hidden" name="_method" value="PUT">
             <!-- Nombre -->
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
