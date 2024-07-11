@@ -230,7 +230,7 @@ app.get('/clientes', async (req, res) => {
     }
 });
 
-app.get('/plantilla', async (req, res) => {
+app.get('/configuracion', async (req, res) => {
     try {
         // Obtener todos los productos desde la base de datos
         res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
