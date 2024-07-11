@@ -860,6 +860,17 @@ font-size: 15px;
         margin-bottom: 10px; /* Espacio entre cada elemento del menú */
     }
 
+    /* Estilo específico para los enlaces dentro del menú desplegable en pantallas móviles */
+    .menu-desplegable ul li a {
+        color: #333; /* Color de texto oscuro para los enlaces */
+        text-decoration: none; /* Elimina el subrayado de los enlaces */
+        transition: color 0.3s ease; /* Transición suave para el color del texto */
+    }
+
+    .menu-desplegable ul li a:hover {
+        color: #666; /* Color de texto oscuro al pasar el cursor */
+    }
+
     @media (max-width: 500px) {
         /* Estilos específicos para pantallas móviles */
         .header-center {

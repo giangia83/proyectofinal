@@ -4,186 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Starclean C.A</title>
-    
-    
-    
-    <!-- BOOTSTRAP -->
-   
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <!--  -->
-    
-    
-    
-    
-    
-    
+
     <!-- Enlace al archivo CSS de Bootstrap -->
-
-
-
-    <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
-    <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
+   
     <!-- Icono de la pestaña del navegador -->
     <link rel="stylesheet" href="/views/plantilla-configuracion/style.css">
-    
 </head>
 <body>
   
-
-
-
-
-
-    
+  <!-- Incluir el encabezado -->
   <script src="/views/components/header.js"></script>
 
-    
-        <main>
-        
-            <div class="container">
-                <!-- Content here -->
-                
-                <section class="titulo">
-                
-                <h2 class="font-weight-bold mb-2">  Configuración de la cuenta <span class="badge bg-dark"><%= usuario.nombre %></span>    </h2>     
+  <main>
+    <div class="container">
+      <section class="titulo">
+        <h2 class="font-weight-bold mb-2">Configuración de la cuenta <span class="badge bg-dark"><%= usuario.nombre %></span></h2>
+      </section>
 
-              </section>
+      <section class="card">
+        <h5 class="card-header">Cambiar configuración de la cuenta</h5>
+        <div class="card-body">
+          <form action="/configuracion/<%= usuario._id %>" method="POST">
+            <!-- Nombre -->
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" value="<%= usuario.nombre %>" required>
+            </div>
 
-                
+            <!-- Correo -->
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="correo" name="correo" value="<%= usuario.correo %>" required>
+            </div>
 
+            <!-- Contraseña -->
+            <div class="mb-3">
+              <label for="contraseña" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Nueva contraseña">
+            </div>
 
+            <!-- Dirección -->
+            <div class="mb-3">
+              <label for="direccion" class="form-label">Dirección</label>
+              <input type="text" class="form-control" id="direccion" name="direccion" value="<%= usuario.direccion %>" required>
+            </div>
 
+            <!-- Ciudad -->
+            <div class="mb-3">
+              <label for="ciudad" class="form-label">Ciudad</label>
+              <input type="text" class="form-control" id="ciudad" name="ciudad" value="<%= usuario.ciudad %>" required>
+            </div>
 
-              
+            <!-- Rif -->
+            <div class="mb-3">
+              <label for="rif" class="form-label">RIF</label>
+              <input type="text" class="form-control" id="rif" name="rif" value="<%= usuario.rif %>" required>
+            </div>
 
-              <div class="card">
-                <h5 class="card-header"></h5>
-                <div class="card-body text-muted">
-                  <h5 class="card-title">Cambia la configuración de tu cuenta</h5>
-                  <p class="card-text">¿Necesitas cambiar tu clave? ¿Correo? ¿Usuario? Puedes hacerlo aqui.</p>
-                
-                </div>
-              </div>
-  
-<div class="form-div">
+            <!-- Número -->
+            <div class="mb-3">
+              <label for="number" class="form-label">Número de contacto</label>
+              <input type="text" class="form-control" id="number" name="number" value="<%= usuario.number %>" required>
+            </div>
 
-  <form>
-
-    <p class="text-muted">Cambiar contraseña </p>
-      <div class="form-row">
-       
-        <div class="row">
-          <div class="col">
-            <input type="text" class="form-control" placeholder="Antigua clave" aria-label="Antigua clave">
-          </div>
-          <div class="col">
-            <input type="text" class="form-control" placeholder="Nueva clave" aria-label="Nueva clave">
-          </div>
-          
+            <!-- Botón de actualización -->
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+          </form>
         </div>
+      </section>
+    </div>
+  </main>
 
-        
-      </div>
-     <br>
-
-      <button type="button" class="btn btn-success">Actualizar</button>
-      
-    </form>
-
-   
-  
- 
-
-              </div>
-              
-              <div class="form-div">
-
-                <div class="form-row">
-                  <p class="text-muted">Cambiar correo </p>
-                  <div class="row">
-                    <div class="col">
-                      <input type="text" class="form-control" placeholder="Nuevo correo" aria-label="Nueva clave">
-                    </div>
-                 
-                    
-                  </div>
-          
-                  
-                </div>
-               <br>
-          
-                <button type="button" class="btn btn-success">Actualizar</button>
-                
-              </form>
-
-
-
-</div>
-
-
-
-
-
-<div class="form-div form-div-last">
-
-
-
-  
-  <form>
-
-  
-    <div class="form-row">
-      <p class="text-muted">Cambiar nombre de usuario </p>
-      <div class="row">
-        <div class="col">
-          <input type="text" class="form-control" placeholder="Nuevo correo" aria-label="Nueva clave">
-         
-         <br> <button type="button" class="btn btn-success">Actualizar</button>
-        </div>
-     
-
-      
- 
-    </form>
-
-
-
-
-    
-
-</div>
-
-</div>
-
-
-
-  
-    
-
-       
-            
-         
-
-
-
-          
-           </div>
-
-
-
-
-        </main>
-   
-
-
-
-
-
-
-
-
-
-
-        <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>     
+  <!-- Incluir los scripts de Bootstrap al final del body -->
+  <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

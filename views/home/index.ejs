@@ -30,11 +30,18 @@
   </div>
 
   <div class="header-center">
-      <!-- Enlaces para pantallas grandes -->
-      <a href="/tuspedidos" class="btn btn-special btn-center" type="button" aria-expanded="false">Mis pedidos</a>
-      <a href="/cuenta" class="btn btn-special btn-center" type="button" aria-expanded="false">Mi cuenta</a>
-      <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
-  </div>
+    <% if (usuario && usuario.nombre) { %>
+        <!-- Mostrar enlaces si el usuario está autenticado -->
+        <a href="/tuspedidos" class="btn btn-special btn-center" type="button" aria-expanded="false">Mis pedidos</a>
+        <a href="/cuenta" class="btn btn-special btn-center" type="button" aria-expanded="false">Mi cuenta</a>
+        <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
+    <% } else { %>
+        <!-- Mostrar botones de inicio de sesión y registro si el usuario no está autenticado -->
+        <a href="/iniciarsesion" class="btn btn-special btn-center" type="button" aria-expanded="false">Iniciar sesión</a>
+        <a href="/registrarse" class="btn btn-special btn-center" type="button" aria-expanded="false">Registrarse</a>
+        <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
+    <% } %>
+</div>
 
   <!-- Dropdown de cuenta para pantallas grandes -->
   <div class="header-right">
