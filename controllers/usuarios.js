@@ -32,7 +32,12 @@ router.get('/:id', async (req, res) => {
 });
 
 // Actualizar un usuario por su ID
-router.put('/configuracion/id:', verificarSesion, async (req, res) => {
+router.put('/configuracion', async (req, res) => {
+    // Verificar si hay un usuario en sesión
+    if (!req.session.usuario) {
+        return res.status(401).json({ error: 'No has iniciado sesión' });
+    }
+
     const usuarioId = req.session.usuario._id; // Obtener el ID del usuario desde la sesión
     const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body; // Extraer los datos actualizados del usuario
 
@@ -47,6 +52,9 @@ router.put('/configuracion/id:', verificarSesion, async (req, res) => {
         if (!usuarioActualizado) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
+
+        // Actualizar los datos de sesión con la información actualizada del usuario
+        req.session.usuario = usuarioActualizado;
 
         res.status(200).json(usuarioActualizado); // Enviar el usuario actualizado como respuesta
     } catch (error) {
