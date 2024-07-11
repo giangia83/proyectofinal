@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Starclean C.A</title>
+    <title>Starclean C.A - Configuración de la cuenta</title>
+
+    <!-- Enlace a la fuente Montserrat de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
     <!-- Enlace al archivo CSS de Bootstrap -->
-   
+    <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+
     <!-- Icono de la pestaña del navegador -->
     <link rel="stylesheet" href="/views/plantilla-configuracion/style.css">
 </head>
 <body>
-  
-  <!-- Incluir el encabezado -->
+
   <script src="/views/components/header.js"></script>
 
   <main>
     <div class="container">
       <section class="titulo">
-        <h2 class="font-weight-bold mb-2">Configuración de la cuenta <span class="badge bg-dark"><%= usuario.nombre %></span></h2>
+        <h2 class="font-weight-bold mb-4">Configuración de la cuenta <span class="badge bg-dark"><%= usuario.nombre %></span></h2>
       </section>
 
       <section class="card">
         <h5 class="card-header">Cambiar configuración de la cuenta</h5>
         <div class="card-body">
-          <form action="/configuracion/<%= usuario._id %>" method="POST">
+          <form action="/configuracion" method="POST">
             <!-- Nombre -->
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
@@ -33,14 +36,14 @@
 
             <!-- Correo -->
             <div class="mb-3">
-              <label for="correo" class="form-label">Correo Electrónico</label>
+              <label for="correo" class="form-label">Correo electrónico</label>
               <input type="email" class="form-control" id="correo" name="correo" value="<%= usuario.correo %>" required>
             </div>
 
             <!-- Contraseña -->
             <div class="mb-3">
-              <label for="contraseña" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Nueva contraseña">
+              <label for="contrasena" class="form-label">Nueva contraseña</label>
+              <input type="password" class="form-control" id="contrasena" name="contrasena">
             </div>
 
             <!-- Dirección -->
@@ -61,21 +64,20 @@
               <input type="text" class="form-control" id="rif" name="rif" value="<%= usuario.rif %>" required>
             </div>
 
-            <!-- Número -->
+            <!-- Número de teléfono -->
             <div class="mb-3">
-              <label for="number" class="form-label">Número de contacto</label>
-              <input type="text" class="form-control" id="number" name="number" value="<%= usuario.number %>" required>
+              <label for="number" class="form-label">Número de teléfono</label>
+              <input type="tel" class="form-control" id="number" name="number" value="<%= usuario.number %>" required>
             </div>
 
-            <!-- Botón de actualización -->
-            <button type="submit" class="btn btn-primary">Actualizar</button>
+            <!-- Botón de actualizar -->
+            <button type="submit" class="btn btn-success">Actualizar</button>
           </form>
         </div>
       </section>
     </div>
   </main>
 
-  <!-- Incluir los scripts de Bootstrap al final del body -->
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
