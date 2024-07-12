@@ -30,27 +30,18 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+const verificarAutenticacion = (req, res, next) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ error: 'No has iniciado sesión' });
+    }
+    next(); // Continuar si el usuario está autenticado
+};
 
-
-
-router.post('/editar', async (req, res) => {
+// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+router.post('/editar', verificarAutenticacion, async (req, res) => {
     try {
-
-                // Verificación del usuario y establecimiento de la sesión
-                req.session.usuario = {
-                    _id: usuario._id,
-                    nombre: usuario.nombre,
-                    correo: usuario.correo,
-                    // Otros datos del usuario que necesites guardar en sesión
-                };
-
-        // Verificar si el usuario está autenticado
-        if (!req.session.usuario) {
-            return res.status(401).json({ error: 'No has iniciado sesión' });
-        }
-
-        // Obtener el ID del usuario desde la sesión
-        const usuarioId = req.session.usuario._id;
+        // Obtener el ID del usuario desde los parámetros de la URL
+        const { id } = req.params;
 
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
@@ -62,7 +53,7 @@ router.post('/editar', async (req, res) => {
 
         // Buscar y actualizar el usuario por su ID
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
-            usuarioId,
+            id,
             { nombre, correo, contraseña, direccion, ciudad, rif, number },
             { new: true } // Devuelve el documento actualizado
         );
@@ -80,6 +71,7 @@ router.post('/editar', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
 
 
 // Eliminar un usuario por su ID
