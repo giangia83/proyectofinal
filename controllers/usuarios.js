@@ -30,19 +30,23 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-
 router.post('/editar', async (req, res) => {
     try {
-        // Verificar si el usuario está autenticado (esta parte puede depender de cómo manejas la autenticación y la sesión)
-        if (!req.cookies.usuario) {
+        // Verificar si el usuario está autenticado
+        if (!req.session.usuario) {
             return res.status(401).json({ error: 'No has iniciado sesión' });
         }
 
-        // Obtener el ID del usuario desde la cookie o sesión
-        const usuarioId = req.cookies.usuario._id; // Asegúrate de ajustar esto según cómo se establece la cookie
+        // Obtener el ID del usuario desde la sesión
+        const usuarioId = req.session.usuario._id;
 
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
+
+        // Validar que al menos un campo sea enviado
+        if (!nombre && !correo && !contraseña && !direccion && !ciudad && !rif && !number) {
+            return res.status(400).json({ error: 'Debes enviar al menos un campo para actualizar' });
+        }
 
         // Buscar y actualizar el usuario por su ID
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
@@ -56,15 +60,15 @@ router.post('/editar', async (req, res) => {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
 
-        // Actualizar los datos de la sesión con la información actualizada del usuario (si es necesario)
-        // Esto puede depender de cómo manejas la persistencia de la sesión en tu aplicación
+        // Actualizar los datos de la sesión si es necesario (dependiendo de cómo manejes la sesión)
 
         res.status(200).json(usuarioActualizado); // Enviar el usuario actualizado como respuesta
     } catch (error) {
-        console.error('Error al actualizar configuración de usuario:', error);
+        console.error('Error al actualizar usuario:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
 
 // Eliminar un usuario por su ID
 router.delete('/:id', async (req, res) => {
