@@ -38,7 +38,7 @@ const verificarAutenticacion = (req, res, next) => {
 };
 
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
-router.post('/api/users/editar', verificarAutenticacion, async (req, res) => {
+router.post('/editar', verificarAutenticacion, async (req, res) => {
     try {
         // Obtener el ID del usuario desde los parámetros de la URL
         const { id } = req.params;
