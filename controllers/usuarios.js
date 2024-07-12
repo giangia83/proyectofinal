@@ -30,8 +30,20 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
+
+
 router.post('/editar', async (req, res) => {
     try {
+
+                // Verificación del usuario y establecimiento de la sesión
+                req.session.usuario = {
+                    _id: usuario._id,
+                    nombre: usuario.nombre,
+                    correo: usuario.correo,
+                    // Otros datos del usuario que necesites guardar en sesión
+                };
+
         // Verificar si el usuario está autenticado
         if (!req.session.usuario) {
             return res.status(401).json({ error: 'No has iniciado sesión' });
