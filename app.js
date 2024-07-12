@@ -73,11 +73,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const upload = multer({ storage: storage });
 
-
-
-
-
-
 app.use((req, res, next) => {
     // Obtener el nombre de usuario desde la cookie 'usuario'
     const usuarioNombre = req.cookies.usuario;
@@ -115,11 +110,19 @@ app.use((req, res, next) => {
         next();
     }
 });
-
+app.get('/configuracion', async (req, res) => {
+    try {
+        // Obtener todos los productos desde la base de datos
+        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
 
 app.post('/configuracion', async (req, res) => {
     // Verificar si hay un usuario en sesión
-    if (!req.session.usuario) {
+    if (!usuarioNombre) {
         return res.status(401).json({ error: 'No has iniciado sesión' });
     }
 
@@ -209,15 +212,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/configuracion', async (req, res) => {
-    try {
-        // Obtener todos los productos desde la base de datos
-        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
-    } catch (err) {
-        console.error('Error al obtener productos:', err);
-        res.status(500).send('Error al obtener productos');
-    }
-});
+
 
 // Ruta para renderizar la página de servicio al cliente
 app.get('/servicioalcliente', async (req, res) => {
