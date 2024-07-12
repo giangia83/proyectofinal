@@ -110,15 +110,6 @@ app.use((req, res, next) => {
         next();
     }
 });
-app.get('/configuracion', async (req, res) => {
-    try {
-        // Obtener todos los productos desde la base de datos
-        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
-    } catch (err) {
-        console.error('Error al obtener productos:', err);
-        res.status(500).send('Error al obtener productos');
-    }
-});
 
 
 
@@ -160,6 +151,15 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
+app.get('/configuracion', async (req, res) => {
+    try {
+        // Obtener todos los productos desde la base de datos
+        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
 
 /* rutas */
 app.get('/verproductos', async (req, res) => {
@@ -322,11 +322,6 @@ app.post('/api/login', async (req, res) => {
             // Redirigir a la interfaz de administración
             return res.status(200).json({ message: 'Inicio de sesión exitoso como admin', redirectTo: '/administrar' });
         }
-
-
-
-        
-
         // Si no es admin, guardar los datos de sesión normal
         req.session.usuario = {
             nombre: usuario.nombre,
