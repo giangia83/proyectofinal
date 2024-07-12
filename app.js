@@ -340,7 +340,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
-app.post('/editar', verificarAutenticacion, async (req, res) => {
+app.post('/editar', async (req, res) => {
     try {
         // Obtener el usuario desde res.locals.usuario
         const usuarioId = res.locals.usuario._id;
