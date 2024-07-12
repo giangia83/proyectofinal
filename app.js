@@ -340,6 +340,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
 app.post('/editar', async (req, res) => {
     try {
         // Obtener el usuario desde res.locals.usuario
@@ -349,7 +350,7 @@ app.post('/editar', async (req, res) => {
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
 
         // Validar que al menos un campo sea enviado
-        if (!nombre && !correo && !contraseña && !direccion && !ciudad && !rif && !number) {
+        if (!(nombre || correo || contraseña || direccion || ciudad || rif || number)) {
             return res.status(400).json({ error: 'Debes enviar al menos un campo para actualizar' });
         }
 
@@ -373,29 +374,6 @@ app.post('/editar', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-
-// Endpoint para guardar la cotización
-app.post('/proseguircompra', async (req, res) => {
-    const { usuario, productos } = req.body;
-
-    try {
-        // Crear una nueva instancia de Cotizacion
-        const nuevaCotizacion = new Cotizacion({
-            usuario,
-            productos,
-        });
-
-        // Guardar en la base de datos
-        const cotizacionGuardada = await nuevaCotizacion.save();
-
-        // Enviar respuesta al cliente
-        res.status(201).json(cotizacionGuardada);
-    } catch (error) {
-        console.error('Error al guardar la cotización:', error);
-        res.status(500).json({ error: 'Error al guardar la cotización' });
-    }
-});
-
 
 
 
