@@ -6,7 +6,6 @@ const userRouter = require('./controllers/usuarios');
 const productosRouter = require('./controllers/productos');
 const cotizacionesRouter = require('./controllers/cotizaciones'); // Ruta relativa al archivo cotizaciones.js
 const Cotizacion = require('./models/cotizacion');
-
 const compression = require('compression');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -370,13 +369,27 @@ app.put('/editar/:id', async (req, res) => {
         // Actualizar los datos de la sesión si es necesario (dependiendo de cómo manejes la sesión)
 
         res.status(200).json(usuarioActualizado); // Enviar el usuario actualizado como respuesta
+
+app.post('/proseguircompra', async (req, res) => {
+    const { usuario, productos } = req.body;
+
+    try {
+        // Crear una nueva instancia de Cotizacion
+        const nuevaCotizacion = new Cotizacion({
+            usuario,
+            productos,
+        });
+
+        // Guardar en la base de datos
+        const cotizacionGuardada = await nuevaCotizacion.save();
+
+        // Enviar respuesta al cliente
+        res.status(201).json(cotizacionGuardada);
     } catch (error) {
-        console.error('Error al actualizar usuario:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        console.error('Error al guardar la cotización:', error);
+        res.status(500).json({ error: 'Error al guardar la cotización' });
     }
 });
-
-
 
 
 
