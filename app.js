@@ -362,10 +362,11 @@ app.post('/api/login', async (req, res) => {
     }
 });
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
 app.post('/editar/:id', async (req, res) => {
     try {
-        // Obtener el usuario desde res.locals.usuario
-        const { id } = res.params;
+        // Obtener el ID del usuario desde los parámetros de la solicitud
+        const usuarioId = req.params.id;
 
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
@@ -377,7 +378,7 @@ app.post('/editar/:id', async (req, res) => {
 
         // Buscar y actualizar el usuario por su ID
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
-            id,
+            usuarioId,
             { nombre, correo, contraseña, direccion, ciudad, rif, number },
             { new: true } // Devuelve el documento actualizado
         );
