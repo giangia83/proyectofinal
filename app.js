@@ -268,6 +268,29 @@ app.get('/vercarrito', async (req, res) => {
     }
 });
 
+// Ruta para obtener la página de edición de usuario
+app.get('/editar/:id', async (req, res) => {
+    try {
+        // Obtener el ID del usuario desde los parámetros de la solicitud
+        const usuarioId = req.params.id;
+
+        // Buscar el usuario en la base de datos por su ID
+        const usuario = await Usuario.findById(usuarioId);
+
+        // Verificar si se encontró el usuario
+        if (!usuario) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        // Renderizar la vista de edición de usuario con los datos del usuario encontrado
+        res.render('plantilla-configuracion/index', { usuario });
+    } catch (error) {
+        console.error('Error al obtener el usuario para editar:', error);
+        res.status(500).json({ error: 'Error interno del servidor al obtener el usuario para editar' });
+    }
+});
+
+
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
