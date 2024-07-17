@@ -153,6 +153,7 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/configuracion', async (req, res) => {
     try {
+       
         // Obtener todos los productos desde la base de datos
         res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
@@ -341,10 +342,10 @@ app.post('/api/login', async (req, res) => {
 
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
-app.post('/editar', async (req, res) => {
+app.put('/editar/:id', async (req, res) => {
     try {
         // Obtener el usuario desde res.locals.usuario
-        const usuarioId = res.locals.usuario._id;
+        const { id } = res.locals.usuario._id;
 
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
@@ -356,7 +357,7 @@ app.post('/editar', async (req, res) => {
 
         // Buscar y actualizar el usuario por su ID
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
-            usuarioId,
+            id,
             { nombre, correo, contraseña, direccion, ciudad, rif, number },
             { new: true } // Devuelve el documento actualizado
         );
