@@ -18,7 +18,8 @@ router.get('/', async (req, res) => {
 router.put('/editar/:id', async (req, res) => {
     try {
         // Obtener el ID del usuario desde los parámetros de la solicitud
-        const { id } = req.params.id;
+        const id = req.params.id; // Obtener el ID del usuario desde los parámetros de la solicitud
+
        
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
