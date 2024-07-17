@@ -27,7 +27,7 @@
       <section class="card">
         <h5 class="card-header">Cambiar configuración de la cuenta</h5>
         <div class="card-body">
-          <form action="/api/users/editar/<%= usuario._id %>" method="POST">
+          <form id="configuracionForm" action="/editar/<%= usuario._id %>" method="POST">
 
            
             <!-- Nombre -->
@@ -77,6 +77,10 @@
     </div>
   </main>
 
+
+
+
+  <script src="/views/plantilla-configuracion/main.js"></script>
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
