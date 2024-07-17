@@ -361,13 +361,14 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
-// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
 app.post('/editar/:id', async (req, res) => {
     try {
         // Obtener el ID del usuario desde los parámetros de la solicitud
         const usuarioId = req.params.id;
-
+        console.log('ID del usuario a editar:', req.params.id);
+        console.log('Datos recibidos para actualizar:', req.body);
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
 
@@ -396,6 +397,7 @@ app.post('/editar/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
 
 // Ruta para procesar una compra
 app.post('/proseguircompra', async (req, res) => {
