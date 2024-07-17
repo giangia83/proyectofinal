@@ -362,42 +362,6 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
-app.post('/editar/:id', async (req, res) => {
-    try {
-        // Obtener el ID del usuario desde los parámetros de la solicitud
-        const usuarioId = req.params.id;
-        console.log('ID del usuario a editar:', req.params.id);
-        console.log('Datos recibidos para actualizar:', req.body);
-        // Extraer los datos actualizados del cuerpo de la solicitud
-        const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
-
-        // Validar que al menos un campo sea enviado
-        if (!(nombre || correo || contraseña || direccion || ciudad || rif || number)) {
-            return res.status(400).json({ error: 'Debes enviar al menos un campo para actualizar' });
-        }
-
-        // Buscar y actualizar el usuario por su ID
-        const usuarioActualizado = await Usuario.findByIdAndUpdate(
-            usuarioId,
-            { nombre, correo, contraseña, direccion, ciudad, rif, number },
-            { new: true } // Devuelve el documento actualizado
-        );
-
-        // Verificar si se encontró y actualizó correctamente el usuario
-        if (!usuarioActualizado) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
-        // Actualizar los datos de la sesión si es necesario (dependiendo de cómo manejes la sesión)
-
-        res.status(200).json(usuarioActualizado); // Enviar el usuario actualizado como respuesta
-    } catch (error) {
-        console.error('Error al actualizar usuario:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-
 
 // Ruta para procesar una compra
 app.post('/proseguircompra', async (req, res) => {

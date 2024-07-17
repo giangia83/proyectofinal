@@ -13,11 +13,13 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/editar', async (req, res) => {
-    try {
-        // Obtener el usuario desde res.locals.usuario
-        const usuarioId = res.locals.usuario._id;
 
+// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+router.put('/editar/:id', async (req, res) => {
+    try {
+        // Obtener el ID del usuario desde los parámetros de la solicitud
+        const { id } = req.params.id;
+       
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
 
@@ -28,7 +30,7 @@ router.post('/editar', async (req, res) => {
 
         // Buscar y actualizar el usuario por su ID
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
-            usuarioId,
+            id,
             { nombre, correo, contraseña, direccion, ciudad, rif, number },
             { new: true } // Devuelve el documento actualizado
         );
@@ -71,6 +73,7 @@ const verificarAutenticacion = (req, res, next) => {
     }
     next(); // Continuar si el usuario está autenticado
 };
+
 
 
 
