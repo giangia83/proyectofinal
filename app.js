@@ -150,7 +150,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.get('/configuracion', async (req, res) => {
+app.get('/configuracion/editar:id', async (req, res) => {
     try {
         // Suponiendo que `res.locals.usuario` contiene la información del usuario actual
         const usuarioActual = res.locals.usuario || { nombre: '' };

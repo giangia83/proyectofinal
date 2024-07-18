@@ -33,7 +33,7 @@ formulario.addEventListener('submit', async function(event) {
         alert('Usuario actualizado con éxito');
 
         // Redireccionar o realizar alguna acción adicional si es necesario
-        window.location.href = '/ruta-de-redireccion'; // Redirigir a una nueva página
+        window.location.href = '/'; // Redirigir a una nueva página
     } catch (error) {
         console.error('Error:', error);
         alert('Hubo un error al actualizar el usuario');
