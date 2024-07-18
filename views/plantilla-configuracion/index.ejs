@@ -21,24 +21,24 @@
   <main>
     <div class="container">
       <section class="titulo">
-        <h2 class="font-weight-bold mb-4">Configuración de la cuenta <span class="badge bg-dark"><%= usuario.nombre %></span></h2>
+        <h2 class="font-weight-bold mb-4">Configuración de la cuenta <span class="badge bg-dark"><%= usuarioActual.nombre %></span></h2>
       </section>
 
       <section class="card">
         <h5 class="card-header">Cambiar configuración de la cuenta</h5>
         <div class="card-body">
-          <form id="configuracionForm" action="/editar/<%= usuario._id %>" method="POST">
+          <form id="configuracionForm" action="/editar/<%= usuarioActual._id %>" method="POST">
 
            
             <!-- Nombre -->
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="nombre" name="nombre" value="<%= usuario.nombre %>" >
+              <input type="text" class="form-control" id="nombre" name="nombre" value="<%= usuarioActual.nombre %>" >
             </div>
             <!-- Correo -->
             <div class="mb-3">
               <label for="correo" class="form-label">Correo electrónico</label>
-              <input type="email" class="form-control" id="correo" name="correo" value="<%= usuario.correo %>" >
+              <input type="email" class="form-control" id="correo" name="correo" value="<%= usuarioActual.correo %>" >
             </div>
             <!-- Contraseña -->
             <div class="mb-3">
@@ -48,25 +48,25 @@
             <!-- Dirección -->
             <div class="mb-3">
               <label for="direccion" class="form-label">Dirección</label>
-              <input type="text" class="form-control" id="direccion" name="direccion" value="<%= usuario.direccion %>" >
+              <input type="text" class="form-control" id="direccion" name="direccion" value="<%= usuarioActual.direccion %>" >
             </div>
 
             <!-- Ciudad -->
             <div class="mb-3">
               <label for="ciudad" class="form-label">Ciudad</label>
-              <input type="text" class="form-control" id="ciudad" name="ciudad" value="<%= usuario.ciudad %>" >
+              <input type="text" class="form-control" id="ciudad" name="ciudad" value="<%= usuarioActual.ciudad %>" >
             </div>
 
             <!-- Rif -->
             <div class="mb-3">
               <label for="rif" class="form-label">RIF</label>
-              <input type="text" class="form-control" id="rif" name="rif" value="<%= usuario.rif %>" >
+              <input type="text" class="form-control" id="rif" name="rif" value="<%= usuarioActual.rif %>" >
             </div>
 
             <!-- Número de teléfono -->
             <div class="mb-3">
               <label for="number" class="form-label">Número de teléfono</label>
-              <input type="tel" class="form-control" id="number" name="number" value="<%= usuario.number %>" >
+              <input type="tel" class="form-control" id="number" name="number" value="<%= usuarioActual.number %>" >
             </div>
 
             <!-- Botón de actualizar -->

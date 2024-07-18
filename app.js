@@ -150,16 +150,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.get('/configuracion', async (req, res) => {
-    try {
-        const usuario = res.locals.usuario;
-        // Obtener todos los productos desde la base de datos
-        res.render('plantilla-configuracion/index', {usuario }); // Renderizar la vista 'productos/index' con los productos obtenidos
-    } catch (err) {
-        console.error('Error al obtener productos:', err);
-        res.status(500).send('Error al obtener productos');
-    }
-});
+
 
 /* rutas */
 app.get('/verproductos', async (req, res) => {
@@ -283,7 +274,7 @@ app.get('/editar/:id', async (req, res) => {
         }
 
         // Renderizar la vista de edición de usuario con los datos del usuario encontrado
-        res.render('plantilla-configuracion/index', { usuario });
+        res.render('plantilla-configuracion/index', { usuario, usuarioActual: res.locals.usuario || { nombre: '' }});
     } catch (error) {
         console.error('Error al obtener el usuario para editar:', error);
         res.status(500).json({ error: 'Error interno del servidor al obtener el usuario para editar' });

@@ -15,15 +15,19 @@ router.get('/', async (req, res) => {
 
 
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
 router.put('/editar/:id', async (req, res) => {
     try {
         // Obtener el ID del usuario desde los parámetros de la solicitud
-        const { id } = req.params.id;
+        const { id } = req.params;
        
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
 
-      
+        // Verificar si al menos un campo está presente en la solicitud
+        if (!(nombre || correo || contraseña || direccion || ciudad || rif || number)) {
+            return res.status(400).json({ error: 'Debes enviar al menos un campo para actualizar' });
+        }
 
         // Buscar y actualizar el usuario por su ID
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
