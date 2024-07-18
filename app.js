@@ -152,9 +152,9 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/configuracion', async (req, res) => {
     try {
-      
+      const usuarioActual = res.locals.usuario;
         // Obtener todos los productos desde la base de datos
-        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }, usuarioActual); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');
