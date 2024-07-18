@@ -26,28 +26,30 @@ router.get('/', async (req, res) => {
 const actualizarUsuario = async (idUsuario, datosActualizados) => {
     try {
         const usuarioActualizado = await Usuario.findByIdAndUpdate(idUsuario, datosActualizados, { new: true });
+
+        if (!usuarioActualizado) {
+            throw new Error('Usuario no encontrado');
+        }
+
         return usuarioActualizado;
     } catch (error) {
         console.error('Error al actualizar usuario:', error);
         throw new Error('Error al actualizar usuario');
     }
 };
+
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
-router.put('/usuarios/:id', verificarAutenticacion, async (req, res) => {
+router.put('/editar/:id', verificarAutenticacion, async (req, res) => {
+    const idUsuario = req.params.id;
+    const datosActualizados = req.body; // Datos actualizados del usuario
+
     try {
-        const idUsuario = req.params.id;
-        const datosActualizados = req.body; // Datos actualizados del usuario
-
-        // Llama a la función actualizarUsuario para actualizar el usuario por su ID
         const usuarioActualizado = await actualizarUsuario(idUsuario, datosActualizados);
-
-        if (!usuarioActualizado) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
         res.json(usuarioActualizado);
     } catch (error) {
-        console.error('Error al actualizar usuario:', error);
+        if (error.message === 'Usuario no encontrado') {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
