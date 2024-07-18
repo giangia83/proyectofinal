@@ -263,10 +263,10 @@ app.get('/vercarrito', async (req, res) => {
 app.get('/editar/:id', async (req, res) => {
     try {
         // Obtener el ID del usuario desde los parámetros de la solicitud
-        const usuarioId = req.params.id;
+     
 
         // Buscar el usuario en la base de datos por su ID
-        const usuario = await Usuario.findById(usuarioId);
+        const usuario = await Usuario.findById(req.params.id);
 
         // Verificar si se encontró el usuario
         if (!usuario) {
