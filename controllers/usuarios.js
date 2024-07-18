@@ -39,20 +39,26 @@ const actualizarUsuario = async (idUsuario, datosActualizados) => {
 };
 
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
 router.put('/editar/:id', verificarAutenticacion, async (req, res) => {
-    const idUsuario = req.params.id;
-    const datosActualizados = req.body; // Datos actualizados del usuario
-
     try {
+        const idUsuario = req.params.id;
+        const datosActualizados = req.body; // Datos actualizados del usuario
+
+        // Llama a la función actualizarUsuario para actualizar el usuario por su ID
         const usuarioActualizado = await actualizarUsuario(idUsuario, datosActualizados);
-        res.json(usuarioActualizado);
-    } catch (error) {
-        if (error.message === 'Usuario no encontrado') {
+
+        if (!usuarioActualizado) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
+
+        res.json(usuarioActualizado);
+    } catch (error) {
+        console.error('Error al actualizar usuario:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
 
 
 // Obtener un usuario por su ID
