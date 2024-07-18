@@ -1,5 +1,5 @@
 const form = document.getElementById('configuracionForm'); // Seleccionar el formulario por su ID
-const usuarioId = '<%= usuario._id %>'; // Obtener el ID del usuario desde EJS
+const usuarioId = '<%= usuarioActual._id %>'; // Obtener el ID del usuario desde EJS
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault(); // Prevenir el envío del formulario por defecto
