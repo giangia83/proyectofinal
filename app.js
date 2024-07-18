@@ -152,14 +152,17 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.get('/configuracion', async (req, res) => {
     try {
-      const usuarioActual = res.locals.usuario;
-        // Obtener todos los productos desde la base de datos
-        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }, usuarioActual); // Renderizar la vista 'productos/index' con los productos obtenidos
+        // Suponiendo que `res.locals.usuario` contiene la información del usuario actual
+        const usuarioActual = res.locals.usuario || { nombre: '' };
+
+        // Renderizar la vista 'plantilla-configuracion/index' con las variables adecuadas
+        res.render('plantilla-configuracion/index', { usuarioActual });
     } catch (err) {
-        console.error('Error al obtener productos:', err);
-        res.status(500).send('Error al obtener productos');
+        console.error('Error al obtener configuración de cuenta:', err);
+        res.status(500).send('Error al obtener configuración de cuenta');
     }
 });
+
 
 /* rutas */
 app.get('/verproductos', async (req, res) => {
@@ -374,28 +377,6 @@ app.put('/editar/:id', async (req, res) => {
 });
 
 // Ruta para procesar una compra
-app.post('/proseguircompra', async (req, res) => {
-    const { usuario, productos } = req.body;
-
-    try {
-        // Crear una nueva instancia de Cotizacion
-        const nuevaCotizacion = new Cotizacion({
-            usuario,
-            productos,
-        });
-
-        // Guardar en la base de datos
-        const cotizacionGuardada = await nuevaCotizacion.save();
-
-        // Enviar respuesta al cliente
-        res.status(201).json(cotizacionGuardada);
-    } catch (error) {
-        console.error('Error al guardar la cotización:', error);
-        res.status(500).json({ error: 'Error al guardar la cotización' });
-    }
-});
-
-
 
 app.post('/proseguircompra', async (req, res) => {
     const { usuario, productos } = req.body;
