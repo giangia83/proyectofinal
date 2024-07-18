@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/usuario');
 
+
+
+const verificarAutenticacion = (req, res, next) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ error: 'No has iniciado sesión' });
+    }
+    next(); // Continuar si el usuario está autenticado
+};
 // Obtener todos los usuarios
 router.get('/', async (req, res) => {
     try {
@@ -15,8 +23,7 @@ router.get('/', async (req, res) => {
 
 
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
-// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
-router.put('/editar/:id', async (req, res) => {
+router.put('/editar/:id',  verificarAutenticacion, async (req, res) => {
     try {
         // Obtener el ID del usuario desde los parámetros de la solicitud
         const { id } = req.params;
@@ -68,13 +75,6 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-const verificarAutenticacion = (req, res, next) => {
-    if (!req.session.usuario) {
-        return res.status(401).json({ error: 'No has iniciado sesión' });
-    }
-    next(); // Continuar si el usuario está autenticado
-};
-
 
 
 

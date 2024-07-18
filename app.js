@@ -150,7 +150,16 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-
+app.get('/configuracion', async (req, res) => {
+    try {
+      
+        // Obtener todos los productos desde la base de datos
+        res.render('plantilla-configuracion/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
+});
 
 /* rutas */
 app.get('/verproductos', async (req, res) => {
@@ -259,29 +268,6 @@ app.get('/vercarrito', async (req, res) => {
     }
 });
 
-// Ruta para obtener la página de edición de usuario
-app.get('/editar/:id', async (req, res) => {
-    try {
-        // Obtener el ID del usuario desde los parámetros de la solicitud
-     
-
-        // Buscar el usuario en la base de datos por su ID
-        const usuario = await Usuario.findById(req.params.id);
-
-        // Verificar si se encontró el usuario
-        if (!usuario) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
-        // Renderizar la vista de edición de usuario con los datos del usuario encontrado
-        res.render('plantilla-configuracion/index', { usuario, usuarioActual: res.locals.usuario || { nombre: '' }});
-    } catch (error) {
-        console.error('Error al obtener el usuario para editar:', error);
-        res.status(500).json({ error: 'Error interno del servidor al obtener el usuario para editar' });
-    }
-});
-
-
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
@@ -352,7 +338,40 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
+// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+app.put('/editar/:id', async (req, res) => {
+    try {
+        // Obtener el usuario desde res.locals.usuario
+        const { id } = res.locals.usuario._id;
 
+        // Extraer los datos actualizados del cuerpo de la solicitud
+        const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
+
+        // Validar que al menos un campo sea enviado
+        if (!(nombre || correo || contraseña || direccion || ciudad || rif || number)) {
+            return res.status(400).json({ error: 'Debes enviar al menos un campo para actualizar' });
+        }
+
+        // Buscar y actualizar el usuario por su ID
+        const usuarioActualizado = await Usuario.findByIdAndUpdate(
+            id,
+            { nombre, correo, contraseña, direccion, ciudad, rif, number },
+            { new: true } // Devuelve el documento actualizado
+        );
+
+        // Verificar si se encontró y actualizó correctamente el usuario
+        if (!usuarioActualizado) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        // Actualizar los datos de la sesión si es necesario (dependiendo de cómo manejes la sesión)
+
+        res.status(200).json(usuarioActualizado); // Enviar el usuario actualizado como respuesta
+    } catch (error) {
+        console.error('Error al actualizar usuario:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
 
 // Ruta para procesar una compra
 app.post('/proseguircompra', async (req, res) => {
