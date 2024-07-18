@@ -150,7 +150,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.get('/editar', async (req, res) => {
+app.get('/configuracion', async (req, res) => {
     try {
         const usuario = res.locals.usuario;
         // Obtener todos los productos desde la base de datos
