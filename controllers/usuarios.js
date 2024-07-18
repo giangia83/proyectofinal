@@ -18,16 +18,12 @@ router.get('/', async (req, res) => {
 router.put('/editar/:id', async (req, res) => {
     try {
         // Obtener el ID del usuario desde los parámetros de la solicitud
-        const id = req.params.id; // Obtener el ID del usuario desde los parámetros de la solicitud
-
+        const { id } = req.params.id;
        
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
 
-        // Validar que al menos un campo sea enviado
-        if (!(nombre || correo || contraseña || direccion || ciudad || rif || number)) {
-            return res.status(400).json({ error: 'Debes enviar al menos un campo para actualizar' });
-        }
+      
 
         // Buscar y actualizar el usuario por su ID
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
