@@ -22,35 +22,30 @@ router.get('/', async (req, res) => {
 });
 
 
-// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
-router.put('/editar', verificarAutenticacion, async (req, res) => {
+
+const actualizarUsuario = async (idUsuario, datosActualizados) => {
     try {
-        // Obtener el ID del usuario desde la sesión
-        const idUsuario = req.session.usuario._id;
+        const usuarioActualizado = await Usuario.findByIdAndUpdate(idUsuario, datosActualizados, { new: true });
+        return usuarioActualizado;
+    } catch (error) {
+        console.error('Error al actualizar usuario:', error);
+        throw new Error('Error al actualizar usuario');
+    }
+};
+// Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+router.put('/usuarios/:id', verificarAutenticacion, async (req, res) => {
+    try {
+        const idUsuario = req.params.id;
+        const datosActualizados = req.body; // Datos actualizados del usuario
 
-        // Extraer los datos actualizados del cuerpo de la solicitud
-        const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
+        // Llama a la función actualizarUsuario para actualizar el usuario por su ID
+        const usuarioActualizado = await actualizarUsuario(idUsuario, datosActualizados);
 
-        // Verificar si al menos un campo está presente en la solicitud
-        if (!(nombre || correo || contraseña || direccion || ciudad || rif || number)) {
-            return res.status(400).json({ error: 'Debes enviar al menos un campo para actualizar' });
-        }
-
-        // Buscar y actualizar el usuario por su ID
-        const usuarioActualizado = await Usuario.findByIdAndUpdate(
-            idUsuario,
-            { nombre, correo, contraseña, direccion, ciudad, rif, number },
-            { new: true } // Devuelve el documento actualizado
-        );
-
-        // Verificar si se encontró y actualizó correctamente el usuario
         if (!usuarioActualizado) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
 
-        // Actualizar los datos de la sesión si es necesario (dependiendo de cómo manejes la sesión)
-
-        res.status(200).json(usuarioActualizado); // Enviar el usuario actualizado como respuesta
+        res.json(usuarioActualizado);
     } catch (error) {
         console.error('Error al actualizar usuario:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
