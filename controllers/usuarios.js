@@ -23,11 +23,11 @@ router.get('/', async (req, res) => {
 
 
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
-router.put('/editar/:id',  verificarAutenticacion, async (req, res) => {
+router.put('/editar', verificarAutenticacion, async (req, res) => {
     try {
-        // Obtener el ID del usuario desde los parámetros de la solicitud
-        const { id } = req.params;
-       
+        // Obtener el ID del usuario desde la sesión
+        const idUsuario = req.session.usuario._id;
+
         // Extraer los datos actualizados del cuerpo de la solicitud
         const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
 
@@ -38,7 +38,7 @@ router.put('/editar/:id',  verificarAutenticacion, async (req, res) => {
 
         // Buscar y actualizar el usuario por su ID
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
-            id,
+            idUsuario,
             { nombre, correo, contraseña, direccion, ciudad, rif, number },
             { new: true } // Devuelve el documento actualizado
         );
