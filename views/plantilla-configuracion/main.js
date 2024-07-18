@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const result = await response.json();
-
+            console.log('Datos actualizados:', result);S
             // Mostrar notificación de éxito
             alert('Usuario actualizado con éxito');
 
