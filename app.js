@@ -408,7 +408,10 @@ app.get('/logout', (req, res) => {
 
 
 // Middleware para servir archivos estáticos en la carpeta de uploads
-
+app.use((err, req, res, next) => {
+    console.error('Error:', err.stack);
+    res.status(500).send('Error interno del servidor');
+});
 
 // Iniciar el servidor
 app.listen(port, '0.0.0.0', () => {
