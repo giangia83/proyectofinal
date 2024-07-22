@@ -153,18 +153,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.get('/configuracion', async (req, res) => {
-    try {
-        // Suponiendo que `res.locals.usuario` contiene la información del usuario actual
-        const usuarioActual = res.locals.usuario || { nombre: '' };
 
-        // Renderizar la vista 'plantilla-configuracion/index' con las variables adecuadas
-        res.render('plantilla-configuracion/index', { usuarioActual });
-    } catch (err) {
-        console.error('Error al obtener configuración de cuenta:', err);
-        res.status(500).send('Error al obtener configuración de cuenta');
-    }
-});
 
 
 /* rutas */
