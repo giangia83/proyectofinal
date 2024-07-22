@@ -16,6 +16,9 @@ const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
 const Usuario = require("./models/usuario")
+const methodOverride = require('method-override');
+
+
 
 /* marko for html */
 let ejs = require('ejs');
@@ -32,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Middleware para parsear datos de formularios HTML
 app.use(cookieParser());
 app.use(compression());
-
+app.use(methodOverride('_method'));
 // Configuración de sesión
 app.use(session({
     secret: process.env.SESSION_SECRET,
