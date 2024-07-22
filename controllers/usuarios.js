@@ -3,7 +3,7 @@ const router = express.Router();
 const Usuario = require('../models/usuario');
 
 // Obtener todos los usuarios
-router.get('/usuarios', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const users = await Usuario.find();
         res.status(200).json(users);
@@ -14,7 +14,7 @@ router.get('/usuarios', async (req, res) => {
 });
 
 // Obtener un usuario por su ID
-router.get('/usuarios/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const usuario = await Usuario.findById(id);
@@ -29,14 +29,14 @@ router.get('/usuarios/:id', async (req, res) => {
 });
 
 // Renderizar la vista para editar un usuario por su ID
-router.get('/usuarios/editar/:id', async (req, res) => {
+router.get('/editar/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const usuario = await Usuario.findById(id);
         if (!usuario) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
-        res.render('plantilla-configuracion/index', { usuarioActual: usuario }); // Renderiza la vista 'editar.ejs' con los datos del usuario
+        res.render('editar', { usuarioActual: usuario }); // Renderiza la vista 'editar.ejs' con los datos del usuario
     } catch (error) {
         console.error('Error al obtener usuario:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
@@ -44,7 +44,7 @@ router.get('/usuarios/editar/:id', async (req, res) => {
 });
 
 // Procesar la actualización del usuario por su ID
-router.put('/usuarios/editar/:id', async (req, res) => {
+router.put('/editar/:id', async (req, res) => {
     const { id } = req.params;
     const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
     try {
@@ -70,7 +70,7 @@ router.put('/usuarios/editar/:id', async (req, res) => {
 });
 
 // Eliminar un usuario por su ID
-router.delete('/usuarios/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const usuarioEliminado = await Usuario.findByIdAndDelete(id);
