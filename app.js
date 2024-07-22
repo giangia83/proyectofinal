@@ -21,7 +21,7 @@ const methodOverride = require('method-override');
 
 
 /* marko for html */
-let ejs = require('ejs');
+
 
 const uploadDirectory = path.join(__dirname, 'uploads');
 
@@ -88,6 +88,7 @@ app.use((req, res, next) => {
                     res.locals.usuario = {
                         nombre: usuario.nombre,
                         correo: usuario.correo,
+                        contraseña: usuario.contraseña,
                         direccion: usuario.direccion,
                         number: usuario.number,
                         rif: usuario.rif,

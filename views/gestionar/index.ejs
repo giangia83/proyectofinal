@@ -120,15 +120,7 @@
 
                 <div class="card-body">
                   <ul class="list-group" id="listaProductos">
-                    <% productos.forEach(function(producto) { %>
-                      <li class="list-group-item" data-producto-id="<%= producto._id %>">
-                        <h6><%= producto.nombre %></h6>
-                        <p><strong>Precio:</strong> <%= producto.precio %></p>
-                        <p><strong>Costo:</strong> <%= producto.costo %></p>
-                        <p><strong>Categoría:</strong> <%= producto.categoria %></p>
-                        <input class="form-check-input me-1 eliminar-checkbox" type="checkbox" value="<%= producto._id %>">
-                      </li>
-                    <% }); %>
+              
                   </ul>
                 
                   <section id="btn-eliminar">
