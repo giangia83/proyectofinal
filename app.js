@@ -28,10 +28,8 @@ if (!fs.existsSync(uploadDirectory)) {
 }
 
 
-
-// Middleware
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true })); // Para parsear datos de formularios HTML
+app.use(express.urlencoded({ extended: true })); // Middleware para parsear datos de formularios HTML
 app.use(cookieParser());
 app.use(compression());
 
