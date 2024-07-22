@@ -13,6 +13,29 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Crear un nuevo usuario
+router.post('/', async (req, res) => {
+    const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
+
+    try {
+        const nuevoUsuario = new Usuario({
+            nombre,
+            correo,
+            contraseña,
+            direccion,
+            ciudad,
+            rif,
+            number
+        });
+
+        const usuarioGuardado = await nuevoUsuario.save();
+        res.status(201).json(usuarioGuardado);
+    } catch (error) {
+        console.error('Error al crear usuario:', error);
+        res.status(500).json({ error: 'Error al crear usuario' });
+    }
+});
+
 // Obtener un usuario por su ID
 router.get('/:id', async (req, res) => {
     const { id } = req.params;

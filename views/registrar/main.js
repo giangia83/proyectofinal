@@ -18,7 +18,7 @@ registroForm.addEventListener('submit', async (event) => {
     }
 
     try {
-        const respuesta = await fetch('/api/users', {
+        const respuesta = await fetch('/usuarios', { // Cambiar '/api/users' a '/usuarios'
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -33,6 +33,7 @@ registroForm.addEventListener('submit', async (event) => {
                 number: number
             })
         });
+        
 
         const datos = await respuesta.json();
 
