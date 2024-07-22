@@ -35,7 +35,7 @@ router.get('/editar/:id', async (req, res) => {
         }
 
         // Renderiza la vista editar.ejs con los datos del usuario
-        res.render('editar', { usuarioActual: usuario });
+        res.render('plantilla-configuracion/index', { usuarioActual: usuario });
     } catch (error) {
         console.error('Error al obtener usuario:', error);
         res.status(500).json({ error: 'Error al obtener usuario' });
@@ -67,7 +67,7 @@ router.put('/editar/:id', async (req, res) => {
         await usuario.save();
 
         // Redirigir al perfil del usuario o a otra página después de la actualización
-        res.redirect(`/usuarios/${id}`); // Cambia esto por la ruta adecuada a tu aplicación
+        res.redirect(`plantilla-configuracion/index`); // Cambia esto por la ruta adecuada a tu aplicación
 
     } catch (error) {
         console.error('Error al actualizar usuario:', error);
