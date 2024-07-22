@@ -48,7 +48,7 @@ module.exports = cargarUsuario;
 
 
 // Renderizar la vista para editar un usuario por su ID
-router.get('/editar/:id', cargarUsuario async (req, res) => {
+router.get('/editar/:id', cargarUsuario, async (req, res) => {
     const { id } = req.params;
     try {
         const usuario = await Usuario.findById(id);
