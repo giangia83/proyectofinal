@@ -286,7 +286,7 @@ app.use("/main",express.static(__dirname + '/main'));
 app.use(cotizacionesRouter);
 // Ruta para subir una imagen y guardar un producto
  // Rutas de API
-app.use('/usuarios', usuariosRouter); // Usa el router de usuarios para las rutas relacionadas con usuarios
+app.use('/usuarios', userRouter); // Usa el router de usuarios para las rutas relacionadas con usuarios
 
 app.use('/api', productosRouter); // Ruta base para las rutas del enrutador de productos
 
