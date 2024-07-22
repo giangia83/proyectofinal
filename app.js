@@ -272,7 +272,7 @@ app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocue
 app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
 app.use('/tuspedidos', express.static(path.resolve(__dirname, 'views', 'pedidos')));
 app.use('/registrarse', express.static(path.resolve(__dirname, 'views', 'registrar')));
-app.use('/editar', express.static(path.resolve(__dirname, 'views', 'plantilla-configuracion')));
+
 app.use('/servicioalcliente', express.static(path.resolve(__dirname, 'views', 'serviciocliente')));
 app.use('/clientes', express.static(path.resolve(__dirname, 'views', 'clientes')));
 app.use('/gestion', express.static(path.resolve(__dirname, 'views', 'gestionar')));
@@ -286,7 +286,8 @@ app.use("/main",express.static(__dirname + '/main'));
 app.use(cotizacionesRouter);
 // Ruta para subir una imagen y guardar un producto
  // Rutas de API
-app.use('/api/users', userRouter);
+app.use('/usuarios', usuariosRouter); // Usa el router de usuarios para las rutas relacionadas con usuarios
+
 app.use('/api', productosRouter); // Ruta base para las rutas del enrutador de productos
 
 const adminEmail = 'jbiadarola@hotmail.com';
