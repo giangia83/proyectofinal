@@ -31,6 +31,7 @@ if (!fs.existsSync(uploadDirectory)) {
 
 // Middleware
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true })); // Para parsear datos de formularios HTML
 app.use(cookieParser());
 app.use(compression());
 
@@ -150,7 +151,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.get('/configuracion/editar:id', async (req, res) => {
+app.get('/configuracion', async (req, res) => {
     try {
         // Suponiendo que `res.locals.usuario` contiene la información del usuario actual
         const usuarioActual = res.locals.usuario || { nombre: '' };
