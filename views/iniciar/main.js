@@ -1,7 +1,7 @@
 async function cargarUsuarios() {
     try {
         // Realizar la petición GET a la API de usuarios
-        const response = await fetch('/api/users');
+        const response = await fetch('/usuarios');
         const users = await response.json();
 
         if (!response.ok) {
