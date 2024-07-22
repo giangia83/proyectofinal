@@ -282,7 +282,7 @@ app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocue
 app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
 app.use('/tuspedidos', express.static(path.resolve(__dirname, 'views', 'pedidos')));
 app.use('/registrarse', express.static(path.resolve(__dirname, 'views', 'registrar')));
-
+app.use('/editar', express.static(path.resolve(__dirname, 'views', 'plantilla-configuracion')));
 app.use('/servicioalcliente', express.static(path.resolve(__dirname, 'views', 'serviciocliente')));
 app.use('/clientes', express.static(path.resolve(__dirname, 'views', 'clientes')));
 app.use('/gestion', express.static(path.resolve(__dirname, 'views', 'gestionar')));
