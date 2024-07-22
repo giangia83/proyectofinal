@@ -89,7 +89,6 @@ app.use((req, res, next) => {
                         _id: usuario._id,  // Añadir el _id del usuario
                         nombre: usuario.nombre,
                         correo: usuario.correo,
-                        contraseña: usuario.contraseña,
                         direccion: usuario.direccion,
                         number: usuario.number,
                         rif: usuario.rif,

@@ -71,8 +71,9 @@ router.get('/editar/:id', async (req, res) => {
 router.put('/editar/:id', async (req, res) => {
     const { id } = req.params;
     const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
+
     try {
-        const usuario = await Usuario.findByIdAndUpdate(id, {
+        const usuarioActualizado = await Usuario.findByIdAndUpdate(id, {
             nombre,
             correo,
             contraseña,
@@ -82,11 +83,28 @@ router.put('/editar/:id', async (req, res) => {
             number
         }, { new: true });
 
-        if (!usuario) {
+        if (!usuarioActualizado) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
 
-        res.status(200).json(usuario);
+        // Actualizar res.locals.usuario con los datos actualizados
+        res.locals.usuario = {
+            _id: usuarioActualizado._id,
+            nombre: usuarioActualizado.nombre,
+            correo: usuarioActualizado.correo,
+            direccion: usuarioActualizado.direccion,
+            ciudad: usuarioActualizado.ciudad,
+            rif: usuarioActualizado.rif,
+            number: usuarioActualizado.number,
+            // Asegúrate de establecer correctamente el valor de esAdmin si es relevante
+            // Otros datos del usuario según sea necesario
+        };
+
+        // Actualizar la cookie con el nombre de usuario actualizado
+        res.cookie('usuario', usuarioActualizado.nombre, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'lax' });
+
+        // Enviar respuesta con el usuario actualizado
+        res.status(200).json(usuarioActualizado);
     } catch (error) {
         console.error('Error al actualizar usuario:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
