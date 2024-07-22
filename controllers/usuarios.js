@@ -16,37 +16,44 @@ router.get('/', async (req, res) => {
     }
 });
 
-
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    res.send(`Detalles del usuario ${id}`);
+});
 
 
 
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
 // Ruta para editar un usuario por su ID (usando el middleware de autenticación)
+
 router.put('/editar/:id', async (req, res) => {
-    const { id } = req.params; // ID del usuario a actualizar
-    const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body; // Datos actualizados
+    const { id } = req.params; // ID del usuario a actualizar desde el parámetro de la ruta
+    const { nombre, correo, contraseña, direccion, ciudad, rif } = req.body; // Datos actualizados del usuario
 
     try {
-        // Verificar si el usuario existe
-        let usuario = await Usuario.findById(id);
-        if (!usuario) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
+        // Verificar si el usuario está autenticado y obtener su ID desde la sesión
+        const usuarioID = req.session.usuario._id;
+
+        // Verificar que el usuario que intenta actualizar sea el mismo que está autenticado
+        if (usuarioID !== id) {
+            return res.status(401).json({ error: 'No tienes permisos para realizar esta acción' });
         }
 
-        // Actualizar los campos del usuario
-        usuario.nombre = nombre;
-        usuario.correo = correo;
-        usuario.contraseña = contraseña; // Recuerda implementar la encriptación de contraseñas
-        usuario.direccion = direccion;
-        usuario.ciudad = ciudad;
-        usuario.rif = rif;
-        usuario.number = number;
+        // Actualizar los campos del usuario en la base de datos
+        await Usuario.findByIdAndUpdate(id, {
+            nombre,
+            correo,
+            contraseña, // Aquí deberías manejar la encriptación de contraseñas si es necesario
+            direccion,
+            ciudad,
+            rif
+        });
 
-        // Guardar los cambios en la base de datos
-        await usuario.save();
+        // Obtener el usuario actualizado desde la base de datos
+        const usuarioActualizado = await Usuario.findById(id);
 
         // Responder con el usuario actualizado
-        res.json(usuario);
+        res.json(usuarioActualizado);
     } catch (error) {
         console.error('Error al actualizar usuario:', error);
         res.status(500).json({ error: 'Error al actualizar usuario' });
@@ -54,23 +61,7 @@ router.put('/editar/:id', async (req, res) => {
 });
 
 
-// Obtener un usuario por su ID
-router.get('/:id', async (req, res) => {
-    const { id } = req.params; // Obtener el ID del usuario desde los parámetros de la solicitud
 
-    try {
-        const usuario = await Usuario.findById(id); // Buscar el usuario por su ID en la base de datos
-
-        if (!usuario) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
-        res.status(200).json(usuario); // Enviar el usuario encontrado como respuesta
-    } catch (error) {
-        console.error('Error al buscar usuario por ID:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
 
 
 
