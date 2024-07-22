@@ -28,15 +28,34 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Renderizar la vista para editar un usuario por su ID
-router.get('/editar/:id', async (req, res) => {
+// Middleware para cargar el usuario actual
+const cargarUsuario = async (req, res, next) => {
     const { id } = req.params;
     try {
         const usuario = await Usuario.findById(id);
         if (!usuario) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
-        res.render('plantilla-configuracion/index', { usuarioActual: usuario }); // Renderiza la vista 'editar.ejs' con los datos del usuario
+        res.locals.usuarioActual = usuario; // Almacenar el usuario en res.locals
+        next();
+    } catch (error) {
+        console.error('Error al obtener usuario:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+
+module.exports = cargarUsuario;
+
+
+// Renderizar la vista para editar un usuario por su ID
+router.get('/editar/:id', cargarUsuario async (req, res) => {
+    const { id } = req.params;
+    try {
+        const usuario = await Usuario.findById(id);
+        if (!usuario) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+        res.render('plantilla-configuracion/index', { usuarioActual: res.locals.usuarioActual }); // Renderiza la vista 'editar.ejs' con los datos del usuario
     } catch (error) {
         console.error('Error al obtener usuario:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
