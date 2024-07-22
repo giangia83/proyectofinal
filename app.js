@@ -86,6 +86,7 @@ app.use((req, res, next) => {
                 if (usuario) {
                     // Si encontramos al usuario, configuramos res.locals.usuario con sus detalles
                     res.locals.usuario = {
+                        _id: usuario._id,  // Añadir el _id del usuario
                         nombre: usuario.nombre,
                         correo: usuario.correo,
                         contraseña: usuario.contraseña,
@@ -234,13 +235,22 @@ app.get('/clientes', async (req, res) => {
 
 app.get('/cuenta', async (req, res) => {
     try {
-        // Obtener todos los productos desde la base de datos
-        res.render('cuenta/index', {usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+        const usuario = res.locals.usuario;
+        if (!usuario) {
+            return res.status(401).send('Usuario no autenticado');
+        }
+        
+        // Ahora puedes acceder a usuario._id para usarlo según sea necesario
+        const usuarioId = usuario._id;
+        
+        // Renderizar la vista 'cuenta/index' con el usuario y su _id
+        res.render('cuenta/index', { usuario, usuarioId });
     } catch (err) {
-        console.error('Error al obtener productos:', err);
-        res.status(500).send('Error al obtener productos');
+        console.error('Error al obtener usuario para la cuenta:', err);
+        res.status(500).send('Error al obtener datos del usuario');
     }
 });
+
 
 
 
