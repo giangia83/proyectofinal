@@ -36,7 +36,7 @@ router.get('/editar/:id', async (req, res) => {
         if (!usuario) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
-        res.render('editar', { usuarioActual: usuario }); // Renderiza la vista 'editar.ejs' con los datos del usuario
+        res.render('plantilla-configuracion/index', { usuarioActual: usuario }); // Renderiza la vista 'editar.ejs' con los datos del usuario
     } catch (error) {
         console.error('Error al obtener usuario:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
