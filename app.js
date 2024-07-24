@@ -324,9 +324,18 @@ app.post('/api/login', async (req, res) => {
                 esAdmin: true  // Puedes agregar un indicador de admin si lo necesitas en el front-end
             };
 
+            // Establecer la cookie con el nombre de usuario
+            res.cookie('usuario', usuario.nombre, {
+                httpOnly: true, // Asegúrate de que no sea httpOnly para poder acceder desde JavaScript
+                secure: true, // Cambia a true en producción con HTTPS
+                maxAge: 24 * 60 * 60 * 1000, // 1 día de expiración
+                sameSite: 'lax' // Puede ser 'strict', 'lax', o 'none'
+            });
+
             // Redirigir a la interfaz de administración
             return res.status(200).json({ message: 'Inicio de sesión exitoso como admin', redirectTo: '/administrar' });
         }
+
         // Si no es admin, guardar los datos de sesión normal
         req.session.usuario = {
             nombre: usuario.nombre,
@@ -336,6 +345,14 @@ app.post('/api/login', async (req, res) => {
             rif: usuario.rif,
             // Agregar otros datos según sea necesario
         };
+
+        // Establecer la cookie con el nombre de usuario
+        res.cookie('usuario', usuario.nombre, {
+            httpOnly: false, // Asegúrate de que no sea httpOnly para poder acceder desde JavaScript
+            secure: false, // Cambia a true en producción con HTTPS
+            maxAge: 24 * 60 * 60 * 1000, // 1 día de expiración
+            sameSite: 'lax' // Puede ser 'strict', 'lax', o 'none'
+        });
 
         res.status(200).json({ message: 'Inicio de sesión exitoso', usuario });
     } catch (error) {
