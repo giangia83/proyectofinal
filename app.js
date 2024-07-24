@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const userRouter = require('./controllers/usuarios');
+const iniciarSesion = require('./controllers/iniciarSesion')
 const productosRouter = require('./controllers/productos');
 const cotizacionesRouter = require('./controllers/cotizaciones'); // Ruta relativa al archivo cotizaciones.js
 const Cotizacion = require('./models/cotizacion');
@@ -286,80 +287,15 @@ app.use('/servicioalcliente', express.static(path.resolve(__dirname, 'views', 's
 app.use('/clientes', express.static(path.resolve(__dirname, 'views', 'clientes')));
 app.use('/gestion', express.static(path.resolve(__dirname, 'views', 'gestionar')));
 app.use('/administrar', express.static(path.resolve(__dirname, 'views', 'admin')));
-
 app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'productos')));
-
 app.use("/main",express.static(__dirname + '/main'));
 
-
 app.use(cotizacionesRouter);
-// Ruta para subir una imagen y guardar un producto
- // Rutas de API
-app.use('/usuarios', userRouter); // Usa el router de usuarios para las rutas relacionadas con usuarios
+app.use('/usuarios', userRouter); 
+app.use('/api', productosRouter); 
+app.use('/sesion', iniciarSesion)
 
-app.use('/api', productosRouter); // Ruta base para las rutas del enrutador de productos
 
-const adminEmail = 'jbiadarola@hotmail.com';
-const adminPassword = 'starclean123';
-
-app.post('/api/login', async (req, res) => {
-    try {
-        const { correo, contraseña } = req.body;
-        const usuario = await Usuario.findOne({ correo });
-
-        if (!usuario || usuario.contraseña !== contraseña) {
-            return res.status(401).json({ error: 'Credenciales inválidas' });
-        }
-
-        // Verificar si el usuario es el admin
-        if (correo === adminEmail && contraseña === adminPassword) {
-            // Si es el admin, guardar los datos de sesión
-            req.session.usuario = {
-                nombre: usuario.nombre,
-                correo: usuario.correo,
-                direccion: usuario.direccion,
-                ciudad: usuario.ciudad,
-                rif: usuario.rif,
-                // Agregar otros datos según sea necesario
-                esAdmin: true  // Puedes agregar un indicador de admin si lo necesitas en el front-end
-            };
-
-            // Establecer la cookie con el nombre de usuario
-            res.cookie('usuario', usuario.nombre, {
-                httpOnly: true, // Asegúrate de que no sea httpOnly para poder acceder desde JavaScript
-                secure: true, // Cambia a true en producción con HTTPS
-                maxAge: 24 * 60 * 60 * 1000, // 1 día de expiración
-                sameSite: 'lax' // Puede ser 'strict', 'lax', o 'none'
-            });
-
-            // Redirigir a la interfaz de administración
-            return res.status(200).json({ message: 'Inicio de sesión exitoso como admin', redirectTo: '/administrar' });
-        }
-
-        // Si no es admin, guardar los datos de sesión normal
-        req.session.usuario = {
-            nombre: usuario.nombre,
-            correo: usuario.correo,
-            direccion: usuario.direccion,
-            ciudad: usuario.ciudad,
-            rif: usuario.rif,
-            // Agregar otros datos según sea necesario
-        };
-
-        // Establecer la cookie con el nombre de usuario
-        res.cookie('usuario', usuario.nombre, {
-            httpOnly: false, // Asegúrate de que no sea httpOnly para poder acceder desde JavaScript
-            secure: false, // Cambia a true en producción con HTTPS
-            maxAge: 24 * 60 * 60 * 1000, // 1 día de expiración
-            sameSite: 'lax' // Puede ser 'strict', 'lax', o 'none'
-        });
-
-        res.status(200).json({ message: 'Inicio de sesión exitoso', usuario });
-    } catch (error) {
-        console.error('Error al iniciar sesión:', error);
-        res.status(500).json({ error: 'Error interno al iniciar sesión' });
-    }
-});
 
 
 app.post('/proseguircompra', async (req, res) => {

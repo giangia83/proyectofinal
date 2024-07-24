@@ -1,32 +1,66 @@
-// iniciarSesionController.js
+const express = require('express');
+const router = express.Router();
+const Usuario = require('../models/usuario');
 
-async function iniciarSesion(correo, contraseña) {
+
+router.post('/login', async (req, res) => {
     try {
-        // Buscar el usuario por su correo electrónico
-        const usuario = await buscarUsuario.buscarUsuarioPorCorreo(correo);
+        const { correo, contraseña } = req.body;
+        const usuario = await Usuario.findOne({ correo });
 
-        if (!usuario) {
-            // El usuario no existe en la base de datos
-            console.log("No existe el usuario.")
-            return null;
+        if (!usuario || usuario.contraseña !== contraseña) {
+            return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
-        // Verificar si la contraseña coincide
-        if (usuario.contraseña !== contraseña) {
-            // La contraseña no coincide
-            return null;
+        // Verificar si el usuario es administrador
+        if (usuario.rol === 'admin') {
+            // Guardar los datos de sesión y cookies para el administrador
+            req.session.usuario = {
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+                direccion: usuario.direccion,
+                ciudad: usuario.ciudad,
+                rif: usuario.rif,
+                esAdmin: true
+                // Agregar otros datos según sea necesario
+            };
+
+            // Establecer la cookie con el nombre de usuario
+            res.cookie('usuario', usuario.nombre, {
+                httpOnly: true, // Ajustar según tus necesidades de seguridad
+                secure: true, // Cambiar a true en producción con HTTPS
+                maxAge: 24 * 60 * 60 * 1000, // 1 día de expiración
+                sameSite: 'lax'
+            });
+
+            // Redirigir a la interfaz de administración
+            return res.status(200).json({ message: 'Inicio de sesión exitoso como admin', redirectTo: '/administrar' });
         }
 
-        // La autenticación fue exitosa
-        console.log("Usuario encontrado exitosamente.")
-        return usuario;
+        // Si no es administrador, es un usuario normal
+        req.session.usuario = {
+            nombre: usuario.nombre,
+            correo: usuario.correo,
+            direccion: usuario.direccion,
+            ciudad: usuario.ciudad,
+            rif: usuario.rif
+            // No es necesario agregar 'esAdmin' para usuarios normales
+        };
+
+        // Establecer la cookie con el nombre de usuario
+        res.cookie('usuario', usuario.nombre, {
+            httpOnly: true, // Ajustar según tus necesidades de seguridad
+            secure: true, // Cambiar a true en producción con HTTPS
+            maxAge: 24 * 60 * 60 * 1000, // 1 día de expiración
+            sameSite: 'lax'
+        });
+
+        // Redirigir al área de usuario normal, por ejemplo, la página principal
+        res.status(200).json({ message: 'Inicio de sesión exitoso', redirectTo: '/' });
     } catch (error) {
-        // Manejar cualquier error que ocurra durante el proceso
         console.error('Error al iniciar sesión:', error);
-        return null;
+        res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
-}
+});
 
-module.exports = {
-    iniciarSesion
-};
+module.exports = router;

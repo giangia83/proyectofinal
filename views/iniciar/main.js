@@ -1,3 +1,4 @@
+// Importar fetch para realizar peticiones HTTP
 async function cargarUsuarios() {
     try {
         // Realizar la petición GET a la API de usuarios
@@ -17,18 +18,6 @@ async function cargarUsuarios() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Cargar los usuarios al cargar la página
-
-    const usuarioCookie = getCookie('usuario');
-
-    if (usuarioCookie) {
-        // Si hay una cookie de usuario, redirigir directamente a la página de cuenta
-        window.location.href = '/';
-        return; // Termina la ejecución para evitar que siga procesando el código
-    } else {
-        // Si no hay cookie de usuario, mostrar la página de inicio de sesión
-        console.log('No hay cookie de usuario. Mostrar página de inicio de sesión.');
-    }
-
     let usuarios;
     try {
         usuarios = await cargarUsuarios();
@@ -46,8 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     formL.addEventListener('submit', async e => {
         e.preventDefault();
 
-        const adminEmail = 'jbiadarola@hotmail.com';
-        const adminPassword = 'starclean123';
         const correo = loginInput.value;
         const password = passwordInput.value;
 
@@ -56,19 +43,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             const usuario = usuarios.find(user => user.correo === correo);
 
             if (usuario) {
-                if (usuario.contraseña === adminPassword && correo === adminEmail) {
-                    // Guardar la sesión del usuario utilizando cookies
-                    document.cookie = `usuario=${usuario.nombre}; path=/`;
-                    // Redirigir al usuario a la página de administrador
+                // Realizar una petición POST a la ruta de inicio de sesión
+                const response = await fetch('/sesion/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        correo: correo,
+                        contraseña: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Error al iniciar sesión');
+                }
+
+                // Redirigir según el tipo de usuario
+                if (data.esAdmin) {
+                    // Redirigir al usuario administrador
                     window.location.href = '/administrar';
-                } else if (usuario.contraseña === password) {
-                    // Guardar la sesión del usuario utilizando cookies
-                    document.cookie = `usuario=${usuario.nombre}; path=/`;
-                    // Redirigir al usuario a la página de cuenta
-                    window.location.href = '/cuenta';
                 } else {
-                    // Mostrar mensaje de error si las credenciales son inválidas
-                    mostrarMensaje('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+                    // Redirigir al área de usuario normal
+                    window.location.href = '/';
                 }
             } else {
                 // Mostrar mensaje de error si no se encontró al usuario
@@ -86,8 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Función para obtener el valor de una cookie por nombre
-function getCookie(usuario) {
-    const cookieValue = document.cookie.match('(^|;)\\s*' + usuario + '\\s*=\\s*([^;]+)');
+function getCookie(nombre) {
+    const cookieValue = document.cookie.match('(^|;)\\s*' + nombre + '\\s*=\\s*([^;]+)');
     return cookieValue ? cookieValue.pop() : null;
 }
-
