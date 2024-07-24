@@ -212,6 +212,11 @@ app.get('/gestionar', async (req, res) => {
 
 
 app.get('/administrar', async (req, res) => {
+
+    if (!req.session.usuario || !req.session.usuario.esAdmin) {
+        return res.status(403).send('Acceso prohibido. Debes ser administrador para acceder a esta página.');
+    }
+
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
         res.render('admin/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
