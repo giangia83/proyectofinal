@@ -44,7 +44,7 @@
             <!-- Contraseña -->
             <div class="mb-3">
               <label for="contraseña" class="form-label">Nueva contraseña</label>
-              <input type="password" class="form-control" id="contraseña" name="contraseña">
+              <input type="password" class="form-control" id="contraseña" name="contraseña" value="<%= usuarioActual.contraseña %>">
             </div>
             <!-- Dirección -->
             <div class="mb-3">
@@ -79,6 +79,23 @@
     </div>
   </main>
 
+<!-- Modal -->
+<div class="modal fade" id="actualizacionExitosaModal" tabindex="-1" aria-labelledby="actualizacionExitosaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actualizacionExitosaModalLabel">Usuario actualizado correctamente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        El usuario ha sido actualizado exitosamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

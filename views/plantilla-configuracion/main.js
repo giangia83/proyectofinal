@@ -1,18 +1,11 @@
-// Archivo form.js
-
-// Espera a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', () => {
-    // Captura el formulario
     const form = document.getElementById('formulario');
 
-    // Agrega un listener para el evento submit del formulario
     form.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Evita que se envíe el formulario de forma convencional
+        event.preventDefault();
 
-        // Obtiene el id del usuario del atributo data-id del formulario
         const userId = form.dataset.id;
 
-        // Construye los datos del formulario
         const formData = {
             nombre: form.nombre.value,
             correo: form.correo.value,
@@ -24,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            // Realiza una solicitud PUT al servidor
             const response = await fetch(`/usuarios/editar/${userId}`, {
                 method: 'PUT',
                 headers: {
@@ -37,9 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Error al actualizar el usuario');
             }
 
-            // Si la actualización fue exitosa, muestra un mensaje al usuario
-            alert('Usuario actualizado correctamente');
-            // Opcional: redirige a otra página o realiza acciones adicionales
+            // Mostrar el modal de éxito
+            const modal = new bootstrap.Modal(document.getElementById('actualizacionExitosaModal'));
+            modal.show();
 
         } catch (error) {
             console.error('Error al actualizar el usuario:', error);
