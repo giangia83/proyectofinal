@@ -211,20 +211,26 @@ app.get('/gestionar', async (req, res) => {
 // En tu archivo principal de la aplicación (app.js o index.js)
 
 
-app.get('/administrar', async (req, res) => {
-
-    if (!req.session.usuario || !req.session.usuario.esAdmin) {
+// Middleware para verificar si el usuario es administrador
+function verificarAdmin(req, res, next) {
+    if (req.session.usuario && req.session.usuario.esAdmin) {
+        return next(); // Usuario es administrador, permitir acceso
+    } else {
         return res.status(403).send('Acceso prohibido. Debes ser administrador para acceder a esta página.');
     }
+}
 
+// Ruta para la página de administración (solo para administradores)
+app.get('/administrar', verificarAdmin, async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
-        res.render('admin/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+        res.render('admin/index', { productos, usuario: res.locals.usuario || { nombre: '' } });
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');
     }
 });
+
 
 app.get('/clientes', async (req, res) => {
     try {
