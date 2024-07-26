@@ -74,36 +74,42 @@ const storage = multer.diskStorage({
 app.use(express.static(path.join(__dirname, 'public')));
 
 const upload = multer({ storage: storage });
+
 app.use((req, res, next) => {
     // Obtener el nombre de usuario desde la cookie 'usuario'
     const usuarioNombre = req.cookies.usuario;
 
+    // Verificar si hay un nombre de usuario en la cookie
     if (usuarioNombre) {
+        // Consultar la base de datos para obtener los detalles del usuario
         Usuario.findOne({ nombre: usuarioNombre })
             .then(usuario => {
                 if (usuario) {
+                    // Si encontramos al usuario, configuramos res.locals.usuario con sus detalles
                     res.locals.usuario = {
-                        _id: usuario._id,
+                        _id: usuario._id,  
                         nombre: usuario.nombre,
                         correo: usuario.correo,
                         direccion: usuario.direccion,
-                        ciudad: usuario.ciudad,
+                        number: usuario.number,
                         rif: usuario.rif,
+                        ciudad: usuario.ciudad,
                         rol: usuario.rol,
                         esAdmin: usuario.rol === 'admin'
                     };
                 } else {
-                    delete res.locals.usuario;
+                    // Manejar el caso en el que no se encuentre el usuario
+                    delete res.locals.usuario; // Asegurarse de no definir res.locals.usuario
                 }
                 next();
             })
             .catch(error => {
                 console.error('Error al obtener el usuario:', error);
-                delete res.locals.usuario;
+                delete res.locals.usuario; // Manejar errores de consulta a la base de datos
                 next();
             });
     } else {
-        delete res.locals.usuario;
+        delete res.locals.usuario; // Si no hay cookie de usuario, asegurarse de no definir res.locals.usuario
         next();
     }
 });
@@ -202,22 +208,23 @@ app.get('/gestionar', async (req, res) => {
         res.status(500).send('Error al obtener productos');
     }
 });
+// En tu archivo principal de la aplicación (app.js o index.js)
 
 
 app.get('/administrar', async (req, res) => {
+
     if (!req.session.usuario || !req.session.usuario.esAdmin) {
         return res.status(403).send('Acceso prohibido. Debes ser administrador para acceder a esta página.');
     }
 
     try {
-        const productos = await Producto.find();
-        res.render('admin/index', { productos, usuario: res.locals.usuario || { nombre: '' } });
+        const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
+        res.render('admin/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');
     }
 });
-
 
 app.get('/clientes', async (req, res) => {
     try {
