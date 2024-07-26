@@ -2,56 +2,69 @@ const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
 const multer = require('multer');
-const path = require('path'); // Asegúrate de importar 'path'
+const path = require('path');
 const fs = require('fs');
+const sharp = require('sharp');
 
-// Configuración de Multer
+// Configuración de multer para guardar archivos en la carpeta 'uploads'
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const uploadDir = path.join(__dirname, '../uploads');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir); // Crear directorio si no existe
-        }
-        cb(null, uploadDir);
+        cb(null, 'uploads'); // Carpeta donde se guardan las imágenes subidas
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Nombre original del archivo
     }
 });
 
 const upload = multer({ storage });
 
-// Ruta para subir productos
-router.post('/upload', upload.single('inputImagen'), (req, res) => {
+router.post('/upload', upload.single('inputImagen'), async (req, res) => {
     // Verificar si se subió un archivo correctamente
     if (!req.file) {
         return res.status(400).send('No se ha cargado ningún archivo');
     }
 
-    // Construir la URL completa del archivo subido
-    const imageUrl = '/uploads/' + req.file.filename;
+    // Obtener el path del archivo subido
+    const filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
+    
+    // Path para el archivo WebP convertido
+    const webpFileName = `${path.parse(req.file.filename).name}.webp`;
+    const webpFilePath = path.join(__dirname, '..', 'uploads', webpFileName);
 
-    // Crear un nuevo objeto Producto con los datos recibidos
-    const newProduct = new Producto({
-        nombre: req.body.nombre,
-        precio: req.body.precio,
-        costo: req.body.costo,
-        categoria: req.body.categoria,
-        file: {
-            data: imageUrl, // Guardar la URL completa del archivo
-            contentType: req.file.mimetype
-        }
-    });
+    try {
+        // Convertir la imagen a WebP usando sharp
+        await sharp(filePath)
+            .webp()
+            .toFile(webpFilePath);
 
-    // Guardar el producto en la base de datos
-    newProduct.save()
-        .then(savedProduct => {
-            res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
-        })
-        .catch(err => {
-            console.error('Error al guardar el producto:', err);
-            res.status(500).send('Error al guardar el producto en la base de datos');
+        // Eliminar el archivo original (opcional)
+        fs.unlink(filePath, (err) => {
+            if (err) console.error('Error al eliminar el archivo original:', err);
         });
+
+        // Construir la URL completa del archivo WebP convertido
+        const imageUrl = '/uploads/' + webpFileName;
+
+        // Crear un nuevo objeto Producto con los datos recibidos
+        const newProduct = new Producto({
+            nombre: req.body.nombre,
+            precio: req.body.precio,
+            costo: req.body.costo,
+            categoria: req.body.categoria,
+            file: {
+                data: imageUrl, // Guardar la URL completa del archivo WebP
+                contentType: 'image/webp'
+            }
+        });
+
+        // Guardar el producto en la base de datos
+        const savedProduct = await newProduct.save();
+        res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
+
+    } catch (err) {
+        console.error('Error al procesar la imagen:', err);
+        res.status(500).send('Error al procesar la imagen');
+    }
 });
 
 module.exports = router;
