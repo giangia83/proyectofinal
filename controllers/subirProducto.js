@@ -36,7 +36,7 @@ router.post('/upload', upload.single('file'), (req, res) => {
             contentType: req.file.mimetype
         }
     });
-
+/*  */
     // Guardar el producto en la base de datos
     newProduct.save()
         .then(savedProduct => {
