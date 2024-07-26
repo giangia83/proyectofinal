@@ -21,7 +21,6 @@ router.post('/login', async (req, res) => {
                 direccion: usuario.direccion,
                 ciudad: usuario.ciudad,
                 rif: usuario.rif,
-                rol: usuario.rol,
                 esAdmin: usuario.rol === 'admin'
                 
             };
@@ -35,8 +34,7 @@ router.post('/login', async (req, res) => {
             });
 
             // Redirigir a la interfaz de administración
-            const redirectTo = usuario.rol === 'admin' ? '/administrar' : '/';
-             res.status(200).json({ message: 'Inicio de sesión exitoso', redirectTo });
+            return res.status(200).json({ message: 'Inicio de sesión exitoso como admin', redirectTo: '/administrar' });
         }
 
         // Si no es administrador, es un usuario normal

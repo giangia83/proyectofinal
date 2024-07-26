@@ -87,15 +87,15 @@ app.use((req, res, next) => {
                 if (usuario) {
                     // Si encontramos al usuario, configuramos res.locals.usuario con sus detalles
                     res.locals.usuario = {
-                        _id: usuario._id,  
+                        _id: usuario._id,  // Añadir el _id del usuario
                         nombre: usuario.nombre,
                         correo: usuario.correo,
                         direccion: usuario.direccion,
                         number: usuario.number,
                         rif: usuario.rif,
                         ciudad: usuario.ciudad,
-                        rol: usuario.rol,
-                        esAdmin: usuario.rol === 'admin'
+                                    
+                        // Otros campos del usuario que desees mostrar
                     };
                 } else {
                     // Manejar el caso en el que no se encuentre el usuario
