@@ -37,8 +37,13 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
             }
         );
 
-        // Devuelve la URL del archivo subido
-        res.json({ url: `${bunnyStorageUrl}/${req.file.originalname}` });
+        // Verifica el estado de la respuesta para asegurarse de que la carga fue exitosa
+        if (response.status === 200 || response.status === 201) {
+            // Devuelve la URL del archivo subido
+            res.json({ url: `${bunnyStorageUrl}/${req.file.originalname}` });
+        } else {
+            res.status(response.status).send('Error al subir el archivo');
+        }
     } catch (err) {
         console.error('Error al subir el archivo:', err);
         res.status(500).send('Error al subir el archivo');
@@ -46,3 +51,4 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
 });
 
 module.exports = router;
+
