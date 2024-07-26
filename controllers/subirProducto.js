@@ -11,7 +11,7 @@ const storage = multer.memoryStorage(); // Usamos almacenamiento en memoria
 const upload = multer({ storage });
 
 // Endpoint de Bunny.net
-const bunnyStorageUrl = 'https://storage.bunnycdn.com/YOUR_STORAGE_ZONE_NAME'; // Reemplaza con tu zona de almacenamiento
+const bunnyStorageUrl = 'https://dash.bunny.net/storage/724391/access'; // Reemplaza con tu zona de almacenamiento
 const bunnyAccessKey = 'YOUR_BUNNYNET_ACCESS_KEY'; // Reemplaza con tu clave de acceso
 
 // Ruta para subir archivos
