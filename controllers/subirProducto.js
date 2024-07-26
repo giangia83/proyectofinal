@@ -9,10 +9,12 @@ const sharp = require('sharp');
 // Configuración de multer para guardar archivos en la carpeta 'uploads'
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '..', 'uploads')); // Usar path.join para asegurar la ruta correcta
+        const uploadPath = path.join(__dirname, '..', 'uploads');
+        console.log('Ruta de destino para el archivo:', uploadPath); // Agrega un log para verificar la ruta
+        cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Nombre original del archivo
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
 
