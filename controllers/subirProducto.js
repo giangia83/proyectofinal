@@ -7,7 +7,7 @@ const path = require('path');
 const router = express.Router();
 
 // Configura multer para manejar archivos en memoria
-const storage = multer.memoryStorage(); // Usamos almacenamiento en memoria
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Endpoint de Bunny.net
@@ -28,10 +28,10 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
         // Sube el archivo a Bunny.net
         const response = await axios.put(
             `${bunnyStorageUrl}/${req.file.originalname}`,
-            form,
+            req.file.buffer, // Enviar el archivo directamente en el cuerpo
             {
                 headers: {
-                    ...form.getHeaders(),
+                    'Content-Type': 'application/octet-stream', // Tipo de contenido adecuado para archivos binarios
                     'AccessKey': bunnyAccessKey, // Clave de acceso para Bunny.net
                 },
             }
@@ -51,4 +51,3 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
 });
 
 module.exports = router;
-
