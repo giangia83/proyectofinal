@@ -1,71 +1,47 @@
 const express = require('express');
-const router = express.Router();
-const Producto = require('../models/producto');
 const multer = require('multer');
+const axios = require('axios');
+const FormData = require('form-data');
 const path = require('path');
-const fs = require('fs');
-const sharp = require('sharp');
 
-// Configuración de multer para guardar archivos en la carpeta 'uploads'
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const uploadPath = path.join(__dirname, '..', 'uploads');
-        console.log('Ruta de destino para el archivo:', uploadPath); // Agrega un log para verificar la ruta
-        cb(null, uploadPath);
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
+const router = express.Router();
 
+// Configura multer para manejar archivos en memoria
+const storage = multer.memoryStorage(); // Usamos almacenamiento en memoria
 const upload = multer({ storage });
 
+// Endpoint de Bunny.net
+const bunnyStorageUrl = 'https://storage.bunnycdn.com/YOUR_STORAGE_ZONE_NAME'; // Reemplaza con tu zona de almacenamiento
+const bunnyAccessKey = 'YOUR_BUNNYNET_ACCESS_KEY'; // Reemplaza con tu clave de acceso
+
+// Ruta para subir archivos
 router.post('/upload', upload.single('inputImagen'), async (req, res) => {
-    // Verificar si se subió un archivo correctamente
     if (!req.file) {
         return res.status(400).send('No se ha cargado ningún archivo');
     }
 
-    // Obtener el path del archivo subido
-    const filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
-    
-    // Path para el archivo WebP convertido
-    const webpFileName = `${path.parse(req.file.filename).name}.webp`;
-    const webpFilePath = path.join(__dirname, '..', 'uploads', webpFileName);
-
     try {
-        // Convertir la imagen a WebP usando sharp
-        await sharp(filePath)
-            .webp()
-            .toFile(webpFilePath);
+        // Crea un formulario para enviar el archivo
+        const form = new FormData();
+        form.append('file', req.file.buffer, { filename: req.file.originalname });
 
-        // Eliminar el archivo original (opcional)
-        fs.unlink(filePath, (err) => {
-            if (err) console.error('Error al eliminar el archivo original:', err);
-        });
-
-        // Construir la URL completa del archivo WebP convertido
-        const imageUrl = '/uploads/' + webpFileName;
-
-        // Crear un nuevo objeto Producto con los datos recibidos
-        const newProduct = new Producto({
-            nombre: req.body.nombre,
-            precio: req.body.precio,
-            costo: req.body.costo,
-            categoria: req.body.categoria,
-            file: {
-                data: imageUrl, // Guardar la URL completa del archivo WebP
-                contentType: 'image/webp'
+        // Sube el archivo a Bunny.net
+        const response = await axios.put(
+            `${bunnyStorageUrl}/${req.file.originalname}`,
+            form,
+            {
+                headers: {
+                    ...form.getHeaders(),
+                    'AccessKey': bunnyAccessKey, // Clave de acceso para Bunny.net
+                },
             }
-        });
+        );
 
-        // Guardar el producto en la base de datos
-        const savedProduct = await newProduct.save();
-        res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
-
+        // Devuelve la URL del archivo subido
+        res.json({ url: `${bunnyStorageUrl}/${req.file.originalname}` });
     } catch (err) {
-        console.error('Error al procesar la imagen:', err);
-        res.status(500).send('Error al procesar la imagen');
+        console.error('Error al subir el archivo:', err);
+        res.status(500).send('Error al subir el archivo');
     }
 });
 
