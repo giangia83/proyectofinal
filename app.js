@@ -18,7 +18,7 @@ const fs = require('fs');
 const Producto = require("./models/producto")
 const Usuario = require("./models/usuario")
 const methodOverride = require('method-override');
-
+const subirProducto = require('./controllers/subirProducto')
 
 
 /* marko for html */
@@ -62,19 +62,8 @@ mongoose.connect(mongoURI, {
 
 
 //storage 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "uploads")
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Nombre original del archivo
-    }
-});
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-const upload = multer({ storage: storage });
-
 app.use((req, res, next) => {
     // Obtener el nombre de usuario desde la cookie 'usuario'
     const usuarioNombre = req.cookies.usuario;
@@ -115,38 +104,6 @@ app.use((req, res, next) => {
 });
 
 
-
-app.post('/upload', upload.single('file'), (req, res) => {
-    // Verificar si se subió un archivo correctamente
-    if (!req.file) {
-        return res.status(400).send('No se ha cargado ningún archivo');
-    }
-
-    // Construir la URL completa del archivo subido
-    const imageUrl = '/uploads/' + req.file.filename;
-
-    // Crear un nuevo objeto Producto con los datos recibidos
-    const newProduct = new Producto({
-        nombre: req.body.nombre,
-        precio: req.body.precio,
-        costo: req.body.costo,
-        categoria: req.body.categoria,
-        file: {
-            data: imageUrl, // Guardar la URL completa del archivo
-            contentType: req.file.mimetype
-        }
-    });
-
-    // Guardar el producto en la base de datos
-    newProduct.save()
-        .then(savedProduct => {
-            res.json(savedProduct); // Enviar el objeto del producto guardado como respuesta
-        })
-        .catch(err => {
-            console.error('Error al guardar el producto:', err);
-            res.status(500).send('Error al guardar el producto en la base de datos');
-        });
-});
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -202,7 +159,7 @@ app.get('/servicioalcliente', async (req, res) => {
 app.get('/gestionar', async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
-        res.render('gestion/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
+        res.render('gestionar/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');
@@ -284,6 +241,7 @@ app.get('/vercarrito', async (req, res) => {
     }
 });
 
+// Rutas estaticas
 
 app.use('/', express.static(path.resolve(__dirname, 'views', 'home')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
@@ -293,7 +251,6 @@ app.use('/informacion', express.static(path.resolve(__dirname, 'views', 'infocue
 app.use('/iniciarsesion', express.static(path.resolve(__dirname, 'views', 'iniciar')));
 app.use('/tuspedidos', express.static(path.resolve(__dirname, 'views', 'pedidos')));
 app.use('/registrarse', express.static(path.resolve(__dirname, 'views', 'registrar')));
-
 app.use('/servicioalcliente', express.static(path.resolve(__dirname, 'views', 'serviciocliente')));
 app.use('/clientes', express.static(path.resolve(__dirname, 'views', 'clientes')));
 app.use('/gestion', express.static(path.resolve(__dirname, 'views', 'gestionar')));
@@ -301,11 +258,13 @@ app.use('/administrar', express.static(path.resolve(__dirname, 'views', 'admin')
 app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'productos')));
 app.use("/main",express.static(__dirname + '/main'));
 
+// Rutas de Controllers
+
 app.use(cotizacionesRouter);
 app.use('/usuarios', userRouter); 
 app.use('/api', productosRouter); 
-app.use('/sesion', iniciarSesion)
-
+app.use('/sesion', iniciarSesion);
+app.use('/subir', subirProducto);
 
 
 
