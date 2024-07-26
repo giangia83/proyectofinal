@@ -21,8 +21,8 @@ router.post('/login', async (req, res) => {
                 direccion: usuario.direccion,
                 ciudad: usuario.ciudad,
                 rif: usuario.rif,
-                esAdmin: usuario.rol === 'admin'
-                
+                esAdmin: usuario.rol === 'admin',
+                rol: usuario.rol
             };
 
             // Establecer la cookie con el nombre de usuario
@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
             direccion: usuario.direccion,
             ciudad: usuario.ciudad,
             rif: usuario.rif
-            // No es necesario agregar 'esAdmin' para usuarios normales
+           
         };
 
         // Establecer la cookie con el nombre de usuario
