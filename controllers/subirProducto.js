@@ -1,22 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
-const multer = require("multer");
+const multer = require('multer');
+const path = require('path'); // Asegúrate de importar 'path'
+const fs = require('fs');
+
+// Configuración de Multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "uploads")
+        const uploadDir = path.join(__dirname, '../uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir); // Crear directorio si no existe
+        }
+        cb(null, uploadDir);
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Nombre original del archivo
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
 
-
-
 const upload = multer({ storage });
 
-
-router.post('/upload', upload.single('file'), (req, res) => {
+// Ruta para subir productos
+router.post('/upload', upload.single('inputImagen'), (req, res) => {
     // Verificar si se subió un archivo correctamente
     if (!req.file) {
         return res.status(400).send('No se ha cargado ningún archivo');
@@ -36,7 +42,7 @@ router.post('/upload', upload.single('file'), (req, res) => {
             contentType: req.file.mimetype
         }
     });
-/*  */
+
     // Guardar el producto en la base de datos
     newProduct.save()
         .then(savedProduct => {
