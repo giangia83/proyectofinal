@@ -213,7 +213,7 @@ app.get('/gestionar', async (req, res) => {
 
 // Middleware para verificar si el usuario es administrador
 function verificarAdmin(req, res, next) {
-    if (req.session.usuario && req.session.usuario.esAdmin) {
+    if (res.locals.usuario && res.locals.usuario.esAdmin) {
         return next(); // Usuario es administrador, permitir acceso
     } else {
         return res.status(403).send('Acceso prohibido. Debes ser administrador para acceder a esta página.');
