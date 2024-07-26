@@ -94,7 +94,7 @@ app.use((req, res, next) => {
                         number: usuario.number,
                         rif: usuario.rif,
                         ciudad: usuario.ciudad,
-                                    
+                        esAdmin: usuario.rol === 'admin'       
                         // Otros campos del usuario que desees mostrar
                     };
                 } else {
