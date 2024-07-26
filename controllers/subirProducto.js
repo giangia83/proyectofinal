@@ -9,7 +9,7 @@ const sharp = require('sharp');
 // Configuración de multer para guardar archivos en la carpeta 'uploads'
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads'); // Carpeta donde se guardan las imágenes subidas
+        cb(null, path.join(__dirname, '..', 'uploads')); // Usar path.join para asegurar la ruta correcta
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Nombre original del archivo
