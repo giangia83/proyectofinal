@@ -17,7 +17,6 @@ async function cargarUsuarios() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Cargar los usuarios al cargar la página
     let usuarios;
     try {
         usuarios = await cargarUsuarios();
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Obtener el formulario de inicio de sesión y los campos de correo y contraseña
     const formL = document.querySelector('#login-form');
     const loginInput = document.querySelector('#inputEmail');
     const passwordInput = document.querySelector('#inputPassword');
@@ -39,11 +37,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const password = passwordInput.value;
 
         try {
-            // Buscar el usuario por correo electrónico en la lista cargada
             const usuario = usuarios.find(user => user.correo === correo);
 
             if (usuario) {
-                // Realizar una petición POST a la ruta de inicio de sesión
                 const response = await fetch('/sesion/login', {
                     method: 'POST',
                     headers: {
@@ -61,16 +57,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     throw new Error(data.error || 'Error al iniciar sesión');
                 }
 
-                // Redirigir según el tipo de usuario
-                if (data.esAdmin) {
-                    // Redirigir al usuario administrador
-                    window.location.href = '/administrar';
-                } else {
-                    // Redirigir al área de usuario normal
-                    window.location.href = '/';
+                // Redirigir según el valor de redirectTo
+                if (data.redirectTo) {
+                    window.location.href = data.redirectTo;
                 }
             } else {
-                // Mostrar mensaje de error si no se encontró al usuario
                 mostrarMensaje('Usuario no encontrado. Por favor, inténtalo de nuevo.');
             }
         } catch (error) {
@@ -83,6 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         alert(mensaje);
     }
 });
+
 
 // Función para obtener el valor de una cookie por nombre
 function getCookie(nombre) {
