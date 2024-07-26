@@ -27,7 +27,7 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
 
     try {
         // Enviar datos al servidor usando fetch API
-        const response = await fetch('subir/upload', {
+        const response = await fetch('/subir/upload', {
             method: 'POST',
             body: formData
         });
