@@ -21,8 +21,8 @@ router.post('/login', async (req, res) => {
                 direccion: usuario.direccion,
                 ciudad: usuario.ciudad,
                 rif: usuario.rif,
-                esAdmin: true
-                // Agregar otros datos según sea necesario
+                esAdmin: usuario.rol === 'admin'
+                
             };
 
             // Establecer la cookie con el nombre de usuario
@@ -34,7 +34,8 @@ router.post('/login', async (req, res) => {
             });
 
             // Redirigir a la interfaz de administración
-            return res.status(200).json({ message: 'Inicio de sesión exitoso como admin', redirectTo: '/administrar' });
+            const redirectTo = usuario.rol === 'admin' ? '/administrar' : '/';
+             res.status(200).json({ message: 'Inicio de sesión exitoso', redirectTo });
         }
 
         // Si no es administrador, es un usuario normal
