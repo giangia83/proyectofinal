@@ -1,8 +1,8 @@
-require('dotenv').config(); // Al principio de tu archivo principal
 const express = require('express');
 const multer = require('multer');
 const axios = require('axios');
-const path = require('path');
+const Producto = require('../models/producto');
+require('dotenv').config();
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Endpoint de Bunny.net
+// Configura Bunny.net
 const bunnyStorageUrl = 'https://storage.bunnycdn.com/starclean';
 const bunnyAccessKey = process.env.YOUR_BUNNYNET_ACCESS_KEY;
 
@@ -29,19 +29,32 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
         // Sube el archivo a Bunny.net
         const response = await axios.put(
             `${bunnyStorageUrl}/${fileName}`,
-            fileBuffer, // Enviar el archivo directamente en el cuerpo
+            fileBuffer,
             {
                 headers: {
-                    'Content-Type': 'application/octet-stream', // Tipo de contenido adecuado para archivos binarios
-                    'AccessKey': bunnyAccessKey, // Clave de acceso para Bunny.net
+                    'Content-Type': 'application/octet-stream',
+                    'AccessKey': bunnyAccessKey,
                 },
             }
         );
 
-        // Verifica el estado de la respuesta para asegurarse de que la carga fue exitosa
         if (response.status === 200 || response.status === 201) {
-            // Devuelve la URL del archivo subido
-            res.json({ url: `${bunnyStorageUrl}/${fileName}` });
+            // URL del archivo subido
+            const fileUrl = `${bunnyStorageUrl}/${fileName}`;
+
+            // Guardar el producto en MongoDB
+            const nuevoProducto = new Producto({
+                nombre: req.body.nombre,
+                costo: req.body.costo,
+                precio: req.body.precio,
+                imagen: fileUrl,
+                categoria: req.body.categoria
+            });
+
+            await nuevoProducto.save();
+
+            // Responder con la URL del archivo y confirmación de guardado
+            res.json({ url: fileUrl, mensaje: 'Producto subido y guardado exitosamente' });
         } else {
             const errorMsg = `Error al subir el archivo. Código de estado: ${response.status}`;
             console.error(errorMsg);
@@ -49,15 +62,12 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
         }
     } catch (err) {
         if (err.response) {
-            // Errores específicos de la respuesta (ej. errores del servidor de Bunny.net)
             console.error(`Error en la respuesta de Bunny.net: ${err.response.status} - ${err.response.data}`);
             res.status(err.response.status).send(`Error en la respuesta de Bunny.net: ${err.response.status}`);
         } else if (err.request) {
-            // Errores en la solicitud (ej. problemas de red)
             console.error('Error en la solicitud a Bunny.net:', err.request);
             res.status(500).send('Error en la solicitud a Bunny.net. Verifica la conexión de red.');
         } else {
-            // Otros errores (ej. errores de configuración o programación)
             console.error('Error inesperado:', err.message);
             res.status(500).send('Error inesperado. Por favor, intenta nuevamente.');
         }

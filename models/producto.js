@@ -6,7 +6,7 @@ const productoSchema = new mongoose.Schema({
     costo: { type: Number, required: true },
     precio: { type: Number, required: true },
     categoria: { type: String, required: true },
-    file: {
+    imagen: {
         data: { type: String, required: true }, // Cambiado a String para la URL de la imagen
         contentType: { type: String, required: true } // Tipo de contenido del archivo (ej. 'image/png')
     }
