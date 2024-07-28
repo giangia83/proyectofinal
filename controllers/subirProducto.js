@@ -47,7 +47,10 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
                 nombre: req.body.nombre,
                 costo: req.body.costo,
                 precio: req.body.precio,
-                imagen: fileUrl,
+                imagen: {
+                    data: fileUrl, // Usamos la URL como el campo data
+                    contentType: 'image/jpeg' // Ajusta el tipo de contenido según el archivo subido
+                },
                 categoria: req.body.categoria
             });
 
