@@ -251,9 +251,8 @@
                           <!-- Contenedor para la imagen y el ícono -->
                           <div class="image-container">
                               <!-- Imagen del producto -->
-                              <img src="<%= producto.imagen %>" alt="Imagen del producto" class="img-fluid product-image">
-                              <!-- Imagen del check -->
-                            
+                              <img src="<%= producto.imagen.data %>" alt="Imagen del producto" class="img-fluid product-image">
+                              <!-- Imagen del check (opcional) -->
                           </div>
                           <!-- Nombre del producto -->
                           <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
@@ -264,7 +263,7 @@
               </div>
           <% }); %>
       </div>
-
+      
 
 
 
