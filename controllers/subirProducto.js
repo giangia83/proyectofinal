@@ -12,6 +12,7 @@ const upload = multer({ storage });
 
 // Configura Bunny.net
 const bunnyStorageUrl = 'https://storage.bunnycdn.com/starclean';
+const bunnyPullZoneUrl = 'https://starclean-bucket.b-cdn.net'; // URL del Pull Zone
 const bunnyAccessKey = process.env.YOUR_BUNNYNET_ACCESS_KEY;
 
 // Ruta para subir archivos
@@ -39,8 +40,8 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
         );
 
         if (response.status === 200 || response.status === 201) {
-            // URL del archivo subido
-            const fileUrl = `${bunnyStorageUrl}/${fileName}`;
+            // URL del archivo subido usando el Pull Zone
+            const fileUrl = `${bunnyPullZoneUrl}/${fileName}`;
 
             // Guardar el producto en MongoDB
             const nuevoProducto = new Producto({
@@ -48,7 +49,7 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
                 costo: req.body.costo,
                 precio: req.body.precio,
                 imagen: {
-                    data: fileUrl, // Usamos la URL como el campo data
+                    data: fileUrl, // Usamos la URL del Pull Zone como el campo data
                     contentType: 'image/jpeg' // Ajusta el tipo de contenido según el archivo subido
                 },
                 categoria: req.body.categoria
