@@ -252,17 +252,24 @@
                           <div class="image-container">
                               <!-- Imagen del producto -->
                               <img src="<%= producto.imagen.data %>" alt="Imagen del producto" class="img-fluid product-image">
-                              <!-- Imagen del check (opcional) -->
                           </div>
                           <!-- Nombre del producto -->
                           <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
                           <!-- Categoría del producto -->
                           <p class="small text-muted font-italic"><%= producto.categoria %></p>
+                          <!-- Botones -->
+                          <div class="card-buttons">
+                              <button class="btn btn-star">
+                                  <i class="fa fa-star"></i>
+                              </button>
+                              <button class="btn btn-add">Añadir</button>
+                          </div>
                       </div>
                   </div>
               </div>
           <% }); %>
-      </div>
+        </div>
+        
       
 
 

@@ -897,3 +897,69 @@ font-size: 15px;
             display: block;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*  */
+    .card-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+    
+    .card-buttons .btn {
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .btn-star {
+        background-color: #FFD700; /* Color dorado para la estrella */
+        color: #fff;
+        margin-right: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .btn-add {
+        background-color: #FFED00; /* Color amarillo para el botón Añadir */
+        color: #1b1b1b;
+    }
+    
+    .btn-star:hover,
+    .btn-add:hover {
+        opacity: 0.8;
+    }
+    
+    .card-buttons i.fa-star {
+        font-size: 16px; /* Tamaño de la estrella */
+    }
+    
+    @media (max-width: 500px) {
+        .card-buttons {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    
+        .card-buttons .btn {
+            width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+            margin-bottom: 0.5rem;
+        }
+    }
+    
