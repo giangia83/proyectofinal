@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const axios = require('axios');
+const sharp = require('sharp');
 const Producto = require('../models/producto');
 require('dotenv').config();
 
@@ -27,13 +28,21 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
         const fileName = req.file.originalname;
         const fileBuffer = req.file.buffer;
 
-        // Sube el archivo a Bunny.net
+        // Convierte la imagen a WebP usando sharp
+        const webpBuffer = await sharp(fileBuffer)
+            .webp()
+            .toBuffer();
+
+        // Crea un nuevo nombre para el archivo WebP (opcional)
+        const webpFileName = fileName.replace(/\.[^/.]+$/, '') + '.webp';
+
+        // Sube el archivo convertido a Bunny.net
         const response = await axios.put(
-            `${bunnyStorageUrl}/${fileName}`,
-            fileBuffer,
+            `${bunnyStorageUrl}/${webpFileName}`,
+            webpBuffer,
             {
                 headers: {
-                    'Content-Type': 'application/octet-stream',
+                    'Content-Type': 'image/webp',
                     'AccessKey': bunnyAccessKey,
                 },
             }
@@ -41,7 +50,7 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
 
         if (response.status === 200 || response.status === 201) {
             // URL del archivo subido usando el Pull Zone
-            const fileUrl = `${bunnyPullZoneUrl}/${fileName}`;
+            const fileUrl = `${bunnyPullZoneUrl}/${webpFileName}`;
 
             // Guardar el producto en MongoDB
             const nuevoProducto = new Producto({
@@ -50,7 +59,7 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
                 precio: req.body.precio,
                 imagen: {
                     data: fileUrl, // Usamos la URL del Pull Zone como el campo data
-                    contentType: 'image/jpeg' // Ajusta el tipo de contenido según el archivo subido
+                    contentType: 'image/webp' // Ajusta el tipo de contenido a 'image/webp'
                 },
                 categoria: req.body.categoria
             });
