@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const item = document.createElement('li');
                 item.classList.add('list-group-item', 'd-flex', 'align-items-center');
                 item.innerHTML = `
-                    <img src="${producto.imagen}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
+                  <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
                     <div>
                         <strong class="d-block mb-1">${producto.nombre}</strong>
                         <span class="text-muted">${producto.categoria}</span>
