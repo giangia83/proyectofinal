@@ -1,8 +1,3 @@
-const express = require('express');
-const router = express.Router();
-const Usuario = require('../models/usuario');
-
-// Controlador de inicio de sesión
 router.post('/login', async (req, res) => {
     try {
         const { correo, contraseña } = req.body;
@@ -13,7 +8,8 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
-        // Guardar los datos de sesión y cookies
+        // Guardar los datos de sesión
+        req.session.userId = usuario._id; // Almacena el ID del usuario en la sesión
         req.session.usuario = {
             nombre: usuario.nombre,
             correo: usuario.correo,
@@ -27,8 +23,8 @@ router.post('/login', async (req, res) => {
         // Establecer la cookie con el nombre de usuario
         res.cookie('usuario', usuario.nombre, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Cambiar a true en producción
-            maxAge: 24 * 60 * 60 * 1000, // 1 día de expiración
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 24 * 60 * 60 * 1000,
             sameSite: 'lax'
         });
 
@@ -43,5 +39,3 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
-
-module.exports = router;

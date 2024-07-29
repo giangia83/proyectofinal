@@ -1,22 +1,20 @@
-// routes/favorites.js
-
 const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
-const User = require('../models/usuario');
+const Usuario = require('../models/usuario');
 
 // Ruta para agregar un producto a favoritos
 router.post('/add-to-favorites', async (req, res) => {
     try {
         const { productoId } = req.body;
-        const userId = req.session.userId; // Asegúrate de que el ID del usuario esté en la sesión
+        const userId = req.session.userId; // Obtener el ID del usuario desde la sesión
 
         if (!userId) {
             return res.status(401).json({ success: false, message: 'No estás autenticado' });
         }
 
         // Busca al usuario en la base de datos
-        const user = await User.findById(userId);
+        const user = await Usuario.findById(userId);
         if (!user) {
             return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
         }
@@ -54,4 +52,3 @@ router.post('/add-to-favorites', async (req, res) => {
 });
 
 module.exports = router;
-

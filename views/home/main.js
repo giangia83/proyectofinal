@@ -19,7 +19,7 @@
                 'Content-Type': 'application/json',
               
             },
-            credentials: 'include', // Incluye cookies en la solicitud
+            credentials: 'include', 
             body: JSON.stringify({ productoId })
         })
         .then(response => response.json())
