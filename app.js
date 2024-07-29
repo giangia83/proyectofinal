@@ -19,7 +19,7 @@ const Producto = require("./models/producto")
 const Usuario = require("./models/usuario")
 const methodOverride = require('method-override');
 const subirProducto = require('./controllers/subirProducto')
-
+const favoritoRouter = require('./controllers/favoritos'); // Importa las rutas de favoritos
 
 /* marko for html */
 
@@ -265,7 +265,7 @@ app.use('/usuarios', userRouter);
 app.use('/api', productosRouter); 
 app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
-
+app.use('/fav', favoritoRouter);
 
 
 app.post('/proseguircompra', async (req, res) => {

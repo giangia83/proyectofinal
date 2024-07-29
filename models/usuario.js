@@ -35,7 +35,16 @@ const usuarioSchema = new mongoose.Schema({
         type: String,
         enum: ['usuario', 'admin'],
         default: 'usuario' // Por defecto, todos los usuarios son de tipo 'usuario'
-    }
+    },
+
+    favorites: [{
+        nombre: { type: String },
+        categoria: { type: String },
+        imagen: {
+            data: { type: String }, // URL de la imagen
+            contentType: { type: String } // Tipo de contenido del archivo (ej. 'image/png')
+        }
+    }]
   
 });
 

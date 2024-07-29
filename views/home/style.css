@@ -922,44 +922,114 @@ font-size: 15px;
     .card-buttons .btn {
         border: none;
         border-radius: 5px;
-        padding: 0.5rem 1rem;
+        padding: 0.5rem;
         font-size: 14px;
         font-weight: bold;
         cursor: pointer;
-    }
-    
-    .btn-star {
-        background-color: #FFD700; /* Color dorado para la estrella */
-        color: #fff;
-        margin-right: 0.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        transition: background-color 0.3s ease, opacity 0.3s ease;
     }
     
     .btn-add {
         background-color: #FFED00; /* Color amarillo para el botón Añadir */
         color: #1b1b1b;
+        flex-grow: 1; /* Hace que el botón se expanda para ocupar espacio disponible */
+        margin-right: 0.5rem;
     }
     
-    .btn-star:hover,
-    .btn-add:hover {
-        opacity: 0.8;
+    .btn-star {
+        background-color: #FFD700; /* Color dorado para la estrella */
+        color: #fff;
+        width: 2.5rem; /* Ajusta el tamaño del botón de la estrella */
+        height: 2.5rem; /* Ajusta el tamaño del botón de la estrella */
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
-    .card-buttons i.fa-star {
+    .btn-star i {
         font-size: 16px; /* Tamaño de la estrella */
+    }
+    
+    .btn-add:hover,
+    .btn-star:hover {
+        opacity: 0.8;
     }
     
     @media (max-width: 500px) {
         .card-buttons {
             flex-direction: column;
-            align-items: flex-start;
+            align-items: stretch; /* Alinea los botones para ocupar todo el ancho */
         }
     
-        .card-buttons .btn {
-            width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+        .btn-add {
+            margin-right: 0; /* Elimina el margen derecho en pantallas pequeñas */
             margin-bottom: 0.5rem;
+        }
+    
+        .btn-star {
+            width: 100%; /* El botón estrella ocupará todo el ancho disponible en pantallas pequeñas */
+            margin-right: 0;
         }
     }
     
+
+    /* favoritos */
+
+    /* Estilos para el overlay del modal */
+.modal-overlay {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
+    z-index: 1000;
+  }
+  
+  /* Estilos para el modal */
+  .modal {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    border-radius: 8px;
+    overflow: auto;
+  }
+  
+  /* Estilos para el contenido del modal */
+  .modal-content {
+    position: relative;
+  }
+  
+  /* Estilos para el botón de cerrar */
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  /* Estilos para la lista de productos favoritos */
+  #favoriteList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #favoriteList li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #favoriteList li:last-child {
+    border-bottom: none;
+  }
+  
