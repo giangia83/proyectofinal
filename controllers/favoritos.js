@@ -45,17 +45,20 @@ router.post('/add-to-favorites', async (req, res) => {
             _id: producto._id,
             nombre: producto.nombre,
             categoria: producto.categoria,
-            imagen: {
-                data: producto.imagen.data,
-                contentType: producto.imagen.contentType
-            }
+            imagen: producto.imagen // Asegúrate de que `producto.imagen` tenga la información necesaria
         });
 
         // Actualiza el usuario con el nuevo favorito
         await usuario.save();
         console.log('Producto agregado a favoritos:', producto._id);
 
-        res.json({ success: true });
+        // Devuelve el producto como parte de la respuesta
+        res.json({ success: true, producto: {
+            _id: producto._id,
+            nombre: producto.nombre,
+            categoria: producto.categoria,
+            imagen: producto.imagen // Devuelve la información de la imagen
+        }});
     } catch (error) {
         console.error('Error al agregar a favoritos:', error);
         res.status(500).json({ success: false, message: 'Error del servidor' });

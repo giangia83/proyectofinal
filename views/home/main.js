@@ -1,5 +1,3 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', () => {
     // Manejo del menú hamburguesa
     const menuHamburguesa = document.getElementById('menuHamburguesa');
@@ -42,12 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             if (result.success) {
+                const producto = result.producto; // Asigna el producto a una variable
                 const item = document.createElement('li');
                 item.classList.add('list-group-item');
                 item.innerHTML = `
-                    <img src="${result.producto.imagen}" alt="${result.producto.nombre}" class="img-thumbnail" style="width: 100px; height: auto;">
-                    <strong>${result.producto.nombre}</strong><br>
-                    <span>${result.producto.categoria}</span>
+                    <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-thumbnail" style="width: 100px; height: auto;">
+                    <strong>${producto.nombre}</strong><br>
+                    <span>${producto.categoria}</span>
                 `;
                 favoriteList.appendChild(item);
                 favoriteModal.show();
