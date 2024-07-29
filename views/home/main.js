@@ -29,11 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const producto = result.producto;
                 const item = document.createElement('li');
                 item.classList.add('list-group-item', 'd-flex', 'align-items-center');
+                item.dataset.productoId = producto._id; // Añadir ID del producto como atributo de datos
                 item.innerHTML = `
                   <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
                     <div>
                         <small class="text-muted d-block mb-1">${producto.nombre}</small>
                         <span class="text-muted">${producto.categoria}</span>
+                        <button class="btn btn-danger btn-sm ms-2 btn-remove" data-producto-id="${producto._id}">Eliminar</button>
                     </div>
                 `;
                 favoriteList.appendChild(item);
@@ -62,14 +64,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 result.favorites.forEach(producto => {
                     const item = document.createElement('li');
                     item.classList.add('list-group-item', 'd-flex', 'align-items-center');
+                    item.dataset.productoId = producto._id; // Añadir ID del producto como atributo de datos
                     item.innerHTML = `
                        <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
                         <div>
                             <strong class="d-block mb-1">${producto.nombre}</strong>
                             <span class="text-muted">${producto.categoria}</span>
+                            <button class="btn btn-danger btn-sm ms-2 btn-remove" data-producto-id="${producto._id}">Eliminar</button>
                         </div>
                     `;
                     favoriteList.appendChild(item);
+                });
+
+                // Añadir manejadores de eventos para los botones de eliminar
+                document.querySelectorAll('.btn-remove').forEach(button => {
+                    button.addEventListener('click', async (event) => {
+                        event.preventDefault();
+                        const productoId = button.getAttribute('data-producto-id');
+                        try {
+                            const response = await fetch('/fav/remove-from-favorites', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ productoId })
+                            });
+                        
+                            const result = await response.json();
+                            if (result.success) {
+                                // Elimina el item de la lista
+                                const item = document.querySelector(`li[data-producto-id="${productoId}"]`);
+                                if (item) {
+                                    item.remove();
+                                }
+                            } else {
+                                alert('Error al eliminar producto de favoritos: ' + result.message);
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('Error al eliminar producto de favoritos');
+                        }
+                    });
                 });
             } else {
                 console.error('Error al cargar favoritos:', result.message);
@@ -79,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-
     // Evento para abrir el modal y cargar los favoritos
     document.getElementById('verFavoritos').addEventListener('click', () => {
         cargarFavoritos();
