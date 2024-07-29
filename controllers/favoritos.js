@@ -43,7 +43,7 @@ router.post('/add-to-favorites', async (req, res) => {
             _id: producto._id,
             nombre: producto.nombre,
             categoria: producto.categoria,
-            imagen: producto.imagen // Asegúrate de que `producto.imagen` tenga la información necesaria
+            imagen: producto.imagen.data // Asegúrate de que `producto.imagen` tenga la información necesaria
         });
 
         // Actualiza el usuario con el nuevo favorito

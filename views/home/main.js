@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.innerHTML = `
                   <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
                     <div>
-                        <strong class="d-block mb-1">${producto.nombre}</strong>
+                        <small class="text-muted d-block mb-1">${producto.nombre}</strong>
                         <span class="text-muted">${producto.categoria}</span>
                     </div>
                 `;
