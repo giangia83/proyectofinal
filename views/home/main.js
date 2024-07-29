@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 result.favorites.forEach(producto => {
                     const item = document.createElement('li');
                     item.classList.add('list-group-item', 'd-flex', 'align-items-center');
-                    item.dataset.productoId = producto._id; // Añadir ID del producto como atributo de datos
+                    item.dataset.productoId = producto._id;
                     item.innerHTML = `
                        <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
                         <div>
@@ -75,8 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                     favoriteList.appendChild(item);
                 });
-
-                // Añadir manejadores de eventos para los botones de eliminar
+    
                 document.querySelectorAll('.btn-remove').forEach(button => {
                     button.addEventListener('click', async (event) => {
                         event.preventDefault();
@@ -92,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                             const result = await response.json();
                             if (result.success) {
-                                // Elimina el item de la lista
                                 const item = document.querySelector(`li[data-producto-id="${productoId}"]`);
                                 if (item) {
                                     item.remove();
@@ -113,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
         }
     };
+    
     
     // Evento para abrir el modal y cargar los favoritos
     document.getElementById('verFavoritos').addEventListener('click', () => {
