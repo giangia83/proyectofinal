@@ -38,11 +38,12 @@ const usuarioSchema = new mongoose.Schema({
     },
 
     favorites: [{
-        nombre: { type: String },
-        categoria: { type: String },
+        _id: mongoose.Schema.Types.ObjectId,
+        nombre: String,
+        categoria: String,
         imagen: {
-            data: { type: String }, // URL de la imagen
-            contentType: { type: String } // Tipo de contenido del archivo (ej. 'image/png')
+            data: Buffer,
+            contentType: String
         }
     }]
   

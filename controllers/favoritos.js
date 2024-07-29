@@ -7,16 +7,10 @@ const Usuario = require('../models/usuario');
 router.post('/add-to-favorites', async (req, res) => {
     try {
         const { productoId } = req.body;
-        const userId = req.session.userId; // Obtener el ID del usuario desde la sesión
+        const user = res.locals.usuario; // Obtener el usuario desde res.locals
 
-        if (!userId) {
-            return res.status(401).json({ success: false, message: 'No estás autenticado' });
-        }
-
-        // Busca al usuario en la base de datos
-        const user = await Usuario.findById(userId);
         if (!user) {
-            return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+            return res.status(401).json({ success: false, message: 'No estás autenticado' });
         }
 
         // Busca el producto en la base de datos
@@ -42,7 +36,7 @@ router.post('/add-to-favorites', async (req, res) => {
             }
         });
 
-        await user.save();
+        await Usuario.findByIdAndUpdate(user._id, { favorites: user.favorites });
 
         res.json({ success: true });
     } catch (error) {
@@ -50,5 +44,6 @@ router.post('/add-to-favorites', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
 });
+
 
 module.exports = router;
