@@ -17,7 +17,7 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-Token': '<%= csrfToken %>' // Incluye el token CSRF si usas uno
+              
             },
             body: JSON.stringify({ productoId })
         })
