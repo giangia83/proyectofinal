@@ -986,6 +986,12 @@ font-size: 15px;
     z-index: 1000;
 }
 
+/* Ocultar el fondo oscuro del modal */
+.modal-backdrop {
+    display: none !important;
+}
+
+
 /* Estilos para el modal */
 .modal {
     display: none; /* Inicialmente oculto */
