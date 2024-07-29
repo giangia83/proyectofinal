@@ -8,11 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
             menuDesplegable.classList.toggle('activo');
         });
     }
-
     document.addEventListener('DOMContentLoaded', () => {
-        const favoriteList = document.querySelector('#favoriteList'); // Lista de favoritos
-        const favoriteModalElement = document.querySelector('#favoriteModal'); // Modal de favoritos
-        const favoriteModal = new bootstrap.Modal(favoriteModalElement); // Inicialización del modal de Bootstrap
+        const favoriteList = document.querySelector('#favoriteList');
+        const favoriteModalElement = document.querySelector('#favoriteModal');
+        const favoriteModal = new bootstrap.Modal(favoriteModalElement);
     
         const agregarAFavoritos = async (productoId) => {
             try {
@@ -23,7 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     body: JSON.stringify({ productoId })
                 });
-        
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+    
                 const result = await response.json();
                 
                 if (result.success) {
@@ -46,15 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     
-        // Evento de clic en los botones de estrella para añadir a favoritos
+        // Añadir evento de clic a los botones de estrella
         document.querySelectorAll('.btn-star').forEach(button => {
             button.addEventListener('click', (event) => {
-                event.preventDefault(); // Prevenir comportamiento por defecto del enlace
+                event.preventDefault(); // Prevenir el comportamiento por defecto del enlace
                 const productoId = button.dataset.productoId; // Obtener el ID del producto
+                console.log('Producto ID:', productoId); // Añadir un log para verificar el ID
                 agregarAFavoritos(productoId);
             });
         });
     });
+    
     
     
 });
