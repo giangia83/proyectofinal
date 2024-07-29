@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Función para agregar productos a favoritos
     const agregarAFavoritos = async (productoId) => {
         try {
             const response = await fetch('/fav/add-to-favorites', {
@@ -37,14 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({ productoId })
             });
-
+    
             const result = await response.json();
             if (result.success) {
-                const producto = result.producto; // Asigna el producto a una variable
+                const producto = result.producto;
                 const item = document.createElement('li');
                 item.classList.add('list-group-item');
                 item.innerHTML = `
-                    <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-thumbnail" style="width: 100px; height: auto;">
+                    <img src="${producto.imagen.url}" alt="${producto.nombre}" class="img-thumbnail" style="width: 100px; height: auto;">
                     <strong>${producto.nombre}</strong><br>
                     <span>${producto.categoria}</span>
                 `;
@@ -58,4 +57,5 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error al añadir producto a favoritos');
         }
     };
+    
 });
