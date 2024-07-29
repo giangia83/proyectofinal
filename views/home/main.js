@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.getElementById('verFavoritos').addEventListener('click', () => {
+            // Actualiza la lista de favoritos al abrir el modal
+            cargarFavoritos();
             favoriteModal.show();
         });
     }
@@ -36,14 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({ productoId })
             });
-    
+
             const result = await response.json();
             if (result.success) {
                 const producto = result.producto;
                 const item = document.createElement('li');
                 item.classList.add('list-group-item');
                 item.innerHTML = `
-                    <img src="${producto.imagen.url}" alt="${producto.nombre}" class="img-thumbnail" style="width: 100px; height: auto;">
+                    <img src="${producto.imagen}" alt="${producto.nombre}" class="img-thumbnail" style="width: 100px; height: auto;">
                     <strong>${producto.nombre}</strong><br>
                     <span>${producto.categoria}</span>
                 `;
@@ -57,5 +59,34 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error al añadir producto a favoritos');
         }
     };
-    
+
+    const cargarFavoritos = async () => {
+        try {
+            const response = await fetch('/fav/get-favorites', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                favoriteList.innerHTML = ''; // Limpiar la lista antes de actualizar
+                result.favorites.forEach(producto => {
+                    const item = document.createElement('li');
+                    item.classList.add('list-group-item');
+                    item.innerHTML = `
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="img-thumbnail" style="width: 100px; height: auto;">
+                        <strong>${producto.nombre}</strong><br>
+                        <span>${producto.categoria}</span>
+                    `;
+                    favoriteList.appendChild(item);
+                });
+            } else {
+                console.error('Error al cargar favoritos:', result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 });
