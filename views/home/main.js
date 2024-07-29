@@ -12,12 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Manejo del modal de favoritos
-    const favoriteModal = document.getElementById('favoriteModal');
-    const closeModal = document.getElementById('closeModal');
-    const modalOverlay = document.getElementById('modalOverlay');
+    const favoriteModal = new bootstrap.Modal(document.getElementById('favoriteModal'));
     const favoriteList = document.getElementById('favoriteList');
 
-    if (favoriteModal && closeModal) {
+    if (favoriteModal) {
         document.querySelectorAll('.btn-star').forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -26,12 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        closeModal.addEventListener('click', () => {
-            favoriteModal.style.display = 'none';
-        });
-
-        modalOverlay.addEventListener('click', () => {
-            favoriteModal.style.display = 'none';
+        document.getElementById('verFavoritos').addEventListener('click', () => {
+            favoriteModal.show();
         });
     }
 
@@ -49,9 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
             if (result.success) {
                 const item = document.createElement('li');
-                item.textContent = `Producto ID ${productoId}`;
+                item.classList.add('list-group-item');
+                item.innerHTML = `
+                    <img src="${result.producto.imagen}" alt="${result.producto.nombre}" class="img-thumbnail" style="width: 100px; height: auto;">
+                    <strong>${result.producto.nombre}</strong><br>
+                    <span>${result.producto.categoria}</span>
+                `;
                 favoriteList.appendChild(item);
-                favoriteModal.style.display = 'block';
+                favoriteModal.show();
             } else {
                 alert('Error al añadir producto a favoritos: ' + result.message);
             }
