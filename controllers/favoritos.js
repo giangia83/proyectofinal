@@ -9,7 +9,7 @@ const User = require('../models/usuario');
 router.post('/add-to-favorites', async (req, res) => {
     try {
         const { productoId } = req.body;
-        const userId = req.session.userId; // Suponiendo que usas sesiones para almacenar el ID del usuario
+        const userId = req.session.userId; // Asegúrate de que el ID del usuario esté en la sesión
 
         if (!userId) {
             return res.status(401).json({ success: false, message: 'No estás autenticado' });
@@ -28,13 +28,14 @@ router.post('/add-to-favorites', async (req, res) => {
         }
 
         // Verifica si el producto ya está en la lista de favoritos
-        const isAlreadyFavorite = user.favorites.some(fav => fav.nombre === producto.nombre);
+        const isAlreadyFavorite = user.favorites.some(fav => fav._id.equals(producto._id));
         if (isAlreadyFavorite) {
             return res.status(400).json({ success: false, message: 'El producto ya está en favoritos' });
         }
 
         // Agrega el producto a la lista de favoritos del usuario
         user.favorites.push({
+            _id: producto._id,
             nombre: producto.nombre,
             categoria: producto.categoria,
             imagen: {
@@ -53,3 +54,4 @@ router.post('/add-to-favorites', async (req, res) => {
 });
 
 module.exports = router;
+
