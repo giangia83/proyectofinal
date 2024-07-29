@@ -55,7 +55,7 @@ router.post('/add-to-favorites', async (req, res) => {
             _id: producto._id,
             nombre: producto.nombre,
             categoria: producto.categoria,
-            imagen: producto.imagen // Devuelve la información de la imagen
+            imagen: producto.imagen.data // Devuelve la información de la imagen
         }});
     } catch (error) {
         console.error('Error al agregar a favoritos:', error);
@@ -91,43 +91,37 @@ router.get('/get-favorites', async (req, res) => {
 router.post('/remove-from-favorites', async (req, res) => {
     try {
         const { productoId } = req.body;
-        const user = res.locals.usuario; // Obtener el usuario desde res.locals
+        const user = res.locals.usuario;
 
         if (!user) {
             return res.status(401).json({ success: false, message: 'No estás autenticado' });
         }
 
-        // Obtén el usuario actualizado desde la base de datos
         const usuario = await Usuario.findById(user._id);
         if (!usuario) {
             return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
         }
 
-        // Busca el producto en la base de datos
         const producto = await Producto.findById(productoId);
         if (!producto) {
             return res.status(404).json({ success: false, message: 'Producto no encontrado' });
         }
 
-        // Verifica si el producto está en la lista de favoritos
         const index = usuario.favorites.findIndex(fav => fav._id.toString() === producto._id.toString());
         if (index === -1) {
             return res.status(400).json({ success: false, message: 'El producto no está en favoritos' });
         }
 
-        // Elimina el producto de la lista de favoritos del usuario
         usuario.favorites.splice(index, 1);
 
-        // Actualiza el usuario con la lista de favoritos modificada
         await usuario.save();
-
-        // Devuelve la respuesta de éxito
-        res.json({ success: true, mensaje: 'Producto eliminado de favoritos' });
+        res.json({ success: true, message: 'Producto eliminado de favoritos' });
     } catch (error) {
         console.error('Error al eliminar de favoritos:', error);
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
 });
+
 
 
 module.exports = router;
