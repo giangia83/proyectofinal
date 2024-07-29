@@ -13,7 +13,7 @@
         event.preventDefault();
         const productoId = this.getAttribute('data-producto-id');
 
-        fetch('/add-to-favorites', {
+        fetch('/fav/add-to-favorites', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
