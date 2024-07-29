@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const axios = require('axios');
+const sharp = require('sharp'); // Importa sharp
 const Producto = require('../models/producto');
 require('dotenv').config();
 
@@ -24,16 +25,20 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
     }
 
     try {
-        const fileName = req.file.originalname;
-        const fileBuffer = req.file.buffer;
+        const fileName = req.file.originalname.replace(/\.[^/.]+$/, '') + '.webp'; // Cambia la extensión a .webp
 
-        // Sube el archivo a Bunny.net
+        // Usa sharp para convertir la imagen a formato WebP
+        const fileBuffer = await sharp(req.file.buffer)
+            .webp()
+            .toBuffer();
+
+        // Sube el archivo convertido a Bunny.net
         const response = await axios.put(
             `${bunnyStorageUrl}/${fileName}`,
             fileBuffer,
             {
                 headers: {
-                    'Content-Type': 'application/octet-stream',
+                    'Content-Type': 'image/webp',
                     'AccessKey': bunnyAccessKey,
                 },
             }
@@ -50,7 +55,7 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
                 precio: req.body.precio,
                 imagen: {
                     data: fileUrl, // Usamos la URL del Pull Zone como el campo data
-                    contentType: 'image/jpeg' // Ajusta el tipo de contenido según el archivo subido
+                    contentType: 'image/webp' // Ajusta el tipo de contenido según el archivo subido
                 },
                 categoria: req.body.categoria
             });
