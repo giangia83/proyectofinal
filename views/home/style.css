@@ -974,8 +974,7 @@ font-size: 15px;
     
 
     /* favoritos */
-
-    /* Estilos para el overlay del modal */
+/* Estilos para el overlay del modal */
 .modal-overlay {
     display: none; /* Inicialmente oculto */
     position: fixed;
@@ -983,12 +982,12 @@ font-size: 15px;
     left: 0;
     width: 100%;
     height: 100%;
-   
+    background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
     z-index: 1000;
-  }
-  
-  /* Estilos para el modal */
-  .modal {
+}
+
+/* Estilos para el modal */
+.modal {
     display: none; /* Inicialmente oculto */
     position: fixed;
     top: 50%;
@@ -1002,34 +1001,35 @@ font-size: 15px;
     z-index: 1001;
     border-radius: 8px;
     overflow: auto;
-  }
-  
-  /* Estilos para el contenido del modal */
-  .modal-content {
+}
+
+/* Estilos para el contenido del modal */
+.modal-content {
     position: relative;
-  }
-  
-  /* Estilos para el botón de cerrar */
-  .close {
+}
+
+/* Estilos para el botón de cerrar */
+.close {
     position: absolute;
     top: 10px;
     right: 10px;
     font-size: 24px;
     cursor: pointer;
-  }
-  
-  /* Estilos para la lista de productos favoritos */
-  #favoriteList {
+    background: transparent;
+    border: none;
+}
+
+/* Estilos para la lista de productos favoritos */
+#favoriteList {
     list-style: none;
     padding: 0;
-  }
-  
-  #favoriteList li {
+}
+
+#favoriteList li {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-  }
-  
-  #favoriteList li:last-child {
+}
+
+#favoriteList li:last-child {
     border-bottom: none;
-  }
-  
+}
