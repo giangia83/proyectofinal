@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
 const Usuario = require('../models/usuario');
-
-// Ruta para agregar un producto a favoritos
 router.post('/add-to-favorites', async (req, res) => {
     try {
         const { productoId } = req.body;
@@ -11,6 +9,11 @@ router.post('/add-to-favorites', async (req, res) => {
 
         if (!user) {
             return res.status(401).json({ success: false, message: 'No estás autenticado' });
+        }
+
+        // Verificar que `user.favorites` sea una matriz
+        if (!Array.isArray(user.favorites)) {
+            user.favorites = [];
         }
 
         // Busca el producto en la base de datos
@@ -40,7 +43,7 @@ router.post('/add-to-favorites', async (req, res) => {
 
         res.json({ success: true });
     } catch (error) {
-        console.error(error);
+        console.error('Error al agregar a favoritos:', error);
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
 });
