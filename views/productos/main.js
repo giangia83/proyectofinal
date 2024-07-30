@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Obtiene el ID del producto desde el botón
             const productId = button.getAttribute('data-producto-id');
-            const card = button.closest('.card-container'); // Encuentra el contenedor de la tarjeta asociado
+            const card = button.closest('.card'); // Encuentra la tarjeta asociada
             const productName = card.querySelector('h5 a').textContent;
             const productCategory = card.querySelector('.font-italic').textContent;
             const productImage = card.querySelector('.product-image').getAttribute('src');
@@ -30,31 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 console.log(`El producto '${productName}' ya está en el carrito.`);
             }
-
-            // Aplicar el efecto de minimización
-            card.querySelector('.card').classList.add('minimize');
-            
-
-            gsap.timeline()
-            .to(card, { duration: 0.3, scale: 0.2, y: "100px", z: "-800px", ease: "power2.in" })
-            .call(() => {
-                // Aquí puedes realizar otras acciones, como agregar al carrito
-                console.log(`Producto con ID ${productId} agregado al carrito.`);
-                // Si necesitas volver a mostrar la tarjeta, puedes hacerlo aquí
-                card.classList.remove('minimize');
-            });
-
-
-
-            
-            // Eliminar el efecto después de la animación para que se pueda volver a aplicar
-            setTimeout(() => {
-                card.querySelector('.card').classList.remove('minimize');
-            }, 500); // La duración de la animación en milisegundos
         });
     });
 });
-
 
 function irAVerCarrito() {
     // Obtener productos seleccionados del sessionStorage
@@ -78,3 +56,54 @@ function removeFromCart(productId) {
     sessionStorage.setItem('cart', JSON.stringify(cart));
     console.log(`Producto con ID ${productId} eliminado del carrito.`);
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('search-form');
+    const resultsContainer = document.getElementById('search-results');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const query = document.getElementById('search-input').value.trim();
+
+        if (query) {
+            try {
+                const response = await fetch(`/api/buscar?query=${encodeURIComponent(query)}`);
+                const productos = await response.json();
+                
+                resultsContainer.innerHTML = ''; // Limpia resultados anteriores
+
+                if (productos.length > 0) {
+                    productos.forEach(producto => {
+                        resultsContainer.innerHTML += `
+                            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                                <div class="card rounded shadow-sm border-0">
+                                    <div class="card-body p-4">
+                                        <div class="image-container">
+                                            <img src="${producto.imagen.data}" alt="Imagen del producto" class="img-fluid product-image">
+                                        </div>
+                                        <h5><a href="#" class="text-dark">${producto.nombre}</a></h5>
+                                        <p class="small text-muted font-italic">${producto.categoria}</p>
+                                        <div class="card-buttons">
+                                            <button class="btn btn-add" data-producto-id="${producto._id}">Añadir</button>
+                                            <a href="#" class="btn btn-star" data-producto-id="${producto._id}">
+                                                <i class="fa fa-star"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    resultsContainer.innerHTML = '<p class="text-center">No se encontraron productos.</p>';
+                }
+            } catch (error) {
+                console.error('Error al buscar productos:', error);
+                resultsContainer.innerHTML = '<p class="text-center text-danger">Error al buscar productos. Inténtalo de nuevo.</p>';
+            }
+        } else {
+            resultsContainer.innerHTML = '<p class="text-center">Por favor, ingresa una búsqueda.</p>';
+        }
+    });
+});

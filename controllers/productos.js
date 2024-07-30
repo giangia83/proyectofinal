@@ -13,6 +13,24 @@ router.get('/productos', async (req, res) => {
     }
 });
 
+
+router.get('/buscar', async (req, res) => {
+    const query = req.query.query || '';
+
+    try {
+        const productos = await Producto.find({
+            $or: [
+                { nombre: { $regex: query, $options: 'i' } },
+                { categoria: { $regex: query, $options: 'i' } }
+            ]
+        });
+        res.json(productos);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error al buscar productos' });
+    }
+});
+
 // Ruta para renderizar la vista 'productos/index' con los productos
 router.get('/verproductos', async (req, res) => {
     try {
