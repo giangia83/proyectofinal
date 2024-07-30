@@ -1043,7 +1043,6 @@ font-size: 15px;
 
 
 /* estrella */
-
 .like-effect {
     position: fixed;
     top: 50%;
@@ -1052,9 +1051,24 @@ font-size: 15px;
     pointer-events: none;
     display: none; /* Oculto por defecto */
     z-index: 9999; /* Asegúrate de que esté por encima de otros elementos */
+    text-align: center; /* Centra el contenido dentro del contenedor */
 }
 
-/* Estilo para la estrella */
+
+@media (max-width: 768px) {
+    .like-effect {
+        font-size: 100px; /* Ajusta el tamaño si es necesario */
+
+    }
+
+    .star {
+        font-size: 180px; /* Tamaño de la estrella */
+    
+    }
+
+
+}
+
 .star {
     font-size: 150px; /* Tamaño de la estrella */
     color: white;
@@ -1062,7 +1076,6 @@ font-size: 15px;
     animation: fadeOut 1s ease-out;
 }
 
-/* Animación para desvanecer la estrella */
 @keyframes fadeOut {
     0% {
         opacity: 1;
