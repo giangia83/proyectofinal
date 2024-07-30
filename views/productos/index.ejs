@@ -64,16 +64,11 @@
                 <div class="card-container">
                     <div class="card rounded shadow-sm border-0" data-producto-id="<%= producto._id %>">
                         <div class="card-body p-4">
-                            <!-- Contenedor para la imagen y el ícono -->
                             <div class="image-container">
-                                <!-- Imagen del producto -->
                                 <img src="<%= producto.imagen.data %>" alt="Imagen del producto" class="img-fluid product-image">
                             </div>
-                            <!-- Nombre del producto -->
                             <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
-                            <!-- Categoría del producto -->
                             <p class="small text-muted font-italic"><%= producto.categoria %></p>
-                            <!-- Botones -->
                             <div class="card-buttons">
                               <button class="btn btn-add" data-producto-id="<%= producto._id %>">Añadir</button>
                               <a href="#" class="btn btn-star" data-producto-id="<%= producto._id %>">
@@ -85,8 +80,7 @@
                 </div>
             </div>
         <% }); %>
-      </div>
-      
+    </div>
         
 <button class="continueButton btn btn-5" onclick="irAVerCarrito()">Continuar</button>
 
@@ -115,7 +109,8 @@
 
 
 
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/MorphSVGPlugin.min.js"></script>
 
 <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 <script src="/views/productos/main.js">

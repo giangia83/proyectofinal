@@ -824,30 +824,36 @@ font-size: 15px;
 
 
 
-    /* Efecto genie patentado por gianfranco xd */
-
-    /* Define el contenedor del efecto */
+   
 .card-container {
-    perspective: 1000px;
-  }
-  
-  /* Define el efecto de animación de la tarjeta */
-  .card.minimize {
-    animation: minimizeEffect 0.5s forwards;
-  }
-  
-  @keyframes minimizeEffect {
-    0% {
-      transform: scale(1) translateZ(0);
-      opacity: 1;
-    }
-    50% {
-      transform: scale(0.5) translateY(100px) translateZ(-500px);
-      opacity: 0.5;
-    }
-    100% {
-      transform: scale(0.2) translateY(200px) translateZ(-1000px);
-      opacity: 0;
-    }
-  }
-  
+    perspective: 1000px; /* Para el efecto 3D */
+}
+
+.card {
+    width: 100%;
+    max-width: 300px;
+    height: 400px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card.minimize {
+    transform: scale(0.2) translateY(100px) translateZ(-800px);
+}
+
+.card-body {
+    position: relative;
+}
+
+.card-buttons {
+    margin-top: 20px;
+}
+
+.card-buttons button, .card-buttons a {
+    margin: 5px;
+}

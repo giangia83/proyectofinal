@@ -34,6 +34,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // Aplicar el efecto de minimización
             card.querySelector('.card').classList.add('minimize');
             
+
+            gsap.timeline()
+            .to(card, { duration: 0.3, scale: 0.2, y: "100px", z: "-800px", ease: "power2.in" })
+            .call(() => {
+                // Aquí puedes realizar otras acciones, como agregar al carrito
+                console.log(`Producto con ID ${productId} agregado al carrito.`);
+                // Si necesitas volver a mostrar la tarjeta, puedes hacerlo aquí
+                card.classList.remove('minimize');
+            });
+
+
+
+            
             // Eliminar el efecto después de la animación para que se pueda volver a aplicar
             setTimeout(() => {
                 card.querySelector('.card').classList.remove('minimize');
