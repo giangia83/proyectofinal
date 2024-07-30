@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/usuario');
@@ -7,9 +8,11 @@ const fetch = require('node-fetch');
 
 // Verificar reCAPTCHA
 async function verifyRecaptcha(recaptchaToken) {
-    const secretKey = 'TU_CLAVE_SECRETA'; // Reemplaza con tu clave secreta
+    const recaptchaSiteKey = process.env.TU_CLAVE_DEL_SITIO;
+    const recaptchaSecretKey = process.env.TU_CLAVE_SECRETA;
+    
 
-    const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`, {
+    const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptchaToken}`, {
         method: 'POST'
     });
 

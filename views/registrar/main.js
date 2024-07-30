@@ -56,3 +56,14 @@ registroForm.addEventListener('submit', async (event) => {
         alert('Error al procesar el formulario de registro. Por favor, inténtalo de nuevo más tarde.');
     }
 });
+
+fetch('/recaptcha-key')
+.then(response => response.json())
+.then(data => {
+    const siteKey = data.siteKey;
+    // Configurar el widget de reCAPTCHA con la clave obtenida
+    grecaptcha.render('recaptcha', {
+        'sitekey': siteKey
+    });
+})
+.catch(error => console.error('Error al obtener la clave de reCAPTCHA:', error));

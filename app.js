@@ -20,8 +20,6 @@ const methodOverride = require('method-override');
 const subirProducto = require('./controllers/subirProducto')
 const favoritoRouter = require('./controllers/favoritos'); // Importa las rutas de favoritos
 
-const recaptchaSiteKey = process.env.TU_CLAVE_DEL_SITIO;
-const recaptchaSecretKey = process.env.TU_CLAVE_SECRETA;
 
 
 
@@ -259,7 +257,18 @@ app.use('/administrar', express.static(path.resolve(__dirname, 'views', 'admin')
 app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'productos')));
 app.use("/main",express.static(__dirname + '/main'));
 
+
+
+// Ruta para obtener la clave de reCAPTCHA
+app.get('/recaptcha-key', (req, res) => {
+    res.json({ siteKey: process.env.TU_CLAVE_DEL_SITIO });
+});
+
+
+
 // Rutas de Controllers
+
+
 
 app.use(cotizacionesRouter);
 app.use('/usuarios', userRouter); 

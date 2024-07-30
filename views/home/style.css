@@ -1079,7 +1079,7 @@ font-size: 15px;
     }
     45%,
     80% {
-        opacity: 0.9;
+        opacity: 1;
         transform: scale(1); /* Regresa al tamaño original */
     }
     100% {
