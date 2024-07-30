@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 favoriteList.appendChild(item);
 
             } else {
-                showAlert('Error al añadir producto a favoritos: ' + result.message);
+                showAlert(result.message);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     item.remove();
                 }
             } else {
-                showAlert('Error al eliminar producto de favoritos: ' + result.message);
+                showAlert(result.message);
             }
         } catch (error) {
             console.error('Error:', error);
