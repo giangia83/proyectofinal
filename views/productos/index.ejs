@@ -58,29 +58,28 @@
         <p class="font-italic text-muted mb-4">Este es el primer paso para realizar tu cotización  </p> 
       </div>
 
-
       <div class="row pb-5 mb-4">
         <% productos.forEach(producto => { %>
             <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                <div class="card rounded shadow-sm border-0" data-producto-id="<%= producto._id %>">
-                    <div class="card-body p-4">
-                        <!-- Contenedor para la imagen y el ícono -->
-                        <div class="image-container">
-                            <!-- Imagen del producto -->
-                            <img src="<%= producto.imagen.data %>" alt="Imagen del producto" class="img-fluid product-image">
-                        </div>
-                        <!-- Nombre del producto -->
-                        <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
-                        <!-- Categoría del producto -->
-                        <p class="small text-muted font-italic"><%= producto.categoria %></p>
-                        <!-- Botones -->
-                        <div class="card-buttons">
-                          <button class="btn btn-add" data-producto-id="<%= producto._id %>">Añadir</button>
-
-                          <a href="#" class="btn btn-star" data-producto-id="<%= producto._id %>">
-                            <i class="fa fa-star"></i>
-                        </a>
-                         
+                <div class="card-container">
+                    <div class="card rounded shadow-sm border-0" data-producto-id="<%= producto._id %>">
+                        <div class="card-body p-4">
+                            <!-- Contenedor para la imagen y el ícono -->
+                            <div class="image-container">
+                                <!-- Imagen del producto -->
+                                <img src="<%= producto.imagen.data %>" alt="Imagen del producto" class="img-fluid product-image">
+                            </div>
+                            <!-- Nombre del producto -->
+                            <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
+                            <!-- Categoría del producto -->
+                            <p class="small text-muted font-italic"><%= producto.categoria %></p>
+                            <!-- Botones -->
+                            <div class="card-buttons">
+                              <button class="btn btn-add" data-producto-id="<%= producto._id %>">Añadir</button>
+                              <a href="#" class="btn btn-star" data-producto-id="<%= producto._id %>">
+                                <i class="fa fa-star"></i>
+                              </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,7 +87,6 @@
         <% }); %>
       </div>
       
-    
         
 <button class="continueButton btn btn-5" onclick="irAVerCarrito()">Continuar</button>
 

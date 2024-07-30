@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Obtiene el ID del producto desde el botón
             const productId = button.getAttribute('data-producto-id');
-            const card = button.closest('.card'); // Encuentra la tarjeta asociada
+            const card = button.closest('.card-container'); // Encuentra el contenedor de la tarjeta asociado
             const productName = card.querySelector('h5 a').textContent;
             const productCategory = card.querySelector('.font-italic').textContent;
             const productImage = card.querySelector('.product-image').getAttribute('src');
@@ -30,9 +30,18 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 console.log(`El producto '${productName}' ya está en el carrito.`);
             }
+
+            // Aplicar el efecto de minimización
+            card.querySelector('.card').classList.add('minimize');
+            
+            // Eliminar el efecto después de la animación para que se pueda volver a aplicar
+            setTimeout(() => {
+                card.querySelector('.card').classList.remove('minimize');
+            }, 500); // La duración de la animación en milisegundos
         });
     });
 });
+
 
 function irAVerCarrito() {
     // Obtener productos seleccionados del sessionStorage
