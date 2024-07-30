@@ -1041,6 +1041,7 @@ font-size: 15px;
     border-bottom: none;
 }
 /* Estilo del contenedor de la estrella */
+/* Estilo del contenedor de la estrella */
 .like-effect {
     position: fixed;
     top: 50%;
@@ -1056,26 +1057,25 @@ font-size: 15px;
 .star {
     font-size: 150px; /* Tamaño de la estrella en pantallas grandes */
     color: white;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
-    animation: likeAnimation 1s ease-out; /* Aplicamos la animación */
+    text-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.8), /* Sombra blanca difusa */
+        0 0 40px rgba(0, 0, 0, 0.5); /* Sombra negra difusa para dar profundidad */
+    animation: bounceAnimation 1s ease-out; /* Aplicamos la animación */
 }
 
-/* Animación de la estrella */
-@keyframes likeAnimation {
+/* Animación de rebote */
+@keyframes bounceAnimation {
     0% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
-        color: rgba(255, 255, 255, 0.8);
     }
     50% {
         opacity: 1;
-        transform: translate(-50%, -60%) scale(1.5);
-        color: rgba(255, 0, 0, 1); /* Color de estrella brillante */
+        transform: translate(-50%, calc(-50% - 20px)) scale(1.5); /* Escalar y mover hacia arriba */
     }
     100% {
         opacity: 0;
-        transform: translate(-50%, -80%) scale(2);
-        color: rgba(255, 0, 0, 0);
+        transform: translate(-50%, -50%) scale(1); /* Regresar a tamaño original */
     }
 }
 
