@@ -1058,7 +1058,7 @@ font-size: 15px;
     color: white;
     text-shadow: 
         0 0 20px rgba(255, 255, 255, 0.8), /* Sombra blanca difusa */
-        0 0 40px rgba(0, 0, 0, 0.5); /* Sombra negra difusa para dar profundidad */
+        0 0 10px rgba(0, 0, 0, 0.5); /* Sombra negra difusa para dar profundidad */
     animation: likeHeartAnimation 1s ease-in-out; /* Aplicamos la animación */
 }
 
@@ -1090,7 +1090,7 @@ font-size: 15px;
 @media (max-width: 768px) {
     .like-effect {
         font-size: 100px; /* Tamaño de la estrella en dispositivos móviles */
-        left: calc(50% + 20px); /* Mueve la estrella un poco a la derecha */
+        left: calc(50% + 10px); /* Mueve la estrella un poco a la derecha */
         transform: translate(-50%, -50%); /* Asegúrate de que se mantenga centrada verticalmente */
     }
 

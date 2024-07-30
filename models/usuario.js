@@ -40,8 +40,14 @@ const usuarioSchema = new mongoose.Schema({
     favorites: [{ type: Schema.Types.ObjectId, ref: 'Producto' }],
     // Cambia el campo de imagen para usar URL
     imagen: {
-        data: String, // URL de la imagen
-        contentType: String // Tipo de contenido
+        data: {
+            type: String, // La URL del archivo en Bunny.net
+            required: true
+        },
+        contentType: {
+            type: String, // El tipo de contenido, que es WebP
+            required: true
+        }
     }
   
 });
