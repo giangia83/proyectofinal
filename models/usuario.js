@@ -40,16 +40,9 @@ const usuarioSchema = new mongoose.Schema({
     favorites: [{ type: Schema.Types.ObjectId, ref: 'Producto' }],
     // Cambia el campo de imagen para usar URL
     imagen: {
-        data: {
-            type: String, // La URL del archivo en Bunny.net
-            required: true
-        },
-        contentType: {
-            type: String, // El tipo de contenido, que es WebP
-            required: true
-        }
+        data: { type: String, default: '' }, // URL del archivo en Bunny.net
+        contentType: { type: String, default: 'image/webp' } // El tipo de contenido, que es WebP
     }
-  
 });
 
 // Crear el modelo de usuario a partir del esquema
