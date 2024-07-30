@@ -1040,9 +1040,7 @@ font-size: 15px;
 #favoriteList li:last-child {
     border-bottom: none;
 }
-
-
-/* estrella */
+/* Estilo del contenedor de la estrella */
 .like-effect {
     position: fixed;
     top: 50%;
@@ -1054,39 +1052,40 @@ font-size: 15px;
     text-align: center; /* Centra el contenido dentro del contenedor */
 }
 
-
-@media (max-width: 768px) {
-    .like-effect {
-        font-size: 100px; /* Ajusta el tamaño si es necesario */
-
-    }
-
-    .star {
-        font-size: 180px; /* Tamaño de la estrella */
-    
-    }
-
-
-}
-
+/* Estilo de la estrella */
 .star {
-    font-size: 150px; /* Tamaño de la estrella */
+    font-size: 150px; /* Tamaño de la estrella en pantallas grandes */
     color: white;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
-    animation: fadeOut 1s ease-out;
+    animation: likeAnimation 1s ease-out; /* Aplicamos la animación */
 }
 
-@keyframes fadeOut {
+/* Animación de la estrella */
+@keyframes likeAnimation {
     0% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
+        color: rgba(255, 255, 255, 0.8);
     }
     50% {
-        opacity: 0.7;
-        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+        transform: translate(-50%, -60%) scale(1.5);
+        color: rgba(255, 0, 0, 1); /* Color de estrella brillante */
     }
     100% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(2);
+        transform: translate(-50%, -80%) scale(2);
+        color: rgba(255, 0, 0, 0);
+    }
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+    .like-effect {
+        font-size: 100px; /* Tamaño de la estrella en dispositivos móviles */
+    }
+
+    .star {
+        font-size: 100px; /* Tamaño de la estrella para móviles */
     }
 }
