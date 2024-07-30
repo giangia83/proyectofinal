@@ -996,7 +996,7 @@ font-size: 15px;
 .modal {
     display: none; /* Inicialmente oculto */
     position: fixed;
-    top: 30%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
@@ -1008,6 +1008,8 @@ font-size: 15px;
     border-radius: 8px;
     overflow: auto;
     box-sizing: border-box;
+    max-height: 80vh; /* Ajusta la altura máxima del modal */
+    height: auto; 
 }
 
 /* Estilos para el contenido del modal */
