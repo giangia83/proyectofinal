@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error al añadir producto a favoritos');
         }
     };
-
+    
     const eliminarDeFavoritos = async (productoId) => {
         try {
             const response = await fetch('/fav/remove-from-favorites', {
@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error al eliminar producto de favoritos');
         }
     };
+    
     const cargarFavoritos = async () => {
         try {
             // Realiza una solicitud GET para obtener los productos favoritos

@@ -93,7 +93,10 @@ router.get('/get-favorites', async (req, res) => {
         console.error('Error al obtener favoritos:', error);
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
+
+    
 });
+
 
 router.post('/remove-from-favorites', async (req, res) => {
     try {
@@ -109,13 +112,20 @@ router.post('/remove-from-favorites', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
         }
 
-        const index = usuario.favorites.findIndex(fav => fav._id.toString() === productoId);
+        // Convertir productoId a ObjectId
+        const productoObjectId = mongoose.Types.ObjectId(productoId);
+
+        // Encuentra el índice del producto en la lista de favoritos
+        const index = usuario.favorites.findIndex(fav => fav._id.toString() === productoObjectId.toString());
+
         if (index === -1) {
             return res.status(400).json({ success: false, message: 'El producto no está en favoritos' });
         }
 
+        // Eliminar el producto del array de favoritos
         usuario.favorites.splice(index, 1);
 
+        // Guardar los cambios en la base de datos
         await usuario.save();
         res.json({ success: true, message: 'Producto eliminado de favoritos' });
     } catch (error) {
@@ -123,6 +133,5 @@ router.post('/remove-from-favorites', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
 });
-
 
 module.exports = router;
