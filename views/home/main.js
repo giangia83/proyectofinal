@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const favoriteModalElement = document.getElementById('favoriteModal');
     const favoriteModal = new bootstrap.Modal(favoriteModalElement);
     const favoriteList = document.getElementById('favoriteList');
-    
+
     const agregarAFavoritos = async (productoId) => {
         try {
             const response = await fetch('/fav/add-to-favorites', {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.classList.add('list-group-item', 'd-flex', 'align-items-center');
                 item.dataset.productoId = producto._id;
                 item.innerHTML = `
-                  <img src="data:image/jpeg;base64,${producto.imagen}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
+                  <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
                     <div>
                         <small class="text-muted d-block mb-1">${producto.nombre}</small>
                         <span class="text-muted">${producto.categoria}</span>
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 favoriteList.appendChild(item);
     
-                favoriteModal.show();
+             
             } else {
                 alert('Error al añadir producto a favoritos: ' + result.message);
             }

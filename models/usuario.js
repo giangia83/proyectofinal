@@ -37,7 +37,12 @@ const usuarioSchema = new mongoose.Schema({
         default: 'usuario' // Por defecto, todos los usuarios son de tipo 'usuario'
     },
     
-    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Producto' }]
+    favorites: [{ type: Schema.Types.ObjectId, ref: 'Producto' }],
+    // Cambia el campo de imagen para usar URL
+    imagen: {
+        data: String, // URL de la imagen
+        contentType: String // Tipo de contenido
+    }
   
 });
 

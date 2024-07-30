@@ -42,7 +42,7 @@ router.post('/add-to-favorites', async (req, res) => {
             _id: producto._id,
             nombre: producto.nombre,
             categoria: producto.categoria,
-            imagen: producto.imagen.data.toString('base64') // Convierte el buffer a base64
+            imagen: producto.imagen.data // Usa la URL directamente
         }});
     } catch (error) {
         console.error('Error al agregar a favoritos:', error);
@@ -67,7 +67,7 @@ router.get('/get-favorites', async (req, res) => {
             _id: producto._id,
             nombre: producto.nombre,
             categoria: producto.categoria,
-            imagen: producto.imagen.data.toString('base64') // Convierte el buffer a base64
+            imagen: producto.imagen.data // Usa la URL directamente
         }));
 
         res.json({ success: true, favorites });
