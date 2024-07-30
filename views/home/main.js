@@ -73,35 +73,49 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error al eliminar producto de favoritos');
         }
     };
-
     const cargarFavoritos = async () => {
         try {
+            // Realiza una solicitud GET para obtener los productos favoritos
             const response = await fetch('/fav/get-favorites', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-    
+            
+            // Convierte la respuesta en JSON
             const result = await response.json();
+            
+            // Verifica si la solicitud fue exitosa
             if (result.success) {
-                favoriteList.innerHTML = ''; // Limpiar la lista antes de actualizar
+                // Limpia la lista de favoritos en el modal antes de actualizarla
+                favoriteList.innerHTML = '';
+                
+                // Recorre los productos favoritos y crea elementos de lista
                 result.favorites.forEach(producto => {
+                    // Crea un nuevo elemento <li> para cada producto
                     const item = document.createElement('li');
                     item.classList.add('list-group-item', 'd-flex', 'align-items-center');
                     item.dataset.productoId = producto._id;
+                    
+                    // Asegúrate de que producto.imagen sea una URL válida
+                    const imagenUrl = producto.imagen.data; // O el campo correcto para la URL
+    
+                    // Añade el contenido HTML para el producto
                     item.innerHTML = `
-                       <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
+                        <img src="${imagenUrl}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
                         <div>
                             <strong class="d-block mb-1">${producto.nombre}</strong>
                             <span class="text-muted">${producto.categoria}</span>
                             <button class="btn btn-danger btn-sm ms-2 btn-remove" data-producto-id="${producto._id}">Eliminar</button>
                         </div>
                     `;
+                    
+                    // Añade el nuevo elemento a la lista de favoritos
                     favoriteList.appendChild(item);
                 });
-
-                // Añadir el manejador de eventos para los botones de eliminar favoritos
+                
+                // Añade los manejadores de eventos para los botones de eliminar
                 document.querySelectorAll('.btn-remove').forEach(button => {
                     button.addEventListener('click', async (event) => {
                         event.preventDefault();
@@ -117,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
         }
     };
+    
     
     // Evento para abrir el modal y cargar los favoritos
     document.getElementById('verFavoritos').addEventListener('click', () => {
