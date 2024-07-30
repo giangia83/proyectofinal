@@ -1,7 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/usuario');
+const fetch = require('node-fetch'); 
 
+
+
+// Verificar reCAPTCHA
+async function verifyRecaptcha(recaptchaToken) {
+    const secretKey = 'TU_CLAVE_SECRETA'; // Reemplaza con tu clave secreta
+
+    const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`, {
+        method: 'POST'
+    });
+
+    const data = await response.json();
+    return data.success;
+}
 // Obtener todos los usuarios
 router.get('/', async (req, res) => {
     try {
@@ -15,7 +29,16 @@ router.get('/', async (req, res) => {
 
 // Crear un nuevo usuario
 router.post('/', async (req, res) => {
-    const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
+  
+  
+    const { nombre, correo, contraseña, direccion, ciudad, rif, number, recaptchaToken } = req.body;
+
+    // Verificar reCAPTCHA
+    const recaptchaValid = await verifyRecaptcha(recaptchaToken);
+    if (!recaptchaValid) {
+        return res.status(400).json({ error: 'Verificación de reCAPTCHA fallida' });
+    }
+
 
     try {
         const nuevoUsuario = new Usuario({

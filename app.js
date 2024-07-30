@@ -20,7 +20,9 @@ const methodOverride = require('method-override');
 const subirProducto = require('./controllers/subirProducto')
 const favoritoRouter = require('./controllers/favoritos'); // Importa las rutas de favoritos
 
-/* marko for html */
+const recaptchaSiteKey = process.env.TU_CLAVE_DEL_SITIO;
+const recaptchaSecretKey = process.env.TU_CLAVE_SECRETA;
+
 
 
 const uploadDirectory = path.join(__dirname, 'uploads');

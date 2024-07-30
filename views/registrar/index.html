@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
     <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
     <link rel="stylesheet" href="/views/registrar/style.css">
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
   
@@ -103,7 +103,9 @@
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="gridCheck">
                         <label class="form-check-label" for="gridCheck">
-                          <a href="#">He leído y acepto los terminos y condiciones.</a>
+                          <div class="col-12">
+                            <div class="g-recaptcha" data-sitekey="TU_CLAVE_DEL_SITIO"></div>
+                        </div>
                         </label>
                       </div>
                     </div>

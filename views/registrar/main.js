@@ -11,6 +11,13 @@ registroForm.addEventListener('submit', async (event) => {
     const rif = document.querySelector('#inputRif').value;
     const number = document.querySelector('#inputNumber').value;
 
+    // Obtener el token de reCAPTCHA
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse) {
+        alert('Por favor, complete el reCAPTCHA.');
+        return;
+    }
+
     // Validación básica de campos
     if (!nombre || !correo || !contraseña || !direccion || !ciudad || !rif || !number) {
         alert('Por favor completa todos los campos.');
@@ -30,10 +37,10 @@ registroForm.addEventListener('submit', async (event) => {
                 direccion: direccion,
                 ciudad: ciudad,
                 rif: rif,
-                number: number
+                number: number,
+                recaptchaToken: recaptchaResponse // Incluye el token de reCAPTCHA
             })
         });
-        
 
         const datos = await respuesta.json();
 
