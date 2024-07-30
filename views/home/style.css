@@ -1041,7 +1041,6 @@ font-size: 15px;
     border-bottom: none;
 }
 /* Estilo del contenedor de la estrella */
-/* Estilo del contenedor de la estrella */
 .like-effect {
     position: fixed;
     top: 50%;
@@ -1060,22 +1059,30 @@ font-size: 15px;
     text-shadow: 
         0 0 20px rgba(255, 255, 255, 0.8), /* Sombra blanca difusa */
         0 0 40px rgba(0, 0, 0, 0.5); /* Sombra negra difusa para dar profundidad */
-    animation: bounceAnimation 1s ease-out; /* Aplicamos la animación */
+    animation: likeHeartAnimation 1s ease-in-out; /* Aplicamos la animación */
 }
 
 /* Animación de rebote */
-@keyframes bounceAnimation {
+@keyframes likeHeartAnimation {
     0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+        transform: scale(0);
     }
-    50% {
-        opacity: 1;
-        transform: translate(-50%, calc(-50% - 20px)) scale(1.5); /* Escalar y mover hacia arriba */
+    15% {
+        opacity: 0.9;
+        transform: scale(1.2); /* Aumenta el tamaño de la estrella */
+    }
+    30% {
+        transform: scale(0.95); /* Reduce un poco el tamaño */
+    }
+    45%,
+    80% {
+        opacity: 0.9;
+        transform: scale(1); /* Regresa al tamaño original */
     }
     100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(1); /* Regresar a tamaño original */
+        opacity: 0; /* Desvanecimiento final */
+        transform: scale(0); /* Regreso a tamaño inicial */
     }
 }
 
@@ -1083,6 +1090,8 @@ font-size: 15px;
 @media (max-width: 768px) {
     .like-effect {
         font-size: 100px; /* Tamaño de la estrella en dispositivos móviles */
+        left: calc(50% + 20px); /* Mueve la estrella un poco a la derecha */
+        transform: translate(-50%, -50%); /* Asegúrate de que se mantenga centrada verticalmente */
     }
 
     .star {
