@@ -1,20 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Función para obtener el nombre de usuario desde la cookie
-    function getUsuarioDesdeCookie() {
-        const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-        for (const cookie of cookies) {
-            const parts = cookie.split('=');
-            if (parts[0].trim() === 'usuario') {
-                return decodeURIComponent(parts[1]);
-            }
-        }
-        return null;
-    }
 
     // Obtener el nombre de usuario actual
-    const usuario = getUsuarioDesdeCookie();
-
-    if (!usuario) {
+    const usuario = res.locals.usuario;
+    const nombreUsuario = usuario.nombre;
+    if (!nombreUsuario) {
         console.error('No se pudo obtener el nombre de usuario desde la cookie.');
         return;
     }
@@ -29,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Preparar los datos a enviar
             const data = {
-                usuario: usuario,
+                usuario: nombreUsuario,
                 estado: 'Pendiente',
                 productos: cart.map(producto => ({
                     id: producto.id,

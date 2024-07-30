@@ -269,8 +269,8 @@ app.use('/fav', favoritoRouter);
 
 
 app.post('/proseguircompra', async (req, res) => {
-    const { usuario, productos } = req.body;
-
+    const { productos } = req.body;
+    const usuario = res.locals.usuario;
     try {
         // Crear una nueva instancia de Cotizacion
         const nuevaCotizacion = new Cotizacion({

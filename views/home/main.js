@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.innerHTML = `
                   <img src="${producto.imagen.data}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
                     <div>
-                        <small class="text-muted d-block mb-1">${producto.nombre}</small>
+                        <small class="font-weight-bold mb-2">${producto.nombre}</small>
                         <span class="text-muted">${producto.categoria}</span>
                         <button class="btn btn-danger btn-sm ms-2 btn-remove" data-producto-id="${producto._id}">Eliminar</button>
                     </div>
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     item.innerHTML = `
                         <img src="${imagenUrl}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
                         <div>
-                            <strong class="d-block mb-1">${producto.nombre}</strong>
+                            <h4 class="font-weight-bold mb-2">${producto.nombre}</h4>
                             <span class="text-muted">${producto.categoria}</span>
                             <button class="btn btn-danger btn-sm ms-2 btn-remove" data-producto-id="${producto._id}">Eliminar</button>
                         </div>
