@@ -67,7 +67,6 @@ router.post('/add-to-favorites', async (req, res) => {
 
 
 
-// En tu archivo de rutas, por ejemplo `favoritos.js`
 router.get('/get-favorites', async (req, res) => {
     try {
         const user = res.locals.usuario;
@@ -75,12 +74,21 @@ router.get('/get-favorites', async (req, res) => {
             return res.status(401).json({ success: false, message: 'No estás autenticado' });
         }
 
+        // Encuentra al usuario y llena la lista de favoritos
         const usuario = await Usuario.findById(user._id).populate('favorites');
         if (!usuario) {
             return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
         }
 
-        res.json({ success: true, favorites: usuario.favorites });
+        // Extrae la lista de favoritos y mapea a un formato adecuado
+        const favorites = usuario.favorites.map(producto => ({
+            _id: producto._id,
+            nombre: producto.nombre,
+            categoria: producto.categoria,
+            imagen: producto.imagen.data // Devuelve la URL de la imagen
+        }));
+
+        res.json({ success: true, favorites });
     } catch (error) {
         console.error('Error al obtener favoritos:', error);
         res.status(500).json({ success: false, message: 'Error del servidor' });
