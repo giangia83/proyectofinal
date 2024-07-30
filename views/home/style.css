@@ -1044,7 +1044,6 @@ font-size: 15px;
 
 /* estrella */
 
-/* Estilo para el contenedor de la estrella */
 .like-effect {
     position: fixed;
     top: 50%;
@@ -1057,9 +1056,9 @@ font-size: 15px;
 
 /* Estilo para la estrella */
 .star {
-    font-size: 50px;
+    font-size: 150px; /* Tamaño de la estrella */
     color: white;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Efecto de brillo */
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
     animation: fadeOut 1s ease-out;
 }
 

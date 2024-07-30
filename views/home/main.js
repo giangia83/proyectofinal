@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const favoriteModal = new bootstrap.Modal(favoriteModalElement);
     const favoriteList = document.getElementById('favoriteList');
 
-    
     const agregarAFavoritos = async (productoId) => {
         try {
             const response = await fetch('/fav/add-to-favorites', {
@@ -59,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error al añadir producto a favoritos');
         }
     };
+    
     
     const eliminarDeFavoritos = async (productoId) => {
         try {
