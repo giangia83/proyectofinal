@@ -1040,3 +1040,41 @@ font-size: 15px;
 #favoriteList li:last-child {
     border-bottom: none;
 }
+
+
+/* estrella */
+
+/* Estilo para el contenedor de la estrella */
+.like-effect {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    display: none; /* Oculto por defecto */
+    z-index: 9999; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+/* Estilo para la estrella */
+.star {
+    font-size: 50px;
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Efecto de brillo */
+    animation: fadeOut 1s ease-out;
+}
+
+/* Animación para desvanecer la estrella */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2);
+    }
+}

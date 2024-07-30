@@ -97,41 +97,41 @@ router.get('/get-favorites', async (req, res) => {
     
 });
 
-
 router.post('/remove-from-favorites', async (req, res) => {
     try {
         const { productoId } = req.body;
+        console.log('ID del producto a eliminar:', productoId); // Verifica el productoId
         const user = res.locals.usuario;
 
         if (!user) {
+            console.log('Usuario no autenticado');
             return res.status(401).json({ success: false, message: 'No estás autenticado' });
         }
 
         const usuario = await Usuario.findById(user._id);
         if (!usuario) {
+            console.log('Usuario no encontrado');
             return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
         }
 
-        // Convertir productoId a ObjectId
         const productoObjectId = mongoose.Types.ObjectId(productoId);
-
-        // Encuentra el índice del producto en la lista de favoritos
-        const index = usuario.favorites.findIndex(fav => fav._id.toString() === productoObjectId.toString());
+        const index = usuario.favorites.findIndex(fav => fav._id.equals(productoObjectId));
+        console.log('Índice del producto en favoritos:', index); // Verifica el índice
 
         if (index === -1) {
+            console.log('Producto no encontrado en favoritos');
             return res.status(400).json({ success: false, message: 'El producto no está en favoritos' });
         }
 
-        // Eliminar el producto del array de favoritos
         usuario.favorites.splice(index, 1);
-
-        // Guardar los cambios en la base de datos
         await usuario.save();
+        console.log('Producto eliminado de favoritos');
         res.json({ success: true, message: 'Producto eliminado de favoritos' });
     } catch (error) {
         console.error('Error al eliminar de favoritos:', error);
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
 });
+
 
 module.exports = router;

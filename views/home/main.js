@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const favoriteModal = new bootstrap.Modal(favoriteModalElement);
     const favoriteList = document.getElementById('favoriteList');
 
+    
     const agregarAFavoritos = async (productoId) => {
         try {
             const response = await fetch('/fav/add-to-favorites', {
@@ -39,6 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
                 favoriteList.appendChild(item);
+    
+                // Mostrar la estrella de like
+                const likeEffect = document.getElementById('likeEffect');
+                likeEffect.style.display = 'block'; // Mostrar el contenedor de la estrella
+    
+                // Ocultar la estrella después de la animación
+                setTimeout(() => {
+                    likeEffect.style.display = 'none';
+                }, 1000); // La duración de la animación en CSS es de 1 segundo
+    
                 favoriteModal.show();
             } else {
                 alert('Error al añadir producto a favoritos: ' + result.message);
