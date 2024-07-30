@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Schema = mongoose.Schema;
 // Definir el esquema del usuario
 const usuarioSchema = new mongoose.Schema({
     nombre: {
