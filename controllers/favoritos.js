@@ -42,7 +42,7 @@ router.post('/add-to-favorites', async (req, res) => {
             _id: producto._id,
             nombre: producto.nombre,
             categoria: producto.categoria,
-            imagen: producto.imagen.data // Usa la URL directamente
+            imagen: producto.imagen.data // Usa la URL directamente si es un string
         }});
     } catch (error) {
         console.error('Error al agregar a favoritos:', error);
@@ -67,7 +67,7 @@ router.get('/get-favorites', async (req, res) => {
             _id: producto._id,
             nombre: producto.nombre,
             categoria: producto.categoria,
-            imagen: producto.imagen.data // Usa la URL directamente
+            imagen: producto.imagen.data // Usa la URL directamente si es un string
         }));
 
         res.json({ success: true, favorites });
@@ -97,7 +97,7 @@ router.post('/remove-from-favorites', async (req, res) => {
             usuario.favorites = [];
         }
 
-        const productoObjectId = mongoose.Types.ObjectId(productoId);
+        const productoObjectId = new mongoose.Types.ObjectId(productoId);
         const index = usuario.favorites.indexOf(productoObjectId.toString());
 
         if (index === -1) {
