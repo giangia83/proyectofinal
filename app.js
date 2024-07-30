@@ -13,7 +13,6 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoURI = process.env.MONGODB_URI;
-const multer = require('multer');
 const fs = require('fs');
 const Producto = require("./models/producto")
 const Usuario = require("./models/usuario")
@@ -269,8 +268,8 @@ app.use('/fav', favoritoRouter);
 
 
 app.post('/proseguircompra', async (req, res) => {
-    const { productos } = req.body;
-    const usuario = res.locals.usuario;
+    const { usuario, productos } = req.body;
+    
     try {
         // Crear una nueva instancia de Cotizacion
         const nuevaCotizacion = new Cotizacion({
