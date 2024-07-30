@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const favoriteModalElement = document.getElementById('favoriteModal');
     const favoriteModal = new bootstrap.Modal(favoriteModalElement);
     const favoriteList = document.getElementById('favoriteList');
-
+    
     const agregarAFavoritos = async (productoId) => {
         try {
             const response = await fetch('/fav/add-to-favorites', {
@@ -26,20 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const result = await response.json();
             if (result.success) {
-                const producto = result.producto;
-                const item = document.createElement('li');
-                item.classList.add('list-group-item', 'd-flex', 'align-items-center');
-                item.dataset.productoId = producto._id; // Añadir ID del producto como atributo de datos
-                item.innerHTML = `
-                  <img src="${producto.imagen}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
-                    <div>
-                        <small class="text-muted d-block mb-1">${producto.nombre}</small>
-                        <span class="text-muted">${producto.categoria}</span>
-                        <button class="btn btn-danger btn-sm ms-2 btn-remove" data-producto-id="${producto._id}">Eliminar</button>
-                    </div>
-                `;
-                favoriteList.appendChild(item);
-    
                 // Mostrar la estrella de like
                 const likeEffect = document.getElementById('likeEffect');
                 likeEffect.style.display = 'block'; // Mostrar el contenedor de la estrella
@@ -48,6 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     likeEffect.style.display = 'none';
                 }, 1000); // La duración de la animación en CSS es de 1 segundo
+    
+                const producto = result.producto;
+                const item = document.createElement('li');
+                item.classList.add('list-group-item', 'd-flex', 'align-items-center');
+                item.dataset.productoId = producto._id;
+                item.innerHTML = `
+                  <img src="data:image/jpeg;base64,${producto.imagen}" alt="${producto.nombre}" class="img-fluid me-3" style="width: 100px; height: auto;">
+                    <div>
+                        <small class="text-muted d-block mb-1">${producto.nombre}</small>
+                        <span class="text-muted">${producto.categoria}</span>
+                        <button class="btn btn-danger btn-sm ms-2 btn-remove" data-producto-id="${producto._id}">Eliminar</button>
+                    </div>
+                `;
+                favoriteList.appendChild(item);
     
                 favoriteModal.show();
             } else {
@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error al añadir producto a favoritos');
         }
     };
-    
     
     const eliminarDeFavoritos = async (productoId) => {
         try {

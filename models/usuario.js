@@ -36,16 +36,8 @@ const usuarioSchema = new mongoose.Schema({
         enum: ['usuario', 'admin'],
         default: 'usuario' // Por defecto, todos los usuarios son de tipo 'usuario'
     },
-
-    favorites: [{
-        _id: mongoose.Schema.Types.ObjectId,
-        nombre: String,
-        categoria: String,
-        imagen: {
-            data: Buffer,
-            contentType: String
-        }
-    }]
+    
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Producto' }]
   
 });
 
