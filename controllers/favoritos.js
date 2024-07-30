@@ -4,7 +4,7 @@ const Producto = require('../models/producto');
 const Usuario = require('../models/usuario');
 const mongoose = require('mongoose');
 
-
+// Agregar a favoritos
 router.post('/add-to-favorites', async (req, res) => {
     try {
         const { productoId } = req.body;
@@ -24,10 +24,17 @@ router.post('/add-to-favorites', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Producto no encontrado' });
         }
 
-        if (usuario.favorites.includes(productoId)) {
+        // Asegúrate de que favorites sea un array
+        if (!Array.isArray(usuario.favorites)) {
+            usuario.favorites = [];
+        }
+
+        // Verifica si el producto ya está en favoritos
+        if (usuario.favorites.some(fav => fav.toString() === productoId)) {
             return res.status(400).json({ success: false, message: 'El producto ya está en favoritos' });
         }
 
+        // Agrega el producto a favoritos
         usuario.favorites.push(productoId);
         await usuario.save();
 
@@ -43,7 +50,7 @@ router.post('/add-to-favorites', async (req, res) => {
     }
 });
 
-
+// Obtener favoritos
 router.get('/get-favorites', async (req, res) => {
     try {
         const user = res.locals.usuario;
@@ -69,6 +76,8 @@ router.get('/get-favorites', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
 });
+
+// Eliminar de favoritos
 router.post('/remove-from-favorites', async (req, res) => {
     try {
         const { productoId } = req.body;
@@ -81,6 +90,11 @@ router.post('/remove-from-favorites', async (req, res) => {
         const usuario = await Usuario.findById(user._id);
         if (!usuario) {
             return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+        }
+
+        // Asegúrate de que favorites sea un array
+        if (!Array.isArray(usuario.favorites)) {
+            usuario.favorites = [];
         }
 
         const productoObjectId = mongoose.Types.ObjectId(productoId);
