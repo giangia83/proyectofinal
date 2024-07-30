@@ -1,17 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Función para obtener el valor de una cookie por nombre
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
+    // Función para obtener el nombre de usuario desde la cookie
+    function getUsuarioDesdeCookie() {
+        const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+        for (const cookie of cookies) {
+            const parts = cookie.split('=');
+            if (parts[0].trim() === 'usuario') {
+                return decodeURIComponent(parts[1]);
+            }
+        }
+        return null;
     }
 
-    // Obtener el nombre de usuario desde la cookie
-    const nombreUsuario = getCookie('usuario');
-    if (!nombreUsuario) {
+    // Obtener el nombre de usuario actual
+    const usuario = getUsuarioDesdeCookie();
+
+    if (!usuario) {
         console.error('No se pudo obtener el nombre de usuario desde la cookie.');
         return;
     }
+
     // Obtener el carrito desde sessionStorage
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
@@ -22,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Preparar los datos a enviar
             const data = {
-                usuario: nombreUsuario,
+                usuario: usuario,
                 estado: 'Pendiente',
                 productos: cart.map(producto => ({
                     id: producto.id,
