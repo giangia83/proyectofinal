@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
 const Usuario = require('../models/usuario');
+const mongoose = require('mongoose');
 
 
 router.post('/add-to-favorites', async (req, res) => {
