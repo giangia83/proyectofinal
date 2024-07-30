@@ -87,7 +87,6 @@ router.get('/get-favorites', async (req, res) => {
     }
 });
 
-// Ruta para eliminar productos de favoritos
 router.post('/remove-from-favorites', async (req, res) => {
     try {
         const { productoId } = req.body;
@@ -102,12 +101,7 @@ router.post('/remove-from-favorites', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
         }
 
-        const producto = await Producto.findById(productoId);
-        if (!producto) {
-            return res.status(404).json({ success: false, message: 'Producto no encontrado' });
-        }
-
-        const index = usuario.favorites.findIndex(fav => fav._id.toString() === producto._id.toString());
+        const index = usuario.favorites.findIndex(fav => fav._id.toString() === productoId);
         if (index === -1) {
             return res.status(400).json({ success: false, message: 'El producto no está en favoritos' });
         }
@@ -121,7 +115,6 @@ router.post('/remove-from-favorites', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
 });
-
 
 
 module.exports = router;

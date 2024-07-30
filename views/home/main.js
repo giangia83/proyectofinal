@@ -48,7 +48,32 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error al añadir producto a favoritos');
         }
     };
+
+    const eliminarDeFavoritos = async (productoId) => {
+        try {
+            const response = await fetch('/fav/remove-from-favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productoId })
+            });
     
+            const result = await response.json();
+            if (result.success) {
+                const item = document.querySelector(`li[data-producto-id="${productoId}"]`);
+                if (item) {
+                    item.remove();
+                }
+            } else {
+                alert('Error al eliminar producto de favoritos: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al eliminar producto de favoritos');
+        }
+    };
+
     const cargarFavoritos = async () => {
         try {
             const response = await fetch('/fav/get-favorites', {
@@ -75,35 +100,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                     favoriteList.appendChild(item);
                 });
-    
+
+                // Añadir el manejador de eventos para los botones de eliminar favoritos
                 document.querySelectorAll('.btn-remove').forEach(button => {
                     button.addEventListener('click', async (event) => {
                         event.preventDefault();
                         const productoId = button.getAttribute('data-producto-id');
-                        try {
-                            const response = await fetch('/fav/remove-from-favorites', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ productoId })
-                            });
-                        
-                            const result = await response.json();
-                            if (result.success) {
-                                const item = document.querySelector(`li[data-producto-id="${productoId}"]`);
-                                if (item) {
-                                    item.remove();
-                                }
-                            } else {
-                                alert('Error al eliminar producto de favoritos: ' + result.message);
-                            }
-                        } catch (error) {
-                            console.error('Error:', error);
-                            alert('Error al eliminar producto de favoritos');
-                        }
+                        await eliminarDeFavoritos(productoId);
                     });
                 });
+                
             } else {
                 console.error('Error al cargar favoritos:', result.message);
             }
@@ -111,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
         }
     };
-    
     
     // Evento para abrir el modal y cargar los favoritos
     document.getElementById('verFavoritos').addEventListener('click', () => {
