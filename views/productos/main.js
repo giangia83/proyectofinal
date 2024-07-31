@@ -56,45 +56,71 @@ function removeFromCart(productId) {
     sessionStorage.setItem('cart', JSON.stringify(cart));
     console.log(`Producto con ID ${productId} eliminado del carrito.`);
 }
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
     const resultsContainer = document.getElementById('search-results');
 
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const query = document.getElementById('search-input').value.trim();
-
+    // Función para realizar la búsqueda y actualizar los resultados
+    const performSearch = async (query) => {
         if (query) {
             try {
                 const response = await fetch(`/api/buscar?query=${encodeURIComponent(query)}`);
                 const productos = await response.json();
-                
+
                 resultsContainer.innerHTML = ''; // Limpia resultados anteriores
 
                 if (productos.length > 0) {
+                    // Crear una lista desordenada para los resultados
+                    const list = document.createElement('ul');
+                    list.classList.add('list-group');
+
                     productos.forEach(producto => {
-                        resultsContainer.innerHTML += `
-                            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                                <div class="card rounded shadow-sm border-0">
-                                    <div class="card-body p-4">
-                                        <div class="image-container">
-                                            <img src="${producto.imagen.data}" alt="Imagen del producto" class="img-fluid product-image">
-                                        </div>
-                                        <h5><a href="#" class="text-dark">${producto.nombre}</a></h5>
-                                        <p class="small text-muted font-italic">${producto.categoria}</p>
-                                        <div class="card-buttons">
-                                            <button class="btn btn-add" data-producto-id="${producto._id}">Añadir</button>
-                                            <a href="#" class="btn btn-star" data-producto-id="${producto._id}">
-                                                <i class="fa fa-star"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                        const listItem = document.createElement('li');
+                        listItem.classList.add('list-group-item', 'd-flex', 'align-items-center');
+                        listItem.innerHTML = `
+                            <img src="${producto.imagen.data}" alt="Imagen del producto" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover; margin-right: 15px;">
+                            <div class="me-auto">
+                                <h6 class="mb-1">${producto.nombre}</h6>
+                                <p class="mb-1 text-muted">${producto.categoria}</p>
                             </div>
+                            <button class="btn btn-primary btn-sm" data-producto-id="${producto._id}">Añadir</button>
                         `;
+                        list.appendChild(listItem);
                     });
+
+                    resultsContainer.appendChild(list);
+
+                    // Añadir eventos a los botones de añadir al carrito
+                    const addButtons = document.querySelectorAll('.btn-primary');
+                    addButtons.forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            event.preventDefault();
+
+                            const productId = button.getAttribute('data-producto-id');
+                            const listItem = button.closest('.list-group-item');
+                            const productName = listItem.querySelector('h6').textContent;
+                            const productCategory = listItem.querySelector('p').textContent;
+                            const productImage = listItem.querySelector('img').getAttribute('src');
+
+                            const product = {
+                                id: productId,
+                                name: productName,
+                                category: productCategory,
+                                image: productImage,
+                            };
+
+                            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                            const found = cart.some(item => item.id === productId);
+                            if (!found) {
+                                cart.push(product);
+                                sessionStorage.setItem('cart', JSON.stringify(cart));
+                                console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
+                            } else {
+                                console.log(`El producto '${productName}' ya está en el carrito.`);
+                            }
+                        });
+                    });
+
                 } else {
                     resultsContainer.innerHTML = '<p class="text-center">No se encontraron productos.</p>';
                 }
@@ -105,5 +131,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             resultsContainer.innerHTML = '<p class="text-center">Por favor, ingresa una búsqueda.</p>';
         }
+    };
+
+    // Llama a la función de búsqueda cuando se detecta un cambio en el campo de búsqueda
+    searchInput.addEventListener('input', (event) => {
+        performSearch(event.target.value.trim());
     });
 });
