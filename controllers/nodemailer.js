@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 
 // Configura el transporter usando las variables de entorno
 const transporter = nodemailer.createTransport({
-    service: 'protonmail', // o el servicio SMTP que prefieras
+    service: 'gmail', // o el servicio SMTP que prefieras
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
