@@ -818,3 +818,35 @@ font-size: 15px;
         }
     }
     
+
+
+    #search-form {
+        border-radius: 50px;
+        overflow: hidden;
+    }
+
+    #search-input {
+        border: 2px solid #ced4da; /* Color del borde del input */
+        border-radius: 50px; /* Bordes redondeados del input */
+        padding: 10px 20px;
+        transition: border-color 0.3s ease;
+    }
+
+    #search-input:focus {
+        border-color: #007bff; /* Color del borde cuando el input está enfocado */
+        outline: none;
+    }
+
+    #search-form button {
+        border-radius: 50px; /* Bordes redondeados del botón */
+        background-color: #007bff; /* Color de fondo del botón */
+        border: none; /* Eliminar el borde del botón */
+        color: #fff; /* Color del texto del botón */
+        padding: 10px 20px;
+        margin-left: -5px; /* Para que el botón y el input se vean como un solo elemento */
+    }
+
+    #search-form button:hover {
+        background-color: #0056b3; /* Color de fondo del botón en hover */
+    }
+
