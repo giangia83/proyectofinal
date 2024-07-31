@@ -826,3 +826,11 @@ font-size: 15px;
         background-color: #0056b3; /* Color de fondo del botón en hover */
     }
 
+.btn-2 {
+
+    justify-content: left;
+    text-align: left;
+    align-items: left;
+    max-width: 40px;
+
+}
