@@ -1,14 +1,14 @@
 // services/emailService.js
 const transporter = require('../controllers/nodemailer');
 
-async function enviarCorreoCotizacion(usuario, detallesCotizacion) {
+async function enviarCorreoCotizacion(correo, detallesCotizacion) {
     const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: usuario,
+        from: process.env.EMAIL_USER, // Usa la variable de entorno para el correo del remitente
+        to: correo, // Correo del destinatario
         subject: 'Detalles de tu Cotización',
         html: `
             <h1>Gracias por tu cotización</h1>
-            <p>Hola ${usuario},</p>
+            <p>Hola,</p>
             <p>Tu cotización ha sido recibida y está en proceso. Aquí están los detalles:</p>
             <table style="width: 100%; border-collapse: collapse;">
                 <thead>
