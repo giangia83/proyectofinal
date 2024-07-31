@@ -290,7 +290,7 @@ app.post('/proseguircompra', async (req, res) => {
 
         // Guardar en la base de datos
         const cotizacionGuardada = await nuevaCotizacion.save();
-
+        await enviarCorreoCotizacion(usuario, nuevaCotizacion);
         // Enviar respuesta al cliente
         res.status(201).json(cotizacionGuardada);
     } catch (error) {
