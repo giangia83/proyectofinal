@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <h6 class="mb-1">${producto.nombre}</h6>
                                 <p class="mb-1 text-muted">${producto.categoria}</p>
                             </div>
-                            <button class="btn btn-primary btn-sm" data-producto-id="${producto._id}">Añadir</button>
+                            <button class="btn btn-add" data-producto-id="${producto._id}">Añadir</button>
                         `;
                         list.appendChild(listItem);
                     });
@@ -122,14 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                 } else {
-                    resultsContainer.innerHTML = '<p class="text-center">No se encontraron productos.</p>';
+                    resultsContainer.innerHTML = '<p class="text-center spacedown">No se encontraron productos.</p>';
                 }
             } catch (error) {
                 console.error('Error al buscar productos:', error);
-                resultsContainer.innerHTML = '<p class="text-center text-danger">Error al buscar productos. Inténtalo de nuevo.</p>';
+                resultsContainer.innerHTML = '<p class="text-center text-danger spacedown">Error al buscar productos. Inténtalo de nuevo.</p>';
             }
         } else {
-            resultsContainer.innerHTML = '<p class="text-center">Por favor, ingresa una búsqueda.</p>';
+            resultsContainer.innerHTML = '<p class="text-center spacedown">Por favor, ingresa una búsqueda.</p>';
         }
     };
 

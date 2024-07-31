@@ -590,28 +590,8 @@ font-size: 15px;
 
 }
 
-.form-control{
 
-    max-width: 30rem;
-    border-radius: 7%;
-    border: none;
-    box-shadow: rgba(10, 0, 0, 0.13)0 1px 3px 0;
-    margin-left: 3rem;
-   
-    }
-
-    .form-control:hover{
-        transition: transform 0.3s ease, background-color 0.3s ease;
-      
-       
-        }
-
-
-        .expand{
-
-            min-width: 100%;
-          
-        }
+    
 
         .dropdown-menu{
 
@@ -823,28 +803,24 @@ font-size: 15px;
     #search-form {
         border-radius: 50px;
         overflow: hidden;
+    
     }
 
     #search-input {
-        border: 2px solid #ced4da; /* Color del borde del input */
         border-radius: 50px; /* Bordes redondeados del input */
-        padding: 10px 20px;
+        padding: 10px 30px;
         transition: border-color 0.3s ease;
     }
 
-    #search-input:focus {
-        border-color: #007bff; /* Color del borde cuando el input está enfocado */
-        outline: none;
-    }
 
-    #search-form button {
-        border-radius: 50px; /* Bordes redondeados del botón */
-        background-color: #007bff; /* Color de fondo del botón */
-        border: none; /* Eliminar el borde del botón */
-        color: #fff; /* Color del texto del botón */
+  
+        .spacedown{
+     
         padding: 10px 20px;
-        margin-left: -5px; /* Para que el botón y el input se vean como un solo elemento */
-    }
+
+        }
+
+      
 
     #search-form button:hover {
         background-color: #0056b3; /* Color de fondo del botón en hover */
