@@ -828,9 +828,9 @@ font-size: 15px;
 
 .btn-2 {
 
-    justify-content: left;
-    text-align: left;
-    align-items: left;
+    justify-content: right;
+    text-align: right;
+    align-items: right;
     max-width: 40px;
 
 }
