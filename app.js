@@ -277,21 +277,37 @@ app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
 app.use('/fav', favoritoRouter);
 
-
 app.post('/proseguircompra', async (req, res) => {
     const { usuario, productos } = req.body;
-    
+
     try {
         // Crear una nueva instancia de Cotizacion
         const nuevaCotizacion = new Cotizacion({
-            usuario,
-            productos,
+            usuario, // Esto debe contener el ID del usuario
+            productos
+            // Estado se establece por defecto
         });
 
         // Guardar en la base de datos
         const cotizacionGuardada = await nuevaCotizacion.save();
-        
-        await enviarCorreoCotizacion(usuario, nuevaCotizacion);
+
+        // Obtener el usuario del modelo Usuario
+        const usuarioDetalles = await Usuario.findById(usuario);
+
+        // Verificar si el usuario fue encontrado
+        if (!usuarioDetalles) {
+            throw new Error('Usuario no encontrado');
+        }
+
+        // Construir detalles de cotización sin el estado
+        const detallesCotizacion = {
+            usuarioId: usuario, // ID del usuario
+            productos: productos // Productos en la cotización
+        };
+
+        // Enviar correo al usuario
+        await enviarCorreoCotizacion(detallesCotizacion);
+
         // Enviar respuesta al cliente
         res.status(201).json(cotizacionGuardada);
     } catch (error) {
@@ -299,6 +315,7 @@ app.post('/proseguircompra', async (req, res) => {
         res.status(500).json({ error: 'Error al guardar la cotización' });
     }
 });
+
 
 
 
