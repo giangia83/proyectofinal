@@ -276,14 +276,21 @@ app.use('/api', productosRouter);
 app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
 app.use('/fav', favoritoRouter);
-
 app.post('/proseguircompra', async (req, res) => {
-    const { usuario, productos } = req.body;
+    const { usuario, productos } = req.body; // 'usuario' debería ser el ID del usuario, pero parece que estás usando un nombre.
 
     try {
+        // Suponiendo que 'usuario' es un nombre en lugar de un ID, realiza la búsqueda por nombre
+        const usuarioDetalles = await Usuario.findOne({ nombre: usuario });
+
+        // Verificar si el usuario fue encontrado
+        if (!usuarioDetalles) {
+            throw new Error('Usuario no encontrado');
+        }
+
         // Crear una nueva instancia de Cotizacion
         const nuevaCotizacion = new Cotizacion({
-            usuario, // Esto debe contener el ID del usuario
+            usuario: usuarioDetalles._id, // Usar el ID del usuario encontrado
             productos
             // Estado se establece por defecto
         });
@@ -291,17 +298,9 @@ app.post('/proseguircompra', async (req, res) => {
         // Guardar en la base de datos
         const cotizacionGuardada = await nuevaCotizacion.save();
 
-        // Obtener el usuario del modelo Usuario
-        const usuarioDetalles = await Usuario.findById(usuario);
-
-        // Verificar si el usuario fue encontrado
-        if (!usuarioDetalles) {
-            throw new Error('Usuario no encontrado');
-        }
-
-        // Construir detalles de cotización sin el estado
+        // Construir detalles de cotización
         const detallesCotizacion = {
-            usuarioId: usuario, // ID del usuario
+            usuarioId: usuarioDetalles._id, // ID del usuario
             productos: productos // Productos en la cotización
         };
 
@@ -315,6 +314,7 @@ app.post('/proseguircompra', async (req, res) => {
         res.status(500).json({ error: 'Error al guardar la cotización' });
     }
 });
+
 
 
 
