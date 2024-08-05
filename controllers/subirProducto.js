@@ -83,4 +83,64 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
     }
 });
 
+router.post('/actualizar-producto', upload.single('imagen'), async (req, res) => {
+    const { id, nombre, costo, precio, categoria } = req.body;
+    const file = req.file;
+
+    try {
+        let fileUrl = null;
+
+        // Si se ha subido un nuevo archivo, procesa la imagen
+        if (file) {
+            const fileName = file.originalname.replace(/\.[^/.]+$/, '') + '.webp'; // Cambia la extensión a .webp
+
+            // Usa sharp para convertir la imagen a formato WebP
+            const fileBuffer = await sharp(file.buffer)
+                .webp()
+                .toBuffer();
+
+            // Sube el archivo convertido a Bunny.net
+            const response = await axios.put(
+                `${bunnyStorageUrl}/${fileName}`,
+                fileBuffer,
+                {
+                    headers: {
+                        'Content-Type': 'image/webp',
+                        'AccessKey': bunnyAccessKey,
+                    },
+                }
+            );
+
+            if (response.status === 200 || response.status === 201) {
+                // URL del archivo subido usando el Pull Zone
+                fileUrl = `${bunnyPullZoneUrl}/${fileName}`;
+            } else {
+                throw new Error(`Error al subir el archivo. Código de estado: ${response.status}`);
+            }
+        }
+
+        // Actualiza el producto en MongoDB
+        const updateData = {
+            nombre,
+            costo,
+            precio,
+            categoria,
+            ...(fileUrl && { imagen: { data: fileUrl, contentType: 'image/webp' } }) // Solo actualiza la imagen si se ha subido una nueva
+        };
+
+        await Producto.findByIdAndUpdate(id, updateData);
+
+        res.redirect('/verproductos'); // Redirige a la lista de productos después de la actualización
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error al actualizar el producto' });
+    }
+});
+
+
+
+
+
+
+
 module.exports = router;

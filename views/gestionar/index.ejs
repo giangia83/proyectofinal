@@ -93,18 +93,20 @@
                     <option value="<%= producto.nombre %>">
                   <% }) %>
                 </datalist>
-                <form class="row g-3" action="/api/actualizar-producto" method="post">
+                <form class="row g-3" action="/subir/actualizar-producto" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="id" value="<%= producto._id %>"> <!-- Asegúrate de tener el ID del producto aquí -->
+                
                   <div class="col-md-6">
                     <label for="inputNombreEditar" class="form-label">Cambiar nombre del producto</label>
-                    <input type="text" class="form-control" id="inputNombreEditar" name="nombre">
+                    <input type="text" class="form-control" id="inputNombreEditar" name="nombre" value="<%= producto.nombre %>">
                   </div>
                   <div class="col-md-6">
                     <label for="inputCostoEditar" class="form-label">Nuevo costo</label>
-                    <input type="number" class="form-control" id="inputCostoEditar" name="costo" placeholder="1.5$">
+                    <input type="number" class="form-control" id="inputCostoEditar" name="costo" value="<%= producto.costo %>" placeholder="1.5$">
                   </div>
                   <div class="col-12">
                     <label for="inputPrecioEditar" class="form-label">Nuevo PVP (Precio al público)</label>
-                    <input type="text" class="form-control" id="inputPrecioEditar" name="precio" placeholder="3$">
+                    <input type="text" class="form-control" id="inputPrecioEditar" name="precio" value="<%= producto.precio %>" placeholder="3$">
                   </div>
                   <div class="col-12">
                     <label for="inputImagenEditar" class="form-label">Nueva Imagen del producto</label>
@@ -122,6 +124,7 @@
                     <button type="submit" class="btn btn-success">Actualizar</button>
                   </div>
                 </form>
+                
               </div>
             </div>
           </div>
