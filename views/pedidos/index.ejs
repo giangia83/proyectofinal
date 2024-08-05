@@ -17,7 +17,7 @@
 
 <main class="container">
     <!-- Contenido principal -->
-    <h2 class="font-weight-bold mb-2">Tus pedidos <span class="badge bg-primary">Empresarial</span></h2>
+    <h2 class="font-weight-bold mb-2">Tus pedidos <span class="badge bg-primary"><%= usuario.nombre %></span></h2>
     <div class="accordion" id="accordionPedidos">
         <% cotizaciones.forEach((cotizacion, index) => { %>
             <div class="accordion-item">
