@@ -319,23 +319,30 @@ app.post('/proseguircompra', async (req, res) => {
 
 
 
-
-
 app.get('/tuspedidos', async (req, res) => {
     try {
-        // Obtener el ID de usuario desde la sesión o cookie
-        const usuarioId = req.cookies.usuarioId; // Asegúrate de guardar el ID en la cookie al iniciar sesión
+        // Obtener el nombre de usuario desde la sesión o cookie
+        const usuarioNombre = req.cookies.usuario; // O donde tengas guardado el nombre de usuario
+
+        // Consultar el usuario por su nombre
+        const usuarioDetalles = await Usuario.findOne({ nombre: usuarioNombre });
+
+        // Verificar si el usuario fue encontrado
+        if (!usuarioDetalles) {
+            throw new Error('Usuario no encontrado');
+        }
 
         // Consultar las cotizaciones del usuario desde la base de datos
-        const cotizaciones = await Cotizacion.find({ usuario: usuarioId }).sort({ fecha: -1 });
+        const cotizaciones = await Cotizacion.find({ usuario: usuarioDetalles._id }).sort({ fecha: -1 }).populate('usuario');
 
         // Renderizar la vista 'pedidos/index' con las cotizaciones del usuario
-        res.render('pedidos/index', { cotizaciones,  usuario: res.locals.usuario || { nombre: '' } });
+        res.render('pedidos/index', { cotizaciones, usuario: usuarioDetalles });
     } catch (error) {
         console.error('Error al obtener los pedidos:', error);
         res.status(500).send('Error al obtener los pedidos del usuario');
     }
 });
+
 
 
 app.get('/informacion', (req, res) => {
