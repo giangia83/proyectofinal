@@ -86,9 +86,32 @@
                         <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST" class="me-2">
                           <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
-                        <form action="/vercotizaciones/<%= cotizacion.usuario %>" method="GET">
-                          <button type="submit" class="btn btn-warning">Ver detalles del usuario</button>
-                        </form>
+
+                        <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario %>')">
+                          Ver detalles del usuario
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="userDetailsModalLabel">Detalles del Usuario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <!-- Aquí se cargarán los detalles del usuario -->
+                                <div id="userDetailsContent">
+                                  <!-- Los detalles se llenarán aquí mediante JavaScript -->
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
                       </div>
                     </div>
                   </div>

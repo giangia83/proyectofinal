@@ -152,4 +152,20 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// Obtener detalles del usuario por ID
+router.get('/detalles/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const usuario = await Usuario.findById(id);
+        if (!usuario) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+        res.render('usuario-detalles', { usuario }); // Renderiza la vista 'usuario-detalles.ejs' con los datos del usuario
+    } catch (error) {
+        console.error('Error al obtener usuario:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+
 module.exports = router;
