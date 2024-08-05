@@ -24,7 +24,7 @@
                 <h2 class="accordion-header" id="heading<%= index %>">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
-                        Orden #<%= index + 1 %> - Usuario: <%= cotizacion.usuario.nombre %>
+                        Orden #<%= index + 1 %> 
                     </button>
                 </h2>
                 <div id="collapse<%= index %>" class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
@@ -72,7 +72,9 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-danger">Eliminar</button>
+                                            <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>
                                     </div>
                                 </div>
                             </div>
