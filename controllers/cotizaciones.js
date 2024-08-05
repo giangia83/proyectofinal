@@ -18,10 +18,8 @@ router.get('/vercotizaciones', async (req, res) => {
 
         res.render('cotizaciones/index', {
             productos,
-            cotizaciones: cotizacionesConNombre,
-            calcularTotalProductos,
-            calcularTotalCotizacion,
-            calcularPorcentajeGanancia
+            cotizaciones: cotizacionesConNombre
+         
         });
     } catch (error) {
         console.error('Error al obtener cotizaciones:', error);
