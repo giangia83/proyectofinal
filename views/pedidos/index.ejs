@@ -72,10 +72,9 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Cerrar</button>
-                                            <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>?redirect=<%= encodeURIComponent(req.headers.referer) %>" method="POST">
+                                            <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
                                                 <button type="submit" class="btn btn-danger">Eliminar</button>
                                             </form>
-                                            
                                     </div>
                                 </div>
                             </div>

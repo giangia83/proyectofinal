@@ -47,7 +47,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
 // Ruta para eliminar una cotización
 router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
     const { id } = req.params;
-    const redirectUrl = req.query.redirect || '/vercotizaciones'; // Usa '/vercotizaciones' como valor por defecto
+    const redirectUrl = '/vercotizaciones'; // Usa '/vercotizaciones' como valor por defecto
 
     try {
         await Cotizacion.findByIdAndDelete(id);
