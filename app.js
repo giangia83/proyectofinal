@@ -277,7 +277,7 @@ app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
 app.use('/fav', favoritoRouter);
 
-app.post('/proseguircompra', async (req, res) => {
+router.post('/proseguircompra', async (req, res) => {
     const { usuario, productos } = req.body;
 
     try {
@@ -297,6 +297,12 @@ app.post('/proseguircompra', async (req, res) => {
 
         // Guardar en la base de datos
         const cotizacionGuardada = await nuevaCotizacion.save();
+
+        // Enviar correo con los detalles de la cotización
+        await enviarCorreoCotizacion({
+            usuarioId: usuarioDetalles._id, // ID del usuario
+            productos
+        });
 
         // Enviar respuesta al cliente
         res.status(201).json(cotizacionGuardada);
