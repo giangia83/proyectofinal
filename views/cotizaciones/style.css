@@ -647,3 +647,7 @@ margin-top: 2rem ;
     margin-top: 2rem ;
     
     }
+    .btn-group form {
+        display: inline;
+      }
+    

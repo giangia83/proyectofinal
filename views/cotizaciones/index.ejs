@@ -4,226 +4,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Gestión de Productos - Starclean C.A</title>
- 
-  <!-- BOOTSTRAP -->
+  <title>Gestión de Cotizaciones - Starclean C.A</title>
 
-
-
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-  <!--  -->
-  <!-- Enlace al archivo CSS de Bootstrap -->
 
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
 
-
-  <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
-  <!-- Icono de la pestaña del navegador -->
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="/views/cotizaciones/style.css">
+
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
 </head>
 
 <body>
-
-
-
-
-
-
-
+  <!-- Header -->
   <script src="/views/components/headeradmin.js"></script>
 
-
   <main>
-
-
-
-
-    <div class="container">
-      <!-- Content here -->
-
-
-
-      <div class="table-div">
-
-        <aside>
-          <!-- Contenido del sidenav -->
-          <nav>
-
-            <ul>
-
-              <li><a href="/html/aprende.html">Gestión de Productos </a></li>
-              <p> Agregar, editar y eliminar productos.</p>
-
-              <li><a href="/html/soporte.html">Gestión de Cotizaciones</a></li>
-              <p> Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
-              <li><a href="/html/about.html">Administración de Clientes</a></li>
-              <p> Mantén un registro de los clientes registrados y sus detalles.</p>
-
-
-            </ul>
-
-          </nav>
-        </aside>
-      </div>
-
-
-      <div class="container-right">
-
-        <div class="card">
-          <h5 class="card-header">Cotizaciones </h5>
-          <div class="card-body">
-
-
-
-   <!-- cotizaciones -->
-<div class="accordion" id="accordionCotizaciones">
-  <% cotizaciones.forEach((cotizacion, index) => { %>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading<%= index %>">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
-          Cotización por: <%= cotizacion.usuario.nombre %>  <!-- Mostrar el nombre del usuario -->
-        </button>
-      </h2>
-      <div id="collapse<%= index %>" class="accordion-collapse collapse show" aria-labelledby="heading<%= index %>" data-bs-parent="#accordionCotizaciones">
-        <div class="accordion-body">
-          <h5 class="card-title">Productos:</h5>
-          <ul class="list-group">
-            <% cotizacion.productos.forEach(producto => { %>
-              <li class="list-group-item">
-                <%= producto.nombre %> - Precio unitario: <%= producto.precio %> - Cantidad: <%= producto.cantidad %>
-              </li>
-            <% }) %>
-          </ul>
-          <div class="card-text">
-         
-            <strong>Estado:</strong> <%= cotizacion.estado %><br>
-          </div>
-
-          <div class="btn-group" role="group" aria-label="Botones"></div>
-          <form action="/vercotizaciones/verificar/<%= cotizacion._id %>" method="POST">
-            <button type="submit" class="btn btn-success">Verificar</button>
-          </form>
-          <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
-            <button type="submit" class="btn btn-danger">Eliminar</button>
-          </form>
-          <form action="/vercotizaciones/<%= cotizacion.usuario %>" method="GET">
-            <button type="submit" class="btn btn-warning">Ver detalles del usuario</button>
-          </form>
-        </div>
-        
-        </div>
-      </div>
-    </div>
-  <% }) %>
-</div>
-       
-
-<!-- cotizaciones end -->
-
-
-
-
-
-          </div>
+    <div class="container mt-4">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+          <aside>
+            <nav>
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link" href="/html/aprende.html">Gestión de Productos</a>
+                  <p>Agregar, editar y eliminar productos.</p>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/html/soporte.html">Gestión de Cotizaciones</a>
+                  <p>Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/html/about.html">Administración de Clientes</a>
+                  <p>Mantén un registro de los clientes registrados y sus detalles.</p>
+                </li>
+              </ul>
+            </nav>
+          </aside>
         </div>
 
-
-
-
-
-
-
-
-        <div class="table-second">
-
-          
+        <!-- Main Content -->
+        <div class="col-md-9">
           <div class="card">
+            <h5 class="card-header">Cotizaciones</h5>
+            <div class="card-body">
+              <!-- Cotizaciones Accordion -->
+              <div class="accordion" id="accordionCotizaciones">
+                <% cotizaciones.forEach((cotizacion, index) => { %>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="heading<%= index %>">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#collapse<%= index %>" aria-expanded="true"
+                      aria-controls="collapse<%= index %>">
+                      Cotización por: <%= cotizacion.usuario.nombre %>
+                    </button>
+                  </h2>
+                  <div id="collapse<%= index %>" class="accordion-collapse collapse show"
+                    aria-labelledby="heading<%= index %>" data-bs-parent="#accordionCotizaciones">
+                    <div class="accordion-body">
+                      <h5 class="card-title">Productos:</h5>
+                      <ul class="list-group">
+                        <% cotizacion.productos.forEach(producto => { %>
+                        <li class="list-group-item">
+                          <%= producto.nombre %> - Precio unitario: <%= producto.precio %> - Cantidad: <%= producto.cantidad %>
+                        </li>
+                        <% }) %>
+                      </ul>
+                      <div class="card-text mt-3">
+                        <strong>Estado:</strong> <%= cotizacion.estado %><br>
+                      </div>
+
+                      <div class="btn-group mt-3" role="group" aria-label="Botones">
+                        <form action="/vercotizaciones/verificar/<%= cotizacion._id %>" method="POST" class="me-2">
+                          <button type="submit" class="btn btn-success">Verificar</button>
+                        </form>
+                        <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST" class="me-2">
+                          <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                        <form action="/vercotizaciones/<%= cotizacion.usuario %>" method="GET">
+                          <button type="submit" class="btn btn-warning">Ver detalles del usuario</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+              </div>
+              <!-- End Cotizaciones Accordion -->
+            </div>
+          </div>
+
+          <!-- Information Card -->
+          <div class="card mt-4">
             <h5 class="card-header">Información</h5>
             <div class="card-body">
-                <h5 class="card-title">Presiona <span class="badge bg-success">Verificar</span> para dar por finalizada una cotización exitosa.
-                
-                <br><br>Presiona <span class="badge bg-danger">Danger</span> para eliminar un cotización permanentemente.
-                
-                
-                
-                
-                
-                
-                </h5>
-              
-               
+              <h5 class="card-title">Presiona <span class="badge bg-success">Verificar</span> para dar por finalizada una cotización exitosa.</h5>
+              <p>Presiona <span class="badge bg-danger">Eliminar</span> para eliminar una cotización permanentemente.</p>
             </div>
           </div>
-
-          </div>
-
-          <div class="table-third">
-
-
-                  </div>
-
-
-
-
-
-
-              </div>
-
-
-
-
-
-
-
-            </div>
-
-
-          </div>
-
-
-
-
+          <!-- End Information Card -->
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       </div>
     </div>
-
-
-
-
-
-
   </main>
 
+  <!-- Bootstrap Bundle JS -->
+  <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
-<script src="/views/cotizaciones/main.js"></script>
+  <!-- Custom JS -->
+  <script src="/views/cotizaciones/main.js"></script>
 </body>
 
 </html>
