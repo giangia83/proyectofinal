@@ -2,15 +2,18 @@ const mongoose = require('mongoose');
 
 const cotizacionSchema = new mongoose.Schema({
     usuario: {
+        type: mongoose.Schema.Types.ObjectId, // Cambia a ObjectId para referencia
+        ref: 'Usuario',
+        required: true,
+    },
+    usuarioNombre: {
         type: String,
         required: true,
     },
-      estado:{
-            type: String,
-            default: 'Pendiente',
-            
-
-        },
+    estado: {
+        type: String,
+        default: 'Pendiente',
+    },
     productos: [{
         id: {
             type: String,
@@ -28,7 +31,6 @@ const cotizacionSchema = new mongoose.Schema({
             type: Number,
             required: true,
         },
-      
     }],
 });
 

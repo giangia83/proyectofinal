@@ -276,37 +276,26 @@ app.use('/api', productosRouter);
 app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
 app.use('/fav', favoritoRouter);
-
 app.post('/proseguircompra', async (req, res) => {
-    const { usuario, productos } = req.body; // 'usuario' debería ser el ID del usuario, pero parece que estás usando un nombre.
+    const { usuario, productos } = req.body;
 
     try {
-        // Suponiendo que 'usuario' es un nombre en lugar de un ID, realiza la búsqueda por nombre
+        // Buscar el usuario por nombre
         const usuarioDetalles = await Usuario.findOne({ nombre: usuario });
 
-        // Verificar si el usuario fue encontrado
         if (!usuarioDetalles) {
             throw new Error('Usuario no encontrado');
         }
 
-        // Crear una nueva instancia de Cotizacion
+        // Crear una nueva cotización
         const nuevaCotizacion = new Cotizacion({
-            usuario: usuarioDetalles._id, // Usar el ID del usuario encontrado
+            usuario: usuarioDetalles._id,
+            usuarioNombre: usuarioDetalles.nombre, // Agregar el nombre del usuario
             productos
-            // Estado se establece por defecto
         });
 
         // Guardar en la base de datos
         const cotizacionGuardada = await nuevaCotizacion.save();
-
-        // Construir detalles de cotización
-        const detallesCotizacion = {
-            usuarioId: usuarioDetalles._id, // ID del usuario
-            productos: productos // Productos en la cotización
-        };
-
-        // Enviar correo al usuario
-        await enviarCorreoCotizacion(detallesCotizacion);
 
         // Enviar respuesta al cliente
         res.status(201).json(cotizacionGuardada);
@@ -316,32 +305,28 @@ app.post('/proseguircompra', async (req, res) => {
     }
 });
 
-
-
-
 app.get('/tuspedidos', async (req, res) => {
     try {
-        // Obtener el nombre de usuario desde la sesión o cookie
-        const usuarioNombre = req.cookies.usuario; // O donde tengas guardado el nombre de usuario
+        const usuarioNombre = req.cookies.usuario;
 
         // Consultar el usuario por su nombre
         const usuarioDetalles = await Usuario.findOne({ nombre: usuarioNombre });
 
-        // Verificar si el usuario fue encontrado
         if (!usuarioDetalles) {
             throw new Error('Usuario no encontrado');
         }
 
-        // Consultar las cotizaciones del usuario desde la base de datos
-        const cotizaciones = await Cotizacion.find({ usuario: usuarioDetalles._id }).sort({ fecha: -1 }).populate('usuario');
+        // Consultar las cotizaciones del usuario
+        const cotizaciones = await Cotizacion.find({ usuario: usuarioDetalles._id }).sort({ fecha: -1 });
 
-        // Renderizar la vista 'pedidos/index' con las cotizaciones del usuario
+        // Renderizar la vista 'pedidos/index' con las cotizaciones
         res.render('pedidos/index', { cotizaciones, usuario: usuarioDetalles });
     } catch (error) {
         console.error('Error al obtener los pedidos:', error);
         res.status(500).send('Error al obtener los pedidos del usuario');
     }
 });
+
 
 
 
