@@ -276,6 +276,7 @@ app.use('/api', productosRouter);
 app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
 app.use('/fav', favoritoRouter);
+
 app.post('/proseguircompra', async (req, res) => {
     const { usuario, productos } = req.body; // 'usuario' debería ser el ID del usuario, pero parece que estás usando un nombre.
 
@@ -319,26 +320,22 @@ app.post('/proseguircompra', async (req, res) => {
 
 
 
+
 app.get('/tuspedidos', async (req, res) => {
     try {
-        // Obtener el nombre de usuario desde la sesión o cookie
-        const usuarioNombre = req.cookies.usuario; // O donde tengas guardado el nombre de usuario
-
-        if (!usuarioNombre) {
-            return res.status(401).send('Usuario no autenticado');
-        }
+        // Obtener el ID de usuario desde la sesión o cookie
+        const usuarioId = req.cookies.usuarioId; // Asegúrate de guardar el ID en la cookie al iniciar sesión
 
         // Consultar las cotizaciones del usuario desde la base de datos
-        const cotizaciones = await Cotizacion.find({ usuario: usuarioNombre }).sort({ fecha: -1 });
+        const cotizaciones = await Cotizacion.find({ usuario: usuarioId }).sort({ fecha: -1 });
 
         // Renderizar la vista 'pedidos/index' con las cotizaciones del usuario
-        res.render('pedidos/index', { cotizaciones, usuario: { nombre: usuarioNombre } });
+        res.render('pedidos/index', { cotizaciones,  usuario: res.locals.usuario || { nombre: '' } });
     } catch (error) {
         console.error('Error al obtener los pedidos:', error);
         res.status(500).send('Error al obtener los pedidos del usuario');
     }
 });
-
 
 
 app.get('/informacion', (req, res) => {
