@@ -1,283 +1,135 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Gestión de Productos - Starclean C.A</title>
- 
-
-  <!-- BOOTSTRAP -->
-
-<!-- sa -->
-
   <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-  <!--  -->
-
-
-  <!-- Enlace al archivo CSS de Bootstrap -->
-
-
-  <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
-  <!-- Icono de la pestaña del navegador -->
+  <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/views/gestionar/style.css">
   <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
 </head>
-
 <body>
-
-
-
   <script src="/views/components/headeradmin.js"></script>
-
   <main>
-
     <div class="container">
-      <!-- Content here -->
-
       <div class="table-div">
-
         <aside>
-          <!-- Contenido del sidenav -->
           <nav>
-
             <ul>
-
-              <li><a href="/gestion">Gestión de Productos </a></li>
-              <p> Agregar, editar y eliminar productos.</p>
-
+              <li><a href="/gestion">Gestión de Productos</a></li>
+              <p>Agregar, editar y eliminar productos.</p>
               <li><a href="/html/soporte.html">Gestión de Cotizaciones</a></li>
-              <p> Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
+              <p>Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
               <li><a href="/html/about.html">Administración de Clientes</a></li>
-              <p> Mantén un registro de los clientes registrados y sus detalles.</p>
+              <p>Mantén un registro de los clientes registrados y sus detalles.</p>
             </ul>
-
           </nav>
         </aside>
-      </div>
-  <div class="container-right">
-
-        <div class="card">
-          <h5 class="card-header">Añade un nuevo producto </h5>
-          <div class="card-body">
-
-
-
-            <div class="container">
-          
-              <form class="row g-3" id="formAgregarProducto" action="subir/upload" method="post" enctype="multipart/form-data">
-                  <div class="col-md-6">
-                      <label for="inputNombre" class="form-label">Nombre del producto</label>
-                      <input type="text" class="form-control" id="inputNombre" name="nombre">
-                  </div>
-                  <div class="col-md-6">
-                      <label for="inputCosto" class="form-label">Costo</label>
-                      <input type="number" class="form-control" id="inputCosto" name="costo" placeholder="1.5">
-                  </div>
-                  <div class="col-12">
-                      <label for="inputPrecio" class="form-label">PVP (Precio al público)</label>
-                      <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="3">
-                  </div>
-                  <div class="col-12">
-                      <label for="inputImagen" class="form-label">Imagen del producto</label>
-                      <input type="file" class="form-control" id="inputImagen" name="inputImagen" accept="image/*">
-
-                  </div>
-                  <div class="col-12">
-                      <div class="input-group mb-3">
-                          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" 
-                              aria-expanded="false">Categoría</button>
-                          <ul class="dropdown-menu" id="dropdownCategoria">
-                              <li><a class="dropdown-item" href="#">Limpieza</a></li>
-                              <li><a class="dropdown-item" href="#">Papeleria</a></li>
-                              <li><a class="dropdown-item" href="#">Seguridad industrial</a></li>
-                          </ul>
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <button type="submit" class="btn btn-primary">Subir producto</button>
-                  </div>
-              </form>
-          </div>
-
-          </div>
-        </div>
-
-
-
-
-
-
-
-
-        <div class="table-second">
-
+        <div class="container-right">
           <div class="card">
-            <h5 class="card-header">Eliminar un producto </h5>
-
-
-            <div class="row">
-              <div class="col-sm-6">
-
-                <div class="card-body">
-                  <ul class="list-group" id="listaProductos">
-              
-                  </ul>
-                
-                  <section id="btn-eliminar">
-                    <button id="btnEliminarProductos" class="btn btn-danger" onclick="eliminarProductos()">Eliminar producto(s)</button>
-                  </section>
+            <h5 class="card-header">Añade un nuevo producto</h5>
+            <div class="card-body">
+              <form class="row g-3" id="formAgregarProducto" action="subir/upload" method="post" enctype="multipart/form-data">
+                <!-- Formulario de nuevo producto -->
+                <div class="col-md-6">
+                  <label for="inputNombre" class="form-label">Nombre del producto</label>
+                  <input type="text" class="form-control" id="inputNombre" name="nombre">
                 </div>
-                
-
-
-                 
-             
-
-
-
-
-
+                <div class="col-md-6">
+                  <label for="inputCosto" class="form-label">Costo</label>
+                  <input type="number" class="form-control" id="inputCosto" name="costo" placeholder="1.5">
                 </div>
-
-              </div>
-
+                <div class="col-12">
+                  <label for="inputPrecio" class="form-label">PVP (Precio al público)</label>
+                  <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="3">
+                </div>
+                <div class="col-12">
+                  <label for="inputImagen" class="form-label">Imagen del producto</label>
+                  <input type="file" class="form-control" id="inputImagen" name="inputImagen" accept="image/*">
+                </div>
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Categoría</button>
+                    <ul class="dropdown-menu" id="dropdownCategoria">
+                      <li><a class="dropdown-item" href="#">Limpieza</a></li>
+                      <li><a class="dropdown-item" href="#">Papeleria</a></li>
+                      <li><a class="dropdown-item" href="#">Seguridad industrial</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Subir producto</button>
+                </div>
+              </form>
             </div>
-
           </div>
-
+          <div class="table-second">
+            <div class="card">
+              <h5 class="card-header">Eliminar un producto</h5>
+              <div class="card-body">
+                <ul class="list-group" id="listaProductos">
+                  <% productos.forEach(producto => { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span><%= producto.nombre %> - <%= producto.categoria %></span>
+                      <form action="/api/eliminar-productos" method="post" style="display: inline;">
+                        <input type="hidden" name="id" value="<%= producto._id %>">
+                        <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                      </form>
+                    </li>
+                  <% }) %>
+                </ul>
+              </div>
+            </div>
+          </div>
           <div class="table-third">
-
-
             <div class="card text-dark bg-light mb-3" style="max-width: 100%;">
               <div class="card-header">Editar un producto</div>
               <div class="card-body">
-
-                <!-- elegir producto -->
-
                 <label for="exampleDataList" class="form-label">Elige el producto a editar</label>
                 <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Escribe para buscar">
                 <datalist id="datalistOptions">
-                  <option value="San Francisco">
-                  <option value="New York">
-                  <option value="Seattle">
-                  <option value="Los Angeles">
-                  <option value="Chicago">
+                  <% productos.forEach(producto => { %>
+                    <option value="<%= producto.nombre %>">
+                  <% }) %>
                 </datalist>
-
-
-<br>
-
-                <form class="row g-3">
-
-
-
-
-
+                <form class="row g-3" action="/api/actualizar-producto" method="post">
                   <div class="col-md-6">
-
-
-
-
-                    <label for="inputEmail4" class="form-label">Cambiar nombre del producto</label>
-                    <input type="text" class="form-control" id="inputEmail4">
+                    <label for="inputNombreEditar" class="form-label">Cambiar nombre del producto</label>
+                    <input type="text" class="form-control" id="inputNombreEditar" name="nombre">
                   </div>
                   <div class="col-md-6">
-
-                    <label for="inputPassword4" class="form-label">Nuevo costo</label>
-                    <input type="number" class="form-control" id="inputPassword4" placeholder="1.5$">
+                    <label for="inputCostoEditar" class="form-label">Nuevo costo</label>
+                    <input type="number" class="form-control" id="inputCostoEditar" name="costo" placeholder="1.5$">
                   </div>
                   <div class="col-12">
-                    <label for="inputAddress" class="form-label"> Nuevo PVP (Precio al público)</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="3$">
+                    <label for="inputPrecioEditar" class="form-label">Nuevo PVP (Precio al público)</label>
+                    <input type="text" class="form-control" id="inputPrecioEditar" name="precio" placeholder="3$">
                   </div>
                   <div class="col-12">
-                    <label for="inputAddress" class="form-label">Nueva Imagen del producto</label>
-                    <div class="input-group mb-3">
-
-                      <input type="file" class="form-control" id="inputGroupFile01">
-                    </div>
+                    <label for="inputImagenEditar" class="form-label">Nueva Imagen del producto</label>
+                    <input type="file" class="form-control" id="inputImagenEditar" name="imagen">
                   </div>
-
                   <div class="col-12">
                     <div class="input-group mb-3">
-                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Nueva Categoría</button>
+                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Nueva Categoría</button>
                       <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Limpieza</a></li>
                         <li><a class="dropdown-item" href="#">Papeleria</a></li>
                         <li><a class="dropdown-item" href="#">Seguridad industrial</a></li>
-
-
                       </ul>
-
                     </div>
-<br>
                     <button type="submit" class="btn btn-success">Actualizar</button>
                   </div>
-
-
-
-
-
-
+                </form>
               </div>
-
-
-
-
-
-
-
             </div>
-
-
           </div>
-
-
-
-
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       </div>
     </div>
-
-
-
-
-
-
   </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
-<script src="/views/gestionar/main.js"></script>
-
+  <script src="/views/gestionar/main.js"></script>
 </body>
-
 </html>

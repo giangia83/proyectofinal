@@ -121,7 +121,7 @@ const style=
     // HTML para la sección central del encabezado
     const centerSection = `
       <div class="header-center">
-        <a href="/gestion" class="btn e btn-special btn-center" type="button" aria-expanded="false">Gestionar productos</a>  
+        <a href="/gestionar" class="btn e btn-special btn-center" type="button" aria-expanded="false">Gestionar productos</a>  
           <a href="/vercotizaciones" class="btn e btn-special btn-center" type="button" aria-expanded="false">Administracion de cotizaciones</a>
             <a href="/clientes" class="btn e btn-special btn-center" type="button" aria-expanded="false">Administracion de clientes</a>
       </div>
