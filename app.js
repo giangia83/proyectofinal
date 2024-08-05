@@ -324,16 +324,21 @@ app.get('/tuspedidos', async (req, res) => {
         // Obtener el nombre de usuario desde la sesión o cookie
         const usuarioNombre = req.cookies.usuario; // O donde tengas guardado el nombre de usuario
 
+        if (!usuarioNombre) {
+            return res.status(401).send('Usuario no autenticado');
+        }
+
         // Consultar las cotizaciones del usuario desde la base de datos
         const cotizaciones = await Cotizacion.find({ usuario: usuarioNombre }).sort({ fecha: -1 });
 
         // Renderizar la vista 'pedidos/index' con las cotizaciones del usuario
-        res.render('pedidos/index', { cotizaciones,  usuario: res.locals.usuario || { nombre: '' } });
+        res.render('pedidos/index', { cotizaciones, usuario: { nombre: usuarioNombre } });
     } catch (error) {
         console.error('Error al obtener los pedidos:', error);
         res.status(500).send('Error al obtener los pedidos del usuario');
     }
 });
+
 
 
 app.get('/informacion', (req, res) => {
