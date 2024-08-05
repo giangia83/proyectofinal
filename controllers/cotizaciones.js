@@ -27,17 +27,19 @@ router.get('/vercotizaciones', async (req, res) => {
     }
 });
 
-// Ruta para actualizar el estado de una cotización a "Verificada"
 router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     const { id } = req.params;
     try {
+        console.log(`Intentando verificar cotización con ID: ${id}`);
         const cotizacion = await Cotizacion.findById(id);
         if (!cotizacion) {
+            console.log('Cotización no encontrada');
             return res.status(404).send('Cotización no encontrada');
         }
         cotizacion.estado = 'Verificada';
         await cotizacion.save();
-        res.redirect('/vercotizaciones'); // Redirigir de vuelta a la lista de cotizaciones
+        console.log('Cotización verificada con éxito');
+        res.redirect('/vercotizaciones');
     } catch (error) {
         console.error('Error al verificar cotización:', error);
         res.status(500).send('Error interno al verificar cotización');

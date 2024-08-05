@@ -276,6 +276,7 @@ app.use('/api', productosRouter);
 app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
 app.use('/fav', favoritoRouter);
+
 app.post('/proseguircompra', async (req, res) => {
     const { usuario, productos } = req.body;
 
