@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -6,74 +7,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Gestión de Productos - Starclean C.A</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- BOOTSTRAP -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.2/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <!-- Icono de la pestaña del navegador -->
     <link rel="stylesheet" href="/views/clientes/style.css">
     <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
 </head>
 
 <body>
-    <!-- Header Component -->
     <script src="/views/components/headeradmin.js"></script>
-
     <main>
-        <div class="container mt-4">
-            <div class="row">
-                <!-- Menú Lateral -->
-                <nav class="col-md-3 mb-4">
-                    <div class="list-group">
-                        <a href="/html/aprende.html" class="list-group-item list-group-item-action">
-                            Gestión de Productos
-                            <p class="mb-0 small">Agregar, editar y eliminar productos.</p>
-                        </a>
-                        <a href="/html/soporte.html" class="list-group-item list-group-item-action">
-                            Gestión de Cotizaciones
-                            <p class="mb-0 small">Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
-                        </a>
-                        <a href="/html/about.html" class="list-group-item list-group-item-action">
-                            Administración de Clientes
-                            <p class="mb-0 small">Mantén un registro de los clientes registrados y sus detalles.</p>
-                        </a>
-                    </div>
-                </nav>
+        <div class="container">
+            <!-- Contenedor principal -->
+            <div class="table-div">
+                <!-- Contenedor de la tabla -->
+                <aside>
+                    <!-- Menú lateral -->
+                    <nav>
+                        <ul>
+                            <li><a href="/html/aprende.html">Gestión de Productos </a></li>
+                            <p> Agregar, editar y eliminar productos.</p>
+                            <li><a href="/html/soporte.html">Gestión de Cotizaciones</a></li>
+                            <p> Visualización y gestión de las solicitudes de cotización recibidas de los
+                                clientes.</p>
+                            <li><a href="/html/about.html">Administración de Clientes</a></li>
+                            <p> Mantén un registro de los clientes registrados y sus detalles.</p>
+                        </ul>
+                    </nav>
+                </aside>
 
-                <!-- Contenido Principal -->
-                <div class="col-md-9">
+                <!-- Contenido principal -->
+                <div class="container-right">
                     <div class="card">
-                        <h5 class="card-header">Clientes</h5>
+                        <h5 class="card-header">Clientes </h5>
                         <div class="card-body">
-                            <div class="row" id="userCardsContainer">
-                                <!-- Tarjetas de clientes se cargarán aquí -->
+                            <!-- Sección de clientes -->
+                            <div class="accordion" id="accordion">
+                                <!-- Inicio del acordeón -->
+                                <!-- Aquí se generarán dinámicamente los acordeones de cada cliente -->
                             </div>
+                            <!-- Fin del acordeón -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Modal para mostrar detalles del usuario -->
-        <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="userDetailsModalLabel">Detalles del Usuario</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="userDetailsContent">
-                        <!-- Contenido de detalles del usuario se cargará aquí -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
-
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
     <script src="/views/clientes/main.js"></script>
 </body>
 
 </html>
+
+
+
