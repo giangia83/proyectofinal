@@ -60,8 +60,6 @@ document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
   
 // Cargar datos del producto en el modal para editar
 function cargarProducto(id) {
-    // Aquí deberías cargar los datos del producto usando el id
-    // Esto puede hacerse mediante una llamada fetch al servidor para obtener los datos del producto
     fetch(`/api/productos/${id}`)
         .then(response => {
             if (!response.ok) {
@@ -92,6 +90,12 @@ document.getElementById('formEditarProducto').addEventListener('submit', async f
     const costo = document.getElementById('inputCostoEditar').value;
     const precio = document.getElementById('inputPrecioEditar').value;
     const file = document.getElementById('inputImagenEditar').files[0]; // Archivo de imagen seleccionado
+
+    // Validar que el ID del producto no esté vacío
+    if (id.trim() === '') {
+        alert('ID del producto no puede estar vacío');
+        return;
+    }
   
     // Validar que los campos no estén vacíos
     if (nombre.trim() === '' || costo.trim() === '' || precio.trim() === '') {
@@ -106,7 +110,7 @@ document.getElementById('formEditarProducto').addEventListener('submit', async f
     formData.append('costo', costo);
     formData.append('precio', precio);
     if (file) {
-      formData.append('imagen', file); // Añadir el archivo de imagen si está presente
+        formData.append('imagen', file); // Añadir el archivo de imagen si está presente
     }
   
     try {
