@@ -113,10 +113,11 @@ fetch(`/vercotizaciones/actualizar/${id}`, {
 function descargarPDF(id) {
   fetch(`/vercotizaciones/pdf/${id}`)
       .then(response => {
-          if (!response.ok) {
-              throw new Error('Error al descargar el PDF');
+          if (response.ok) {
+              return response.blob();
+          } else {
+              throw new Error('Error al generar el PDF');
           }
-          return response.blob();
       })
       .then(blob => {
           const url = window.URL.createObjectURL(blob);
@@ -127,5 +128,7 @@ function descargarPDF(id) {
           a.click();
           a.remove();
       })
-      .catch(error => console.error('Error al descargar el PDF:', error));
+      .catch(error => {
+          console.error('Error al descargar el PDF:', error);
+      });
 }

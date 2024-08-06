@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Cotizacion = require('../models/cotizacion');
 const Producto = require('../models/producto');
-const { jsPDF } = require('jspdf');
+const PDFDocument = require('pdfkit');
 const path = require('path');
 const fs = require('fs');
 
@@ -112,6 +112,7 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
 // Ruta para generar un PDF de la cotización
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
+
     try {
         // Asegúrate de que el ID sea una cadena de 24 caracteres
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -123,28 +124,36 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
             return res.status(404).send('Cotización no encontrada');
         }
 
-        const doc = new jsPDF();
-        doc.setFontSize(16);
-        doc.text(`Cotización ID: ${cotizacion._id}`, 10, 10);
-        doc.text(`Usuario: ${cotizacion.usuario.nombre}`, 10, 20);
-        doc.text(`Dirección: ${cotizacion.usuario.direccion}`, 10, 30);
+        // Crear un nuevo documento PDF
+        const doc = new PDFDocument();
+        let filename = `cotizacion_${id}.pdf`;
+        filename = encodeURI(filename);
 
-        doc.setFontSize(14);
-        doc.text('Productos:', 10, 40);
-        let y = 50;
+        // Enviar el PDF como respuesta
+        res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-type', 'application/pdf');
+
+        // Crear el contenido del PDF
+        doc.fontSize(16).text(`Cotización ID: ${cotizacion._id}`, { underline: true });
+        doc.fontSize(14).text(`Usuario: ${cotizacion.usuario.nombre}`);
+        doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
+
+        doc.fontSize(12).text('Productos:');
+        let y = 100;
         cotizacion.productos.forEach((producto, index) => {
-            doc.text(`${index + 1}. ${producto.nombre} - Cantidad: ${producto.cantidad} - Precio Unitario: ${producto.precio}`, 10, y);
-            y += 10;
+            doc.text(`${index + 1}. ${producto.nombre} - Cantidad: ${producto.cantidad} - Precio Unitario: ${producto.precio}`, {
+                continued: true,
+                align: 'left',
+                y
+            });
+            y += 20;
         });
 
         const total = cotizacion.productos.reduce((sum, producto) => sum + producto.precio * producto.cantidad, 0);
-        doc.text(`Total: ${total.toFixed(2)}`, 10, y + 10);
+        doc.text(`Total: ${total.toFixed(2)}`, { align: 'left', y: y + 10 });
 
-        // Envía el PDF como una respuesta
-        const pdfOutput = doc.output('blob');
-        res.setHeader('Content-Disposition', `attachment; filename=cotizacion_${id}.pdf`);
-        res.setHeader('Content-Type', 'application/pdf');
-        res.send(pdfOutput);
+        doc.pipe(res);
+        doc.end();
     } catch (error) {
         console.error('Error al generar el PDF:', error);
         res.status(500).send('Error interno al generar el PDF');
