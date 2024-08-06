@@ -120,7 +120,7 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
             return res.status(400).send('ID de cotización inválido');
         }
 
-        const cotizacion = await Cotizacion.findById(id).populate('usuario').populate('productos');
+        const cotizacion = await Cotizacion.findById(id);
         if (!cotizacion) {
             return res.status(404).send('Cotización no encontrada');
         }
@@ -136,13 +136,14 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
 
         // Crear el contenido del PDF
         doc.fontSize(16).text(`Cotización ID: ${cotizacion._id}`, { underline: true });
-        doc.fontSize(14).text(`Usuario: ${cotizacion.usuario ? cotizacion.usuario.nombre : 'N/A'}`);
-        doc.text(`Dirección: ${cotizacion.usuario ? cotizacion.usuario.direccion : 'N/A'}`);
+        doc.fontSize(14).text(`Usuario: ${cotizacion.usuarioNombre}`);
+        // Asumiendo que no hay una dirección en el modelo de cotización
+        doc.text(`Dirección: No disponible`);
 
         doc.fontSize(12).text('Productos:');
         let y = 100;
         cotizacion.productos.forEach((producto, index) => {
-            doc.text(`${index + 1}. ${producto.nombre ? producto.nombre : 'N/A'} - Cantidad: ${producto.cantidad ? producto.cantidad : 'N/A'} - Precio Unitario: ${producto.precio ? producto.precio : 'N/A'}`, {
+            doc.text(`${index + 1}. ${producto.nombre} - Cantidad: ${producto.cantidad} - Precio Unitario: ${producto.precio || 'N/A'}`, {
                 continued: true,
                 align: 'left',
                 y
@@ -160,5 +161,4 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.status(500).send('Error interno al generar el PDF');
     }
 });
-
 module.exports = router;
