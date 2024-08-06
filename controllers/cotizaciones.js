@@ -109,6 +109,7 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
         res.status(500).send('Error interno al actualizar cotización');
     }
 });
+
 // Ruta para generar un PDF de la cotización
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
@@ -119,7 +120,7 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
             return res.status(400).send('ID de cotización inválido');
         }
 
-        const cotizacion = await Cotizacion.findById(id).populate('productos');
+        const cotizacion = await Cotizacion.findById(id).populate('usuario').populate('productos');
         if (!cotizacion) {
             return res.status(404).send('Cotización no encontrada');
         }
@@ -135,13 +136,13 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
 
         // Crear el contenido del PDF
         doc.fontSize(16).text(`Cotización ID: ${cotizacion._id}`, { underline: true });
-        doc.fontSize(14).text(`Usuario: ${cotizacion.usuario.nombre}`);
-        doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
+        doc.fontSize(14).text(`Usuario: ${cotizacion.usuario ? cotizacion.usuario.nombre : 'N/A'}`);
+        doc.text(`Dirección: ${cotizacion.usuario ? cotizacion.usuario.direccion : 'N/A'}`);
 
         doc.fontSize(12).text('Productos:');
         let y = 100;
         cotizacion.productos.forEach((producto, index) => {
-            doc.text(`${index + 1}. ${producto.nombre} - Cantidad: ${producto.cantidad} - Precio Unitario: ${producto.precio}`, {
+            doc.text(`${index + 1}. ${producto.nombre ? producto.nombre : 'N/A'} - Cantidad: ${producto.cantidad ? producto.cantidad : 'N/A'} - Precio Unitario: ${producto.precio ? producto.precio : 'N/A'}`, {
                 continued: true,
                 align: 'left',
                 y
@@ -149,7 +150,7 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
             y += 20;
         });
 
-        const total = cotizacion.productos.reduce((sum, producto) => sum + producto.precio * producto.cantidad, 0);
+        const total = cotizacion.productos.reduce((sum, producto) => sum + (producto.precio ? producto.precio * producto.cantidad : 0), 0);
         doc.text(`Total: ${total.toFixed(2)}`, { align: 'left', y: y + 10 });
 
         doc.pipe(res);
