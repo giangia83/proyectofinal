@@ -14,6 +14,22 @@ router.get('/productos', async (req, res) => {
 });
 
 
+// Ruta para obtener un producto por su ID
+router.get('/productos/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+        const producto = await Producto.findById(id);
+        if (!producto) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+        res.json(producto);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error al obtener el producto' });
+    }
+});
+
 router.get('/buscar', async (req, res) => {
     const query = req.query.query || '';
 
