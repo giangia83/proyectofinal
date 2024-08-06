@@ -110,7 +110,6 @@ fetch(`/vercotizaciones/actualizar/${id}`, {
     console.error('Error al guardar la cotización:', error);
 });
 }
-
 function descargarPDF(id) {
   fetch(`/vercotizaciones/pdf/${id}`)
       .then(response => {

@@ -100,7 +100,7 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
             }
         });
 
-        cotizacion.estado = 'Pendiente'; // Cambia el estado si es necesario
+        cotizacion.estado = 'Verificada'; // Cambia el estado si es necesario
         await cotizacion.save();
 
         res.json(cotizacion);

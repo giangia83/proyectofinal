@@ -129,7 +129,8 @@
                           Ver detalles del usuario
                         </button>
                         
-                        <button class="btn-success" onclick="descargarPDF('${cotizacionId}')">Descargar PDF</button>
+                    <button class="btn-success" onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
+
                         <!-- Modal -->
                         <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
                           <div class="modal-dialog">
