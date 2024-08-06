@@ -34,49 +34,56 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
         });
   
         if (!response.ok) {
-            throw new Error('Error al subir producto');
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Error al subir producto');
         }
   
         const data = await response.json();
         console.log('Producto subido exitosamente:', data);
         // Aquí puedes manejar la respuesta del servidor según sea necesario
+        alert('Producto subido exitosamente');
     } catch (error) {
         console.error('Error al subir producto:', error);
-        alert('Hubo un problema al subir el producto. Por favor, intenta nuevamente.');
+        alert('Hubo un problema al subir el producto: ' + error.message);
     }
-  });
+});
   
-  // Agregar evento click a cada opción del dropdown para marcar como activa
-  document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
+// Agregar evento click a cada opción del dropdown para marcar como activa
+document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
     item.addEventListener('click', function() {
         document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
             item.classList.remove('active');
         });
         this.classList.add('active');
     });
-  });
+});
   
-  // Cargar datos del producto en el modal para editar
-  function cargarProducto(id) {
+// Cargar datos del producto en el modal para editar
+function cargarProducto(id) {
     // Aquí deberías cargar los datos del producto usando el id
     // Esto puede hacerse mediante una llamada fetch al servidor para obtener los datos del producto
     fetch(`/api/productos/${id}`)
-      .then(response => response.json())
-      .then(producto => {
-        document.getElementById('productoId').value = producto._id;
-        document.getElementById('inputNombreEditar').value = producto.nombre;
-        document.getElementById('inputCostoEditar').value = producto.costo;
-        document.getElementById('inputPrecioEditar').value = producto.precio;
-        // Aquí puedes manejar la imagen si es necesario
-      })
-      .catch(error => {
-        console.error('Error al cargar el producto:', error);
-        alert('Hubo un problema al cargar el producto. Por favor, intenta nuevamente.');
-      });
-  }
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del producto');
+            }
+            return response.json();
+        })
+        .then(producto => {
+            document.getElementById('productoId').value = producto._id;
+            document.getElementById('inputNombreEditar').value = producto.nombre;
+            document.getElementById('inputCostoEditar').value = producto.costo;
+            document.getElementById('inputPrecioEditar').value = producto.precio;
+            // Aquí puedes manejar la imagen si es necesario
+        })
+        .catch(error => {
+            console.error('Error al cargar el producto:', error);
+            alert('Hubo un problema al cargar el producto: ' + error.message);
+        });
+}
   
-  // Actualizar producto
-  document.getElementById('formEditarProducto').addEventListener('submit', async function(event) {
+// Actualizar producto
+document.getElementById('formEditarProducto').addEventListener('submit', async function(event) {
     event.preventDefault(); // Evitar el envío estándar del formulario
   
     // Obtener valores del formulario
@@ -110,15 +117,16 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
         });
   
         if (!response.ok) {
-            throw new Error('Error al actualizar producto');
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Error al actualizar producto');
         }
   
         const data = await response.json();
         console.log('Producto actualizado exitosamente:', data);
         // Aquí puedes manejar la respuesta del servidor según sea necesario
+        alert('Producto actualizado exitosamente');
     } catch (error) {
         console.error('Error al actualizar producto:', error);
-        alert('Hubo un problema al actualizar el producto. Por favor, intenta nuevamente.');
+        alert('Hubo un problema al actualizar el producto: ' + error.message);
     }
-  });
-  
+});

@@ -1,39 +1,31 @@
 const express = require('express');
 const multer = require('multer');
 const axios = require('axios');
-const sharp = require('sharp'); // Importa sharp
+const sharp = require('sharp');
 const mongoose = require('mongoose');
 const Producto = require('../models/producto');
 require('dotenv').config();
 
 const router = express.Router();
 
-// Configura multer para manejar archivos en memoria
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Configura Bunny.net
 const bunnyStorageUrl = 'https://storage.bunnycdn.com/starclean';
-const bunnyPullZoneUrl = 'https://starclean-bucket.b-cdn.net'; // URL del Pull Zone
+const bunnyPullZoneUrl = 'https://starclean-bucket.b-cdn.net';
 const bunnyAccessKey = process.env.YOUR_BUNNYNET_ACCESS_KEY;
 
-// Ruta para subir archivos
 router.post('/upload', upload.single('inputImagen'), async (req, res) => {
     if (!req.file) {
         const errorMsg = 'No se ha cargado ningún archivo';
         console.error(errorMsg);
-        return res.status(400).send(errorMsg);
+        return res.status(400).json({ error: errorMsg });
     }
 
     try {
-        const fileName = req.file.originalname.replace(/\.[^/.]+$/, '') + '.webp'; // Cambia la extensión a .webp
+        const fileName = req.file.originalname.replace(/\.[^/.]+$/, '') + '.webp';
+        const fileBuffer = await sharp(req.file.buffer).webp().toBuffer();
 
-        // Usa sharp para convertir la imagen a formato WebP
-        const fileBuffer = await sharp(req.file.buffer)
-            .webp()
-            .toBuffer();
-
-        // Sube el archivo convertido a Bunny.net
         const response = await axios.put(
             `${bunnyStorageUrl}/${fileName}`,
             fileBuffer,
@@ -46,40 +38,35 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
         );
 
         if (response.status === 200 || response.status === 201) {
-            // URL del archivo subido usando el Pull Zone
             const fileUrl = `${bunnyPullZoneUrl}/${fileName}`;
-
-            // Guardar el producto en MongoDB
             const nuevoProducto = new Producto({
                 nombre: req.body.nombre,
                 costo: req.body.costo,
                 precio: req.body.precio,
                 imagen: {
-                    data: fileUrl, // Usamos la URL del Pull Zone como el campo data
-                    contentType: 'image/webp' // Ajusta el tipo de contenido según el archivo subido
+                    data: fileUrl,
+                    contentType: 'image/webp'
                 },
                 categoria: req.body.categoria
             });
 
             await nuevoProducto.save();
-
-            // Responder con la URL del archivo y confirmación de guardado
             res.json({ url: fileUrl, mensaje: 'Producto subido y guardado exitosamente' });
         } else {
             const errorMsg = `Error al subir el archivo. Código de estado: ${response.status}`;
             console.error(errorMsg);
-            res.status(response.status).send(errorMsg);
+            res.status(response.status).json({ error: errorMsg });
         }
     } catch (err) {
         if (err.response) {
             console.error(`Error en la respuesta de Bunny.net: ${err.response.status} - ${err.response.data}`);
-            res.status(err.response.status).send(`Error en la respuesta de Bunny.net: ${err.response.status}`);
+            res.status(err.response.status).json({ error: `Error en la respuesta de Bunny.net: ${err.response.status}` });
         } else if (err.request) {
             console.error('Error en la solicitud a Bunny.net:', err.request);
-            res.status(500).send('Error en la solicitud a Bunny.net. Verifica la conexión de red.');
+            res.status(500).json({ error: 'Error en la solicitud a Bunny.net. Verifica la conexión de red.' });
         } else {
             console.error('Error inesperado:', err.message);
-            res.status(500).send('Error inesperado. Por favor, intenta nuevamente.');
+            res.status(500).json({ error: 'Error inesperado. Por favor, intenta nuevamente.' });
         }
     }
 });
@@ -88,24 +75,17 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
     const { id, nombre, costo, precio, categoria } = req.body;
     const file = req.file;
 
-    // Verificar que el ID es válido
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: 'ID de producto no válido' });
+        return res.status(400).json({ error: 'ID de producto no válido' });
     }
 
     try {
         let fileUrl = null;
 
-        // Si se ha subido un nuevo archivo, procesa la imagen
         if (file) {
-            const fileName = file.originalname.replace(/\.[^/.]+$/, '') + '.webp'; // Cambia la extensión a .webp
+            const fileName = file.originalname.replace(/\.[^/.]+$/, '') + '.webp';
+            const fileBuffer = await sharp(file.buffer).webp().toBuffer();
 
-            // Usa sharp para convertir la imagen a formato WebP
-            const fileBuffer = await sharp(file.buffer)
-                .webp()
-                .toBuffer();
-
-            // Sube el archivo convertido a Bunny.net
             const response = await axios.put(
                 `${bunnyStorageUrl}/${fileName}`,
                 fileBuffer,
@@ -118,32 +98,30 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
             );
 
             if (response.status === 200 || response.status === 201) {
-                // URL del archivo subido usando el Pull Zone
                 fileUrl = `${bunnyPullZoneUrl}/${fileName}`;
             } else {
                 throw new Error(`Error al subir el archivo. Código de estado: ${response.status}`);
             }
         }
 
-        // Actualiza el producto en MongoDB
         const updateData = {
             nombre,
             costo,
             precio,
             categoria,
-            ...(fileUrl && { imagen: { data: fileUrl, contentType: 'image/webp' } }) // Solo actualiza la imagen si se ha subido una nueva
+            ...(fileUrl && { imagen: { data: fileUrl, contentType: 'image/webp' } })
         };
 
         const updatedProducto = await Producto.findByIdAndUpdate(id, updateData, { new: true });
 
         if (!updatedProducto) {
-            return res.status(404).json({ message: 'Producto no encontrado' });
+            return res.status(404).json({ error: 'Producto no encontrado' });
         }
 
         res.json({ mensaje: 'Producto actualizado exitosamente', producto: updatedProducto });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Error al actualizar el producto' });
+        res.status(500).json({ error: 'Error al actualizar el producto' });
     }
 });
 
