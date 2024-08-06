@@ -109,28 +109,39 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
         res.status(500).send('Error interno al actualizar cotización');
     }
 });
-
 // Ruta para generar un PDF de la cotización
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
     try {
+        // Asegúrate de que el ID sea una cadena de 24 caracteres
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).send('ID de cotización inválido');
+        }
+
         const cotizacion = await Cotizacion.findById(id).populate('productos');
         if (!cotizacion) {
             return res.status(404).send('Cotización no encontrada');
         }
 
         const doc = new jsPDF();
+        doc.setFontSize(16);
         doc.text(`Cotización ID: ${cotizacion._id}`, 10, 10);
         doc.text(`Usuario: ${cotizacion.usuario.nombre}`, 10, 20);
         doc.text(`Dirección: ${cotizacion.usuario.direccion}`, 10, 30);
 
+        doc.setFontSize(14);
+        doc.text('Productos:', 10, 40);
+        let y = 50;
         cotizacion.productos.forEach((producto, index) => {
-            doc.text(`${index + 1}. ${producto.nombre} - Cantidad: ${producto.cantidad} - Precio Unitario: ${producto.precio}`, 10, 40 + (index * 10));
+            doc.text(`${index + 1}. ${producto.nombre} - Cantidad: ${producto.cantidad} - Precio Unitario: ${producto.precio}`, 10, y);
+            y += 10;
         });
 
-        doc.text(`Total: ${cotizacion.productos.reduce((sum, producto) => sum + producto.precio * producto.cantidad, 0).toFixed(2)}`, 10, 40 + (cotizacion.productos.length * 10) + 10);
+        const total = cotizacion.productos.reduce((sum, producto) => sum + producto.precio * producto.cantidad, 0);
+        doc.text(`Total: ${total.toFixed(2)}`, 10, y + 10);
 
-        const pdfOutput = doc.output();
+        // Envía el PDF como una respuesta
+        const pdfOutput = doc.output('blob');
         res.setHeader('Content-Disposition', `attachment; filename=cotizacion_${id}.pdf`);
         res.setHeader('Content-Type', 'application/pdf');
         res.send(pdfOutput);

@@ -117,8 +117,8 @@
                       </div>
 
                       <div class="btn-group mt-3" role="group" aria-label="Botones">
-                        <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#cotizacionModal" onclick="loadCotizacionDetails('<%= cotizacion._id %>')">
-                          Ver detalles y editar precios
+                        <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#cotizacionModal" onclick="loadCotizacionDetails('<%= cotizacion._id %>')">
+                          Cotizar
                         </button>
                         
                         <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST" class="me-2">
@@ -129,6 +129,7 @@
                           Ver detalles del usuario
                         </button>
                         
+                        <button class="btn-success" onclick="descargarPDF('${cotizacionId}')">Descargar PDF</button>
                         <!-- Modal -->
                         <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
                           <div class="modal-dialog">
@@ -137,7 +138,7 @@
                                 <h5 class="modal-title" id="userDetailsModalLabel">Detalles del Usuario</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                                <button class="btn-success" onclick="descargarPDF('${cotizacionId}')">Descargar PDF</button>
+                              
 
 
                               </div>
