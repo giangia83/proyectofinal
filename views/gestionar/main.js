@@ -57,26 +57,21 @@ document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
         this.classList.add('active');
     });
 });
-  // Cargar datos del producto en el modal para editar
-function cargarProducto(id) {
-    fetch(`/api/productos/${id}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al obtener los datos del producto');
-            }
-            return response.json();
-        })
+ // Función para cargar los datos del producto en el modal
+function cargarProducto(button) {
+    const productoId = button.getAttribute('data-id');
+    
+    // Realiza una solicitud para obtener los detalles del producto usando el ID
+    fetch(`/api/productos/${productoId}`)
+        .then(response => response.json())
         .then(producto => {
+            // Rellena el formulario del modal con los detalles del producto
             document.getElementById('productoId').value = producto._id;
             document.getElementById('inputNombreEditar').value = producto.nombre;
             document.getElementById('inputCostoEditar').value = producto.costo;
             document.getElementById('inputPrecioEditar').value = producto.precio;
-            // Aquí puedes manejar la imagen si es necesario
         })
-        .catch(error => {
-            console.error('Error al cargar el producto:', error);
-            alert('Hubo un problema al cargar el producto: ' + error.message);
-        });
+        .catch(error => console.error('Error al cargar el producto:', error));
 }
 
 // Actualizar producto

@@ -89,42 +89,42 @@
       </div>
     </div>
 
-    <!-- Modal para editar producto -->
-    <div class="modal fade" id="editarProductoModal" tabindex="-1" aria-labelledby="editarProductoModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button class="btn btn-warning btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#editarProductoModal" onclick="cargarProducto('<%= producto._id %>')">Editar</button>
-
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+   <!-- Modal para editar producto -->
+<div class="modal fade" id="editarProductoModal" tabindex="-1" aria-labelledby="editarProductoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarProductoModalLabel">Editar Producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" id="formEditarProducto" action="/subir/actualizar-producto" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="id" id="productoId">
+          <div class="col-md-6">
+            <label for="inputNombreEditar" class="form-label">Cambiar nombre del producto</label>
+            <input type="text" class="form-control" id="inputNombreEditar" name="nombre">
           </div>
-          <div class="modal-body">
-            <form class="row g-3" id="formEditarProducto" action="/subir/actualizar-producto" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="id" id="productoId">
-              <div class="col-md-6">
-                <label for="inputNombreEditar" class="form-label">Cambiar nombre del producto</label>
-                <input type="text" class="form-control" id="inputNombreEditar" name="nombre">
-              </div>
-              <div class="col-md-6">
-                <label for="inputCostoEditar" class="form-label">Nuevo costo</label>
-                <input type="number" class="form-control" id="inputCostoEditar" name="costo" placeholder="1.5$">
-              </div>
-              <div class="col-12">
-                <label for="inputPrecioEditar" class="form-label">Nuevo PVP (Precio al público)</label>
-                <input type="text" class="form-control" id="inputPrecioEditar" name="precio" placeholder="3$">
-              </div>
-              <div class="col-12">
-                <label for="inputImagenEditar" class="form-label">Nueva Imagen del producto</label>
-                <input type="file" class="form-control" id="inputImagenEditar" name="imagen">
-              </div>
-              <div class="col-12">
-                <button type="submit" class="btn btn-success">Actualizar</button>
-              </div>
-            </form>
+          <div class="col-md-6">
+            <label for="inputCostoEditar" class="form-label">Nuevo costo</label>
+            <input type="number" class="form-control" id="inputCostoEditar" name="costo" placeholder="1.5$">
           </div>
-        </div>
+          <div class="col-12">
+            <label for="inputPrecioEditar" class="form-label">Nuevo PVP (Precio al público)</label>
+            <input type="text" class="form-control" id="inputPrecioEditar" name="precio" placeholder="3$">
+          </div>
+          <div class="col-12">
+            <label for="inputImagenEditar" class="form-label">Nueva Imagen del producto</label>
+            <input type="file" class="form-control" id="inputImagenEditar" name="imagen">
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-success">Actualizar</button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
+</div>
+
   </main>
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
   <script src="/views/gestionar/main.js"></script>
