@@ -109,8 +109,6 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
         res.status(500).send('Error interno al actualizar cotización');
     }
 });
-
-// Ruta para generar un PDF de la cotización
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -120,13 +118,13 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
             return res.status(400).send('ID de cotización inválido');
         }
 
-        const cotizacion = await Cotizacion.findById(id);
+        const cotizacion = await Cotizacion.findById(id).populate('usuario');
         if (!cotizacion) {
             return res.status(404).send('Cotización no encontrada');
         }
 
         // Crear un nuevo documento PDF
-        const doc = new PDFDocument();
+        const doc = new PDFDocument({ margin: 50 });
         let filename = `cotizacion_${id}.pdf`;
         filename = encodeURI(filename);
 
@@ -134,26 +132,56 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
         res.setHeader('Content-type', 'application/pdf');
 
-        // Crear el contenido del PDF
-        doc.fontSize(16).text(`Cotización ID: ${cotizacion._id}`, { underline: true });
-        doc.fontSize(14).text(`Usuario: ${cotizacion.usuarioNombre}`);
-        // Asumiendo que no hay una dirección en el modelo de cotización
-        doc.text(`Dirección: No disponible`);
+        // Título y datos del usuario
+        doc.fontSize(20).text('Cotización', { align: 'center' });
+        doc.moveDown();
 
-        doc.fontSize(12).text('Productos:');
-        let y = 100;
+        doc.fontSize(14).text(`Cotización ID: ${cotizacion._id}`, { align: 'right' });
+        doc.moveDown();
+
+        doc.fontSize(12).text(`Usuario: ${cotizacion.usuario.nombre}`);
+        doc.text(`Correo: ${cotizacion.usuario.correo}`);
+        doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
+        doc.text(`Ciudad: ${cotizacion.usuario.ciudad}`);
+        doc.text(`RIF: ${cotizacion.usuario.rif}`);
+        doc.text(`Número de Teléfono: ${cotizacion.usuario.number}`);
+        doc.moveDown();
+
+        // Encabezado de la tabla de productos
+        doc.fontSize(12).text('Productos:', { underline: true });
+        doc.moveDown();
+
+        // Crear la tabla de productos
+        const tableTop = 200;
+        const itemCodeX = 50;
+        const descriptionX = 150;
+        const quantityX = 350;
+        const unitPriceX = 400;
+        const lineTotalX = 500;
+
+        doc.fontSize(10).text('Código', itemCodeX, tableTop, { bold: true });
+        doc.text('Descripción', descriptionX, tableTop);
+        doc.text('Cantidad', quantityX, tableTop);
+        doc.text('Precio Unitario', unitPriceX, tableTop);
+        doc.text('Total', lineTotalX, tableTop);
+        doc.moveDown();
+
+        let y = tableTop + 20;
         cotizacion.productos.forEach((producto, index) => {
-            doc.text(`${index + 1}. ${producto.nombre} - Cantidad: ${producto.cantidad} - Precio Unitario: ${producto.precio || 'N/A'}`, {
-                continued: true,
-                align: 'left',
-                y
-            });
+            const totalProducto = producto.precio * producto.cantidad;
+            doc.text(producto.id, itemCodeX, y);
+            doc.text(producto.nombre, descriptionX, y);
+            doc.text(producto.cantidad, quantityX, y);
+            doc.text(producto.precio.toFixed(2), unitPriceX, y);
+            doc.text(totalProducto.toFixed(2), lineTotalX, y);
             y += 20;
         });
 
+        // Total de la cotización
         const total = cotizacion.productos.reduce((sum, producto) => sum + (producto.precio ? producto.precio * producto.cantidad : 0), 0);
-        doc.text(`Total: ${total.toFixed(2)}`, { align: 'left', y: y + 10 });
+        doc.fontSize(12).text(`Total: ${total.toFixed(2)}`, { align: 'right', y: y + 20 });
 
+        // Finalizar y enviar el PDF
         doc.pipe(res);
         doc.end();
     } catch (error) {
@@ -161,4 +189,5 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.status(500).send('Error interno al generar el PDF');
     }
 });
+
 module.exports = router;
