@@ -651,3 +651,22 @@ margin-top: 2rem ;
         display: inline;
       }
     
+
+      /* Estilos personalizados para el modal */
+.modal-dialog.modal-lg {
+    max-width: 90%;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table img {
+    max-width: 100px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: auto;
+}
+
+#totalPrecio {
+    font-weight: bold;
+    color: #007bff; /* Color para el total */
+}

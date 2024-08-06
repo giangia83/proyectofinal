@@ -44,40 +44,40 @@
         </aside>
         </div>
 
-
-        <!-- Modal para ver y editar detalles de la cotización -->
+<!-- Modal para ver y editar detalles de la cotización -->
 <div class="modal fade" id="cotizacionModal" tabindex="-1" aria-labelledby="cotizacionModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="cotizacionModalLabel">Detalles de la Cotización</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <form id="cotizacionForm">
-                  <input type="hidden" id="cotizacionId">
-                  <table class="table">
-                      <thead>
-                          <tr>
-                              <th>Producto</th>
-                              <th>Cantidad</th>
-                              <th>Precio Unitario</th>
-                              <th>Subtotal</th>
-                          </tr>
-                      </thead>
-                      <tbody id="productosTableBody">
-                          <!-- Las filas se llenarán dinámicamente con JavaScript -->
-                      </tbody>
-                  </table>
-                  <div class="mt-3">
-                      <strong>Total:</strong> <span id="totalPrecio">0</span>
-                  </div>
-                  <div class="mt-3">
-                      <button type="button" class="btn btn-primary" onclick="guardarCotizacion()">Guardar</button>
-                  </div>
-              </form>
-          </div>
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cotizacionModalLabel">Detalles de la Cotización</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        <form id="cotizacionForm">
+          <input type="hidden" id="cotizacionId">
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th>Producto</th>
+                <th>Imagen</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="productosTableBody">
+              <!-- Las filas se llenarán dinámicamente con JavaScript -->
+            </tbody>
+          </table>
+          <div class="mt-3">
+            <strong>Total:</strong> <span id="totalPrecio">0</span>
+          </div>
+          <div class="mt-3">
+            <button type="button" class="btn btn-primary" onclick="guardarCotizacion()">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -136,6 +136,10 @@
                               <div class="modal-header">
                                 <h5 class="modal-title" id="userDetailsModalLabel">Detalles del Usuario</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                                <button class="btn-success" onclick="descargarPDF('${cotizacionId}')">Descargar PDF</button>
+
+
                               </div>
                               <div class="modal-body">
                                 <!-- Aquí se cargarán los detalles del usuario -->
