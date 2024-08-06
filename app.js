@@ -155,7 +155,7 @@ app.get('/servicioalcliente', async (req, res) => {
     }
 });
 
-app.get('/gestionar', async (req, res) => {
+app.get('/gestionar', verificarAdmin, async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
         res.render('gestionar/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
@@ -188,7 +188,7 @@ app.get('/administrar', verificarAdmin, async (req, res) => {
 });
 
 
-app.get('/clientes', async (req, res) => {
+app.get('/clientes', verificarAdmin, async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
         res.render('clientes/index', { productos, usuario: res.locals.usuario }); // Renderizar la vista 'productos/index' con los productos obtenidos
