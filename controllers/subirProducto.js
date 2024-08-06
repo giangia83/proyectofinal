@@ -130,7 +130,7 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
 
         await Producto.findByIdAndUpdate(id, updateData);
 
-        res.redirect('/verproductos'); // Redirige a la lista de productos después de la actualización
+        res.redirect('/gestionar'); // Redirige a la lista de productos después de la actualización
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Error al actualizar el producto' });
