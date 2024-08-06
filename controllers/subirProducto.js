@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const axios = require('axios');
 const sharp = require('sharp'); // Importa sharp
+const mongoose = require('mongoose');
 const Producto = require('../models/producto');
 require('dotenv').config();
 
@@ -87,6 +88,11 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
     const { id, nombre, costo, precio, categoria } = req.body;
     const file = req.file;
 
+    // Verificar que el ID es válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'ID de producto no válido' });
+    }
+
     try {
         let fileUrl = null;
 
@@ -128,19 +134,17 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
             ...(fileUrl && { imagen: { data: fileUrl, contentType: 'image/webp' } }) // Solo actualiza la imagen si se ha subido una nueva
         };
 
-        await Producto.findByIdAndUpdate(id, updateData);
+        const updatedProducto = await Producto.findByIdAndUpdate(id, updateData, { new: true });
 
-        res.redirect('/gestionar'); // Redirige a la lista de productos después de la actualización
+        if (!updatedProducto) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+
+        res.json({ mensaje: 'Producto actualizado exitosamente', producto: updatedProducto });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Error al actualizar el producto' });
     }
 });
-
-
-
-
-
-
 
 module.exports = router;
