@@ -57,8 +57,7 @@ document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
         this.classList.add('active');
     });
 });
-  
-// Cargar datos del producto en el modal para editar
+  // Cargar datos del producto en el modal para editar
 function cargarProducto(id) {
     fetch(`/api/productos/${id}`)
         .then(response => {
@@ -79,11 +78,11 @@ function cargarProducto(id) {
             alert('Hubo un problema al cargar el producto: ' + error.message);
         });
 }
-  
+
 // Actualizar producto
 document.getElementById('formEditarProducto').addEventListener('submit', async function(event) {
     event.preventDefault(); // Evitar el envío estándar del formulario
-  
+
     // Obtener valores del formulario
     const id = document.getElementById('productoId').value;
     const nombre = document.getElementById('inputNombreEditar').value;
@@ -96,13 +95,13 @@ document.getElementById('formEditarProducto').addEventListener('submit', async f
         alert('ID del producto no puede estar vacío');
         return;
     }
-  
+
     // Validar que los campos no estén vacíos
     if (nombre.trim() === '' || costo.trim() === '' || precio.trim() === '') {
         alert('Todos los campos son requeridos');
         return;
     }
-  
+
     // Crear objeto FormData para enviar datos y archivos al servidor
     const formData = new FormData();
     formData.append('id', id);
@@ -112,19 +111,19 @@ document.getElementById('formEditarProducto').addEventListener('submit', async f
     if (file) {
         formData.append('imagen', file); // Añadir el archivo de imagen si está presente
     }
-  
+
     try {
         // Enviar datos al servidor usando fetch API
         const response = await fetch('/subir/actualizar-producto', {
             method: 'POST',
             body: formData
         });
-  
+
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.error || 'Error al actualizar producto');
         }
-  
+
         const data = await response.json();
         console.log('Producto actualizado exitosamente:', data);
         // Aquí puedes manejar la respuesta del servidor según sea necesario
