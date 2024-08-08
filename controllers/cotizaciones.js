@@ -79,23 +79,6 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
     }
 });
 
-
-// Ruta para verificar una cotización
-router.post('/vercotizaciones/verificar/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-        const cotizacion = await Cotizacion.findById(id);
-        if (!cotizacion) {
-            return res.status(404).send('Cotización no encontrada');
-        }
-        cotizacion.estado = 'Verificada';
-        await cotizacion.save();
-        res.redirect('/vercotizaciones');
-    } catch (error) {
-        console.error('Error al verificar cotización:', error);
-        res.status(500).send('Error interno al verificar cotización');
-    }
-});
 // Ruta para generar un PDF de la cotización
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
@@ -110,36 +93,51 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
             return res.status(404).send('Cotización no encontrada');
         }
 
-        const doc = new PDFDocument();
+        const doc = new PDFDocument({ margin: 50 });
         let filename = `cotizacion_${id}.pdf`;
         filename = encodeURI(filename);
 
         res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
         res.setHeader('Content-type', 'application/pdf');
 
-        doc.fontSize(16).text(`Cotización ID: ${cotizacion._id}`, { underline: true });
-        doc.fontSize(14).text(`Usuario: ${cotizacion.usuarioNombre}`);
+        // Encabezado de la factura
+        doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
+        doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
+        doc.moveDown();
+        
+        // Datos del cliente
+        doc.fontSize(12).text(`Cliente: ${cotizacion.usuarioNombre}`, { align: 'left' });
         doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
         doc.text(`Correo: ${cotizacion.usuario.correo}`);
         doc.text(`Teléfono: ${cotizacion.usuario.number}`);
+        doc.moveDown();
 
-        doc.fontSize(12).text('Productos:');
-        let y = 100;
+        // Tabla de productos
+        doc.fontSize(12).text('Productos:', { underline: true });
+        doc.moveDown();
+
+        // Encabezado de la tabla
+        doc.fontSize(10).text('--------------------------------------------------------------', { align: 'center' });
+        doc.text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'center' });
+        doc.text('--------------------------------------------------------------', { align: 'center' });
+
         let total = 0;
-
+        let y = doc.y;
         cotizacion.productos.forEach((producto, index) => {
             const subtotal = producto.precio ? producto.precio * producto.cantidad : 0;
             total += subtotal;
-            doc.text(`${index + 1}. ${producto.nombre} - Cantidad: ${producto.cantidad} - Precio Unitario: ${producto.precio || 'N/A'} - Subtotal: ${subtotal.toFixed(2)}`, {
-                align: 'left',
-                y
-            });
-            y += 20;
+            doc.text(
+                `${producto.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${producto.precio ? producto.precio.toFixed(2) : 'N/A'.padEnd(15)} | ${subtotal.toFixed(2)}`,
+                { align: 'left', continued: true }
+            );
+            doc.text(''); // Nueva línea para cada producto
+            y += 15;
         });
 
-        doc.text(`Total: ${total.toFixed(2)}`, { align: 'left', y: y + 10 });
-
-        doc.pipe(res);
+        doc.text('--------------------------------------------------------------', { align: 'center' });
+        doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
+        
+        // Finalizar el documento
         doc.end();
     } catch (error) {
         console.error('Error al generar el PDF:', error);
