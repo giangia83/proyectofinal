@@ -24,69 +24,52 @@
 
 
 
-<!-- header.ejs -->
-
-<header>
-  <div class="header-left">
+  <header>
+    <div class="header-left">
       <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
-  </div>
-
-  <div class="header-center">
-    <% if (usuario && usuario.nombre) { %>
+    </div>
+  
+    <div class="header-center">
+      <% if (usuario && usuario.nombre) { %>
         <!-- Mostrar enlaces si el usuario está autenticado -->
         <a href="/tuspedidos" class="btn btn-special btn-center" type="button" aria-expanded="false">Mis pedidos</a>
         <a href="/cuenta" class="btn btn-special btn-center" type="button" aria-expanded="false">Mi cuenta</a>
-        <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
-    <% } else { %>
-        <!-- Mostrar botones de inicio de sesión y registro si el usuario no está autenticado -->
-        <a href="/iniciarsesion" class="btn btn-special btn-center" type="button" aria-expanded="false">Iniciar sesión</a>
-        <a href="/registrarse" class="btn btn-special btn-center" type="button" aria-expanded="false">Registrarse</a>
-        <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
-    <% } %>
-</div>
-
-  <!-- Dropdown de cuenta para pantallas grandes -->
-  <div class="header-center">
-    <% if (usuario && usuario.nombre) { %>
-        <!-- Mostrar enlaces si el usuario está autenticado -->
-        <a href="/tuspedidos" class="btn btn-special btn-center" type="button" aria-expanded="false">Mis pedidos</a>
-        <a href="/cuenta" class="btn btn-special btn-center" type="button" aria-expanded="false">Mi cuenta</a>
-        <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
         
         <% if (usuario.esAdmin) { %>
-            <!-- Mostrar el botón de "Administrar" si el usuario es administrador -->
-            <a href="/administrar" class="btn btn-special btn-center" type="button" aria-expanded="false">Administrar</a>
+          <!-- Mostrar el botón de "Administrar" si el usuario es administrador -->
+          <a href="/administrar" class="btn btn-special btn-center" type="button" aria-expanded="false">Administrar</a>
         <% } %>
-        
-    <% } else { %>
+      <% } else { %>
         <!-- Mostrar botones de inicio de sesión y registro si el usuario no está autenticado -->
         <a href="/iniciarsesion" class="btn btn-special btn-center" type="button" aria-expanded="false">Iniciar sesión</a>
         <a href="/registrarse" class="btn btn-special btn-center" type="button" aria-expanded="false">Registrarse</a>
-        <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
-    <% } %>
-</div>
-
-<div class="menu-desplegable" id="menuDesplegable">
-  <ul>
-      <% if (usuario && usuario.nombre) { %>
+      <% } %>
+  
+      <!-- Enlace de contacto -->
+      <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
+    </div>
+  
+    <div class="menu-desplegable" id="menuDesplegable">
+      <ul>
+        <% if (usuario && usuario.nombre) { %>
           <li><a href="/cuenta">Cuenta</a></li>
           <li><a href="/tuspedidos">Mis pedidos</a></li>
           <li><a href="/logout">Cerrar sesión</a></li>
-          
+  
           <% if (usuario.esAdmin) { %>
-              <!-- Mostrar el enlace de "Administrar" si el usuario es administrador -->
-              <li><a href="/administrar">Administrar</a></li>
+            <!-- Mostrar el enlace de "Administrar" si el usuario es administrador -->
+            <li><a href="/administrar">Administrar</a></li>
           <% } %>
-          
-      <% } else { %>
+  
+        <% } else { %>
           <li><a href="/iniciarsesion">Iniciar sesión</a></li>
           <li><a href="/registrarse">Registrarse</a></li>
-      <% } %>
-      <li><a href="/servicioalcliente">Contacto</a></li>
-  </ul>
-</div>
-
-</header>
+        <% } %>
+        <li><a href="/servicioalcliente">Contacto</a></li>
+      </ul>
+    </div>
+  </header>
+  
 
 
 
