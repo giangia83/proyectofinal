@@ -68,52 +68,11 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         res.status(500).send('Error interno al verificar cotización');
     }
 });
-
-// Ruta para eliminar una cotización
-router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-        await Cotizacion.findByIdAndDelete(id);
-        res.redirect('/vercotizaciones');
-    } catch (error) {
-        console.error('Error al eliminar cotización:', error);
-        res.status(500).send('Error interno al eliminar cotización');
-    }
-});
-
-// Ruta para actualizar los precios de una cotización
-router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
-    const { id } = req.params;
-    const { precios } = req.body;
-
-    try {
-        const cotizacion = await Cotizacion.findById(id);
-        if (!cotizacion) {
-            return res.status(404).send('Cotización no encontrada');
-        }
-
-        // Actualizar los precios de los productos
-        cotizacion.productos.forEach(producto => {
-            const precio = precios.find(p => p.productoId === producto._id.toString());
-            if (precio) {
-                producto.precio = precio.precio;
-            }
-        });
-
-        cotizacion.estado = 'Verificada'; // Cambia el estado si es necesario
-        await cotizacion.save();
-
-        res.json(cotizacion);
-    } catch (error) {
-        console.error('Error al actualizar cotización:', error);
-        res.status(500).send('Error interno al actualizar cotización');
-    }
-});
+// Ruta para generar un PDF de la cotización
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        // Asegúrate de que el ID sea una cadena de 24 caracteres
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).send('ID de cotización inválido');
         }
@@ -123,65 +82,35 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
             return res.status(404).send('Cotización no encontrada');
         }
 
-        // Crear un nuevo documento PDF
-        const doc = new PDFDocument({ margin: 50 });
+        const doc = new PDFDocument();
         let filename = `cotizacion_${id}.pdf`;
         filename = encodeURI(filename);
 
-        // Enviar el PDF como respuesta
         res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
         res.setHeader('Content-type', 'application/pdf');
 
-        // Título y datos del usuario
-        doc.fontSize(20).text('Cotización', { align: 'center' });
-        doc.moveDown();
-
-        doc.fontSize(14).text(`Cotización ID: ${cotizacion._id}`, { align: 'right' });
-        doc.moveDown();
-
-        doc.fontSize(12).text(`Usuario: ${cotizacion.usuario.nombre}`);
-        doc.text(`Correo: ${cotizacion.usuario.correo}`);
+        doc.fontSize(16).text(`Cotización ID: ${cotizacion._id}`, { underline: true });
+        doc.fontSize(14).text(`Usuario: ${cotizacion.usuarioNombre}`);
         doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
-        doc.text(`Ciudad: ${cotizacion.usuario.ciudad}`);
-        doc.text(`RIF: ${cotizacion.usuario.rif}`);
-        doc.text(`Número de Teléfono: ${cotizacion.usuario.number}`);
-        doc.moveDown();
+        doc.text(`Correo: ${cotizacion.usuario.correo}`);
+        doc.text(`Teléfono: ${cotizacion.usuario.number}`);
 
-        // Encabezado de la tabla de productos
-        doc.fontSize(12).text('Productos:', { underline: true });
-        doc.moveDown();
+        doc.fontSize(12).text('Productos:');
+        let y = 100;
+        let total = 0;
 
-        // Crear la tabla de productos
-        const tableTop = 200;
-        const itemCodeX = 50;
-        const descriptionX = 150;
-        const quantityX = 350;
-        const unitPriceX = 400;
-        const lineTotalX = 500;
-
-        doc.fontSize(10).text('Código', itemCodeX, tableTop, { bold: true });
-        doc.text('Descripción', descriptionX, tableTop);
-        doc.text('Cantidad', quantityX, tableTop);
-        doc.text('Precio Unitario', unitPriceX, tableTop);
-        doc.text('Total', lineTotalX, tableTop);
-        doc.moveDown();
-
-        let y = tableTop + 20;
         cotizacion.productos.forEach((producto, index) => {
-            const totalProducto = producto.precio * producto.cantidad;
-            doc.text(producto.id, itemCodeX, y);
-            doc.text(producto.nombre, descriptionX, y);
-            doc.text(producto.cantidad, quantityX, y);
-            doc.text(producto.precio.toFixed(2), unitPriceX, y);
-            doc.text(totalProducto.toFixed(2), lineTotalX, y);
+            const subtotal = producto.precio ? producto.precio * producto.cantidad : 0;
+            total += subtotal;
+            doc.text(`${index + 1}. ${producto.nombre} - Cantidad: ${producto.cantidad} - Precio Unitario: ${producto.precio || 'N/A'} - Subtotal: ${subtotal.toFixed(2)}`, {
+                align: 'left',
+                y
+            });
             y += 20;
         });
 
-        // Total de la cotización
-        const total = cotizacion.productos.reduce((sum, producto) => sum + (producto.precio ? producto.precio * producto.cantidad : 0), 0);
-        doc.fontSize(12).text(`Total: ${total.toFixed(2)}`, { align: 'right', y: y + 20 });
+        doc.text(`Total: ${total.toFixed(2)}`, { align: 'left', y: y + 10 });
 
-        // Finalizar y enviar el PDF
         doc.pipe(res);
         doc.end();
     } catch (error) {
