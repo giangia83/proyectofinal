@@ -6,7 +6,7 @@ document.getElementById('adminForm').addEventListener('submit', async function(e
     const data = Object.fromEntries(formData.entries());
 
     try {
-        const response = await fetch(`/admin/editar/${'<%= usuario._id %>'}`, {
+        const response = await fetch(`/user/editar/${'<%= usuario._id %>'}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
