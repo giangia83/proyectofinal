@@ -108,3 +108,7 @@ function guardarCotizacion() {
       console.error('Error al guardar la cotización:', error);
   });
 }
+
+function descargarPDF(idCotizacion) {
+  window.location.href = `/vercotizaciones/pdf/${idCotizacion}`;
+}
