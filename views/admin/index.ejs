@@ -127,29 +127,32 @@
                     <div class="card-header">Información del negocio</div>
                     <div class="card-body">
                       
+                      <form class="row g-3" id="adminForm">
+                        <div class="col-md-6">
+                            <label for="inputEmail4" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="inputEmail4" name="correo" value="<%= usuario.correo %>">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPhone" class="form-label">Número de teléfono</label>
+                            <input type="text" class="form-control" id="inputPhone" name="number" value="<%= usuario.number %>">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputAddress" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="inputAddress" name="direccion" value="<%= usuario.direccion %>">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputCity" class="form-label">Ciudad</label>
+                            <input type="text" class="form-control" id="inputCity" name="ciudad" value="<%= usuario.ciudad %>">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputRif" class="form-label">RIF</label>
+                            <input type="text" class="form-control" id="inputRif" name="rif" value="<%= usuario.rif %>">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
                     
-                        <form class="row g-3">
-                            <div class="col-md-6">
-                              <label for="inputEmail4" class="form-label">Email</label>
-                              <input type="email" class="form-control" id="inputEmail4">
-                            </div>
-                            <div class="col-md-6">
-                              <label for="inputPassword4" class="form-label">Número de telefono</label>
-                              <input type="text" class="form-control" id="inputPassword4">
-                            </div>
-                            <div class="col-12">
-                              <label for="inputAddress" class="form-label">Dirección</label>
-                              <input type="text" class="form-control" id="inputAddress" placeholder="Calle Macaira, Guatire">
-                            </div>
-                            <div class="col-12">
-                              <label for="inputAddress2" class="form-label">RIF</label>
-                              <input type="text" class="form-control" id="inputAddress2" >
-                            </div>
-                           
-                            <div class="col-12">
-                              <button type="submit" class="btn btn-primary">Actualizar</button>
-                            </div>
-                          </form>
 
 
 
@@ -217,7 +220,7 @@
 
 
 
-
+<script src="/views/admin/main.js"></script>
     <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
 </body>
 
