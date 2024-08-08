@@ -44,16 +44,16 @@ function loadCotizacionDetails(id) {
           document.getElementById('cotizacionId').value = cotizacion._id;
 
           const productosTableBody = document.getElementById('productosTableBody');
-          productosTableBody.innerHTML = '';
+          productosTableBody.innerHTML = ''; // Limpiar la tabla antes de agregar las filas
 
           let total = 0;
           cotizacion.productos.forEach(producto => {
               const fila = document.createElement('tr');
               fila.innerHTML = `
                   <td>${producto.nombre}</td>
-                  <td><img src="${producto.imagen || 'default-image.jpg'}" alt="${producto.nombre}"></td>
+                  <td><img src="${producto.imagen || 'default-image.jpg'}" alt="${producto.nombre}" width="50"></td>
                   <td>${producto.cantidad}</td>
-                  <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.id}" data-precio="${producto.precio || '0'}"></td>
+                  <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.id}"></td>
                   <td><span class="subtotal">${(producto.precio ? producto.precio * producto.cantidad : 0).toFixed(2)}</span></td>
               `;
               productosTableBody.appendChild(fila);
@@ -85,11 +85,10 @@ function calcularTotal() {
   });
   document.getElementById('totalPrecio').innerText = total.toFixed(2);
 }
-
 function guardarCotizacion() {
   const id = document.getElementById('cotizacionId').value;
   const precios = Array.from(document.querySelectorAll('input[type="number"]')).map(input => ({
-      productoId: input.getAttribute('data-producto-id'),
+      productoId: input.getAttribute('data-producto-id'), // Asegúrate de que este atributo esté en el HTML
       precio: parseFloat(input.value)
   }));
 
@@ -103,7 +102,7 @@ function guardarCotizacion() {
   .then(response => response.json())
   .then(data => {
       console.log('Cotización actualizada:', data);
-      window.location.reload();
+      window.location.reload(); // O redirigir a otra página
   })
   .catch(error => {
       console.error('Error al guardar la cotización:', error);

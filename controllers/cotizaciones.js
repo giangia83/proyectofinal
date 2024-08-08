@@ -52,6 +52,34 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     }
 });
 
+// Ruta para actualizar los precios de los productos en una cotización
+router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
+    const { id } = req.params;
+    const { precios } = req.body; // Array de objetos con productoId y precio
+
+    try {
+        const cotizacion = await Cotizacion.findById(id);
+        if (!cotizacion) {
+            return res.status(404).json({ message: 'Cotización no encontrada' });
+        }
+
+        // Actualizar los precios de los productos en la cotización
+        precios.forEach(({ productoId, precio }) => {
+            const producto = cotizacion.productos.find(p => p.id === productoId);
+            if (producto) {
+                producto.precio = precio; // Actualizar el precio del producto
+            }
+        });
+
+        await cotizacion.save();
+        res.json({ message: 'Cotización actualizada correctamente', cotizacion });
+    } catch (error) {
+        console.error('Error al actualizar la cotización:', error);
+        res.status(500).json({ message: 'Error interno al actualizar la cotización' });
+    }
+});
+
+
 // Ruta para verificar una cotización
 router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     const { id } = req.params;
