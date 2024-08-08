@@ -78,7 +78,6 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al actualizar la cotización' });
     }
 });
-
 // Ruta para generar un PDF de la cotización
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
@@ -100,44 +99,37 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
         res.setHeader('Content-type', 'application/pdf');
 
-        // Encabezado de la factura
+        // Generar el contenido del PDF
         doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
         doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
         doc.moveDown();
-        
-        // Datos del cliente
+
         doc.fontSize(12).text(`Cliente: ${cotizacion.usuarioNombre}`, { align: 'left' });
         doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
         doc.text(`Correo: ${cotizacion.usuario.correo}`);
         doc.text(`Teléfono: ${cotizacion.usuario.number}`);
         doc.moveDown();
 
-        // Tabla de productos
         doc.fontSize(12).text('Productos:', { underline: true });
         doc.moveDown();
 
-        // Encabezado de la tabla
-        doc.fontSize(10).text('--------------------------------------------------------------', { align: 'center' });
-        doc.text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'center' });
-        doc.text('--------------------------------------------------------------', { align: 'center' });
+        doc.fontSize(10).text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'left' });
 
         let total = 0;
-        let y = doc.y;
         cotizacion.productos.forEach((producto, index) => {
             const subtotal = producto.precio ? producto.precio * producto.cantidad : 0;
             total += subtotal;
             doc.text(
                 `${producto.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${producto.precio ? producto.precio.toFixed(2) : 'N/A'.padEnd(15)} | ${subtotal.toFixed(2)}`,
-                { align: 'left', continued: true }
+                { align: 'left' }
             );
-            doc.text(''); // Nueva línea para cada producto
-            y += 15;
         });
 
-        doc.text('--------------------------------------------------------------', { align: 'center' });
+        doc.text('--------------------------------------------------------------', { align: 'left' });
         doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
-        
+
         // Finalizar el documento
+        doc.pipe(res);
         doc.end();
     } catch (error) {
         console.error('Error al generar el PDF:', error);
