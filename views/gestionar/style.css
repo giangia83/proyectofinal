@@ -514,14 +514,7 @@ nav ul li a:hover {
 
    }
 
-   
-   aside{
-
-    display: none;
-
-}
-    
-.container-right{
+   .container-right{
 
     margin-top: -1rem;
       
@@ -529,6 +522,14 @@ nav ul li a:hover {
     
     }
    
+   
+   aside{
+
+    display: none;
+
+}
+    
+
   
 
 }
@@ -714,6 +715,15 @@ margin-top: 2rem ;
     .header-center {
       padding: 10px; /* Ajusta el relleno en pantallas móviles */
     }
+
+    .container-right{
+
+        margin-top: -1rem;
+          
+        margin-left: 0px;
+        
+        }
+       
   
     .btn-center {
       display: none; /* Oculta los botones en pantallas móviles */
