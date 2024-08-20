@@ -125,12 +125,12 @@
                           <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
 
-                        <button type="button" class="btn btn-warning me-2" role="group" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario._id %>')">
+                        <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario._id %>')">
                           Ver detalles del usuario
                         </button>
                         
-                    <button class="btn btn-success me-2" role="group" onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
-
+                    <button class="btn btn-success me-2"  onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
+                      </div>
                         <!-- Modal -->
                         <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
                           <div class="modal-dialog">
