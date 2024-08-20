@@ -877,6 +877,7 @@ font-size: 15px;
             display: none; /* Oculta la sección central en pantallas móviles */
         }
 
+
         .header-right {
             display: none; /* Oculta el dropdown de cuenta en pantallas móviles */
         }

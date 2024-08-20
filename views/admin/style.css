@@ -698,6 +698,11 @@ margin-top: 2rem ;
       padding: 10px; /* Ajusta el relleno en pantallas móviles */
     }
   
+    aside{
+
+        display: none;
+
+    }
     .btn-center {
       display: none; /* Oculta los botones en pantallas móviles */
     }
