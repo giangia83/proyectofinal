@@ -24,51 +24,93 @@
 
 
 
-  <header>
-    <div class="header-left">
-      <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
-    </div>
   
-    <div class="header-center">
-      <% if (usuario && usuario.nombre) { %>
+<header>
+  <div class="header-left">
+      <a href="/"><img src="/public/img/starcleanlogo4.webp" id="imgmeet" alt="" width="80px"></a>
+  </div>
+
+  <div class="header-center">
+    <% if (usuario && usuario.nombre) { %>
         <!-- Mostrar enlaces si el usuario está autenticado -->
         <a href="/tuspedidos" class="btn btn-special btn-center" type="button" aria-expanded="false">Mis pedidos</a>
         <a href="/cuenta" class="btn btn-special btn-center" type="button" aria-expanded="false">Mi cuenta</a>
-        
-        <% if (usuario.esAdmin) { %>
-          <!-- Mostrar el botón de "Administrar" si el usuario es administrador -->
-          <a href="/administrar" class="btn btn-special btn-center" type="button" aria-expanded="false">Administrar</a>
+        <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
+
+
+      <% if (usuario.esAdmin) { %>
+
+        <a href="/administrar" class="btn btn-special btn-center" type="button" aria-expanded="false">Admin</a>
+
+
         <% } %>
-      <% } else { %>
+
+    <% } else { %>
         <!-- Mostrar botones de inicio de sesión y registro si el usuario no está autenticado -->
         <a href="/iniciarsesion" class="btn btn-special btn-center" type="button" aria-expanded="false">Iniciar sesión</a>
         <a href="/registrarse" class="btn btn-special btn-center" type="button" aria-expanded="false">Registrarse</a>
-      <% } %>
-  
-      <!-- Enlace de contacto -->
-      <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
-    </div>
-  <!--  -->
-    <div class="menu-desplegable" id="menuDesplegable">
-      <ul>
-        <% if (usuario && usuario.nombre) { %>
-          <li><a href="/cuenta">Cuenta</a></li>
-          <li><a href="/tuspedidos">Mis pedidos</a></li>
-          <li><a href="/logout">Cerrar sesión</a></li>
-  
-          <% if (usuario.esAdmin) { %>
-            <!-- Mostrar el enlace de "Administrar" si el usuario es administrador -->
-            <li><a href="/administrar">Administrar</a></li>
-          <% } %>
-  
-        <% } else { %>
-          <li><a href="/iniciarsesion">Iniciar sesión</a></li>
-          <li><a href="/registrarse">Registrarse</a></li>
-        <% } %>
-        <li><a href="/servicioalcliente">Contacto</a></li>
-      </ul>
-    </div>
-  </header>
+        <a href="/servicioalcliente" class="btn btn-special btn-center" type="button" aria-expanded="false">Contacto</a>
+    <% } %>
+</div>
+
+  <!-- Dropdown de cuenta para pantallas grandes -->
+  <div class="header-right">
+      <div class="dropdown hover-dropdown">
+          <svg xmlns="http://www.w3.org/2000/svg" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="icon icon-tabler icon-tabler-user-circle" width="42" height="42" viewBox="0 0 24 24" stroke-width="1" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+              <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+              <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+          </svg>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <% if (usuario && usuario.nombre) { %>
+                  <li><a class="dropdown-item" href="/cuenta">Cuenta</a></li>
+                  <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+              <% } else { %>
+                  <li><a class="dropdown-item" href="/iniciarsesion">Iniciar sesión</a></li>
+                  <li><a class="dropdown-item" href="/registrarse">Registrarse</a></li>
+              <% } %>
+          </ul>
+      </div>
+  </div>
+
+  <!-- Menú hamburguesa y menú desplegable para pantallas móviles -->
+  <div class="header-right-mobile">
+      <div class="menu-hamburguesa" id="menuHamburguesa">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+      </div>
+      <div class="menu-desplegable" id="menuDesplegable">
+          <ul>
+              <% if (usuario && usuario.nombre) { %>
+                  <li><a href="/cuenta">Cuenta</a></li>
+                  <li><a href="/tuspedidos">Mis pedidos</a></li>
+                  <li><a href="/logout">Cerrar sesión</a></li>
+
+
+                  <% if (usuario.esAdmin) { %>
+
+                    <a href="/administrar" class="btn btn-special btn-center" type="button" aria-expanded="false">Admin</a>
+            
+            
+                    <% } %>
+            
+
+
+              <% } else { %>
+                  <li><a href="/iniciarsesion">Iniciar sesión</a></li>
+                  <li><a href="/registrarse">Registrarse</a></li>
+              <% } %>
+              <li><a href="/servicioalcliente">Contacto</a></li>
+          </ul>
+      </div>
+  </div>
+</header>
+
+
   
 
 
