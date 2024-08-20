@@ -698,6 +698,15 @@ margin-top: 2rem ;
       padding: 10px; /* Ajusta el relleno en pantallas móviles */
     }
   
+    .container-right{
+
+        margin-top: -1rem;
+          
+        
+        
+        }
+
+
     aside{
 
         display: none;
