@@ -857,3 +857,36 @@ font-size: 15px;
     bottom: 0;
     padding: 1rem;
 }
+
+.continueButton {
+    background-color: #007bff; /* Color de fondo azul */
+    color: #fff; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 50px; /* Bordes redondeados */
+    padding: 12px 24px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    font-weight: bold; /* Fuente en negrita */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra */
+    transition: background-color 0.3s, transform 0.3s; /* Transiciones suaves */
+    cursor: pointer; /* Cursor de puntero */
+}
+
+.continueButton:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el mouse */
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+
+.continueButton:focus {
+    outline: none; /* Eliminar el contorno de enfoque */
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.5); /* Sombra de enfoque */
+}
+
+.continueButton {
+    transition: all 0.3s ease-in-out;
+}
+
+.continueButton:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Efecto de aumento al pasar el mouse */
+}
