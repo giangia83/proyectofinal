@@ -138,7 +138,6 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.status(500).send('Error interno al generar el PDF');
     }
 });
-
 // Ruta para verificar y enviar la cotización por correo
 router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     const { id } = req.params;
@@ -218,6 +217,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
     }
 });
+
 
         // Enviar el correo electrónico
         const mailOptions = {
