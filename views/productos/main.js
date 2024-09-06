@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItemsContainer.appendChild(listItem);
         });
 
+        // Añadir evento a los botones de eliminar después de que se generen dinámicamente
         const removeButtons = document.querySelectorAll('.btn-remove');
         removeButtons.forEach(button => {
             button.addEventListener('click', (event) => {
@@ -120,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     resultsContainer.appendChild(list);
 
+                    // Añadir evento a los botones de añadir después de que se generen dinámicamente
                     const addButtons = document.querySelectorAll('.btn-add');
                     addButtons.forEach(button => {
                         button.addEventListener('click', (event) => {
