@@ -218,35 +218,44 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     }
 });
 
+// Obtener la cotización (asegúrate de reemplazar el siguiente código con la forma en que realmente obtienes la cotización)
+const cotizacionId = req.params.id; // O de alguna otra fuente en el request
+const cotizacion = await Cotizacion.findById(cotizacionId).populate('usuario'); // Asegúrate de tener acceso a cotizacion.usuario.correo
 
+if (!cotizacion) {
+    return res.status(404).json({ message: 'Cotización no encontrada' });
+}
 
-        // Enviar el correo electrónico
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: cotizacion.usuario.correo,
-            subject: 'Cotización Verificada - Starclean C.A',
-            text: `Estimado/a ${cotizacion.usuario.nombre},\n\nAdjunto encontrará la cotización verificada.\n\nSaludos cordiales,\nStarclean C.A`,
-            attachments: [
-                {
-                    filename: filename,
-                    path: pdfPath
-                }
-            ]
-        };
+// Generar el PDF aquí
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error('Error al enviar el correo:', error);
-                return res.status(500).json({ message: 'Error al enviar el correo' });
-            }
+// Enviar el correo electrónico
+const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: cotizacion.usuario.correo, // Accediendo correctamente al correo del usuario
+    subject: 'Cotización Verificada - Starclean C.A',
+    text: `Estimado/a ${cotizacion.usuario.nombre},\n\nAdjunto encontrará la cotización verificada.\n\nSaludos cordiales,\nStarclean C.A`,
+    attachments: [
+        {
+            filename: filename,
+            path: pdfPath
+        }
+    ]
+};
 
-            // Eliminar el archivo PDF después de enviarlo
-            fs.unlink(pdfPath, (err) => {
-                if (err) console.error('Error al eliminar el archivo:', err);
-            });
+transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        console.error('Error al enviar el correo:', error);
+        return res.status(500).json({ message: 'Error al enviar el correo' });
+    }
 
-            res.json({ message: 'Cotización verificada y enviada por correo' });
-        });
+    // Eliminar el archivo PDF después de enviarlo
+    fs.unlink(pdfPath, (err) => {
+        if (err) console.error('Error al eliminar el archivo:', err);
+    });
+
+    res.json({ message: 'Cotización verificada y enviada por correo' });
+});
+
 
    
 module.exports = router;
