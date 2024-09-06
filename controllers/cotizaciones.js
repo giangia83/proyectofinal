@@ -219,6 +219,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
 });
 
 
+
         // Enviar el correo electrónico
         const mailOptions = {
             from: process.env.EMAIL_USER,
