@@ -43,16 +43,18 @@
           </div>
         </div>
   
+   <!-- Carrito -->
+   <ul id="cart-items" class="list-group">
+    <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
+  </ul>
+
         <!-- Results -->
         <div id="search-results" class="row pb-5 mb-4">
           <!-- Los productos se cargarán aquí con JavaScript -->
         </div>
 
 
-         <!-- Carrito -->
-         <ul id="cart-items" class="list-group">
-          <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
-        </ul>
+      
 
        
   
@@ -70,9 +72,6 @@
                   <p class="small text-muted font-italic"><%= producto.categoria %></p>
                   <div class="card-buttons">
                     <button class="btn btn-add" data-producto-id="<%= producto._id %>">Añadir</button>
-                    <a href="#" class="btn btn-star" data-producto-id="<%= producto._id %>">
-                      <i class="fa fa-star"></i>
-                    </a>
                   </div>
                 </div>
               </div>
@@ -82,8 +81,6 @@
   
         <button class="continueButton btn btn-5" onclick="irAVerCarrito()">Continuar</button>
       </div>
-  
-      <!-- Toasts -->
       <div aria-live="polite" aria-atomic="true" class="position-relative">
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
           <div id="add-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

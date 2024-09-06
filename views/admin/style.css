@@ -163,7 +163,18 @@ line-height :21.6px;
 }
 
 
+.btn-primary{
 
+    background-color: #EA5730;
+    border: none;
+}
+
+
+.btn-primary:hover{
+
+    background-color: #ff3700;
+    border: none;
+}
 
 /* CSS */
 .button-5 {

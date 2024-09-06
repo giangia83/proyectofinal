@@ -112,3 +112,28 @@ function guardarCotizacion() {
 function descargarPDF(idCotizacion) {
   window.location.href = `/vercotizaciones/pdf/${idCotizacion}`;
 }
+
+function verificarCotizacion() {
+  const cotizacionId = document.getElementById('cotizacionId').value;
+  
+  if (!cotizacionId) {
+      alert('No se ha seleccionado ninguna cotización.');
+      return;
+  }
+  
+  // Realizar la solicitud para verificar la cotización
+  fetch(`/vercotizaciones/verificar/${cotizacionId}`, {
+      method: 'POST'
+  })
+  .then(response => response.json())
+  .then(data => {
+      alert(data.message);
+      // Cerrar el modal si la verificación fue exitosa
+      $('#cotizacionModal').modal('hide');
+  })
+  .catch(error => {
+      console.error('Error al verificar la cotización:', error);
+      alert('Error al verificar la cotización.');
+  });
+}
+

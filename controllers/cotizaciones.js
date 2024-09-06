@@ -5,6 +5,7 @@ const Producto = require('../models/producto');
 const PDFDocument = require('pdfkit');
 const path = require('path');
 const fs = require('fs');
+const transporter = require('../controllers/nodemailer'); // Configuración de Nodemailer
 
 // Ruta para obtener todas las cotizaciones
 router.get('/vercotizaciones', async (req, res) => {
@@ -78,6 +79,7 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al actualizar la cotización' });
     }
 });
+
 // Ruta para generar un PDF de la cotización
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
@@ -104,7 +106,7 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
         doc.moveDown();
 
-        doc.fontSize(12).text(`Cliente: ${cotizacion.usuarioNombre}`, { align: 'left' });
+        doc.fontSize(12).text(`Cliente: ${cotizacion.usuario.nombre}`, { align: 'left' });
         doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
         doc.text(`Correo: ${cotizacion.usuario.correo}`);
         doc.text(`Teléfono: ${cotizacion.usuario.number}`);
@@ -116,7 +118,7 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         doc.fontSize(10).text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'left' });
 
         let total = 0;
-        cotizacion.productos.forEach((producto, index) => {
+        cotizacion.productos.forEach((producto) => {
             const subtotal = producto.precio ? producto.precio * producto.cantidad : 0;
             total += subtotal;
             doc.text(
@@ -134,6 +136,91 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     } catch (error) {
         console.error('Error al generar el PDF:', error);
         res.status(500).send('Error interno al generar el PDF');
+    }
+});
+
+// Ruta para verificar y enviar la cotización por correo
+router.post('/vercotizaciones/verificar/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Verificar la cotización
+        const cotizacion = await Cotizacion.findById(id).populate('usuario');
+        if (!cotizacion) {
+            return res.status(404).json({ message: 'Cotización no encontrada' });
+        }
+
+        // Crear el PDF de la cotización
+        const doc = new PDFDocument({ margin: 50 });
+        let filename = `cotizacion_${id}.pdf`;
+        filename = encodeURI(filename);
+
+        const pdfPath = path.join(__dirname, '../temp', filename);
+
+        doc.pipe(fs.createWriteStream(pdfPath));
+
+        doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
+        doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
+        doc.moveDown();
+
+        doc.fontSize(12).text(`Cliente: ${cotizacion.usuario.nombre}`, { align: 'left' });
+        doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
+        doc.text(`Correo: ${cotizacion.usuario.correo}`);
+        doc.text(`Teléfono: ${cotizacion.usuario.number}`);
+        doc.moveDown();
+
+        doc.fontSize(12).text('Productos:', { underline: true });
+        doc.moveDown();
+
+        doc.fontSize(10).text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'left' });
+
+        let total = 0;
+        cotizacion.productos.forEach((producto) => {
+            const subtotal = producto.precio ? producto.precio * producto.cantidad : 0;
+            total += subtotal;
+            doc.text(
+                `${producto.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${producto.precio ? producto.precio.toFixed(2) : 'N/A'.padEnd(15)} | ${subtotal.toFixed(2)}`,
+                { align: 'left' }
+            );
+        });
+
+        doc.text('--------------------------------------------------------------', { align: 'left' });
+        doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
+
+        // Finalizar el documento
+        doc.end();
+
+        // Enviar el correo electrónico
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: cotizacion.usuario.correo,
+            subject: 'Cotización Verificada - Starclean C.A',
+            text: `Estimado/a ${cotizacion.usuario.nombre},\n\nAdjunto encontrará la cotización verificada.\n\nSaludos cordiales,\nStarclean C.A`,
+            attachments: [
+                {
+                    filename: filename,
+                    path: pdfPath
+                }
+            ]
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error al enviar el correo:', error);
+                return res.status(500).json({ message: 'Error al enviar el correo' });
+            }
+
+            // Eliminar el archivo PDF después de enviarlo
+            fs.unlink(pdfPath, (err) => {
+                if (err) console.error('Error al eliminar el archivo:', err);
+            });
+
+            res.json({ message: 'Cotización verificada y enviada por correo' });
+        });
+
+    } catch (error) {
+        console.error('Error al verificar y enviar la cotización:', error);
+        res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
     }
 });
 
