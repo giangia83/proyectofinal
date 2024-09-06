@@ -152,13 +152,38 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
 
         // Crear el PDF de la cotización
         const doc = new PDFDocument({ margin: 50 });
-        let filename = `cotizacion_${id}.pdf`;
-        filename = encodeURI(filename);
 
-        const pdfPath = path.join(__dirname, '../temp', filename);
+        // Generar el contenido del PDF en un buffer
+        const chunks = [];
+        doc.on('data', chunks.push.bind(chunks));
+        doc.on('end', () => {
+            const pdfBuffer = Buffer.concat(chunks);
 
-        doc.pipe(fs.createWriteStream(pdfPath));
+            // Enviar el correo electrónico con el PDF como adjunto
+            const mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: cotizacion.usuario.correo,
+                subject: 'Cotización Verificada - Starclean C.A',
+                text: `Estimado/a ${cotizacion.usuario.nombre},\n\nAdjunto encontrará la cotización verificada.\n\nSaludos cordiales,\nStarclean C.A`,
+                attachments: [
+                    {
+                        filename: `cotizacion_${id}.pdf`,
+                        content: pdfBuffer
+                    }
+                ]
+            };
 
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error al enviar el correo:', error);
+                    return res.status(500).json({ message: 'Error al enviar el correo' });
+                }
+
+                res.json({ message: 'Cotización verificada y enviada por correo' });
+            });
+        });
+
+        // Generar el contenido del PDF
         doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
         doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
         doc.moveDown();
@@ -187,8 +212,12 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         doc.text('--------------------------------------------------------------', { align: 'left' });
         doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
 
-        // Finalizar el documento
         doc.end();
+    } catch (error) {
+        console.error('Error al verificar y enviar la cotización:', error);
+        res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
+    }
+});
 
         // Enviar el correo electrónico
         const mailOptions = {
@@ -218,10 +247,5 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
             res.json({ message: 'Cotización verificada y enviada por correo' });
         });
 
-    } catch (error) {
-        console.error('Error al verificar y enviar la cotización:', error);
-        res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
-    }
-});
-
+   
 module.exports = router;
