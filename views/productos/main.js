@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const addToast = new bootstrap.Toast(document.getElementById('add-toast'));
     const removeToast = new bootstrap.Toast(document.getElementById('remove-toast'));
 
-    // Selecciona todos los botones "Añadir"
     const addButtons = document.querySelectorAll('.btn-add');
 
     addButtons.forEach(button => {
@@ -28,20 +27,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 cart.push(product);
                 sessionStorage.setItem('cart', JSON.stringify(cart));
                 console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
+                
+                // Añade clase para indicar que el producto ha sido añadido
+                card.classList.add('added-to-cart');
                 addToast.show(); // Muestra el toast de añadido
             } else {
                 console.log(`El producto '${productName}' ya está en el carrito.`);
             }
         });
     });
+ // Eliminar producto del carrito
+ function removeFromCart(productId) {
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.id !== productId);
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    console.log(`Producto con ID ${productId} eliminado del carrito.`);
 
-    function removeFromCart(productId) {
-        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-        cart = cart.filter(item => item.id !== productId);
-        sessionStorage.setItem('cart', JSON.stringify(cart));
-        console.log(`Producto con ID ${productId} eliminado del carrito.`);
-        removeToast.show(); // Muestra el toast de eliminado
+    // Actualiza la interfaz
+    const card = document.querySelector(`.card[data-producto-id="${productId}"]`);
+    if (card) {
+        card.classList.remove('added-to-cart');
     }
+
+    removeToast.show(); // Muestra el toast de eliminado
+}
+
+// Muestra los productos en el carrito
+function displayCart() {
+    const cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const cartItemsContainer = document.getElementById('cart-items');
+
+    cartItemsContainer.innerHTML = ''; // Limpiar contenedor
+
+    cartItems.forEach(product => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item', 'd-flex', 'align-items-center');
+        listItem.innerHTML = `
+            <img src="${product.image}" alt="Imagen del producto" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover; margin-right: 15px;">
+            <div class="me-auto">
+                <h6 class="mb-1">${product.name}</h6>
+                <p class="mb-1 text-muted">${product.category}</p>
+            </div>
+            <button class="btn btn-danger btn-remove" data-producto-id="${product.id}">Eliminar</button>
+        `;
+        cartItemsContainer.appendChild(listItem);
+    });
+
+    // Añadir evento a los botones de eliminar
+    const removeButtons = document.querySelectorAll('.btn-remove');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            const productId = button.getAttribute('data-producto-id');
+            removeFromCart(productId);
+            displayCart(); // Actualizar vista del carrito después de eliminar
+        });
+    });
+}
+
+// Cargar el carrito al iniciar
+displayCart();
+
 
     document.addEventListener('DOMContentLoaded', () => {
         const searchInput = document.getElementById('search-input');
@@ -124,19 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
 function irAVerCarrito() {
-    // Obtener productos seleccionados del sessionStorage
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    
-    // Redireccionar a la página /vercarrito solo si hay productos en el carrito
     if (cart.length > 0) {
-        // Convertir el array de productos a JSON codificado para pasar como parámetro
         const cartJson = encodeURIComponent(JSON.stringify(cart));
-        // Redirigir a la página de carrito con los productos seleccionados
         window.location.href = '/vercarrito?productos=' + cartJson;
     } else {
-        // Mostrar un mensaje o tomar alguna acción si el carrito está vacío
         console.log('El carrito está vacío.');
     }
 }

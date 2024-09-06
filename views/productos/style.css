@@ -834,3 +834,21 @@ font-size: 15px;
     max-width: 70px;
 
 }
+
+/* Añadir al estilo de tu archivo CSS */
+.card.added-to-cart {
+    border: 2px solid #28a745; /* Verde para indicar éxito */
+    position: relative;
+}
+
+.card.added-to-cart::after {
+    content: 'Añadido';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}

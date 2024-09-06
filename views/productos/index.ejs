@@ -29,153 +29,87 @@
   <script src="/views/components/header.js"></script>
 
   <main>
-  
+    <div class="container py-5">
+      <!-- Contenedor principal -->
 
+      <div class="texto-info">
+        <h2 class="font-weight-bold mb-2">Selecciona los productos que necesitas</h2>
+        <p class="font-italic text-muted mb-4">Este es el primer paso para realizar tu cotización</p>
 
-    <div class="container">
-      <!-- Content here -->
-
-
-
-      <div class="container py-5">
-        <!-- For Demo Purpose-->
-
-
-
-
-
-    
-
-
-
-
-        <!--  -->
-
-<div class="texto-info">
-        <!-- First Row [Prosucts]-->
-         
-        <h2 class="font-weight-bold mb-2">Selecciona los productos que necesitas    </h2>           </h2> 
-        <p class="font-italic text-muted mb-4">Este es el primer paso para realizar tu cotización  </p> 
-
-
-
-  <!-- Search Form -->
-  <div class="row goleft">
-    <div>
-        <form id="search-form" class="d-flex">
-            <input type="text" id="search-input" class="form-control me-2" placeholder="Buscar productos...">
-          
-        </form>
-    </div>
-  </div>
-
-
-
-        
-      </div>
-
-      <!-- Search Form -->
-
-
-
-      <!-- Results -->
-      <div id="search-results" class="row pb-5 mb-4">
-        <!-- Los productos se cargarán aquí con JavaScript -->
-      </div>
-
-
-
-
-
-
-
-
-
-      <div class="row pb-5 mb-4">
-        <% productos.forEach(producto => { %>
-            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                <div class="card rounded shadow-sm border-0" data-producto-id="<%= producto._id %>">
-                    <div class="card-body p-4">
-                        <!-- Contenedor para la imagen y el ícono -->
-                        <div class="image-container">
-                            <!-- Imagen del producto -->
-                            <img src="<%= producto.imagen.data %>" alt="Imagen del producto" class="img-fluid product-image">
-                        </div>
-                        <!-- Nombre del producto -->
-                        <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
-                        <!-- Categoría del producto -->
-                        <p class="small text-muted font-italic"><%= producto.categoria %></p>
-                        <!-- Botones -->
-                        <div class="card-buttons">
-                          <button class="btn btn-add" data-producto-id="<%= producto._id %>">Añadir</button>
-
-                          <a href="#" class="btn btn-star" data-producto-id="<%= producto._id %>">
-                            <i class="fa fa-star"></i>
-                        </a>
-                         
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <% }); %>
-      </div>
-      
-    
-        
-<button class="continueButton btn btn-5" onclick="irAVerCarrito()">Continuar</button>
-
-
-
+        <!-- Search Form -->
+        <div class="row goleft">
+          <div>
+            <form id="search-form" class="d-flex">
+              <input type="text" id="search-input" class="form-control me-2" placeholder="Buscar productos...">
+            </form>
+          </div>
         </div>
 
+        <!-- Results -->
+        <div id="search-results" class="row pb-5 mb-4">
+          <!-- Los productos se cargarán aquí con JavaScript -->
+        </div>
 
+        <!-- Productos -->
+        <div class="row pb-5 mb-4">
+          <% productos.forEach(producto => { %>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <div class="card rounded shadow-sm border-0" data-producto-id="<%= producto._id %>">
+                <div class="card-body p-4">
+                  <!-- Contenedor para la imagen y el ícono -->
+                  <div class="image-container">
+                    <img src="<%= producto.imagen.data %>" alt="Imagen del producto" class="img-fluid product-image">
+                  </div>
+                  <h5><a href="#" class="text-dark"><%= producto.nombre %></a></h5>
+                  <p class="small text-muted font-italic"><%= producto.categoria %></p>
+                  <div class="card-buttons">
+                    <button class="btn btn-add" data-producto-id="<%= producto._id %>">Añadir</button>
+                    <a href="#" class="btn btn-star" data-producto-id="<%= producto._id %>">
+                      <i class="fa fa-star"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
 
-<!-- Toasts -->
-<div aria-live="polite" aria-atomic="true" class="position-relative">
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="add-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header">
-        <strong class="me-auto">Producto Añadido</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        <ul id="cart-items">
+          <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
+        </ul>
+
+        <button class="continueButton btn btn-5" onclick="irAVerCarrito()">Continuar</button>
       </div>
-      <div class="toast-body">
-        El producto ha sido añadido al carrito.
+
+      <!-- Toasts -->
+      <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+          <div id="add-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <strong class="me-auto">Producto Añadido</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              El producto ha sido añadido al carrito.
+            </div>
+          </div>
+          <div id="remove-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <strong class="me-auto">Producto Eliminado</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              El producto ha sido eliminado del carrito.
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
-    <div id="remove-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header">
-        <strong class="me-auto">Producto Eliminado</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
-        El producto ha sido eliminado del carrito.
-      </div>
-    </div>
-  </div>
-</div>
-
-
   </main>
 
-
-
-
-
-
-
-
-
-
-<script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
-<script src="/views/productos/main.js">
-
-
-
-
-
-
-  
-</script>
+  <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/views/productos/main.js"></script>
 </body>
 
 </html>
