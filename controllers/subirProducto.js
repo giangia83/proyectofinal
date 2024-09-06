@@ -11,8 +11,8 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-const bunnyStorageUrl = 'https://storage.bunnycdn.com/starclean';
-const bunnyPullZoneUrl = 'https://starclean-bucket.b-cdn.net';
+const bunnyStorageUrl = 'https://storage.bunnycdn.com/starcleanbucket';
+const bunnyPullZoneUrl = 'https://starcleanpull.b-cdn.net';
 const bunnyAccessKey = process.env.YOUR_BUNNYNET_ACCESS_KEY;
 
 router.post('/upload', upload.single('inputImagen'), async (req, res) => {
