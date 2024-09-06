@@ -138,6 +138,8 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.status(500).send('Error interno al generar el PDF');
     }
 });
+
+
 // Ruta para verificar y enviar la cotización por correo
 router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     const { id } = req.params;
@@ -190,7 +192,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         doc.fontSize(12).text(`Cliente: ${cotizacion.usuario.nombre}`, { align: 'left' });
         doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
         doc.text(`Correo: ${cotizacion.usuario.correo}`);
-        doc.text(`Teléfono: ${cotizacion.usuario.number}`);
+        doc.text(`Teléfono: ${cotizacion.usuario.telefono}`);
         doc.moveDown();
 
         doc.fontSize(12).text('Productos:', { underline: true });
@@ -218,44 +220,4 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     }
 });
 
-// Obtener la cotización (asegúrate de reemplazar el siguiente código con la forma en que realmente obtienes la cotización)
-const cotizacionId = req.params.id; // O de alguna otra fuente en el request
-const cotizacion = await Cotizacion.findById(cotizacionId).populate('usuario'); // Asegúrate de tener acceso a cotizacion.usuario.correo
-
-if (!cotizacion) {
-    return res.status(404).json({ message: 'Cotización no encontrada' });
-}
-
-// Generar el PDF aquí
-
-// Enviar el correo electrónico
-const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: cotizacion.usuario.correo, // Accediendo correctamente al correo del usuario
-    subject: 'Cotización Verificada - Starclean C.A',
-    text: `Estimado/a ${cotizacion.usuario.nombre},\n\nAdjunto encontrará la cotización verificada.\n\nSaludos cordiales,\nStarclean C.A`,
-    attachments: [
-        {
-            filename: filename,
-            path: pdfPath
-        }
-    ]
-};
-
-transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-        console.error('Error al enviar el correo:', error);
-        return res.status(500).json({ message: 'Error al enviar el correo' });
-    }
-
-    // Eliminar el archivo PDF después de enviarlo
-    fs.unlink(pdfPath, (err) => {
-        if (err) console.error('Error al eliminar el archivo:', err);
-    });
-
-    res.json({ message: 'Cotización verificada y enviada por correo' });
-});
-
-
-   
 module.exports = router;
