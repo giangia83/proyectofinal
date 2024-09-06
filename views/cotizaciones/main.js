@@ -120,14 +120,6 @@ function verificarCotizacion() {
       alert('No se ha seleccionado ninguna cotización.');
       return;
   }
-  function verificarCotizacion() {
-    const cotizacionId = document.getElementById('cotizacionId').value;
-    
-    if (!cotizacionId) {
-        alert('No se ha seleccionado ninguna cotización.');
-        return;
-    }
-    
     // Realizar la solicitud para verificar la cotización
     fetch(`/vercotizaciones/verificar/${cotizacionId}`, {
         method: 'POST'
@@ -148,4 +140,3 @@ function verificarCotizacion() {
         alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
     });
   }
-}

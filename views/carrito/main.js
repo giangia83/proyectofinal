@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 estado: 'Pendiente',
                 productos: cart.map(producto => ({
                     id: producto.id,
-                    nombre: producto.name, // Aquí usamos 'name' según el HTML proporcionado
+                    nombre: producto.name, 
                     categoria: producto.category,
                     cantidad: parseInt(document.getElementsByName(`cantidad${producto.id}`)[0].value, 10),
                 })),
@@ -51,9 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     const responseData = await response.json();
                     console.log('Cotización guardada exitosamente:', responseData);
-                    // Redirigir o mostrar mensaje de éxito al usuario
-                    // Ejemplo de redirección después de guardar la cotización
-                    window.location.href = '/'; // Puedes redirigir a una página de éxito
+
+                    window.location.href = '/'; 
                 } else {
                     console.error('Error al guardar la cotización:', response.statusText);
                     // Mostrar mensaje de error al usuario
