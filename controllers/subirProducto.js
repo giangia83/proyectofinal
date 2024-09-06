@@ -11,7 +11,7 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-const bunnyStorageUrl = 'https://storage.bunnycdn.com/starcleanbucket';
+const bunnyStorageUrl = 'https://br.storage.bunnycdn.com/starcleanbucket';
 const bunnyPullZoneUrl = 'https://starcleanpull.b-cdn.net';
 const bunnyAccessKey = process.env.YOUR_BUNNYNET_ACCESS_KEY;
 
@@ -59,8 +59,11 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
         }
     } catch (err) {
         if (err.response) {
-            console.error(`Error en la respuesta de Bunny.net: ${err.response.status} - ${err.response.data}`);
-            res.status(err.response.status).json({ error: `Error en la respuesta de Bunny.net: ${err.response.status}` });
+            console.error(`Error en la respuesta de Bunny.net:`, err.response.status, err.response.data);
+            res.status(err.response.status).json({
+                error: `Error en la respuesta de Bunny.net`,
+                details: err.response.data
+            });
         } else if (err.request) {
             console.error('Error en la solicitud a Bunny.net:', err.request);
             res.status(500).json({ error: 'Error en la solicitud a Bunny.net. Verifica la conexión de red.' });
@@ -69,6 +72,7 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
             res.status(500).json({ error: 'Error inesperado. Por favor, intenta nuevamente.' });
         }
     }
+    
 });
 
 router.post('/actualizar-producto', upload.single('imagen'), async (req, res) => {
