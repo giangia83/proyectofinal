@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addToast = new bootstrap.Toast(document.getElementById('add-toast'));
     const removeToast = new bootstrap.Toast(document.getElementById('remove-toast'));
 
+    // Manejar añadir productos al carrito desde la vista de productos
     const addButtons = document.querySelectorAll('.btn-add');
 
     addButtons.forEach(button => {
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
 
             const productId = button.getAttribute('data-producto-id');
-            const card = button.closest('.card'); // Encuentra la tarjeta asociada
+            const card = button.closest('.card');
             const productName = card.querySelector('h5 a').textContent;
             const productCategory = card.querySelector('.font-italic').textContent;
             const productImage = card.querySelector('.product-image').getAttribute('src');
@@ -27,10 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 cart.push(product);
                 sessionStorage.setItem('cart', JSON.stringify(cart));
                 console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
-                
-                // Añade clase para indicar que el producto ha sido añadido
+
                 card.classList.add('added-to-cart');
-                addToast.show(); // Muestra el toast de añadido
+                addToast.show();
                 updateCardStyles(); // Actualiza la visualización de las tarjetas
             } else {
                 console.log(`El producto '${productName}' ya está en el carrito.`);
@@ -45,13 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('cart', JSON.stringify(cart));
         console.log(`Producto con ID ${productId} eliminado del carrito.`);
 
-        // Actualiza la interfaz
         const card = document.querySelector(`.card[data-producto-id="${productId}"]`);
         if (card) {
             card.classList.remove('added-to-cart');
         }
 
-        removeToast.show(); // Muestra el toast de eliminado
+        removeToast.show();
+        updateCardStyles(); // Actualiza la visualización de las tarjetas
     }
 
     // Muestra los productos en el carrito
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
         const cartItemsContainer = document.getElementById('cart-items');
 
-        cartItemsContainer.innerHTML = ''; // Limpiar contenedor
+        cartItemsContainer.innerHTML = '';
 
         cartItems.forEach(product => {
             const listItem = document.createElement('li');
@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItemsContainer.appendChild(listItem);
         });
 
-        // Añadir evento a los botones de eliminar
         const removeButtons = document.querySelectorAll('.btn-remove');
         removeButtons.forEach(button => {
             button.addEventListener('click', (event) => {
@@ -87,10 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Cargar el carrito al iniciar
-    displayCart();
+    displayCart(); // Cargar el carrito al iniciar
 
-    // Función para buscar productos
+    // Buscar productos
     const searchInput = document.getElementById('search-input');
     const resultsContainer = document.getElementById('search-results');
 
@@ -169,28 +167,28 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', (event) => {
         performSearch(event.target.value.trim());
     });
-
-    function irAVerCarrito() {
-        const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-        if (cart.length > 0) {
-            const cartJson = encodeURIComponent(JSON.stringify(cart));
-            window.location.href = '/vercarrito?productos=' + cartJson;
-        } else {
-            console.log('El carrito está vacío.');
-        }
-    }
-
-    function updateCardStyles() {
-        const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-        const productCards = document.querySelectorAll('.card');
-
-        productCards.forEach(card => {
-            const productId = card.getAttribute('data-producto-id');
-            if (cart.some(item => item.id === productId)) {
-                card.classList.add('added-to-cart'); // Añadir una clase si el producto está en el carrito
-            } else {
-                card.classList.remove('added-to-cart'); // Quitar la clase si no está en el carrito
-            }
-        });
-    }
 });
+
+function irAVerCarrito() {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    if (cart.length > 0) {
+        const cartJson = encodeURIComponent(JSON.stringify(cart));
+        window.location.href = '/vercarrito?productos=' + cartJson;
+    } else {
+        console.log('El carrito está vacío.');
+    }
+}
+
+function updateCardStyles() {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const productCards = document.querySelectorAll('.card');
+
+    productCards.forEach(card => {
+        const productId = card.getAttribute('data-producto-id');
+        if (cart.some(item => item.id === productId)) {
+            card.classList.add('added-to-cart'); // Añadir una clase si el producto está en el carrito
+        } else {
+            card.classList.remove('added-to-cart'); // Quitar la clase si no está en el carrito
+        }
+    });
+}
