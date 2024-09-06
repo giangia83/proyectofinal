@@ -85,80 +85,66 @@
 
 
 
-
-        <!-- Main Content -->
-        <div class="col-md-9">
-          <div class="card">
-            <h5 class="card-header">Cotizaciones</h5>
-            <div class="card-body">
-              <!-- Cotizaciones Accordion -->
-              <div class="accordion" id="accordionCotizaciones">
-                <% cotizaciones.forEach((cotizacion, index) => { %>
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="heading<%= index %>">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                      data-bs-target="#collapse<%= index %>" aria-expanded="true"
-                      aria-controls="collapse<%= index %>">
-                      Cotización por: <%= cotizacion.usuario.nombre %>
-                    </button>
-                  </h2>
-                  <div id="collapse<%= index %>" class="accordion-collapse collapse show"
-                    aria-labelledby="heading<%= index %>" data-bs-parent="#accordionCotizaciones">
-                    <div class="accordion-body">
-                      <h5 class="card-title">Productos:</h5>
-                      <ul class="list-group">
-                        <% cotizacion.productos.forEach(producto => { %>
-                        <li class="list-group-item">
-                          <%= producto.nombre %> - Precio unitario: <%= producto.precio %> - Cantidad: <%= producto.cantidad %>
-                        </li>
-                        <% }) %>
-                      </ul>
-                      <div class="card-text mt-3">
-                        <strong>Estado:</strong> <%= cotizacion.estado %><br>
-                      </div>
-
-                      <div class="btn-group mt-3" role="group" aria-label="Botones">
-                        <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#cotizacionModal" onclick="loadCotizacionDetails('<%= cotizacion._id %>')">
-                          Cotizar
-                        </button>
-                        
-                        <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST" class="me-2">
-                          <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
-
-                        <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario._id %>')">
-                          Ver detalles del usuario
-                        </button>
-                        
-                    <button class="btn btn-success me-2"  onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
-                      </div>
-                        <!-- Modal -->
-                        <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="userDetailsModalLabel">Detalles del Usuario</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                              </div>
-                              <div class="modal-body">
-                                <!-- Aquí se cargarán los detalles del usuario -->
-                                <div id="userDetailsContent">
-                                  <!-- Los detalles se llenarán aquí mediante JavaScript -->
-                                </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </div>
+<% cotizaciones.forEach((cotizacion, index) => { %>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="heading<%= index %>">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapse<%= index %>" aria-expanded="true"
+        aria-controls="collapse<%= index %>">
+        Cotización por: <%= cotizacion.usuario.nombre %>
+      </button>
+    </h2>
+    <div id="collapse<%= index %>" class="accordion-collapse collapse show"
+      aria-labelledby="heading<%= index %>" data-bs-parent="#accordionCotizaciones">
+      <div class="accordion-body">
+        <h5 class="card-title">Productos:</h5>
+        <ul class="list-group">
+          <% cotizacion.productos.forEach(producto => { %>
+          <li class="list-group-item">
+            <%= producto.nombre %> - Precio unitario: <%= producto.precio %> - Cantidad: <%= producto.cantidad %>
+          </li>
+          <% }) %>
+        </ul>
+        <div class="card-text mt-3">
+          <strong>Estado:</strong> <%= cotizacion.estado %><br>
+        </div>
+        <div class="btn-group mt-3" role="group" aria-label="Botones">
+          <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#cotizacionModal" onclick="loadCotizacionDetails('<%= cotizacion._id %>')">
+            Cotizar
+          </button>
+          <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST" class="me-2">
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+          </form>
+          <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario._id %>')">
+            Ver detalles del usuario
+          </button>
+          <button class="btn btn-success me-2" onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="userDetailsModalLabel">Detalles del Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <!-- Aquí se cargarán los detalles del usuario -->
+                <div id="userDetailsContent">
+                  <!-- Los detalles se llenarán aquí mediante JavaScript -->
                 </div>
-               
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% }) %>
+
               </div>
               <!-- End Cotizaciones Accordion -->
             </div>
