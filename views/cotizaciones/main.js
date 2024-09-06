@@ -148,4 +148,4 @@ function verificarCotizacion() {
         alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
     });
   }
-  
+}
