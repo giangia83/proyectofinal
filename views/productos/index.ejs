@@ -27,15 +27,13 @@
 
 
   <script src="/views/components/header.js"></script>
-
   <main>
     <div class="container py-5">
       <!-- Contenedor principal -->
-
       <div class="texto-info">
         <h2 class="font-weight-bold mb-2">Selecciona los productos que necesitas</h2>
         <p class="font-italic text-muted mb-4">Este es el primer paso para realizar tu cotización</p>
-
+  
         <!-- Search Form -->
         <div class="row goleft">
           <div>
@@ -44,12 +42,12 @@
             </form>
           </div>
         </div>
-
+  
         <!-- Results -->
         <div id="search-results" class="row pb-5 mb-4">
           <!-- Los productos se cargarán aquí con JavaScript -->
         </div>
-
+  
         <!-- Productos -->
         <div class="row pb-5 mb-4">
           <% productos.forEach(producto => { %>
@@ -73,14 +71,15 @@
             </div>
           <% }); %>
         </div>
-
-        <ul id="cart-items">
+  
+        <!-- Carrito -->
+        <ul id="cart-items" class="list-group">
           <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
         </ul>
-
+  
         <button class="continueButton btn btn-5" onclick="irAVerCarrito()">Continuar</button>
       </div>
-
+  
       <!-- Toasts -->
       <div aria-live="polite" aria-atomic="true" class="position-relative">
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
@@ -104,9 +103,10 @@
           </div>
         </div>
       </div>
-
+  
     </div>
   </main>
+  
 
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
   <script src="/views/productos/main.js"></script>

@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 card.classList.add('added-to-cart');
                 addToast.show();
+                displayCart(); // Actualiza la lista de productos en el carrito
                 updateCardStyles(); // Actualiza la visualización de las tarjetas
             } else {
                 console.log(`El producto '${productName}' ya está en el carrito.`);
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         removeToast.show();
+        displayCart(); // Actualizar la lista de productos en el carrito
         updateCardStyles(); // Actualiza la visualización de las tarjetas
     }
 
@@ -82,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
                 const productId = button.getAttribute('data-producto-id');
                 removeFromCart(productId);
-                displayCart(); // Actualizar vista del carrito después de eliminar
             });
         });
     }
@@ -147,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 sessionStorage.setItem('cart', JSON.stringify(cart));
                                 console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
                                 addToast.show(); // Muestra el toast de añadido
+                                displayCart(); // Actualiza la lista de productos en el carrito
                                 updateCardStyles(); // Actualiza la visualización de las tarjetas
                             } else {
                                 console.log(`El producto '${productName}' ya está en el carrito.`);
