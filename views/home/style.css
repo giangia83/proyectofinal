@@ -1152,6 +1152,11 @@ p.small {
       padding: 0.5rem;
       height: auto;
     }
+
+    .cards-grid{
+
+        display: grid;
+    }
     
     .product-image {
       max-width: 100%;
@@ -1195,8 +1200,10 @@ p.small {
     .cards-grid { grid-template-columns: repeat(4, 1fr); }
   }
 
+
+
   .cards-grid {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Disminuye el tamaño mínimo de las cards */
   gap: 8px;  /* Reduce el espacio entre tarjetas */
   padding: 0;

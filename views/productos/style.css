@@ -54,22 +54,9 @@ header {
 
     background-color:#FFFFFF;
     font-weight: 480;
-
+    border-bottom: 1px solid rgb(221, 221, 221); /* línea de color claro */
 }
 
-
-
-.header-down {
-    
-    display: flex;
-    justify-content: left;
-
-    padding: 10px 20px;
-   
-    background-color:#FFED00;
-    font-weight: 480;
-    position: relative;
-}
 
 .header-down a {
     
@@ -859,15 +846,15 @@ font-size: 15px;
 }
 
 .continueButton {
-    background-color: #007bff; /* Color de fondo azul */
-    color: #fff; /* Texto blanco */
-    border: none; /* Sin borde */
+    background-color: #EA5730; /* Color de fondo azul */
+    color: #fff; 
+    border: none;
  
 }
 
 .continueButton:hover {
-    background-color: #0056b3; /* Color de fondo al pasar el mouse */
-  
+    background-color: #c44b2a; /* Color de fondo al pasar el mouse */
+    color: #fff;
 }
 
 #cart-items{
