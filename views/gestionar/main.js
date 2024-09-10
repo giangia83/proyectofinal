@@ -1,33 +1,32 @@
+// Función para convertir la coma a punto en números decimales
+const convertirDecimal = (valor) => valor.replace(',', '.');
+
 // Agregar producto
 document.getElementById('formAgregarProducto').addEventListener('submit', async function(event) {
     event.preventDefault(); // Evitar el envío estándar del formulario
   
     // Obtener valores del formulario
-    const nombre = document.getElementById('inputNombre').value;
-    const costo = document.getElementById('inputCosto').value;
-    const precio = document.getElementById('inputPrecio').value;
-    const file = document.getElementById('inputImagen').files[0]; // Archivo de imagen seleccionado
-    const categoria = document.querySelector('#dropdownCategoria .dropdown-item.active'); // Obtener la categoría seleccionada
+    const nombre = document.getElementById('inputNombre').value.trim();
+    const costo = convertirDecimal(document.getElementById('inputCosto').value.trim());
+    const precio = convertirDecimal(document.getElementById('inputPrecio').value.trim());
+    const file = document.getElementById('inputImagen').files[0];
+    const categoria = document.querySelector('#dropdownCategoria .dropdown-item.active');
   
-    // Validar que los campos no estén vacíos
-    if (nombre.trim() === '' || costo.trim() === '' || precio.trim() === '' || !file || !categoria) {
+    if (!nombre || !costo || !precio || !file || !categoria) {
         alert('Todos los campos son requeridos, incluyendo la categoría');
         return;
     }
   
-    // Obtener el texto de la categoría seleccionada
     const categoriaSeleccionada = categoria.textContent.trim();
   
-    // Crear objeto FormData para enviar datos y archivos al servidor
     const formData = new FormData();
     formData.append('nombre', nombre);
     formData.append('costo', costo);
     formData.append('precio', precio);
-    formData.append('inputImagen', file); // Corregido el nombre del campo del archivo
+    formData.append('inputImagen', file);
     formData.append('categoria', categoriaSeleccionada);
   
     try {
-        // Enviar datos al servidor usando fetch API
         const response = await fetch('/subir/upload', {
             method: 'POST',
             body: formData
@@ -40,7 +39,6 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
   
         const data = await response.json();
         console.log('Producto subido exitosamente:', data);
-        // Aquí puedes manejar la respuesta del servidor según sea necesario
         alert('Producto subido exitosamente');
     } catch (error) {
         console.error('Error al subir producto:', error);
@@ -48,7 +46,7 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
     }
 });
   
-// Agregar evento click a cada opción del dropdown para marcar como activa
+// Actualizar la categoría activa
 document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
     item.addEventListener('click', function() {
         document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
@@ -57,9 +55,10 @@ document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
         this.classList.add('active');
     });
 });
- // Función para cargar los datos del producto en el modal
- function cargarProducto(id) {
-    if (typeof id !== 'string' || !id.trim()) {
+
+// Función para cargar los datos del producto en el modal
+function cargarProducto(id) {
+    if (!id || typeof id !== 'string') {
         console.error('ID del producto no es válido:', id);
         alert('ID del producto no es válido');
         return;
@@ -84,37 +83,27 @@ document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
 document.getElementById('formEditarProducto').addEventListener('submit', async function(event) {
     event.preventDefault(); // Evitar el envío estándar del formulario
 
-    // Obtener valores del formulario
-    const id = document.getElementById('productoId').value;
-    const nombre = document.getElementById('inputNombreEditar').value;
-    const costo = document.getElementById('inputCostoEditar').value;
-    const precio = document.getElementById('inputPrecioEditar').value;
-    const file = document.getElementById('inputImagenEditar').files[0]; // Archivo de imagen seleccionado
+    const id = document.getElementById('productoId').value.trim();
+    const nombre = document.getElementById('inputNombreEditar').value.trim();
+    const costo = convertirDecimal(document.getElementById('inputCostoEditar').value.trim());
+    const precio = convertirDecimal(document.getElementById('inputPrecioEditar').value.trim());
+    const file = document.getElementById('inputImagenEditar').files[0];
 
-    // Validar que el ID del producto no esté vacío
-    if (id.trim() === '') {
-        alert('ID del producto no puede estar vacío');
-        return;
-    }
-
-    // Validar que los campos no estén vacíos
-    if (nombre.trim() === '' || costo.trim() === '' || precio.trim() === '') {
+    if (!id || !nombre || !costo || !precio) {
         alert('Todos los campos son requeridos');
         return;
     }
 
-    // Crear objeto FormData para enviar datos y archivos al servidor
     const formData = new FormData();
     formData.append('id', id);
     formData.append('nombre', nombre);
     formData.append('costo', costo);
     formData.append('precio', precio);
     if (file) {
-        formData.append('imagen', file); // Añadir el archivo de imagen si está presente
+        formData.append('imagen', file);
     }
 
     try {
-        // Enviar datos al servidor usando fetch API
         const response = await fetch('/subir/actualizar-producto', {
             method: 'POST',
             body: formData
@@ -127,7 +116,6 @@ document.getElementById('formEditarProducto').addEventListener('submit', async f
 
         const data = await response.json();
         console.log('Producto actualizado exitosamente:', data);
-        // Aquí puedes manejar la respuesta del servidor según sea necesario
         alert('Producto actualizado exitosamente');
     } catch (error) {
         console.error('Error al actualizar producto:', error);
