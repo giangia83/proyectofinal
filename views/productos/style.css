@@ -875,3 +875,12 @@ font-size: 15px;
 margin-bottom: 1rem;
 
 }
+
+h5 {
+    min-height: 40px; /* Asegura que todos los títulos tengan el mismo tamaño */
+    line-height: 1.2;
+}
+
+p.small {
+    min-height: 20px; /* Controla la altura de la categoría */
+}
