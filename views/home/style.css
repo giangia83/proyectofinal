@@ -1110,3 +1110,8 @@ h5 {
 p.small {
     min-height: 20px; /* Controla la altura de la categoría */
 }
+
+.turnwhite:hover{
+
+    color: #ffffff;
+}
