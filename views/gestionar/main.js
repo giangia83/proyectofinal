@@ -39,7 +39,14 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
   
         const data = await response.json();
         console.log('Producto subido exitosamente:', data);
-        alert('Producto subido exitosamente');
+
+        // Mostrar el mensaje de éxito
+        const mensajeExito = document.getElementById('mensajeExito');
+        mensajeExito.style.display = 'block';
+        setTimeout(() => {
+            mensajeExito.style.display = 'none';
+        }, 5000); // Ocultar el mensaje después de 5 segundos
+
     } catch (error) {
         console.error('Error al subir producto:', error);
         alert('Hubo un problema al subir el producto: ' + error.message);
