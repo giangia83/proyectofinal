@@ -1117,6 +1117,17 @@ p.small {
 }
 
 
+.cards-grid {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Disminuye el tamaño mínimo de las cards */
+    gap: 8px;  /* Reduce el espacio entre tarjetas */
+    padding: 0;
+    list-style: none;
+  
+    margin-top: -5rem;
+  }
+  
+
 /* Estilos para pantallas medianas y pequeñas */
 @media (max-width: 1200px) {
     .card {
@@ -1135,6 +1146,12 @@ p.small {
     .col-md-6 {
       flex: 0 0 100%;
       max-width: 100%;
+    }
+
+    
+    .cards-grid{
+
+        display: grid;
     }
     
     .card {
@@ -1200,17 +1217,6 @@ p.small {
     .cards-grid { grid-template-columns: repeat(4, 1fr); }
   }
 
-
-
-  .cards-grid {
-  display: none;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Disminuye el tamaño mínimo de las cards */
-  gap: 8px;  /* Reduce el espacio entre tarjetas */
-  padding: 0;
-  list-style: none;
-
-  margin-top: -5rem;
-}
 
 .cards-grid li {
   display: flex;

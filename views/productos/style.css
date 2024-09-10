@@ -871,3 +871,63 @@ h5 {
 p.small {
     min-height: 20px; /* Controla la altura de la categoría */
 }
+
+
+/* Estilos para pantallas medianas y pequeñas */
+@media (max-width: 1200px) {
+    .card {
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .col-lg-3 {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .col-md-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    
+    .cards-grid{
+
+        display: grid;
+    }
+
+    
+    .product-image {
+        max-width: 100%;
+        height: auto;
+      }
+      
+    
+    .card {
+      margin-bottom: 1rem;
+      height: auto;
+    }
+    
+    .card-body {
+        padding: 0.5rem;
+        height: auto;
+      }
+  
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5.5rem; /* Espacio entre las tarjetas */
+      }
+  }
+  
+  /* Estilos para pantallas pequeñas (teléfonos) */
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 0.5rem;
+      height: auto;
+    }
+}
