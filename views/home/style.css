@@ -1112,6 +1112,55 @@ p.small {
 }
 
 .turnwhite:hover{
-
+    font-size: 1px;
     color: #ffffff;
 }
+
+
+/* Estilos para pantallas medianas y pequeñas */
+@media (max-width: 1200px) {
+    .card {
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .col-lg-3 {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .col-md-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    
+    .card {
+      margin-bottom: 1rem;
+    }
+    
+    .card-body {
+      padding: 1rem;
+    }
+  }
+  
+  /* Estilos para pantallas pequeñas (teléfonos) */
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 0.5rem;
+      height: auto;
+    }
+    
+    .product-image {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .card-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.002rem;
+    }
+  }
