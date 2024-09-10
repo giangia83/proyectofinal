@@ -1167,6 +1167,6 @@ p.small {
     .row {
         display: flex;
         flex-wrap: wrap;
-        gap: 3rem; /* Espacio entre las tarjetas */
+        gap: 4.5rem; /* Espacio entre las tarjetas */
       }
   }
