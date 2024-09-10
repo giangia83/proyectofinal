@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Buscar productos
     const performSearch = async (query) => {
-        if (query) {
+        if (query.length > 0) {
             try {
                 const response = await fetch(`/api/buscar?query=${encodeURIComponent(query)}`);
                 const productos = await response.json();
@@ -191,8 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             resultsContainer.innerHTML = ''; // Limpia los resultados si no hay búsqueda
-            // Si no hay texto en la búsqueda, vuelve a cargar los productos
-            loadProducts();
+            loadProducts(); // Vuelve a cargar la lista de productos si no hay texto en la búsqueda
         }
     };
 
