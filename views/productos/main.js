@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const removeToast = new bootstrap.Toast(document.getElementById('remove-toast'));
     const productListContainer = document.getElementById('product-list'); // Contenedor para los productos
 
-    // Función para cargar todos los productos desde el servidor
     async function loadProducts() {
         try {
             const response = await fetch('/api/productos'); // Cambia esta URL si es necesario
@@ -12,37 +11,31 @@ document.addEventListener('DOMContentLoaded', () => {
             // Limpia el contenedor antes de añadir nuevos productos
             productListContainer.innerHTML = '';
 
-            // Crear una fila para la disposición de cuadrícula
-            const row = document.createElement('div');
-            row.classList.add('row', 'gy-3'); // 'gy-3' agrega espacio vertical entre las filas
+            // Crear una lista de productos
+            const list = document.createElement('ul');
+            list.classList.add('list-group');
 
             productos.forEach(producto => {
-                const col = document.createElement('div');
-                col.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-3'); // Ajusta el tamaño de las tarjetas en diferentes pantallas
-
-                const card = document.createElement('div');
-                card.classList.add('card', 'h-100'); // 'h-100' asegura que todas las tarjetas tengan la misma altura
-                card.setAttribute('data-producto-id', producto._id);
-
-                card.innerHTML = `
-                    <img src="${producto.imagen.data}" class="card-img-top product-image" alt="Imagen del producto" style="object-fit: cover; height: 200px;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title"><a href="#">${producto.nombre}</a></h5>
-                        <p class="card-text font-italic">${producto.categoria}</p>
-                        <button class="btn btn-primary btn-add mt-auto" data-producto-id="${producto._id}">Añadir</button>
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-group-item', 'd-flex', 'align-items-center');
+                
+                listItem.innerHTML = `
+                    <img src="${producto.imagen.data}" alt="Imagen del producto" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover; margin-right: 15px;">
+                    <div class="me-auto">
+                        <h6 class="mb-1">${producto.nombre}</h6>
+                        <p class="mb-1 text-muted">${producto.categoria}</p>
                     </div>
+                    <button class="btn btn-primary btn-add" data-producto-id="${producto._id}">Añadir</button>
                 `;
 
-                col.appendChild(card);
-                row.appendChild(col);
+                list.appendChild(listItem);
             });
 
-            // Añadir la fila al contenedor
-            productListContainer.appendChild(row);
+            // Añadir la lista de productos al contenedor
+            productListContainer.appendChild(list);
 
             // Añadir eventos a los botones de añadir productos al carrito
             attachAddToCartEvents();
-            updateCardStyles(); // Actualiza la visualización de las tarjetas
         } catch (error) {
             console.error('Error al cargar los productos:', error);
             productListContainer.innerHTML = '<p class="text-danger">Error al cargar los productos. Inténtalo más tarde.</p>';

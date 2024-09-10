@@ -822,6 +822,11 @@ font-size: 15px;
 
 }
 
+.product-list{
+
+    display: none;
+}
+
 /* Añadir al estilo de tu archivo CSS */
 .card.added {
     border: 2px solid #28a745; /* Cambia el borde de la tarjeta a verde si está en el carrito */
@@ -893,6 +898,15 @@ p.small {
       max-width: 100%;
     }
 
+.onlydesktop{
+
+    display: none;
+}
+
+.product-list{
+
+    display: flex;
+}
     
     .cards-grid{
 
