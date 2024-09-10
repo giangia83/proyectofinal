@@ -701,7 +701,7 @@ font-size: 15px;
   
   @media (max-width: 500px) {
 
-    .product-list{
+    #product-list{
 
         display: flex;
     }
@@ -735,16 +735,6 @@ font-size: 15px;
         display: flex;
         justify-content: space-between;
         margin-top: 1rem;
-    }
-    
-    .card-buttons .btn {
-        border: none;
-        border-radius: 5px;
-        padding: 0.5rem;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease, opacity 0.3s ease;
     }
     
     .btn-add {
@@ -833,7 +823,7 @@ font-size: 15px;
 
 }
 
-.product-list{
+#product-list{
 
     display: none;
 }
@@ -909,7 +899,7 @@ p.small {
       max-width: 100%;
     }
 
-    .product-list{
+    #product-list{
 
         display: flex;
     }
@@ -958,7 +948,7 @@ p.small {
       height: auto;
     }
 
-    .product-list{
+    #product-list{
 
         display: flex;
     }
