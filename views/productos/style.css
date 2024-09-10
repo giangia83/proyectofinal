@@ -931,3 +931,12 @@ p.small {
       height: auto;
     }
 }
+
+.added-to-cart {
+    background-color: #e0ffe0; /* Color de fondo cuando un producto ha sido añadido al carrito */
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+}
