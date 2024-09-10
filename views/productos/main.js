@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h6 class="mb-1">${product.name}</h6>
                     <p class="mb-1 text-muted">${product.category}</p>
                 </div>
+                
                 <button class="btn btn-danger btn-remove" data-producto-id="${product.id}">Eliminar</button>
             `;
             cartItemsContainer.appendChild(listItem);
@@ -114,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Función para eliminar producto del carrito
+    // Eliminar producto del carrito
     function removeFromCart(productId) {
         let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
         cart = cart.filter(item => item.id !== productId);
@@ -131,19 +132,32 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCardStyles(); // Actualiza la visualización de las tarjetas
     }
 
-    // Función para buscar productos y mostrar spinner mientras se carga
+    // Actualiza los estilos de las tarjetas en función del carrito
+    function updateCardStyles() {
+        const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        const productCards = document.querySelectorAll('.card');
+
+        productCards.forEach(card => {
+            const productId = card.getAttribute('data-producto-id');
+            if (cart.some(item => item.id === productId)) {
+                card.classList.add('added-to-cart'); // Añadir una clase si el producto está en el carrito
+            } else {
+                card.classList.remove('added-to-cart'); // Quitar la clase si no está en el carrito
+            }
+        });
+    }
+
+    // Buscar productos
+    const searchInput = document.getElementById('search-input');
+    const resultsContainer = document.getElementById('search-results');
+
     const performSearch = async (query) => {
         if (query) {
             try {
-                // Muestra el spinner y limpia los resultados previos
-                resultsContainer.innerHTML = '';
-                spinner.style.display = 'block';
-
                 const response = await fetch(`/api/buscar?query=${encodeURIComponent(query)}`);
                 const productos = await response.json();
 
-                // Oculta el spinner una vez que los productos están listos
-                spinner.style.display = 'none';
+                resultsContainer.innerHTML = '';
 
                 if (productos.length > 0) {
                     const list = document.createElement('ul');
@@ -170,22 +184,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error('Error al buscar productos:', error);
-                spinner.style.display = 'none';
                 resultsContainer.innerHTML = '<p class="text-center text-danger spacedown">Error al buscar productos. Inténtalo de nuevo.</p>';
             }
         } else {
-            resultsContainer.innerHTML = ''; // Limpiar resultados si no hay búsqueda
-            spinner.style.display = 'none';
+            resultsContainer.innerHTML = '<p class="text-center spacedown">Por favor, ingresa una búsqueda.</p>';
         }
     };
 
     searchInput.addEventListener('input', (event) => {
-        const query = event.target.value.trim();
-        if (query.length === 0) {
-            resultsContainer.innerHTML = ''; // Limpiar si no hay búsqueda
-        } else {
-            performSearch(query);
-        }
+        performSearch(event.target.value.trim());
     });
 
     loadProducts(); // Cargar los productos al iniciar la página

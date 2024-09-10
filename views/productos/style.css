@@ -65,6 +65,10 @@ header {
 }
 
 
+#product-list{
+
+    display: none;
+}
 
 
 /* CSS */
@@ -835,10 +839,6 @@ font-size: 15px;
 
 }
 
-#product-list{
-
-    display: none;
-}
 
 /* Añadir al estilo de tu archivo CSS */
 .card.added {
