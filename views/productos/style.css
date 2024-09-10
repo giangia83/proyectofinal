@@ -700,6 +700,11 @@ font-size: 15px;
   }
   
   @media (max-width: 500px) {
+
+    .product-list{
+
+        display: flex;
+    }
     /* Estilos específicos para pantallas móviles */
     .header-center {
       padding: 10px; /* Ajusta el relleno en pantallas móviles */
@@ -783,6 +788,12 @@ font-size: 15px;
             width: 100%; /* El botón estrella ocupará todo el ancho disponible en pantallas pequeñas */
             margin-right: 0;
         }
+
+        .onlydesktop{
+
+            display: none;
+        }
+        
     }
     
 
@@ -898,15 +909,17 @@ p.small {
       max-width: 100%;
     }
 
+    .product-list{
+
+        display: flex;
+    }
+
 .onlydesktop{
 
     display: none;
 }
 
-.product-list{
 
-    display: flex;
-}
     
     .cards-grid{
 
@@ -943,6 +956,11 @@ p.small {
     .card-body {
       padding: 0.5rem;
       height: auto;
+    }
+
+    .product-list{
+
+        display: flex;
     }
 }
 

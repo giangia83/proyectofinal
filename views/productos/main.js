@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h6 class="mb-1">${producto.nombre}</h6>
                         <p class="mb-1 text-muted">${producto.categoria}</p>
                     </div>
-                    <button class="btn btn-primary btn-add" data-producto-id="${producto._id}">Añadir</button>
+                    <button class="btn btn-add" data-producto-id="${producto._id}">Añadir</button>
                 `;
 
                 list.appendChild(listItem);
