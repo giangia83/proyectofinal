@@ -814,6 +814,18 @@ font-size: 15px;
         background-color: #0056b3; /* Color de fondo del botón en hover */
     }
 
+
+    .card-buttons .btn {
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, opacity 0.3s ease;
+    }
+
+
 .btn-2 {
 
     justify-content: right;
@@ -952,6 +964,12 @@ p.small {
 
         display: flex;
     }
+
+    .onlydesktop{
+
+        display: none;
+    }
+    
 }
 
 .added-to-cart {

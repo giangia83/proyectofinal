@@ -25,7 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h6 class="mb-1">${producto.nombre}</h6>
                         <p class="mb-1 text-muted">${producto.categoria}</p>
                     </div>
+                     <div class="card-buttons">
                     <button class="btn btn-add" data-producto-id="${producto._id}">Añadir</button>
+                    </div>
                 `;
 
                 list.appendChild(listItem);
@@ -96,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h6 class="mb-1">${product.name}</h6>
                     <p class="mb-1 text-muted">${product.category}</p>
                 </div>
+                
                 <button class="btn btn-danger btn-remove" data-producto-id="${product.id}">Eliminar</button>
             `;
             cartItemsContainer.appendChild(listItem);
