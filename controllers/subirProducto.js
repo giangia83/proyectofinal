@@ -15,6 +15,11 @@ const bunnyStorageUrl = 'https://br.storage.bunnycdn.com/starcleanbucket';
 const bunnyPullZoneUrl = 'https://starcleanpull.b-cdn.net';
 const bunnyAccessKey = process.env.YOUR_BUNNYNET_ACCESS_KEY;
 
+// Tamaño uniforme para las imágenes (300x300 en este ejemplo)
+const IMAGE_WIDTH = 300;
+const IMAGE_HEIGHT = 300;
+
+// Ruta para subir un nuevo producto
 router.post('/upload', upload.single('inputImagen'), async (req, res) => {
     if (!req.file) {
         const errorMsg = 'No se ha cargado ningún archivo';
@@ -24,7 +29,14 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
 
     try {
         const fileName = req.file.originalname.replace(/\.[^/.]+$/, '') + '.webp';
-        const fileBuffer = await sharp(req.file.buffer).webp().toBuffer();
+        
+        // Redimensionar la imagen a 300x300 píxeles sin distorsionar, recortando si es necesario
+        const fileBuffer = await sharp(req.file.buffer)
+            .resize(IMAGE_WIDTH, IMAGE_HEIGHT, {
+                fit: 'cover'  // Recorta la imagen si es necesario para ajustarse al tamaño
+            })
+            .webp()
+            .toBuffer();
 
         const response = await axios.put(
             `${bunnyStorageUrl}/${fileName}`,
@@ -72,9 +84,9 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
             res.status(500).json({ error: 'Error inesperado. Por favor, intenta nuevamente.' });
         }
     }
-    
 });
 
+// Ruta para actualizar un producto existente
 router.post('/actualizar-producto', upload.single('imagen'), async (req, res) => {
     const { id, nombre, costo, precio, categoria } = req.body;
     const file = req.file;
@@ -88,7 +100,14 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
 
         if (file) {
             const fileName = file.originalname.replace(/\.[^/.]+$/, '') + '.webp';
-            const fileBuffer = await sharp(file.buffer).webp().toBuffer();
+
+            // Redimensionar la imagen a 300x300 píxeles sin distorsionar, recortando si es necesario
+            const fileBuffer = await sharp(file.buffer)
+                .resize(IMAGE_WIDTH, IMAGE_HEIGHT, {
+                    fit: 'cover'  // Recorta la imagen si es necesario para ajustarse al tamaño
+                })
+                .webp()
+                .toBuffer();
 
             const response = await axios.put(
                 `${bunnyStorageUrl}/${fileName}`,
