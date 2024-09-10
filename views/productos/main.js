@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const addToast = new bootstrap.Toast(document.getElementById('add-toast'));
     const removeToast = new bootstrap.Toast(document.getElementById('remove-toast'));
     const productListContainer = document.getElementById('product-list'); // Contenedor para los productos
+    const searchInput = document.getElementById('search-input');
+    const resultsContainer = document.getElementById('search-results');
+
+    // Cargar productos al iniciar
+    loadProducts();
+    displayCart(); // Cargar el carrito al iniciar
 
     async function loadProducts() {
         try {
@@ -148,9 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Buscar productos
-    const searchInput = document.getElementById('search-input');
-    const resultsContainer = document.getElementById('search-results');
-
     const performSearch = async (query) => {
         if (query) {
             try {
@@ -187,14 +190,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultsContainer.innerHTML = '<p class="text-center text-danger spacedown">Error al buscar productos. Inténtalo de nuevo.</p>';
             }
         } else {
-            resultsContainer.innerHTML = '<p class="text-center spacedown">Por favor, ingresa una búsqueda.</p>';
+            resultsContainer.innerHTML = ''; // Limpia los resultados si no hay búsqueda
+            // Si no hay texto en la búsqueda, vuelve a cargar los productos
+            loadProducts();
         }
     };
 
     searchInput.addEventListener('input', (event) => {
         performSearch(event.target.value.trim());
     });
-
-    loadProducts(); // Cargar los productos al iniciar la página
-    displayCart(); // Cargar el carrito al iniciar
 });
