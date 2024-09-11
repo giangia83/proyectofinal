@@ -551,6 +551,12 @@ width: 100%;
 
    }
 
+
+   #herocarousel{
+
+z-index: -2;
+
+   }
    
    .hero-image {
     content: url("/public/img/herostarmobile.webp");
