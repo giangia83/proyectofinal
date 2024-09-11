@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    
+
     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
     // Función para eliminar un producto del carrito
@@ -41,8 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('El carrito está vacío.');
         }
 
-        // Mostrar un mensaje de confirmación o simplemente recargar la página
-        location.reload(); // Recarga la página para actualizar el carrito
+
     };
 
     // Enviar cotización
