@@ -1,23 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     const addToast = new bootstrap.Toast(document.getElementById('add-toast'));
     const removeToast = new bootstrap.Toast(document.getElementById('remove-toast'));
-    const productListContainer = document.getElementById('product-list'); // Contenedor para los productos
+    const productListContainer = document.getElementById('product-list');
     const searchInput = document.getElementById('search-input');
     const resultsContainer = document.getElementById('search-results');
 
-    // Cargar productos al iniciar
     loadProducts();
-    displayCart(); // Cargar el carrito al iniciar
+    displayCart();
 
     async function loadProducts() {
         try {
-            const response = await fetch('/api/productos'); // Cambia esta URL si es necesario
+            const response = await fetch('/api/productos');
             const productos = await response.json();
-
-            // Limpia el contenedor antes de añadir nuevos productos
             productListContainer.innerHTML = '';
 
-            // Crear una lista de productos
             const list = document.createElement('ul');
             list.classList.add('list-group');
 
@@ -31,18 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h6 class="mb-1">${producto.nombre}</h6>
                         <p class="mb-1 text-muted">${producto.categoria}</p>
                     </div>
-                     <div class="card-buttons">
                     <button class="btn btn-add" data-producto-id="${producto._id}">Añadir</button>
-                    </div>
                 `;
 
                 list.appendChild(listItem);
             });
 
-            // Añadir la lista de productos al contenedor
             productListContainer.appendChild(list);
-
-            // Añadir eventos a los botones de añadir productos al carrito
             attachAddToCartEvents();
         } catch (error) {
             console.error('Error al cargar los productos:', error);
@@ -50,51 +41,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Asignar evento a los botones después de cargar los productos
     function attachAddToCartEvents() {
         const addButtons = document.querySelectorAll('.btn-add');
         addButtons.forEach(button => {
             button.addEventListener('click', (event) => {
                 event.preventDefault();
-
                 const productId = button.getAttribute('data-producto-id');
-                const card = button.closest('.card');
-                const productName = card.querySelector('h5 a').textContent;
-                const productCategory = card.querySelector('.font-italic').textContent;
-                const productImage = card.querySelector('.product-image').getAttribute('src');
+                const listItem = button.closest('.list-group-item');
 
-                const product = {
-                    id: productId,
-                    name: productName,
-                    category: productCategory,
-                    image: productImage,
-                };
+                if (listItem) {
+                    const productNameElement = listItem.querySelector('h6');
+                    const productCategoryElement = listItem.querySelector('p');
+                    const productImageElement = listItem.querySelector('img');
 
-                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-                const found = cart.some(item => item.id === productId);
-                if (!found) {
-                    cart.push(product);
-                    sessionStorage.setItem('cart', JSON.stringify(cart));
-                    console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
+                    if (productNameElement && productCategoryElement && productImageElement) {
+                        const productName = productNameElement.textContent;
+                        const productCategory = productCategoryElement.textContent;
+                        const productImage = productImageElement.getAttribute('src');
 
-                    card.classList.add('added-to-cart');
-                    addToast.show();
-                    displayCart(); // Actualiza la lista de productos en el carrito
-                    updateCardStyles(); // Actualiza la visualización de las tarjetas
-                } else {
-                    console.log(`El producto '${productName}' ya está en el carrito.`);
+                        const product = {
+                            id: productId,
+                            name: productName,
+                            category: productCategory,
+                            image: productImage,
+                        };
+
+                        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                        const found = cart.some(item => item.id === productId);
+                        if (!found) {
+                            cart.push(product);
+                            sessionStorage.setItem('cart', JSON.stringify(cart));
+                            console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
+
+                            button.closest('.list-group-item').classList.add('added-to-cart');
+                            addToast.show();
+                            displayCart();
+                            updateCardStyles();
+                        } else {
+                            console.log(`El producto '${productName}' ya está en el carrito.`);
+                        }
+                    }
                 }
             });
         });
     }
 
-    
-
-    // Función para mostrar productos en el carrito
     function displayCart() {
         const cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
         const cartItemsContainer = document.getElementById('cart-items');
-
         cartItemsContainer.innerHTML = '';
 
         cartItems.forEach(product => {
@@ -106,13 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h6 class="mb-1">${product.name}</h6>
                     <p class="mb-1 text-muted">${product.category}</p>
                 </div>
-                
                 <button class="btn btn-danger btn-remove" data-producto-id="${product.id}">Eliminar</button>
             `;
             cartItemsContainer.appendChild(listItem);
         });
 
-        // Añadir evento a los botones de eliminar productos
         const removeButtons = document.querySelectorAll('.btn-remove');
         removeButtons.forEach(button => {
             button.addEventListener('click', (event) => {
@@ -123,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Eliminar producto del carrito
     function removeFromCart(productId) {
         let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
         cart = cart.filter(item => item.id !== productId);
@@ -136,11 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         removeToast.show();
-        displayCart(); // Actualizar la lista de productos en el carrito
-        updateCardStyles(); // Actualiza la visualización de las tarjetas
+        displayCart();
+        updateCardStyles();
     }
 
-    // Actualiza los estilos de las tarjetas en función del carrito
     function updateCardStyles() {
         const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
         const productCards = document.querySelectorAll('.card');
@@ -148,14 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
         productCards.forEach(card => {
             const productId = card.getAttribute('data-producto-id');
             if (cart.some(item => item.id === productId)) {
-                card.classList.add('added-to-cart'); // Añadir una clase si el producto está en el carrito
+                card.classList.add('added-to-cart');
             } else {
-                card.classList.remove('added-to-cart'); // Quitar la clase si no está en el carrito
+                card.classList.remove('added-to-cart');
             }
         });
     }
 
-    // Buscar productos
     const performSearch = async (query) => {
         if (query.length > 0) {
             try {
@@ -183,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     resultsContainer.appendChild(list);
-                    attachAddToCartEvents(); // Añadir eventos para productos buscados
+                    attachAddToCartEvents();
                 } else {
                     resultsContainer.innerHTML = '<p class="text-center spacedown">No se encontraron productos.</p>';
                 }
@@ -192,13 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultsContainer.innerHTML = '<p class="text-center text-danger spacedown">Error al buscar productos. Inténtalo de nuevo.</p>';
             }
         } else {
-            resultsContainer.innerHTML = ''; // Limpia los resultados si no hay búsqueda
-            loadProducts(); // Vuelve a cargar la lista de productos si no hay texto en la búsqueda
+            resultsContainer.innerHTML = '';
+            loadProducts();
         }
     };
 
     searchInput.addEventListener('input', (event) => {
-        performSearch(event.target.value.trim());
+        performSearch(event.target.value);
     });
 });
 

@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Si el carrito está vacío después de eliminar, puedes hacer algo más como redirigir
         if (cart.length === 0) {
-            alert('El carrito está vacío.');
+            console.log('El carrito está vacío.');
         }
 
 
