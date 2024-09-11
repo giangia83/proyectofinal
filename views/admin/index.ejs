@@ -5,222 +5,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Starclean C.A - Panel de Administración</title>
-   
-
-
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <!--  -->
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Enlace al archivo CSS de Bootstrap -->
-
-   
     <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
-    <!-- Icono de la pestaña del navegador -->
     <link rel="stylesheet" href="/views/admin/style.css">
     <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
 </head>
 
 <body>
-
-
-
-
-
-
-  <script src="/views/components/headeradmin.js"></script>
-
+    <script src="/views/components/headeradmin.js"></script>
 
     <main>
-
-
-
-
         <div class="container">
-            <!-- Content here -->
-
-
-
             <div class="table-div">
-
                 <aside>
-                    <!-- Contenido del sidenav -->
                     <nav>
-
                         <ul>
-
                             <li><a href="/gestion">Gestión de Productos </a></li>
-                            <p> Agregar, editar y eliminar productos.</p>
-
+                            <p>Agregar, editar y eliminar productos.</p>
                             <li><a href="/vercotizaciones">Gestión de Cotizaciones</a></li>
-                            <p> Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
+                            <p>Visualización y gestión de las solicitudes de cotización recibidas de los clientes.</p>
                             <li><a href="/clientes">Administración de Clientes</a></li>
-                            <p> Mantén un registro de los clientes registrados y sus detalles.</p>
-
-
+                            <p>Mantén un registro de los clientes registrados y sus detalles.</p>
                         </ul>
-
                     </nav>
                 </aside>
             </div>
 
-
-           <div class="container-right">
-
-            <div class="card">
-                <h5 class="card-header">Starclean C.A</h5>
-                <div class="card-body">
-                    <h5 class="card-title">Gestiona tu tienda de productos</h5>
-                    <p class="card-text">Bienvenido al panel de administración. Aquí puedes controlar todos los
-                        aspectos de tu ecommerce.</p>
-                    <a href="/gestionar" class="btn btn-primary">Ir a la gestión de productos</a>
-                </div>
-              </div>
-
-              
-
-
-
-
-
-
-              <div class="table-second">
-
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="card">
+            <div class="container-right">
+                <div class="card">
+                    <h5 class="card-header">Starclean C.A</h5>
                     <div class="card-body">
-                        <h5 class="card-title">Gestión de Pedidos</h5>
-                        <p class="card-text">Administra los pedidos de los clientes.</p>
-                        <a href="/vercotizaciones" class="btn btn-primary">Ver pedidos</a>
+                        <h5 class="card-title">Gestiona tu tienda de productos</h5>
+                        <p class="card-text">Bienvenido al panel de administración. Aquí puedes controlar todos los aspectos de tu ecommerce.</p>
+                        <a href="/gestionar" class="btn btn-primary">Ir a la gestión de productos</a>
                     </div>
-                  </div>
                 </div>
-                <div class="col-sm-6">
-                  <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Gestión de clientes</h5>
-                        <p class="card-text">Visualiza los clientes registrados</p>
-                        <a href="/clientes" class="btn btn-primary">Ver clientes</a>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-
-            <div class="table-third">
-
-
-
-                <div class="card text-dark bg-light mb-3" style="max-width: 100%;">
-                    <div class="card-header">Información del negocio</div>
-                    <div class="card-body">
-                      
-                        <form class="row g-3" id="adminForm" method="POST" action="/editar/<%= usuario._id %>">
-                        <div class="col-md-6">
-                            <label for="inputEmail4" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="inputEmail4" name="correo" value="<%= usuario.correo %>">
+                <div class="table-second">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Gestión de Pedidos</h5>
+                                    <p class="card-text">Administra los pedidos de los clientes.</p>
+                                    <a href="/vercotizaciones" class="btn btn-primary">Ver pedidos</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="inputPhone" class="form-label">Número de teléfono</label>
-                            <input type="text" class="form-control" id="inputPhone" name="number" value="<%= usuario.number %>">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Gestión de clientes</h5>
+                                    <p class="card-text">Visualiza los clientes registrados</p>
+                                    <a href="/clientes" class="btn btn-primary">Ver clientes</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-12">
-                            <label for="inputAddress" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" id="inputAddress" name="direccion" value="<%= usuario.direccion %>">
-                        </div>
-                        <div class="col-12">
-                            <label for="inputCity" class="form-label">Ciudad</label>
-                            <input type="text" class="form-control" id="inputCity" name="ciudad" value="<%= usuario.ciudad %>">
-                        </div>
-                        <div class="col-12">
-                            <label for="inputRif" class="form-label">RIF</label>
-                            <input type="text" class="form-control" id="inputRif" name="rif" value="<%= usuario.rif %>">
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
-                        </div>
-                    </form>
-                    
-
-
-
-
-
-
-
-
-
-
-
-                      
                     </div>
+                </div>
 
-
-
-
-
-
+                <div class="table-third">
+                    <div class="card text-dark bg-light mb-3" style="max-width: 100%;">
+                        <div class="card-header">Información del negocio</div>
+                        <div class="card-body">
+                            <!-- Aquí va el contenido adicional que desees agregar -->
+                        </div>
+                    </div>
+                </div>
 
             </div>
-
-
-           </div>
-
-
-
-
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-
-
-
-
-
-
-
     </main>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script src="/views/admin/main.js"></script>
+    <script src="/views/admin/main.js"></script>
     <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
 </body>
 
