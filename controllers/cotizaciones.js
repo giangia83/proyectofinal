@@ -234,7 +234,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
                 // Enviar el correo al administrador
                 const mailOptionsAdmin = {
                     from: process.env.EMAIL_USER,
-                    to: process.env.ADMIN_EMAIL, // Asegúrate de definir esta variable de entorno
+                    to: admin.correo, // Asegúrate de definir esta variable de entorno
                     subject: 'Nueva Cotización Creada',
                     html: `
                         <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
