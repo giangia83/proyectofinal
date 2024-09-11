@@ -23,7 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
     // Función para eliminar un producto del carrito
-    window.eliminarProducto = function (idProducto) {
+    window.eliminarProducto = function (idProducto, event) {
+        // Prevenir que el botón recargue o envíe el formulario
+        event.preventDefault();
+
         // Filtrar el producto fuera del carrito
         cart = cart.filter(producto => producto.id !== idProducto);
 
