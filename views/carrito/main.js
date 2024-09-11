@@ -19,22 +19,30 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Obtener el carrito desde sessionStorage
+    
     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
     // Función para eliminar un producto del carrito
-    window.eliminarProducto = function (idProducto, event) {
-        // Prevenir que el botón recargue o envíe el formulario
-        event.preventDefault();
-
+    window.eliminarProducto = function (idProducto) {
         // Filtrar el producto fuera del carrito
         cart = cart.filter(producto => producto.id !== idProducto);
 
-        // Actualizar sessionStorage
+        // Actualizar sessionStorage con el carrito filtrado
         sessionStorage.setItem('cart', JSON.stringify(cart));
 
-        // Recargar la página para reflejar los cambios
-        location.reload();
+        // Eliminar el elemento de la lista en la interfaz
+        const productoElement = document.getElementById(`producto-${idProducto}`);
+        if (productoElement) {
+            productoElement.remove();
+        }
+
+        // Si el carrito está vacío después de eliminar, puedes hacer algo más como redirigir
+        if (cart.length === 0) {
+            alert('El carrito está vacío.');
+        }
+
+        // Mostrar un mensaje de confirmación o simplemente recargar la página
+        location.reload(); // Recarga la página para actualizar el carrito
     };
 
     // Enviar cotización
