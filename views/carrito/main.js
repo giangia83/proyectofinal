@@ -22,6 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Obtener el carrito desde sessionStorage
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
+    // Función para eliminar un producto del carrito
+    window.eliminarProducto = function (idProducto) {
+        const nuevoCarrito = cart.filter(producto => producto.id !== idProducto);
+        sessionStorage.setItem('cart', JSON.stringify(nuevoCarrito));
+        location.reload(); // Recargar la página para reflejar los cambios
+    };
+
     const cotizacionForm = document.getElementById('cotizacionForm');
     if (cotizacionForm) {
         cotizacionForm.addEventListener('submit', async (event) => {
@@ -33,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 estado: 'Pendiente',
                 productos: cart.map(producto => ({
                     id: producto.id,
-                    nombre: producto.name, 
+                    nombre: producto.name,
                     categoria: producto.category,
                     cantidad: parseInt(document.getElementsByName(`cantidad${producto.id}`)[0].value, 10),
                 })),
@@ -52,15 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const responseData = await response.json();
                     console.log('Cotización guardada exitosamente:', responseData);
 
-                    window.location.href = '/'; 
+                    window.location.href = '/tuspedidos';
                 } else {
                     console.error('Error al guardar la cotización:', response.statusText);
-                    // Mostrar mensaje de error al usuario
                     alert('Hubo un problema al enviar la cotización. Por favor, inténtalo nuevamente.');
                 }
             } catch (error) {
                 console.error('Error en la solicitud:', error);
-                // Mostrar mensaje de error al usuario
                 alert('Hubo un problema al enviar la cotización. Por favor, inténtalo nuevamente.');
             }
         });

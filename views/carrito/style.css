@@ -127,6 +127,11 @@ line-height :21.6px;
    
 }
 
+.btn-primary {
+    border: none;
+    background-color: #EA5730;
+}
+
 .dropbtn {
     background-color: transparent;
     border: none;
