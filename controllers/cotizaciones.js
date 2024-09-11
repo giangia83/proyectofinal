@@ -38,6 +38,24 @@ router.get('/vercotizaciones/:id', async (req, res) => {
     }
 });
 
+// Ruta para eliminar una cotización
+router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const cotizacion = await Cotizacion.findById(id);
+        if (!cotizacion) {
+            return res.status(404).json({ message: 'Cotización no encontrada' });
+        }
+
+        await Cotizacion.findByIdAndDelete(id);
+        res.redirect('/mispedidos'); // Redirige a la lista de cotizaciones después de eliminar
+    } catch (error) {
+        console.error('Error al eliminar la cotización:', error);
+        res.status(500).json({ message: 'Error interno al eliminar la cotización' });
+    }
+});
+
+
 // Ruta para obtener una cotización específica por ID
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
