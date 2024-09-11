@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Obtener el carrito desde sessionStorage
     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
     // Función para eliminar un producto del carrito
@@ -26,22 +27,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Filtrar el producto fuera del carrito
         cart = cart.filter(producto => producto.id !== idProducto);
 
-        // Actualizar el carrito en sessionStorage
+        // Actualizar sessionStorage
         sessionStorage.setItem('cart', JSON.stringify(cart));
 
-        // Recargar la página del carrito para reflejar los cambios
+        // Recargar la página para reflejar los cambios
         location.reload();
     };
 
-    // Código para el envío de la cotización
+    // Enviar cotización
     const cotizacionForm = document.getElementById('cotizacionForm');
     if (cotizacionForm) {
         cotizacionForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            // Preparar los datos de la cotización
+            // Preparar los datos a enviar
             const data = {
-                usuario: obtenerUsuarioDesdeCookie(), // Aquí ya debes tener una función que obtenga el usuario
+                usuario: usuario,
                 estado: 'Pendiente',
                 productos: cart.map(producto => ({
                     id: producto.id,
