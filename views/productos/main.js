@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h6 class="mb-1">${producto.nombre}</h6>
                         <p class="mb-1 text-muted">${producto.categoria}</p>
                     </div>
-                     <div class="card-buttons">
-                    <button class="btn btn-add" data-producto-id="${producto._id}">Añadir</button>
+                    <div class="card-buttons">
+                        <button class="btn btn-add" data-producto-id="${producto._id}">Añadir</button>
                     </div>
                 `;
 
@@ -49,45 +49,42 @@ document.addEventListener('DOMContentLoaded', () => {
             productListContainer.innerHTML = '<p class="text-danger">Error al cargar los productos. Inténtalo más tarde.</p>';
         }
     }
+
     function attachAddToCartEvents() {
-        const addButtons = document.querySelectorAll('.btn-add');
-        console.log('Botones encontrados:', addButtons.length); // Depurar la cantidad de botones encontrados
-        addButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
+        document.addEventListener('click', (event) => {
+            if (event.target.matches('.btn-add')) {
                 event.preventDefault();
-    
+                const button = event.target;
                 const productId = button.getAttribute('data-producto-id');
-                const card = button.closest('.card');
-                const productName = card.querySelector('h5 a').textContent;
-                const productCategory = card.querySelector('.font-italic').textContent;
-                const productImage = card.querySelector('.product-image').getAttribute('src');
-    
+                const card = button.closest('.card') || button.closest('.list-group-item'); // Ajusta según el HTML generado
+                const productName = card.querySelector('h5 a')?.textContent || card.querySelector('h6.mb-1').textContent;
+                const productCategory = card.querySelector('.font-italic')?.textContent || card.querySelector('.text-muted').textContent;
+                const productImage = card.querySelector('.product-image')?.getAttribute('src') || card.querySelector('img').getAttribute('src');
+
                 const product = {
                     id: productId,
                     name: productName,
                     category: productCategory,
                     image: productImage,
                 };
-    
+
                 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
                 const found = cart.some(item => item.id === productId);
                 if (!found) {
                     cart.push(product);
                     sessionStorage.setItem('cart', JSON.stringify(cart));
                     console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
-    
-                    card.classList.add('added-to-cart');
+
+                    if (card) card.classList.add('added-to-cart');
                     addToast.show();
                     displayCart(); // Actualiza la lista de productos en el carrito
                     updateCardStyles(); // Actualiza la visualización de las tarjetas
                 } else {
                     console.log(`El producto '${productName}' ya está en el carrito.`);
                 }
-            });
+            }
         });
     }
-    
-    
 
     // Función para mostrar productos en el carrito
     function displayCart() {
@@ -105,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h6 class="mb-1">${product.name}</h6>
                     <p class="mb-1 text-muted">${product.category}</p>
                 </div>
-                
                 <button class="btn btn-danger btn-remove" data-producto-id="${product.id}">Eliminar</button>
             `;
             cartItemsContainer.appendChild(listItem);
@@ -200,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
         performSearch(event.target.value.trim());
     });
 });
-
 
 function irAVerCarrito() {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
