@@ -20,15 +20,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Obtener el carrito desde sessionStorage
-    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
     // Función para eliminar un producto del carrito
     window.eliminarProducto = function (idProducto) {
-        const nuevoCarrito = cart.filter(producto => producto.id !== idProducto);
-        sessionStorage.setItem('cart', JSON.stringify(nuevoCarrito));
-        location.reload(); // Recargar la página para reflejar los cambios
+        // Filtrar el producto fuera del carrito
+        cart = cart.filter(producto => producto.id !== idProducto);
+
+        // Actualizar sessionStorage
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+
+        // Eliminar el producto de la interfaz
+        const productoElement = document.getElementById(`producto-${idProducto}`);
+        if (productoElement) {
+            productoElement.remove();
+        }
+
+        // Mostrar un mensaje de confirmación
+        alert('Producto eliminado del carrito.');
     };
 
+    // Enviar cotización
     const cotizacionForm = document.getElementById('cotizacionForm');
     if (cotizacionForm) {
         cotizacionForm.addEventListener('submit', async (event) => {
@@ -58,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     const responseData = await response.json();
                     console.log('Cotización guardada exitosamente:', responseData);
-
                     window.location.href = '/tuspedidos';
                 } else {
                     console.error('Error al guardar la cotización:', response.statusText);
