@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const addToast = new bootstrap.Toast(document.getElementById('add-toast'));
-    const removeToast = new bootstrap.Toast(document.getElementById('remove-toast'));
     const productListContainer = document.getElementById('product-list'); // Contenedor para los productos
     const searchInput = document.getElementById('search-input');
     const resultsContainer = document.getElementById('search-results');
@@ -76,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
 
                     if (card) card.classList.add('added-to-cart');
-                    addToast.show();
                     displayCart(); // Actualiza la lista de productos en el carrito
                     updateCardStyles(); // Actualiza la visualización de las tarjetas
                 } else {
@@ -130,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.remove('added-to-cart');
         }
 
-        removeToast.show();
         displayCart(); // Actualizar la lista de productos en el carrito
         updateCardStyles(); // Actualiza la visualización de las tarjetas
     }
