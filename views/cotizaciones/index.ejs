@@ -127,21 +127,25 @@
                       <% }) %>
                     </ul>
                     <div class="card-text mt-3">
-                      <strong>Estado:</strong> <%= cotizacion.estado %><br>
+                      <p class="small-text mt-3">Estado:</p> <%= cotizacion.estado %><br>
                     </div>
-                    <div class="btn-group mt-3" role="group" aria-label="Botones">
-                      <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#cotizacionModal" onclick="loadCotizacionDetails('<%= cotizacion._id %>')">
+                    <div class="mt-3 d-flex flex-wrap justify-content-start">
+                      <button type="button" class="btn btn-success mb-2 me-2" data-bs-toggle="modal" data-bs-target="#cotizacionModal" onclick="loadCotizacionDetails('<%= cotizacion._id %>')">
                         Cotizar
                       </button>
-                      <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST" class="form-inline me-2">
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                      
+                      <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST" class="d-inline mb-2">
+                        <button type="submit" class="btn btn-danger me-2">Eliminar</button>
                       </form>
                       
-                      <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario._id %>')">
+                      <button type="button" class="btn btn-warning mb-2 me-2" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario._id %>')">
                         Ver detalles del usuario
                       </button>
-                      <button class="btn btn-success me-2" onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
+                      
+                      <button class="btn btn-success mb-2" onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
                     </div>
+                    
+                    
                   </div>
                 </div>
               </div>

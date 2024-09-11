@@ -682,23 +682,3 @@ margin-top: 2rem ;
     color: #007bff; /* Color para el total */
 }
 
-.form-inline .btn {
-    border-radius: 0.25rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    margin: 0; /* Asegura que no haya márgenes adicionales */
-  }
-  
-  .form-inline .btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-  }
-  
-  .form-inline .btn:hover {
-    opacity: 0.9;
-  }
-  
-  .form-inline .btn:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  }
-  
