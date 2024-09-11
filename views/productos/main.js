@@ -49,45 +49,54 @@ document.addEventListener('DOMContentLoaded', () => {
             productListContainer.innerHTML = '<p class="text-danger">Error al cargar los productos. Inténtalo más tarde.</p>';
         }
     }
-
-    // Asignar evento a los botones después de cargar los productos
     function attachAddToCartEvents() {
         const addButtons = document.querySelectorAll('.btn-add');
         addButtons.forEach(button => {
             button.addEventListener('click', (event) => {
                 event.preventDefault();
-
+                
                 const productId = button.getAttribute('data-producto-id');
-                const card = button.closest('.card');
-                const productName = card.querySelector('h5 a').textContent;
-                const productCategory = card.querySelector('.font-italic').textContent;
-                const productImage = card.querySelector('.product-image').getAttribute('src');
-
-                const product = {
-                    id: productId,
-                    name: productName,
-                    category: productCategory,
-                    image: productImage,
-                };
-
-                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-                const found = cart.some(item => item.id === productId);
-                if (!found) {
-                    cart.push(product);
-                    sessionStorage.setItem('cart', JSON.stringify(cart));
-                    console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
-
-                    card.classList.add('added-to-cart');
-                    addToast.show();
-                    displayCart(); // Actualiza la lista de productos en el carrito
-                    updateCardStyles(); // Actualiza la visualización de las tarjetas
-                } else {
-                    console.log(`El producto '${productName}' ya está en el carrito.`);
+                const listItem = button.closest('.list-group-item');
+                
+                // Asegúrate de que listItem existe
+                if (listItem) {
+                    const productNameElement = listItem.querySelector('h6');
+                    const productCategoryElement = listItem.querySelector('p');
+                    const productImageElement = listItem.querySelector('img');
+    
+                    // Asegúrate de que los elementos existen antes de acceder a sus propiedades
+                    if (productNameElement && productCategoryElement && productImageElement) {
+                        const productName = productNameElement.textContent;
+                        const productCategory = productCategoryElement.textContent;
+                        const productImage = productImageElement.getAttribute('src');
+    
+                        const product = {
+                            id: productId,
+                            name: productName,
+                            category: productCategory,
+                            image: productImage,
+                        };
+    
+                        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                        const found = cart.some(item => item.id === productId);
+                        if (!found) {
+                            cart.push(product);
+                            sessionStorage.setItem('cart', JSON.stringify(cart));
+                            console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
+    
+                            listItem.classList.add('added-to-cart');
+                            addToast.show();
+                            displayCart(); // Actualiza la lista de productos en el carrito
+                            updateCardStyles(); // Actualiza la visualización de las tarjetas
+                        } else {
+                            console.log(`El producto '${productName}' ya está en el carrito.`);
+                        }
+                    }
                 }
             });
         });
     }
-
+    
     
 
     // Función para mostrar productos en el carrito
