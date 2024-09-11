@@ -1,29 +1,25 @@
-
-document.getElementById('adminForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
+document.getElementById('adminForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
     const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-
+    const data = {};
+    formData.forEach((value, key) => data[key] = value);
     try {
-        const response = await fetch(`/user/editar/${'<%= usuario._id %>'}`, {
+        const response = await fetch(this.action, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
         });
-
+        const result = await response.json();
         if (response.ok) {
-            alert('Información actualizada exitosamente');
-            location.reload();  // Recargar la página para ver los cambios
+            // Manejar la respuesta exitosa
+            console.log('Usuario actualizado:', result);
         } else {
-            const errorData = await response.json();
-            alert(`Error: ${errorData.error}`);
+            // Manejar el error
+            console.error('Error al actualizar usuario:', result);
         }
     } catch (error) {
-        console.error('Error al actualizar la información:', error);
-        alert('Error interno del servidor.');
+        console.error('Error en la solicitud:', error);
     }
 });
-
