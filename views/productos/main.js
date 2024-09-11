@@ -89,15 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     
-function irAVerCarrito() {
-    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    if (cart.length > 0) {
-        const cartJson = encodeURIComponent(JSON.stringify(cart));
-        window.location.href = '/vercarrito?productos=' + cartJson;
-    } else {
-        console.log('El carrito está vacío.');
-    }
-}
 
     // Función para mostrar productos en el carrito
     function displayCart() {
@@ -210,3 +201,14 @@ function irAVerCarrito() {
         performSearch(event.target.value.trim());
     });
 });
+
+
+function irAVerCarrito() {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    if (cart.length > 0) {
+        const cartJson = encodeURIComponent(JSON.stringify(cart));
+        window.location.href = '/vercarrito?productos=' + cartJson;
+    } else {
+        console.log('El carrito está vacío.');
+    }
+}
