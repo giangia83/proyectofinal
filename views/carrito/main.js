@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Obtener el carrito desde sessionStorage
     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
     // Función para eliminar un producto del carrito
@@ -27,28 +26,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Filtrar el producto fuera del carrito
         cart = cart.filter(producto => producto.id !== idProducto);
 
-        // Actualizar sessionStorage
+        // Actualizar el carrito en sessionStorage
         sessionStorage.setItem('cart', JSON.stringify(cart));
 
-        // Eliminar el producto de la interfaz
-        const productoElement = document.getElementById(`producto-${idProducto}`);
-        if (productoElement) {
-            productoElement.remove();
-        }
-
-        // Mostrar un mensaje de confirmación
-        alert('Producto eliminado del carrito.');
+        // Recargar la página del carrito para reflejar los cambios
+        location.reload();
     };
 
-    // Enviar cotización
+    // Código para el envío de la cotización
     const cotizacionForm = document.getElementById('cotizacionForm');
     if (cotizacionForm) {
         cotizacionForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            // Preparar los datos a enviar
+            // Preparar los datos de la cotización
             const data = {
-                usuario: usuario,
+                usuario: obtenerUsuarioDesdeCookie(), // Aquí ya debes tener una función que obtenga el usuario
                 estado: 'Pendiente',
                 productos: cart.map(producto => ({
                     id: producto.id,
