@@ -16,7 +16,11 @@ body {
   
 }
 
+.invisiblepc
+{
+display: none;
 
+}
 
 /* Agrega más medios de comunicación según sea necesario */
 
@@ -497,6 +501,19 @@ nav ul li a:hover {
     
     
     }
+
+
+    #heroCarousel
+    {
+display: none;
+
+    }
+    
+.invisiblepc
+{
+display: flex;
+
+}
 
     .only-mobile{
 
@@ -1263,38 +1280,3 @@ p.small {
 }
 
 
-
-
-
-/* styles.css */
-#loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .spinner {
-    width: 50px;
-    height: 50px;
-    border: 8px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #000;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  

@@ -1,21 +1,4 @@
 
-document.addEventListener('DOMContentLoaded', () => {
-    const loader = document.getElementById('loader');
-    
-    // Mostrar loader cuando se hace clic en un enlace
-    const links = document.querySelectorAll('a');
-    links.forEach(link => {
-        link.addEventListener('click', (event) => {
-            loader.style.display = 'flex';
-        });
-    });
-
-    // Ocultar loader cuando la página ha terminado de cargar
-    window.addEventListener('load', () => {
-        loader.style.display = 'none';
-    });
-});
-
 
 
 
