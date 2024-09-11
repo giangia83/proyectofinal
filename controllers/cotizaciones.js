@@ -55,6 +55,7 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
     }
 });
 
+
 // Ruta para obtener una cotización específica por ID
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
@@ -176,8 +177,8 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         doc.on('end', () => {
             const pdfBuffer = Buffer.concat(chunks);
 
-            // Enviar el correo electrónico con el PDF como adjunto al usuario
-            const mailOptionsUsuario = {
+            // Enviar el correo electrónico con el PDF como adjunto
+            const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: cotizacion.usuario.correo,
                 subject: 'Cotización Verificada - Starclean C.A',
@@ -200,105 +201,77 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${cotizacion.productos.map(p => `
+                                    ${cotizacion.productos.map(producto => `
                                         <tr>
-                                            <td style="border: 1px solid #ddd; padding: 8px;">${p.nombre}</td>
-                                            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${p.cantidad}</td>
-                                            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${p.precio ? p.precio.toFixed(2) : 'N/A'}</td>
-                                            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${(p.precio ? p.precio * p.cantidad : 0).toFixed(2)}</td>
+                                            <td style="border: 1px solid #ddd; padding: 12px;">${producto.nombre}</td>
+                                            <td style="border: 1px solid #ddd; padding: 12px;">${producto.cantidad}</td>
+                                            <td style="border: 1px solid #ddd; padding: 12px;">${producto.precio ? producto.precio.toFixed(2) : 'N/A'}</td>
+                                            <td style="border: 1px solid #ddd; padding: 12px;">${producto.precio ? (producto.precio * producto.cantidad).toFixed(2) : 'N/A'}</td>
                                         </tr>
                                     `).join('')}
-                                    <tr>
-                                        <td colspan="3" style="border: 1px solid #ddd; padding: 8px; text-align: right;"><strong>Total</strong></td>
-                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"><strong>${cotizacion.productos.reduce((total, p) => total + (p.precio ? p.precio * p.cantidad : 0), 0).toFixed(2)}</strong></td>
-                                    </tr>
                                 </tbody>
                             </table>
+                            
+                            <p style="font-size: 16px; color: #555;">El total de la cotización es: <strong style="color: #E53935;">${cotizacion.productos.reduce((total, producto) => total + (producto.precio ? producto.precio * producto.cantidad : 0), 0).toFixed(2)}</strong></p>
                         </section>
+
+                        <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
+                            <p style="font-size: 16px; color: #555;">Si tienes alguna pregunta, no dudes en contactarnos.</p>
+                            <p style="font-size: 14px; color: #999;">Saludos cordiales,<br>Starclean C.A - Miranda, Guatire</p>
+                        </footer>
                     </div>
                 `,
-                attachments: [{
-                    filename: `cotizacion_${id}.pdf`,
-                    content: pdfBuffer,
-                    encoding: 'base64'
-                }]
+                attachments: [
+                    {
+                        filename: `cotizacion_${id}.pdf`,
+                        content: pdfBuffer
+                    }
+                ]
             };
 
-            // Enviar el correo al usuario
-            transporter.sendMail(mailOptionsUsuario, (error, info) => {
+            transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
-                    console.error('Error al enviar el correo al usuario:', error);
-                    return res.status(500).json({ message: 'Error interno al enviar el correo al usuario' });
+                    console.error('Error al enviar el correo:', error);
+                    return res.status(500).json({ message: 'Error al enviar el correo' });
                 }
 
-                // Enviar el correo al administrador
-                const mailOptionsAdmin = {
-                    from: process.env.EMAIL_USER,
-                    to: admin.correo, // Asegúrate de definir esta variable de entorno
-                    subject: 'Nueva Cotización Creada',
-                    html: `
-                        <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-                            <header style="text-align: center; padding-bottom: 20px;">
-                                <h1 style="color: #E53935;">Nueva Cotización Creada</h1>
-                                <p style="font-size: 16px; color: #555;">Hola Administrador,</p>
-                            </header>
-                            
-                            <section>
-                                <p style="font-size: 16px; color: #555;">Se ha creado una nueva cotización con el ID: ${id}. Aquí están los detalles:</p>
-                                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-                                    <thead>
-                                        <tr style="background-color: #E53935; color: #fff;">
-                                            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Descripción</th>
-                                            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Cantidad</th>
-                                            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Precio Unitario</th>
-                                            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Subtotal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${cotizacion.productos.map(p => `
-                                            <tr>
-                                                <td style="border: 1px solid #ddd; padding: 8px;">${p.nombre}</td>
-                                                <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${p.cantidad}</td>
-                                                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${p.precio ? p.precio.toFixed(2) : 'N/A'}</td>
-                                                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${(p.precio ? p.precio * p.cantidad : 0).toFixed(2)}</td>
-                                            </tr>
-                                        `).join('')}
-                                        <tr>
-                                            <td colspan="3" style="border: 1px solid #ddd; padding: 8px; text-align: right;"><strong>Total</strong></td>
-                                            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"><strong>${cotizacion.productos.reduce((total, p) => total + (p.precio ? p.precio * p.cantidad : 0), 0).toFixed(2)}</strong></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </section>
-                        </div>
-                    `,
-                    attachments: [{
-                        filename: `cotizacion_${id}.pdf`,
-                        content: pdfBuffer,
-                        encoding: 'base64'
-                    }]
-                };
-
-                transporter.sendMail(mailOptionsAdmin, (error, info) => {
-                    if (error) {
-                        console.error('Error al enviar el correo al administrador:', error);
-                        return res.status(500).json({ message: 'Error interno al enviar el correo al administrador' });
-                    }
-
-                    // Actualizar el estado de la cotización a 'Verificado'
-                    cotizacion.estado = 'Verificado';
-                    cotizacion.save();
-
-                    res.json({ message: 'Cotización verificada y notificación enviada' });
-                });
+                res.json({ message: 'Cotización verificada y enviada por correo' });
             });
         });
 
-        // Finaliza el documento para que el evento 'end' se dispare
+        // Generar el contenido del PDF
+        doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
+        doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
+        doc.moveDown();
+
+        doc.fontSize(12).text(`Cliente: ${cotizacion.usuario.nombre}`, { align: 'left' });
+        doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
+        doc.text(`Correo: ${cotizacion.usuario.correo}`);
+        doc.text(`Teléfono: ${cotizacion.usuario.telefono}`);
+        doc.moveDown();
+
+        doc.fontSize(12).text('Productos:', { underline: true });
+        doc.moveDown();
+
+        doc.fontSize(10).text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'left' });
+
+        let total = 0;
+        cotizacion.productos.forEach((producto) => {
+            const subtotal = producto.precio ? producto.precio * producto.cantidad : 0;
+            total += subtotal;
+            doc.text(
+                `${producto.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${producto.precio ? producto.precio.toFixed(2) : 'N/A'.padEnd(15)} | ${subtotal.toFixed(2)}`,
+                { align: 'left' }
+            );
+        });
+
+        doc.text('--------------------------------------------------------------', { align: 'left' });
+        doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
+
         doc.end();
     } catch (error) {
-        console.error('Error al verificar y enviar cotización:', error);
-        res.status(500).json({ message: 'Error interno al verificar y enviar cotización' });
+        console.error('Error al verificar y enviar la cotización:', error);
+        res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
     }
 });
 

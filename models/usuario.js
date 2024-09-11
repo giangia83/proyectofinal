@@ -9,7 +9,7 @@ const usuarioSchema = new mongoose.Schema({
     correo: {
         type: String,
         required: true,
-        unique: true // Garantiza que no haya usuarios duplicados con el mismo correo electrónico
+        unique: true 
     },
     contraseña: {
         type: String,
