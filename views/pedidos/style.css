@@ -527,7 +527,11 @@ background-color:#ffffff;
 border:1px solid,  rgb(235, 235, 235);
 }
 
+.accordion-header{
 
+  color: #ffffff;
+  background-color: #ea5830b2;
+}
 
 /* CSS */
 .button-5 {
