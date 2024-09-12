@@ -38,6 +38,10 @@ const style=
       align-items: center; /* Alinea verticalmente los elementos */
       padding: 0px 30px; /* Añade relleno arriba y abajo */
     }
+
+    header-right{
+      cursor: pointer;
+    }
     
     .btn-center {
       margin-right: 20px ; /* Margen entre cada elemento <a> */

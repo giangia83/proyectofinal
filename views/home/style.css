@@ -22,20 +22,20 @@ display: none;
 
 }
 
+
+.turnwhite{
+
+    font-size: 14px;
+    
+    }
+    
+
+   
+    
+    
+    
+    
 /* Agrega más medios de comunicación según sea necesario */
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -227,7 +227,7 @@ line-height :21.6px;
     border: none;
     color:rgb(34, 34, 34);
     cursor: pointer;
- 
+
     font-size: 16px;
 }
 
@@ -327,8 +327,15 @@ color: rgb(218, 5, 5);
 .header-right {
     display: flex;
     align-items: center;
+    z-index: 4;
+    cursor: pointer;
+  
 }
 
+
+.header-right svg:hover {
+   stroke: #EA5730;
+}
 
 /* Estilos para el segundo encabezado */
 
@@ -368,7 +375,7 @@ margin-bottom: 1.5rem;
 
 
 .cuentainfo{
-margin-top: -6rem;
+margin-top: -5rem;
 
 
 }
@@ -678,16 +685,7 @@ display: none;
 
 
 
-.hover-dropdown:hover{
 
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    cursor: pointer;
-
-    transform: scale(1.05); /* Hace la card un 5% más grande */
-     stroke: #c85000;
-  
-   
-}
 
 
 .link-none{
@@ -744,6 +742,8 @@ border-radius: 5px;
     border:1px solid,  #E5E7EB;
    
 }
+
+
 
 .special-row{
 
@@ -903,6 +903,7 @@ font-size: 15px;
 
         .header-right {
             display: none; /* Oculta el dropdown de cuenta en pantallas móviles */
+            
         }
 
         .menu-hamburguesa {
@@ -1078,158 +1079,8 @@ font-size: 15px;
     text-align: center; /* Centra el contenido dentro del contenedor */
 }
 
-/* Estilo de la estrella */
-.star {
-    font-size: 150px; /* Tamaño de la estrella en pantallas grandes */
-    color: white;
-    text-shadow: 
-        0 0 20px rgba(255, 255, 255, 0.8), /* Sombra blanca difusa */
-        0 0 10px rgba(0, 0, 0, 0.5); /* Sombra negra difusa para dar profundidad */
-    animation: likeHeartAnimation 1s ease-in-out; /* Aplicamos la animación */
-}
-
-/* Animación de rebote */
-@keyframes likeHeartAnimation {
-    0% {
-        opacity: 0;
-        transform: scale(0);
-    }
-    15% {
-        opacity: 0.9;
-        transform: scale(1.2); /* Aumenta el tamaño de la estrella */
-    }
-    30% {
-        transform: scale(0.95); /* Reduce un poco el tamaño */
-    }
-    45%,
-    80% {
-        opacity: 1;
-        transform: scale(1); /* Regresa al tamaño original */
-    }
-    100% {
-        opacity: 0; /* Desvanecimiento final */
-        transform: scale(0); /* Regreso a tamaño inicial */
-    }
-}
-
-/* Ajustes para dispositivos móviles */
-@media (max-width: 768px) {
-    .like-effect {
-        font-size: 100px; /* Tamaño de la estrella en dispositivos móviles */
-        left: calc(50%); /* Mueve la estrella un poco a la derecha */
-        transform: translate(-50%, -50%); /* Asegúrate de que se mantenga centrada verticalmente */
-    }
-
-    .star {
-        font-size: 100px; /* Tamaño de la estrella para móviles */
-    }
-}
-
-h5 {
-    min-height: 40px; /* Asegura que todos los títulos tengan el mismo tamaño */
-    line-height: 1.2;
-}
-
-p.small {
-    min-height: 20px; /* Controla la altura de la categoría */
-}
-
-.turnwhite:hover{
-    font-size: 1px;
-    color: #ffffff;
-}
 
 
-.cards-grid {
-    display: none;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Disminuye el tamaño mínimo de las cards */
-    gap: 8px;  /* Reduce el espacio entre tarjetas */
-    padding: 0;
-    list-style: none;
-  
-    margin-top: -5rem;
-  }
-  
-
-/* Estilos para pantallas medianas y pequeñas */
-@media (max-width: 1200px) {
-    .card {
-      margin-bottom: 1.5rem;
-    }
-  }
-  
-  @media (max-width: 992px) {
-    .col-lg-3 {
-      flex: 0 0 50%;
-      max-width: 50%;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .col-md-6 {
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
-
-    
-    .cards-grid{
-
-        display: grid;
-    }
-    
-    .card {
-      margin-bottom: 1rem;
-    }
-    
-    .card-body {
-      padding: 1rem;
-    }
-  }
-  
-  /* Estilos para pantallas pequeñas (teléfonos) */
-  @media (max-width: 576px) {
-    .card-body {
-      padding: 0.5rem;
-      height: auto;
-    }
-
-    .cards-grid{
-
-        display: grid;
-    }
-    
-    .product-image {
-      max-width: 100%;
-      height: auto;
-    }
-    
-    .card-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 0.002rem;
-    }
-
-    .row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5.5rem; /* Espacio entre las tarjetas */
-      }
-  }
-
-  .tab-button {
-    background-color: #ffffff;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-}
-
-.tab-button:hover{
-
-    background-color:#F49600 ;
-    color: #ffffff;
-}
 
 
 @media (min-width: 10px) {
@@ -1317,12 +1168,9 @@ p.small {
     width: 130%;
   }
   
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
+
   
-  .card-content svg {
+  .card2 svg {
     width: 100%;
     height: 40px;
     color: #333;
@@ -1336,10 +1184,155 @@ p.small {
     }
   }
   
-  @media (min-width: 900px) {
-    .card-content svg {
-      width: auto;
-      height: 80px;
+
+
+
+
+
+
+
+
+
+
+/* Estilo de la estrella */
+.star {
+    font-size: 150px; /* Tamaño de la estrella en pantallas grandes */
+    color: white;
+    text-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.8), /* Sombra blanca difusa */
+        0 0 10px rgba(0, 0, 0, 0.5); /* Sombra negra difusa para dar profundidad */
+    animation: likeHeartAnimation 1s ease-in-out; /* Aplicamos la animación */
+}
+
+/* Animación de rebote */
+@keyframes likeHeartAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    15% {
+        opacity: 0.9;
+        transform: scale(1.2); /* Aumenta el tamaño de la estrella */
+    }
+    30% {
+        transform: scale(0.95); /* Reduce un poco el tamaño */
+    }
+    45%,
+    80% {
+        opacity: 1;
+        transform: scale(1); /* Regresa al tamaño original */
+    }
+    100% {
+        opacity: 0; /* Desvanecimiento final */
+        transform: scale(0); /* Regreso a tamaño inicial */
+    }
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+    .like-effect {
+        font-size: 100px; /* Tamaño de la estrella en dispositivos móviles */
+        left: calc(50%); /* Mueve la estrella un poco a la derecha */
+        transform: translate(-50%, -50%); /* Asegúrate de que se mantenga centrada verticalmente */
+    }
+
+    .star {
+        font-size: 100px; /* Tamaño de la estrella para móviles */
+    }
+}
+
+h5 {
+    min-height: 40px; /* Asegura que todos los títulos tengan el mismo tamaño */
+    line-height: 1.2;
+}
+
+p.small {
+    min-height: 20px; /* Controla la altura de la categoría */
+}
+
+
+
+.cards-grid {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Disminuye el tamaño mínimo de las cards */
+    gap: 8px;  /* Reduce el espacio entre tarjetas */
+    padding: 0;
+    list-style: none;
+  
+    margin-top: -5rem;
+  }
+  
+
+/* Estilos para pantallas medianas y pequeñas */
+@media (max-width: 1200px) {
+    .card {
+      margin-bottom: 1.5rem;
     }
   }
   
+  @media (max-width: 992px) {
+    .col-lg-3 {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .col-md-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    
+    .cards-grid{
+
+        display: grid;
+    }
+    
+    .card {
+      margin-bottom: 1rem;
+    }
+    
+    .card-body {
+      padding: 1rem;
+    }
+  }
+  
+  /* Estilos para pantallas pequeñas (teléfonos) */
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 0.5rem;
+      height: auto;
+    }
+
+    .cards-grid{
+
+        display: grid;
+    }
+    
+    .product-image {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .card-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.002rem;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5.5rem; /* Espacio entre las tarjetas */
+      }
+  }
+
+  .tab-button {
+    background-color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
