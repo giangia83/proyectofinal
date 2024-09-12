@@ -69,11 +69,6 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
 
 
 
-
-
-
-
-
 // Ruta para actualizar los precios de los productos en una cotización
 router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
     const { id } = req.params;
