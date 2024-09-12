@@ -526,21 +526,6 @@ color: rgb(218, 5, 5);
     background-color: #ffffff;
 }
 
-/* styles/styles.css */
-
-.header-center {
-    /* Ajusta según tus necesidades */
-    display: flex;
-   
-    align-items: center; /* Alinea verticalmente los elementos */
-    padding: 0px 30px; /* Añade relleno arriba y abajo */
-  }
-  
-  .btn-center {
-    margin-right: 20px ; /* Margen entre cada elemento <a> */
-  }
-  /* styles/styles.css */
-
   .menu-hamburguesa {
     cursor: pointer;
     display: none; /* Oculta por defecto en pantallas grandes */
@@ -596,3 +581,18 @@ color: rgb(218, 5, 5);
     }
   }
   
+/* styles/styles.css */
+
+.header-center {
+    /* Ajusta según tus necesidades */
+    display: flex;
+   
+    align-items: center; /* Alinea verticalmente los elementos */
+    padding: 0px 30px; /* Añade relleno arriba y abajo */
+  }
+  
+  .btn-center {
+    margin-right: 20px ; /* Margen entre cada elemento <a> */
+  }
+  /* styles/styles.css */
+

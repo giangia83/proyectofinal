@@ -40,11 +40,12 @@ function loadUserDetails(userId) {
 
 
 
-
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
       .then(response => response.json())
       .then(cotizacion => {
+          console.log('Cotización obtenida:', cotizacion); // Verifica la estructura de la respuesta
+
           document.getElementById('cotizacionId').value = cotizacion._id;
 
           const productosTableBody = document.getElementById('productosTableBody');
@@ -52,6 +53,13 @@ function loadCotizacionDetails(id) {
 
           let total = 0;
           cotizacion.productos.forEach(producto => {
+              console.log('Producto en la cotización:', producto); // Verifica cada producto
+
+              if (!producto.productoId) {
+                  console.error('Producto sin información:', producto);
+                  return; // Salta este producto si no tiene información
+              }
+
               const fila = document.createElement('tr');
               fila.innerHTML = `
                   <td>${producto.productoId.nombre}</td>
@@ -70,7 +78,7 @@ function loadCotizacionDetails(id) {
           console.error('Error al cargar los detalles de la cotización:', error);
       });
 }
-z
+
 
 function actualizarSubtotal(input) {
   const valor = input.value.replace(',', '.'); // Reemplaza la coma por un punto

@@ -16,6 +16,7 @@ body {
   
 }
 
+
 .invisiblepc
 {
 display: none;
@@ -54,7 +55,7 @@ display: none;
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#c45c5c, #c02f4e);
+    background: linear-gradient(#c45c5c, #F49600);
 
 }
 
@@ -1337,3 +1338,16 @@ p.small {
     cursor: pointer;
     width: 100%;
 }
+
+#heroCarousel {
+    height: 400px; /* Ajusta la altura según el diseño */
+    width: 100%;
+   
+  }
+  
+  .carousel-inner img {
+    object-fit: cover; /* Asegura que las imágenes se ajusten sin distorsión */
+    height: 100%;
+  
+  }
+  
