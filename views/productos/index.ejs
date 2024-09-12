@@ -2,52 +2,34 @@
 <html lang="es">
 
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Starclean C.A</title>
 
-
-
-  <!-- BOOTSTRAP -->
-
+  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
- 
   <link rel="stylesheet" href="/views/productos/style.css">
   <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
 </head>
 
 <body>
-
-
-
-
-
-
-
-  <script src="/views/components/headersearch.js"></script>
   <main>
     <div class="container py-5">
       <!-- Contenedor principal -->
 
-        <!-- Results -->
-        <div id="search-results" class="row pb-5 mb-4">
-          <!-- Los productos se cargarán aquí con JavaScript -->
-        </div>
+      <!-- Resultados de búsqueda -->
+      <div id="search-results" class="row pb-5 mb-4">
+        <!-- Los productos se cargarán aquí con JavaScript -->
+      </div>
 
       <div class="texto-info">
         <h2 class="font-weight-bold mb-2">Selecciona los productos que necesitas</h2>
         <p class="font-italic text-muted mb-4">Este es el primer paso para realizar tu cotización</p>
-  
-     
-      
 
-      
+        <!-- Lista de productos -->
         <div id="product-list" class="row"></div>
 
-       
-  
         <!-- Productos -->
         <div class="row pb-5 mb-4 onlydesktop">
           <% productos.forEach(producto => { %>
@@ -68,47 +50,18 @@
             </div>
           <% }); %>
         </div>
-  
 
-  
-   <!-- Carrito -->
-   <ul id="cart-items" class="list-group">
-    <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
-  </ul>
-
-
+        <!-- Carrito -->
+        <ul id="cart-items" class="list-group">
+          <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
+        </ul>
 
         <button class="continueButton btn btn-5" onclick="irAVerCarrito()">Continuar cotización</button>
       </div>
-
-      <div aria-live="polite" aria-atomic="true" class="position-relative">
-        <div class="toast-container position-fixed bottom-0 end-0 p-3">
-          <div id="add-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-              <strong class="me-auto">Producto Añadido</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-              El producto ha sido añadido al carrito.
-            </div>
-          </div>
-         
-          <div id="remove-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-              <strong class="me-auto">Producto Eliminado</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-              El producto ha sido eliminado del carrito.
-            </div>
-          </div>
-        </div>
-      </div>
-  
     </div>
   </main>
-  
 
+  <!-- Scripts -->
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
   <script src="/views/productos/main.js"></script>
 </body>
