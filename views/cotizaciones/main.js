@@ -37,7 +37,6 @@ function loadUserDetails(userId) {
     })
     .catch(error => console.error('Error:', error));
 }
-
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
     .then(response => response.json())
@@ -67,8 +66,10 @@ function loadCotizacionDetails(id) {
       console.error('Error al cargar los detalles de la cotización:', error);
     });
 }
+
+
+
 function actualizarSubtotal(input) {
-  // Convertir el valor ingresado a punto decimal
   const valor = input.value.replace(',', '.'); // Reemplaza la coma por un punto
   const precioUnitario = parseFloat(valor);
   const cantidad = parseFloat(input.closest('tr').querySelector('td:nth-child(2)').innerText);

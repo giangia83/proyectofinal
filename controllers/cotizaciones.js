@@ -55,18 +55,24 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
     }
 });
 
-
-// Ruta para obtener una cotización específica por ID
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const cotizacion = await Cotizacion.findById(id).populate({
-            path: 'productos',
-            select: 'nombre cantidad precio' // Asegúrate de incluir el campo 'precio'
-        });
+        const cotizacion = await Cotizacion.findById(id).populate('productos');
         if (!cotizacion) {
             return res.status(404).send('Cotización no encontrada');
         }
+
+        // Obtener el precio de cada producto
+        const productosConPrecios = await Promise.all(cotizacion.productos.map(async producto => {
+            const productoDetails = await Producto.findById(producto._id);
+            return {
+                ...producto.toObject(),
+                precio: productoDetails.precio
+            };
+        }));
+
+        cotizacion.productos = productosConPrecios;
         res.json(cotizacion);
     } catch (error) {
         console.error('Error al obtener detalles de la cotización:', error);
