@@ -52,6 +52,7 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al eliminar la cotización' });
     }
 });
+
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -76,6 +77,7 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al obtener detalles de la cotización' });
     }
 });
+
 
 
 

@@ -40,7 +40,6 @@ function loadUserDetails(userId) {
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
       .then(response => {
-         
           const contentType = response.headers.get('content-type');
           if (contentType && contentType.includes('application/json')) {
               return response.json();
@@ -53,6 +52,11 @@ function loadCotizacionDetails(id) {
 
           const productosTableBody = document.getElementById('productosTableBody');
           productosTableBody.innerHTML = ''; // Limpiar la tabla antes de agregar las filas
+
+          if (!Array.isArray(cotizacion.productos)) {
+              console.error('La respuesta del servidor no contiene productos válidos.');
+              return;
+          }
 
           let total = 0;
           cotizacion.productos.forEach(producto => {
