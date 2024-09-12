@@ -11,13 +11,6 @@ registroForm.addEventListener('submit', async (event) => {
     const rif = document.querySelector('#inputRif').value;
     const number = document.querySelector('#inputNumber').value;
 
-    // Obtener el token de reCAPTCHA
-    const recaptchaResponse = grecaptcha.getResponse();
-    if (!recaptchaResponse) {
-        alert('Por favor, complete el reCAPTCHA.');
-        return;
-    }
-
     // Validación básica de campos
     if (!nombre || !correo || !contraseña || !direccion || !ciudad || !rif || !number) {
         alert('Por favor completa todos los campos.');
@@ -37,8 +30,7 @@ registroForm.addEventListener('submit', async (event) => {
                 direccion: direccion,
                 ciudad: ciudad,
                 rif: rif,
-                number: number,
-                recaptchaToken: recaptchaResponse // Incluye el token de reCAPTCHA
+                number: number
             })
         });
 
@@ -56,14 +48,3 @@ registroForm.addEventListener('submit', async (event) => {
         alert('Error al procesar el formulario de registro. Por favor, inténtalo de nuevo más tarde.');
     }
 });
-
-fetch('/recaptcha-key')
-.then(response => response.json())
-.then(data => {
-    const siteKey = data.siteKey;
-    // Configurar el widget de reCAPTCHA con la clave obtenida
-    grecaptcha.render('recaptcha', {
-        'sitekey': siteKey
-    });
-})
-.catch(error => console.error('Error al obtener la clave de reCAPTCHA:', error));
