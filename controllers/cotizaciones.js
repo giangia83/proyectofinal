@@ -48,7 +48,7 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
         }
 
         await Cotizacion.findByIdAndDelete(id);
-        res.redirect('/tuspedidos'); // Redirige a la lista de cotizaciones después de eliminar
+        res.redirect('/vercotizaciones'); // Redirige a la lista de cotizaciones después de eliminar
     } catch (error) {
         console.error('Error al eliminar la cotización:', error);
         res.status(500).json({ message: 'Error interno al eliminar la cotización' });

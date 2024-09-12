@@ -502,6 +502,10 @@ nav ul li a:hover {
 
 }
 
+.text-dark{
+    text-decoration: none; /* Quitar subrayado */
+}
+
 .text-container {
     max-width: 100%; /* O el valor que se ajuste a tus necesidades */
     white-space: nowrap;
@@ -604,7 +608,7 @@ width: 100%;
         }
 
         h5, text-dark{
-
+            text-decoration: none; /* Quitar subrayado */
           margin-top: -65px;
            text-align: right;
                 }
@@ -693,7 +697,19 @@ display: none;
 
 
 
-
+.link-none2 {
+    text-decoration: none; /* Quitar subrayado */
+    display: inline-block; /* Para que el <a> no afecte el layout */
+  }
+  
+  .link-none2 a, .link-none2 a:visited, .link-none2 a:focus, .link-none2 a:hover {
+    all: unset; /* Elimina todos los estilos por defecto del enlace */
+  }
+  
+  .link-none a, .link-none a:visited, .link-none a:focus, .link-none a:hover {
+    all: unset; /* Elimina todos los estilos por defecto del enlace */
+  }
+  
 
 
 .link-none{
