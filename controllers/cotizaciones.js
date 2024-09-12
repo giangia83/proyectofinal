@@ -52,18 +52,18 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al eliminar la cotización' });
     }
 });
-
 // Obtener detalles de la cotización
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
     try {
+        // Buscar la cotización por ID
         const cotizacion = await Cotizacion.findById(id);
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
-
         // Obtener el precio de cada producto
         const productosConPrecios = await Promise.all(cotizacion.productos.map(async producto => {
+            // Buscar el producto por ID en la colección de Productos
             const productoDetails = await Producto.findById(producto.id); 
             if (!productoDetails) {
                 return {
@@ -73,10 +73,9 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
             }
             return {
                 ...producto,
-                precio: productoDetails.precio
+                precio: productoDetails.precio 
             };
         }));
-
         res.json({
             ...cotizacion.toObject(),
             productos: productosConPrecios
