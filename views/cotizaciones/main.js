@@ -37,40 +37,40 @@ function loadUserDetails(userId) {
     })
     .catch(error => console.error('Error:', error));
 }
+
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
-      .then(response => response.json())
-      .then(cotizacion => {
-          document.getElementById('cotizacionId').value = cotizacion._id;
+    .then(response => response.json())
+    .then(cotizacion => {
+      document.getElementById('cotizacionId').value = cotizacion._id;
 
-          const productosTableBody = document.getElementById('productosTableBody');
-          productosTableBody.innerHTML = ''; // Limpiar la tabla antes de agregar las filas
+      const productosTableBody = document.getElementById('productosTableBody');
+      productosTableBody.innerHTML = ''; // Limpiar la tabla antes de agregar las filas
 
-          let total = 0;
-          cotizacion.productos.forEach(producto => {
-              const fila = document.createElement('tr');
-              fila.innerHTML = `
-                  <td>${producto.nombre}</td>
-                  <td><img src="${producto.imagen || 'default-image.jpg'}" alt="${producto.nombre}" width="50"></td>
-                  <td>${producto.cantidad}</td>
-                  <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.id}"></td>
-                  <td><span class="subtotal">${(producto.precio ? producto.precio * producto.cantidad : 0).toFixed(2)}</span></td>
-              `;
-              productosTableBody.appendChild(fila);
+      let total = 0;
+      cotizacion.productos.forEach(producto => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+          <td>${producto.nombre}</td>
+          <td>${producto.cantidad}</td>
+          <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.id}"></td>
+          <td><span class="subtotal">${(producto.precio ? producto.precio * producto.cantidad : 0).toFixed(2)}</span></td>
+        `;
+        productosTableBody.appendChild(fila);
 
-              total += producto.precio ? producto.precio * producto.cantidad : 0;
-          });
-
-          document.getElementById('totalPrecio').innerText = total.toFixed(2);
-      })
-      .catch(error => {
-          console.error('Error al cargar los detalles de la cotización:', error);
+        total += producto.precio ? producto.precio * producto.cantidad : 0;
       });
+
+      document.getElementById('totalPrecio').innerText = total.toFixed(2);
+    })
+    .catch(error => {
+      console.error('Error al cargar los detalles de la cotización:', error);
+    });
 }
 
 function actualizarSubtotal(input) {
   const precioUnitario = parseFloat(input.value);
-  const cantidad = parseFloat(input.closest('tr').querySelector('td:nth-child(3)').innerText);
+  const cantidad = parseFloat(input.closest('tr').querySelector('td:nth-child(2)').innerText);
   const subtotal = precioUnitario * cantidad;
 
   input.closest('tr').querySelector('.subtotal').innerText = subtotal.toFixed(2);
@@ -81,32 +81,33 @@ function actualizarSubtotal(input) {
 function calcularTotal() {
   let total = 0;
   document.querySelectorAll('.subtotal').forEach(element => {
-      total += parseFloat(element.innerText);
+    total += parseFloat(element.innerText);
   });
   document.getElementById('totalPrecio').innerText = total.toFixed(2);
 }
+
 function guardarCotizacion() {
   const id = document.getElementById('cotizacionId').value;
   const precios = Array.from(document.querySelectorAll('input[type="number"]')).map(input => ({
-      productoId: input.getAttribute('data-producto-id'), // Asegúrate de que este atributo esté en el HTML
-      precio: parseFloat(input.value)
+    productoId: input.getAttribute('data-producto-id'),
+    precio: parseFloat(input.value)
   }));
 
   fetch(`/vercotizaciones/actualizar/${id}`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ precios })
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ precios })
   })
-  .then(response => response.json())
-  .then(data => {
+    .then(response => response.json())
+    .then(data => {
       console.log('Cotización actualizada:', data);
-      window.location.reload(); // O redirigir a otra página
-  })
-  .catch(error => {
+      window.location.reload();
+    })
+    .catch(error => {
       console.error('Error al guardar la cotización:', error);
-  });
+    });
 }
 
 function descargarPDF(idCotizacion) {
@@ -115,15 +116,15 @@ function descargarPDF(idCotizacion) {
 
 function verificarCotizacion() {
   const cotizacionId = document.getElementById('cotizacionId').value;
-  
+
   if (!cotizacionId) {
-      alert('No se ha seleccionado ninguna cotización.');
-      return;
+    alert('No se ha seleccionado ninguna cotización.');
+    return;
   }
-    // Realizar la solicitud para verificar la cotización
-    fetch(`/vercotizaciones/verificar/${cotizacionId}`, {
-        method: 'POST'
-    })
+
+  fetch(`/vercotizaciones/verificar/${cotizacionId}`, {
+    method: 'POST'
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -131,12 +132,20 @@ function verificarCotizacion() {
       return response.json();
     })
     .then(data => {
-        alert(data.message);
-        // Cerrar el modal si la verificación fue exitosa
-        $('#cotizacionModal').modal('hide');
+      alert(data.message);
+      const modal = document.getElementById('cotizacionModal');
+      if (modal) {
+        modal.classList.remove('show');
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+      }
     })
     .catch(error => {
-        console.error('Error al verificar la cotización:', error);
-        alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
+      console.error('Error al verificar la cotización:', error);
+      alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
     });
-  }
+}
