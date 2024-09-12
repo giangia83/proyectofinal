@@ -1,7 +1,3 @@
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
     // Manejo del menú hamburguesa
     const menuHamburguesa = document.getElementById('menuHamburguesa');
@@ -168,9 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Evento para abrir el modal y cargar los favoritos
-    document.getElementById('verFavoritos').addEventListener('click', () => {
-        cargarFavoritos();
-        favoriteModal.show();
+    document.querySelectorAll('.favorito-boton').forEach(button => {
+        button.addEventListener('click', () => {
+            cargarFavoritos();
+            favoriteModal.show();
+        });
     });
 
     // Manejo del botón de agregar a favoritos

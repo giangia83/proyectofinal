@@ -92,29 +92,36 @@
   </header>
 
   <main>
-    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-      <!-- Imágenes del Carrusel -->
-      <div class="carousel-inner" >
-        <div class="carousel-item active">
-          <img src="/public/img/herostar5.webp" class="d-block w-100" alt="Imagen 1">
+   
+      <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <!-- Imágenes del Carrusel -->
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="/public/img/herostar5.webp" class="d-block w-100" alt="Imagen 1">
+          </div>
+          <!-- Añadir más items aquí -->
         </div>
-     
-      <!-- Controles de navegación -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Siguiente</span>
-      </button>
-    </div>
+    
+        <!-- Controles de navegación -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+      </div>
+    
+      <!-- Resto del contenido -->
+  
+    
     <div class="hero invisiblepc ">
       <img src="/public/img/herostar5.webp" class="img-fluid hero-image" alt="Hero Image">
     </div>
     <div class="container">
       <div id="alertContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
-        <!-- Los alertas se añadirán aquí -->
+       
       </div>
       <div id="likeEffect" class="like-effect">
         <div class="star">&#9733;</div>
@@ -185,7 +192,7 @@
               <div class="card-content">
                 <div class="card-body">
 
-                  <a href=# class="link-none-two" id="verFavoritos">
+                  <a href=# class="link-none-two favorito-boton" id="verFavoritos">
 
                     <div class="media d-flex">
                       <div class="align-self-center">
@@ -274,7 +281,7 @@
         </li>
 
         <li>
-          <a href=# class="link-none-two card card2" id="verFavoritos">
+          <a href=# class="link-none-two card card2 favorito-boton" id="verFavoritos">
             <div class="card-content">
               <svg xmlns="http://www.w3.org/2000/svg" width="116" height="46" fill="currentColor" class="bi bi-bookmark"
                 viewBox="0 0 16 16">

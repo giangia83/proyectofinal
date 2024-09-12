@@ -588,17 +588,13 @@ width: 100%;
 
    
 
-   #heroCarousel{
-
-z-index: -2;
-
-   }
-   
    .hero-image {
     content: url("/public/img/herostarmobile.webp");
     width: 100%; /* Ajusta el ancho al 100% del contenedor */
     height: auto; /* Ajusta la altura automáticamente */
 }
+
+
 
 
    h5{
