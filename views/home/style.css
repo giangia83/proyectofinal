@@ -499,7 +499,16 @@ nav ul li a:hover {
    
 
 
+
 }
+
+.text-container {
+    max-width: 100%; /* O el valor que se ajuste a tus necesidades */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
 @media (max-width:500px) {
     
     .header-down{
@@ -577,6 +586,7 @@ width: 100%;
 
    }
 
+   
 
    #heroCarousel{
 
@@ -1178,14 +1188,7 @@ font-size: 15px;
     color: #333;
   }
   
-  /* Puedes ajustar el tamaño de las tarjetas según los tamaños de pantalla */
-  @media (min-width: 600px) {
-    .card-content svg {
-      width: auto;
-      height: 60px;
-    }
-  }
-  
+
 
 
 
