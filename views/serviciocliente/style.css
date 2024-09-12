@@ -101,7 +101,22 @@ header {
     
 }
 
+ 
+/* styles/styles.css */
+
+.header-center {
+    /* Ajusta según tus necesidades */
+    display: flex;
+   
+    align-items: center; /* Alinea verticalmente los elementos */
+    padding: 0px 30px; /* Añade relleno arriba y abajo */
+  }
   
+  .btn-center {
+    margin-right: 20px ; /* Margen entre cada elemento <a> */
+  }
+  /* styles/styles.css */
+ 
 #icon{
 
     width: 32px;
