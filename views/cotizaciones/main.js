@@ -41,7 +41,6 @@ function loadUserDetails(userId) {
 
 
 
-
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
       .then(response => response.json())
@@ -55,15 +54,14 @@ function loadCotizacionDetails(id) {
           cotizacion.productos.forEach(producto => {
               const fila = document.createElement('tr');
               fila.innerHTML = `
-                  <td>${producto.nombre}</td>
-                 
+                  <td>${producto.productoId.nombre}</td>
                   <td>${producto.cantidad}</td>
-                  <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.id}"></td>
-                  <td><span class="subtotal">${(producto.precio ? producto.precio * producto.cantidad : 0).toFixed(2)}</span></td>
+                  <td><input type="number" class="form-control" value="${producto.productoId.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.productoId._id}"></td>
+                  <td><span class="subtotal">${(producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0).toFixed(2)}</span></td>
               `;
               productosTableBody.appendChild(fila);
 
-              total += producto.precio ? producto.precio * producto.cantidad : 0;
+              total += producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0;
           });
 
           document.getElementById('totalPrecio').innerText = total.toFixed(2);
@@ -72,6 +70,8 @@ function loadCotizacionDetails(id) {
           console.error('Error al cargar los detalles de la cotización:', error);
       });
 }
+
+
 function actualizarSubtotal(input) {
   const valor = input.value.replace(',', '.'); // Reemplaza la coma por un punto
   const precioUnitario = parseFloat(valor);

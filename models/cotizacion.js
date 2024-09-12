@@ -33,7 +33,7 @@ const cotizacionSchema = new mongoose.Schema({
             required: true,
         },
         precio: {
-            type: Number, // El precio puede ser opcional aquí, pero puedes calcularlo dinámicamente
+            type: Number, 
         }
     }],
 });
