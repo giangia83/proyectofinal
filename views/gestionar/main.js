@@ -78,7 +78,7 @@ function cargarProducto(id) {
         document.getElementById('inputNombreEditar').value = producto.nombre;
         document.getElementById('inputCostoEditar').value = producto.costo;
         document.getElementById('inputPrecioEditar').value = producto.precio;
-        // Aquí puedes manejar la imagen si es necesario
+        
       })
       .catch(error => {
         console.error('Error al cargar el producto:', error);
