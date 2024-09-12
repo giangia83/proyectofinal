@@ -697,21 +697,6 @@ display: none;
 
 
 
-.link-none2 {
-    text-decoration: none; /* Quitar subrayado */
-    display: inline-block; /* Para que el <a> no afecte el layout */
-  }
-  
-  .link-none2 a, .link-none2 a:visited, .link-none2 a:focus, .link-none2 a:hover {
-    all: unset; /* Elimina todos los estilos por defecto del enlace */
-  }
-  
-  .link-none a, .link-none a:visited, .link-none a:focus, .link-none a:hover {
-    all: unset; /* Elimina todos los estilos por defecto del enlace */
-  }
-  
-
-
 .link-none{
 
     text-decoration: none; /* Elimina el subrayado del enlace */

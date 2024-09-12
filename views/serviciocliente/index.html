@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Starclean C.A - Contacto</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/views/serviciocliente/style.css">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
+</head>
+<body>
+    <script src="/views/components/header.js"></script>
+    <main>
+
+
+        <div class="container">
+
+
+            
+            <h2 class="font-weight-bold mb-2">Contacto e información de pago</h2>
+            <p class="font-italic text-muted mb-4">Elige entre la variedad de métodos de pago.</p>
+
+            <!-- Logos de bancos en fila -->
+            <div class="row justify-content-left">
+                <div class="col-auto">
+                    <img src="https://www.bancodevenezuela.com/wp-content/uploads/2023/03/logonuevo.png" alt="Banco de Venezuela" class="logo-banco" onclick="mostrarInfoPago('bancoVenezuela')">
+                </div>
+                <div class="col-auto">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Banesco_logo.svg/2560px-Banesco_logo.svg.png" alt="Banesco" class="logo-banco" onclick="mostrarInfoPago('banesco')">
+                </div>
+                <div class="col-auto">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Bancaribe-logo.png/1200px-Bancaribe-logo.png" alt="Bancaribe" class="logo-banco" onclick="mostrarInfoPago('bancaribe')">
+                </div>
+                <div class="col-auto">
+                    <img src="https://cdn.goconqr.com/uploads/media/image/26594763/desktop_0e174ec9-ba36-4802-924c-fb6927459be2.png" alt="Otro Banco" class="logo-banco" onclick="mostrarInfoPago('otroBanco')">
+                </div>
+            </div>
+
+                        <!-- Modal -->
+                  <!-- Modal -->
+<div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="modalPagoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPagoLabel">Información de Pago</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 id="bancoNombre">Banco</h5>
+                <p id="bancoInfo">Aquí va la información del pago móvil.</p>
+                <p id="adminDireccion">Dirección: </p>
+                <p id="adminTelefono">Teléfono: </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </main>
+
+
+
+    <script src="/views/serviciocliente/main.js"></script>
+        <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

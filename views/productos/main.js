@@ -47,41 +47,45 @@ document.addEventListener('DOMContentLoaded', () => {
             productListContainer.innerHTML = '<p class="text-danger">Error al cargar los productos. Inténtalo más tarde.</p>';
         }
     }
-
     function attachAddToCartEvents() {
         document.addEventListener('click', (event) => {
             if (event.target.matches('.btn-add')) {
                 event.preventDefault();
                 const button = event.target;
                 const productId = button.getAttribute('data-producto-id');
-                const card = button.closest('.card') || button.closest('.list-group-item'); // Ajusta según el HTML generado
+                const card = button.closest('.card') || button.closest('.list-group-item');
                 const productName = card.querySelector('h5 a')?.textContent || card.querySelector('h6.mb-1').textContent;
                 const productCategory = card.querySelector('.font-italic')?.textContent || card.querySelector('.text-muted').textContent;
                 const productImage = card.querySelector('.product-image')?.getAttribute('src') || card.querySelector('img').getAttribute('src');
-
+    
                 const product = {
                     id: productId,
                     name: productName,
                     category: productCategory,
                     image: productImage,
                 };
-
+    
                 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
                 const found = cart.some(item => item.id === productId);
                 if (!found) {
                     cart.push(product);
                     sessionStorage.setItem('cart', JSON.stringify(cart));
                     console.log(`Producto '${productName}' (ID: ${productId}, Categoría: ${productCategory}) agregado al carrito.`);
-
+    
+                    // Deshabilitar el botón "Añadir"
+                    button.disabled = true;
+                    button.textContent = 'Añadido';
+    
                     if (card) card.classList.add('added-to-cart');
-                    displayCart(); // Actualiza la lista de productos en el carrito
-                    updateCardStyles(); // Actualiza la visualización de las tarjetas
+                    displayCart();
+                    updateCardStyles();
                 } else {
                     console.log(`El producto '${productName}' ya está en el carrito.`);
                 }
             }
         });
     }
+    
 
     // Función para mostrar productos en el carrito
     function displayCart() {
@@ -116,20 +120,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Eliminar producto del carrito
-    function removeFromCart(productId) {
-        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-        cart = cart.filter(item => item.id !== productId);
-        sessionStorage.setItem('cart', JSON.stringify(cart));
-        console.log(`Producto con ID ${productId} eliminado del carrito.`);
+function removeFromCart(productId) {
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.id !== productId);
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    console.log(`Producto con ID ${productId} eliminado del carrito.`);
 
-        const card = document.querySelector(`.card[data-producto-id="${productId}"]`);
-        if (card) {
-            card.classList.remove('added-to-cart');
+    const card = document.querySelector(`.card[data-producto-id="${productId}"]`);
+    if (card) {
+        card.classList.remove('added-to-cart');
+        const button = card.querySelector('.btn-add');
+        
+        // Volver a habilitar el botón "Añadir"
+        if (button) {
+            button.disabled = false;
+            button.textContent = 'Añadir';
         }
-
-        displayCart(); // Actualizar la lista de productos en el carrito
-        updateCardStyles(); // Actualiza la visualización de las tarjetas
     }
+
+    displayCart();
+    updateCardStyles();
+}
 
     // Actualiza los estilos de las tarjetas en función del carrito
     function updateCardStyles() {

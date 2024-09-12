@@ -16,11 +16,27 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Obtener información del admin
+router.get('/admin', async (req, res) => {
+    try {
+        // Suponiendo que tienes un usuario con rol 'admin'
+        const admin = await Usuario.findOne({ rol: 'admin' });
+        if (!admin) {
+            return res.status(404).json({ error: 'Admin no encontrado' });
+        }
+        res.status(200).json(admin);
+    } catch (error) {
+        console.error('Error al obtener admin:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+
 // Crear un nuevo usuario
 router.post('/', async (req, res) => {
   
   
-    const { nombre, correo, contraseña, direccion, ciudad, rif, number, recaptchaToken } = req.body;
+    const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
 
    
 
