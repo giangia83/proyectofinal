@@ -54,6 +54,11 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
 });
 // Ruta para obtener una cotización específica por ID
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
+   
+  
+   
+   
+   
     const { id } = req.params;
     try {
         const cotizacion = await Cotizacion.findById(id).populate('productos');
@@ -64,6 +69,17 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener detalles de la cotización:', error);
         res.status(500).send('Error interno al obtener detalles de la cotización');
+    }
+
+    try {
+        const producto = await Producto.findById(id);
+        if (!producto) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+        res.json(producto);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error al obtener el producto' });
     }
 });
 
