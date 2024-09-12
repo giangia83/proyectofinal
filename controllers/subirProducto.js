@@ -5,17 +5,12 @@ const sharp = require('sharp');
 const mongoose = require('mongoose');
 const Producto = require('../models/producto');
 require('dotenv').config();
-
 const router = express.Router();
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
-
 const bunnyStorageUrl = 'https://br.storage.bunnycdn.com/starcleanbucket';
 const bunnyPullZoneUrl = 'https://starcleanpull.b-cdn.net';
 const bunnyAccessKey = process.env.YOUR_BUNNYNET_ACCESS_KEY;
-
-// Tamaño uniforme para las imágenes (300x300 en este ejemplo)
 const IMAGE_WIDTH = 300;
 const IMAGE_HEIGHT = 300;
 
@@ -30,10 +25,10 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
     try {
         const fileName = req.file.originalname.replace(/\.[^/.]+$/, '') + '.webp';
         
-        // Redimensionar la imagen a 300x300 píxeles sin distorsionar, recortando si es necesario
+       /* este codigo recorta la imagen si es necesario */
         const fileBuffer = await sharp(req.file.buffer)
             .resize(IMAGE_WIDTH, IMAGE_HEIGHT, {
-                fit: 'cover'  // Recorta la imagen si es necesario para ajustarse al tamaño
+                fit: 'cover'  
             })
             .webp()
             .toBuffer();
@@ -101,10 +96,10 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
         if (file) {
             const fileName = file.originalname.replace(/\.[^/.]+$/, '') + '.webp';
 
-            // Redimensionar la imagen a 300x300 píxeles sin distorsionar, recortando si es necesario
+          
             const fileBuffer = await sharp(file.buffer)
                 .resize(IMAGE_WIDTH, IMAGE_HEIGHT, {
-                    fit: 'cover'  // Recorta la imagen si es necesario para ajustarse al tamaño
+                    fit: 'cover'  
                 })
                 .webp()
                 .toBuffer();

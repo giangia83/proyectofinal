@@ -6,12 +6,12 @@ async function enviarCorreoCotizacion(detallesCotizacion) {
         // Obtener el usuario basado en el correo proporcionado en detallesCotizacion
         const usuario = await Usuario.findById(detallesCotizacion.usuarioId);
        
-        // Verificar si el usuario fue encontrado
+  
         if (!usuario) {
             throw new Error('Usuario no encontrado');
         }
 
-        // Obtener el correo del administrador (suponiendo que sólo hay un administrador y que su rol es 'admin')
+   
         const admin = await Usuario.findOne({ rol: 'admin' });
         
         if (!admin) {
@@ -66,7 +66,7 @@ async function enviarCorreoCotizacion(detallesCotizacion) {
         // Correo al administrador
         const mailOptionsAdmin = {
             from: process.env.EMAIL_USER,
-            to: admin.correo, // Correo del administrador
+            to: admin.correo, 
             subject: 'Nueva Cotización Creada',
             html: `
                 <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
@@ -120,3 +120,4 @@ async function enviarCorreoCotizacion(detallesCotizacion) {
 }
 
 module.exports = enviarCorreoCotizacion;
+/* este es el codigo que envia los correos */

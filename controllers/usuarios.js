@@ -120,8 +120,7 @@ router.put('/editar/:id', async (req, res) => {
             ciudad: usuarioActualizado.ciudad,
             rif: usuarioActualizado.rif,
             number: usuarioActualizado.number,
-            // Asegúrate de establecer correctamente el valor de esAdmin si es relevante
-            // Otros datos del usuario según sea necesario
+         
         };
 
         // Actualizar la cookie con el nombre de usuario actualizado
@@ -149,8 +148,5 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-
-
-
 
 module.exports = router;

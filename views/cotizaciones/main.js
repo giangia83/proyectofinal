@@ -39,35 +39,42 @@ function loadUserDetails(userId) {
 }
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
-    .then(response => response.json())
-    .then(cotizacion => {
-      document.getElementById('cotizacionId').value = cotizacion._id;
+      .then(response => {
+         
+          const contentType = response.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+              return response.json();
+          } else {
+              return response.text().then(text => { throw new Error(text); });
+          }
+      })
+      .then(cotizacion => {
+          document.getElementById('cotizacionId').value = cotizacion._id;
 
-      const productosTableBody = document.getElementById('productosTableBody');
-      productosTableBody.innerHTML = ''; // Limpiar la tabla antes de agregar las filas
+          const productosTableBody = document.getElementById('productosTableBody');
+          productosTableBody.innerHTML = ''; // Limpiar la tabla antes de agregar las filas
 
-      let total = 0;
-      cotizacion.productos.forEach(producto => {
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-          <td>${producto.nombre}</td>
-          <td>${producto.cantidad}</td>
-          <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto._id}"></td>
-          <td><span class="subtotal">${(producto.precio ? producto.precio * producto.cantidad : 0).toFixed(2)}</span></td>
-        `;
-        productosTableBody.appendChild(fila);
+          let total = 0;
+          cotizacion.productos.forEach(producto => {
+              const fila = document.createElement('tr');
+              fila.innerHTML = `
+                  <td>${producto.nombre}</td>
+                  <td>${producto.cantidad}</td>
+                  <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto._id}"></td>
+                  <td><span class="subtotal">${(producto.precio ? producto.precio * producto.cantidad : 0).toFixed(2)}</span></td>
+              `;
+              productosTableBody.appendChild(fila);
 
-        total += producto.precio ? producto.precio * producto.cantidad : 0;
+              total += producto.precio ? producto.precio * producto.cantidad : 0;
+          });
+
+          document.getElementById('totalPrecio').innerText = total.toFixed(2);
+      })
+      .catch(error => {
+          console.error('Error al cargar los detalles de la cotización:', error);
+          alert('Hubo un problema al cargar los detalles de la cotización: ' + error.message);
       });
-
-      document.getElementById('totalPrecio').innerText = total.toFixed(2);
-    })
-    .catch(error => {
-      console.error('Error al cargar los detalles de la cotización:', error);
-    });
 }
-
-
 
 function actualizarSubtotal(input) {
   const valor = input.value.replace(',', '.'); // Reemplaza la coma por un punto

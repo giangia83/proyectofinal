@@ -3,15 +3,13 @@ const router = express.Router();
 const Cotizacion = require('../models/cotizacion');
 const Producto = require('../models/producto');
 const PDFDocument = require('pdfkit');
-const path = require('path');
-const fs = require('fs');
 const transporter = require('../controllers/nodemailer'); // Configuración de Nodemailer
 
 // Ruta para obtener todas las cotizaciones
 router.get('/vercotizaciones', async (req, res) => {
     try {
         const productos = await Producto.find();
-        const cotizaciones = await Cotizacion.find().populate('usuario'); // Llenar el campo de usuario con los detalles del usuario
+        const cotizaciones = await Cotizacion.find().populate('usuario'); 
 
         res.render('cotizaciones/index', {
             productos,
@@ -27,7 +25,7 @@ router.get('/vercotizaciones', async (req, res) => {
 router.get('/vercotizaciones/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const cotizacion = await Cotizacion.findById(id).populate('productos'); // Asegúrate de que 'productos' esté poblado si es necesario
+        const cotizacion = await Cotizacion.findById(id).populate('productos'); 
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
@@ -48,19 +46,18 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
         }
 
         await Cotizacion.findByIdAndDelete(id);
-        res.redirect('/vercotizaciones'); // Redirige a la lista de cotizaciones después de eliminar
+        res.redirect('/vercotizaciones'); 
     } catch (error) {
         console.error('Error al eliminar la cotización:', error);
         res.status(500).json({ message: 'Error interno al eliminar la cotización' });
     }
 });
-
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const cotizacion = await Cotizacion.findById(id).populate('productos');
         if (!cotizacion) {
-            return res.status(404).send('Cotización no encontrada');
+            return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
         // Obtener el precio de cada producto
@@ -76,15 +73,16 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
         res.json(cotizacion);
     } catch (error) {
         console.error('Error al obtener detalles de la cotización:', error);
-        res.status(500).send('Error interno al obtener detalles de la cotización');
+        res.status(500).json({ message: 'Error interno al obtener detalles de la cotización' });
     }
 });
+
 
 
 // Ruta para actualizar los precios de los productos en una cotización
 router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
     const { id } = req.params;
-    const { precios } = req.body; // Array de objetos con productoId y precio
+    const { precios } = req.body; 
 
     try {
         const cotizacion = await Cotizacion.findById(id);
@@ -166,7 +164,8 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.status(500).send('Error interno al generar el PDF');
     }
 });
-// Ruta para verificar y enviar la cotización por correo
+
+// Ruta para verificar y enviar la cotización por correo al usuari0
 router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -186,7 +185,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         doc.on('end', async () => {
             const pdfBuffer = Buffer.concat(chunks);
 
-            // Actualizar el estado de la cotización a 'Verificado'
+        
             try {
                 await Cotizacion.findByIdAndUpdate(id, { estado: 'Entregada al correo.' });
             } catch (updateError) {
@@ -194,7 +193,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
                 return res.status(500).json({ message: 'Error al actualizar el estado de la cotización' });
             }
 
-            // Enviar el correo electrónico con el PDF como adjunto
+            // Enviar el correo electrónico con el PDF 
             const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: cotizacion.usuario.correo,

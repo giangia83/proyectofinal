@@ -7,7 +7,6 @@ router.post('/login', async (req, res) => {
         const { correo, contraseña } = req.body;
         const usuario = await Usuario.findOne({ correo });
 
-        // Verificar si el usuario existe y si la contraseña coincide
         if (!usuario || usuario.contraseña !== contraseña) {
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
@@ -44,3 +43,5 @@ router.post('/login', async (req, res) => {
     }
 });
 module.exports = router;
+
+/* SALUDOS A JURADO DE EDTECNICA :D */

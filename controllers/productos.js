@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Producto = require('../models/producto');
 
-// Ruta para obtener todos los productos (API)
+// Ruta para obtener todos los productos
 router.get('/productos', async (req, res) => {
     try {
         const productos = await Producto.find();
@@ -71,3 +71,4 @@ router.post('/eliminar-productos', async (req, res) => {
 });
 
 module.exports = router;
+

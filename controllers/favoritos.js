@@ -24,12 +24,11 @@ router.post('/add-to-favorites', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Producto no encontrado' });
         }
 
-        // Asegúrate de que favorites sea un array
+       
         if (!Array.isArray(usuario.favorites)) {
             usuario.favorites = [];
         }
 
-        // Verifica si el producto ya está en favoritos
         if (usuario.favorites.some(fav => fav.toString() === productoId)) {
             return res.status(400).json({ success: false, message: 'El producto ya está en favoritos' });
         }
@@ -49,7 +48,6 @@ router.post('/add-to-favorites', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
 });
-
 // Obtener favoritos
 router.get('/get-favorites', async (req, res) => {
     try {
@@ -76,7 +74,6 @@ router.get('/get-favorites', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error del servidor' });
     }
 });
-
 // Eliminar de favoritos
 router.post('/remove-from-favorites', async (req, res) => {
     try {
