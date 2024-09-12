@@ -52,48 +52,33 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al eliminar la cotización' });
     }
 });
+
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const cotizacion = await Cotizacion.findById(id).populate('productos.productoId');
+        const cotizacion = await Cotizacion.findById(id).populate('productos');
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
-        // Verificar si los productos fueron correctamente poblados
-        const productosConPrecios = cotizacion.productos.map(item => {
-            const producto = item.productoId; // Producto poblado
-
-            if (!producto) {
-                console.error(`Producto no encontrado para productoId: ${item.productoId}`);
-                return {
-                    _id: null,
-                    nombre: 'Producto no disponible',
-                    cantidad: item.cantidad,
-                    precio: 0
-                };
-            }
-
+        // Obtener el precio de cada producto
+        const productosConPrecios = await Promise.all(cotizacion.productos.map(async producto => {
+            const productoDetails = await Producto.findById(producto._id);
             return {
-                _id: producto._id,
-                nombre: producto.nombre,
-                cantidad: item.cantidad,
-                precio: producto.precio // Usar el precio del producto
+                ...producto.toObject(),
+                precio: productoDetails.precio
             };
-        });
+        }));
 
-        const total = productosConPrecios.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
-
-        res.json({
-            _id: cotizacion._id,
-            productos: productosConPrecios,
-            total: total
-        });
+        cotizacion.productos = productosConPrecios;
+        res.json(cotizacion);
     } catch (error) {
-        console.error('Error al obtener cotización:', error);
-        res.status(500).json({ message: 'Error interno al obtener cotización' });
+        console.error('Error al obtener detalles de la cotización:', error);
+        res.status(500).json({ message: 'Error interno al obtener detalles de la cotización' });
     }
 });
+
+
 
 
 // Ruta para actualizar los precios de los productos en una cotización

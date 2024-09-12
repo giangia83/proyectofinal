@@ -36,9 +36,7 @@ function loadUserDetails(userId) {
       document.getElementById('userDetailsContent').innerHTML = content;
     })
     .catch(error => console.error('Error:', error));
-}
-
-function loadCotizacionDetails(id) {
+}function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
       .then(response => {
           const contentType = response.headers.get('content-type');
@@ -65,7 +63,7 @@ function loadCotizacionDetails(id) {
               fila.innerHTML = `
                   <td>${producto.nombre}</td>
                   <td>${producto.cantidad}</td>
-                  <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto._id}"></td>
+                  <td>${producto.precio ? producto.precio.toFixed(2) : 'Sin precio asignado'}</td> 
                   <td><span class="subtotal">${(producto.precio ? producto.precio * producto.cantidad : 0).toFixed(2)}</span></td>
               `;
               productosTableBody.appendChild(fila);
@@ -80,6 +78,7 @@ function loadCotizacionDetails(id) {
           alert('Hubo un problema al cargar los detalles de la cotización: ' + error.message);
       });
 }
+
 
 function actualizarSubtotal(input) {
   const valor = input.value.replace(',', '.'); // Reemplaza la coma por un punto
