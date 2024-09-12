@@ -156,7 +156,6 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.status(500).send('Error interno al generar el PDF');
     }
 });
-
 // Ruta para verificar y enviar la cotización por correo
 router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     const { id } = req.params;
@@ -174,8 +173,16 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         // Generar el contenido del PDF en un buffer
         const chunks = [];
         doc.on('data', chunks.push.bind(chunks));
-        doc.on('end', () => {
+        doc.on('end', async () => {
             const pdfBuffer = Buffer.concat(chunks);
+
+            // Actualizar el estado de la cotización a 'Verificado'
+            try {
+                await Cotizacion.findByIdAndUpdate(id, { estado: 'Verificado' });
+            } catch (updateError) {
+                console.error('Error al actualizar el estado de la cotización:', updateError);
+                return res.status(500).json({ message: 'Error al actualizar el estado de la cotización' });
+            }
 
             // Enviar el correo electrónico con el PDF como adjunto
             const mailOptions = {
@@ -216,7 +223,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
                         </section>
 
                         <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
-                            <p style="font-size: 16px; color: #555;">Si tienes alguna pregunta, no dudes en contactarnos.</p>
+                            <p style="font-size: 16px; color: #555;">Si deseas realizar la compra, entra a nuestra pagina web y elige un metodo de pago bajo la pestaña "Contacto".</p>
                             <p style="font-size: 14px; color: #999;">Saludos cordiales,<br>Starclean C.A - Miranda, Guatire</p>
                         </footer>
                     </div>
@@ -274,5 +281,6 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
     }
 });
+
 
 module.exports = router;
