@@ -52,39 +52,21 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al eliminar la cotización' });
     }
 });
-// Obtener detalles de la cotización
+// Ruta para obtener una cotización específica por ID
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        // Buscar la cotización por ID
-        const cotizacion = await Cotizacion.findById(id);
+        const cotizacion = await Cotizacion.findById(id).populate('productos');
         if (!cotizacion) {
-            return res.status(404).json({ message: 'Cotización no encontrada' });
+            return res.status(404).send('Cotización no encontrada');
         }
-        // Obtener el precio de cada producto
-        const productosConPrecios = await Promise.all(cotizacion.productos.map(async producto => {
-            // Buscar el producto por ID en la colección de Productos
-            const productoDetails = await Producto.findById(producto.id); 
-            if (!productoDetails) {
-                return {
-                    ...producto,
-                    precio: null 
-                };
-            }
-            return {
-                ...producto,
-                precio: productoDetails.precio 
-            };
-        }));
-        res.json({
-            ...cotizacion.toObject(),
-            productos: productosConPrecios
-        });
+        res.json(cotizacion);
     } catch (error) {
         console.error('Error al obtener detalles de la cotización:', error);
-        res.status(500).json({ message: 'Error interno al obtener detalles de la cotización' });
+        res.status(500).send('Error interno al obtener detalles de la cotización');
     }
 });
+
 
 
 

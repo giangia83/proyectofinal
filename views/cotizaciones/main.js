@@ -82,7 +82,6 @@ function loadCotizacionDetails(id) {
     });
 }
 
-
 function actualizarSubtotal(input) {
   const valor = input.value.replace(',', '.'); // Reemplaza la coma por un punto
   const precioUnitario = parseFloat(valor);
@@ -97,7 +96,7 @@ function actualizarSubtotal(input) {
 function calcularTotal() {
   let total = 0;
   document.querySelectorAll('.subtotal').forEach(element => {
-    total += parseFloat(element.innerText);
+    total += parseFloat(element.innerText) || 0; // Agrega 0 si el valor no es un número
   });
   document.getElementById('totalPrecio').innerText = total.toFixed(2);
 }
@@ -137,6 +136,7 @@ function guardarCotizacion() {
       console.error('Error al guardar la cotización:', error);
     });
 }
+
 
 
 function descargarPDF(idCotizacion) {
