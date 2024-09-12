@@ -38,6 +38,29 @@ function loadUserDetails(userId) {
     .catch(error => console.error('Error:', error));
 }
 
+
+// Función para cargar los datos del producto en el modal
+function cargarProducto(id) {
+  if (!id || typeof id !== 'string') {
+      console.error('ID del producto no es válido:', id);
+      alert('ID del producto no es válido');
+      return;
+  }
+
+  fetch(`/api/productos/${id}`)
+    .then(response => response.json())
+    .then(producto => {
+    
+      document.getElementById('inputPrecioEditar').value = producto.precio;
+      
+    })
+    .catch(error => {
+      console.error('Error al cargar el producto:', error);
+      alert('Hubo un problema al cargar el producto. Por favor, intenta nuevamente.');
+    });
+}
+
+
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
       .then(response => response.json())
