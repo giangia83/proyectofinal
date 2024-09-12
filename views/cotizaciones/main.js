@@ -37,6 +37,7 @@ function loadUserDetails(userId) {
     })
     .catch(error => console.error('Error:', error));
 }
+
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
       .then(response => {
@@ -101,27 +102,40 @@ function calcularTotal() {
 
 function guardarCotizacion() {
   const id = document.getElementById('cotizacionId').value;
-  const precios = Array.from(document.querySelectorAll('input[type="number"]')).map(input => ({
-    productoId: input.getAttribute('data-producto-id'),
-    precio: parseFloat(input.value)
-  }));
+  
+  const precios = Array.from(document.querySelectorAll('input[type="number"]')).map(input => {
+    const productoId = input.getAttribute('data-producto-id');
+    let precio = input.value.replace(',', '.'); 
+    precio = parseFloat(precio); 
+    
+    if (isNaN(precio)) {
+      precio = null; // Si el precio no es válido o está vacío, se define como null
+    }
 
+    return {
+      productoId: productoId,
+      precio: precio // Se envía null si el valor es inválido
+    };
+  });
+
+  // Envía los precios actualizados al servidor
   fetch(`/vercotizaciones/actualizar/${id}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ precios })
+    body: JSON.stringify({ precios }) // Enviar precios al backend
   })
     .then(response => response.json())
     .then(data => {
       console.log('Cotización actualizada:', data);
-      window.location.reload();
+      window.location.reload(); // Refresca la página tras la actualización
     })
     .catch(error => {
       console.error('Error al guardar la cotización:', error);
     });
 }
+
 
 function descargarPDF(idCotizacion) {
   window.location.href = `/vercotizaciones/pdf/${idCotizacion}`;

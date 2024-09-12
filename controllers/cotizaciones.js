@@ -52,8 +52,6 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al eliminar la cotización' });
     }
 });
-
-// Ruta para obtener detalles de una cotización específica
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -62,9 +60,20 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
-        // Recorrer los productos y obtener los precios directamente del producto relacionado
+        // Verificar si los productos fueron correctamente poblados
         const productosConPrecios = cotizacion.productos.map(item => {
             const producto = item.productoId; // Producto poblado
+
+            if (!producto) {
+                console.error(`Producto no encontrado para productoId: ${item.productoId}`);
+                return {
+                    _id: null,
+                    nombre: 'Producto no disponible',
+                    cantidad: item.cantidad,
+                    precio: 0
+                };
+            }
+
             return {
                 _id: producto._id,
                 nombre: producto.nombre,
@@ -73,18 +82,18 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
             };
         });
 
+        const total = productosConPrecios.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
+
         res.json({
             _id: cotizacion._id,
             productos: productosConPrecios,
-            total: productosConPrecios.reduce((acc, p) => acc + (p.precio * p.cantidad), 0)
+            total: total
         });
     } catch (error) {
         console.error('Error al obtener cotización:', error);
         res.status(500).json({ message: 'Error interno al obtener cotización' });
     }
 });
-
-
 
 
 // Ruta para actualizar los precios de los productos en una cotización
