@@ -53,7 +53,7 @@ function loadCotizacionDetails(id) {
         fila.innerHTML = `
           <td>${producto.nombre}</td>
           <td>${producto.cantidad}</td>
-          <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.id}"></td>
+          <td><input type="number" class="form-control" value="${producto.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto._id}"></td>
           <td><span class="subtotal">${(producto.precio ? producto.precio * producto.cantidad : 0).toFixed(2)}</span></td>
         `;
         productosTableBody.appendChild(fila);
@@ -67,9 +67,10 @@ function loadCotizacionDetails(id) {
       console.error('Error al cargar los detalles de la cotización:', error);
     });
 }
-
 function actualizarSubtotal(input) {
-  const precioUnitario = parseFloat(input.value);
+  // Convertir el valor ingresado a punto decimal
+  const valor = input.value.replace(',', '.'); // Reemplaza la coma por un punto
+  const precioUnitario = parseFloat(valor);
   const cantidad = parseFloat(input.closest('tr').querySelector('td:nth-child(2)').innerText);
   const subtotal = precioUnitario * cantidad;
 

@@ -60,7 +60,10 @@ router.post('/vercotizaciones/eliminar/:id', async (req, res) => {
 router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const cotizacion = await Cotizacion.findById(id).populate('productos');
+        const cotizacion = await Cotizacion.findById(id).populate({
+            path: 'productos',
+            select: 'nombre cantidad precio' // Asegúrate de incluir el campo 'precio'
+        });
         if (!cotizacion) {
             return res.status(404).send('Cotización no encontrada');
         }
@@ -70,6 +73,7 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
         res.status(500).send('Error interno al obtener detalles de la cotización');
     }
 });
+
 
 // Ruta para actualizar los precios de los productos en una cotización
 router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
@@ -178,7 +182,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
 
             // Actualizar el estado de la cotización a 'Verificado'
             try {
-                await Cotizacion.findByIdAndUpdate(id, { estado: 'Verificado' });
+                await Cotizacion.findByIdAndUpdate(id, { estado: 'Entregada al correo.' });
             } catch (updateError) {
                 console.error('Error al actualizar el estado de la cotización:', updateError);
                 return res.status(500).json({ message: 'Error al actualizar el estado de la cotización' });
