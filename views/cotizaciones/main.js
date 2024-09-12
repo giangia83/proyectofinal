@@ -70,7 +70,7 @@ function loadCotizacionDetails(id) {
           console.error('Error al cargar los detalles de la cotización:', error);
       });
 }
-
+z
 
 function actualizarSubtotal(input) {
   const valor = input.value.replace(',', '.'); // Reemplaza la coma por un punto
