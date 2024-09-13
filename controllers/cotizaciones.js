@@ -9,11 +9,12 @@ router.get('/vercotizaciones', async (req, res) => {
     try {
         // Obtén todos los productos (si es necesario)
         const productos = await Producto.find();
-
-    
         const cotizaciones = await Cotizacion.find()
-            .populate('usuario') 
+            .populate('usuario', 'nombre')
             .populate('productos.productoId');
+
+        // Verifica los datos antes de renderizar
+        console.log('Cotizaciones:', cotizaciones);
 
         // Renderiza la vista con los datos obtenidos
         res.render('cotizaciones/index', {
@@ -25,6 +26,7 @@ router.get('/vercotizaciones', async (req, res) => {
         res.status(500).send('Error interno al obtener cotizaciones');
     }
 });
+
 
 
 // Ruta para obtener detalles de una cotización específica
