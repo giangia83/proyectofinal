@@ -33,7 +33,9 @@ router.get('/vercotizaciones', async (req, res) => {
 router.get('/vercotizaciones/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const cotizacion = await Cotizacion.findById(id).populate('productos'); 
+        const cotizacion = await Cotizacion.findById(id)
+        .populate('productos')
+        .populate('usuario', 'nombre'); 
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
