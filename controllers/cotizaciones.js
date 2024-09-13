@@ -254,7 +254,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
                                 </tbody>
                             </table>
                             
-                            <p style="font-size: 16px; color: #555;">El total de la cotización es: <strong style="color: #E53935;">${cotizacion.productos.reduce((total, producto) => total + (producto.productoId ? producto.productoId.precio * producto.cantidad : 0), 0).toFixed(2)}</strong></p>
+                            <p style="font-size: 16px; color: #555;">El total de la cotización es:$<strong style="color: #E53935;">${cotizacion.productos.reduce((total, producto) => total + (producto.productoId ? producto.productoId.precio * producto.cantidad : 0), 0).toFixed(2)}</strong>$</p>
                         </section>
             
                         <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">

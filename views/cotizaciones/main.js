@@ -58,7 +58,7 @@ function loadCotizacionDetails(id) {
         fila.innerHTML = `
           <td>${producto.productoId.nombre}</td>
           <td>${producto.cantidad}</td>
-          <td><input type="number" class="form-control" value="${producto.productoId.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.productoId._id}"></td>
+          <td><input type="number" value="${producto.productoId.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.productoId._id}"></td>
           <td><span class="subtotal">${(producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0).toFixed(2)}</span></td>
         `;
         productosTableBody.appendChild(fila);
@@ -88,81 +88,6 @@ function calcularTotal() {
     total += parseFloat(element.innerText) || 0;
   });
   document.getElementById('totalPrecio').innerText = total.toFixed(2);
-}
-
-function guardarCotizacion() {
-  const id = document.getElementById('cotizacionId').value;
-
-  // Verificar que el ID de la cotización sea válido
-  if (!id) {
-    alert('No se ha seleccionado ninguna cotización.');
-    return;
-  }
-
-  // Recolectar precios actualizados y sus IDs de producto
-  const precios = Array.from(document.querySelectorAll('input[type="number"]')).map(input => {
-    const productoId = input.getAttribute('data-producto-id');
-    let precio = input.value.replace(',', '.');
-    precio = parseFloat(precio);
-
-    if (isNaN(precio) || precio < 0) {
-      precio = null; // Definir como null si el precio es inválido
-    }
-
-    return {
-      productoId: productoId,
-      precio: precio
-    };
-  }).filter(item => item.precio !== null); // Filtrar precios nulos
-
-  // Verificar que hay precios válidos antes de enviar
-  if (precios.length === 0) {
-    alert('No se han ingresado precios válidos.');
-    return;
-  }
-
-  console.log('Datos a enviar:', { precios });
-
-  // Enviar los precios actualizados al servidor
-  fetch(`/vercotizaciones/actualizar/${id}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ precios })
-  })
-    .then(response => {
-      console.log('Respuesta del servidor:', response);
-      return response.json();
-    })
-    .then(data => {
-      console.log('Datos recibidos:', data);
-
-      if (data.mensaje === 'Cotización actualizada exitosamente') {
-        // Actualizar los subtotales y el total en la interfaz de usuario
-        actualizarSubtotales();
-        calcularTotal();
-        alert('Cotización actualizada correctamente.');
-      } else {
-        alert('Hubo un problema al actualizar la cotización.');
-      }
-
-      // Cerrar el modal
-      const modal = document.getElementById('cotizacionModal');
-      if (modal) {
-        modal.classList.remove('show');
-        modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-          backdrop.remove();
-        }
-      }
-    })
-    .catch(error => {
-      console.error('Error al guardar la cotización:', error);
-      alert('Error al guardar la cotización. Por favor, inténtalo de nuevo más tarde.');
-    });
 }
 
 function actualizarSubtotales() {
