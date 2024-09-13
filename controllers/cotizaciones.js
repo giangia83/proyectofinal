@@ -78,11 +78,14 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
 
 
 
-
 // Ruta para actualizar los precios de los productos en una cotización
 router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
     const { id } = req.params;
-    const { precios } = req.body; 
+    const { precios } = req.body;
+
+    if (!Array.isArray(precios)) {
+        return res.status(400).json({ message: 'Formato de datos incorrecto' });
+    }
 
     try {
         const cotizacion = await Cotizacion.findById(id);
@@ -92,6 +95,10 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
 
         // Actualizar los precios de los productos en la cotización
         precios.forEach(({ productoId, precio }) => {
+            if (isNaN(precio) || precio < 0) {
+                return res.status(400).json({ message: 'Precio inválido' });
+            }
+
             const producto = cotizacion.productos.find(p => p.id === productoId);
             if (producto) {
                 producto.precio = precio; // Actualizar el precio del producto
