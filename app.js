@@ -175,8 +175,9 @@ app.get('/administrar', verificarAdmin, async (req, res) => {
 
 app.get('/clientes', verificarAdmin, async (req, res) => {
     try {
+        const users = await Usuario.find()
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
-        res.render('clientes/index', { productos, usuario: res.locals.usuario }); // Renderizar la vista 'productos/index' con los productos obtenidos
+        res.render('clientes/index', { productos, usuario: res.locals.usuario, users }); // Renderizar la vista 'productos/index' con los productos obtenidos
     } catch (err) {
         console.error('Error al obtener productos:', err);
         res.status(500).send('Error al obtener productos');

@@ -3,7 +3,7 @@ const convertirDecimal = (valor) => valor.replace(',', '.');
 
 // Agregar producto
 document.getElementById('formAgregarProducto').addEventListener('submit', async function(event) {
-    event.preventDefault(); // Evitar el envío estándar del formulario
+    event.preventDefault(); 
   
     // Obtener valores del formulario
     const nombre = document.getElementById('inputNombre').value.trim();
@@ -40,13 +40,12 @@ document.getElementById('formAgregarProducto').addEventListener('submit', async 
         const data = await response.json();
         console.log('Producto subido exitosamente:', data);
 
-        // Mostrar el mensaje de éxito
         const mensajeExito = document.getElementById('mensajeExito');
         mensajeExito.style.display = 'block';
         setTimeout(() => {
             mensajeExito.style.display = 'none';
         }, 5000); // Ocultar el mensaje después de 5 segundos
-
+        
     } catch (error) {
         console.error('Error al subir producto:', error);
         alert('Hubo un problema al subir el producto: ' + error.message);
@@ -70,7 +69,7 @@ function cargarProducto(id) {
         return;
     }
 
-    // Asegúrate de que el backend te devuelve los datos del producto referenciado
+    
     fetch(`/api/productos/${id}`)
       .then(response => response.json())
       .then(producto => {

@@ -436,7 +436,7 @@ aside {
     border-right: 1px solid rgb(228, 228, 228); /* línea de color claro */
     overflow-y: auto;
     margin-top: 3.40rem;
-    height: 160%;
+    height: 360%;
     width: 260px;
     position: absolute;
     z-index: 0;

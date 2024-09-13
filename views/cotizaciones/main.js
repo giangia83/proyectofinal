@@ -89,6 +89,7 @@ function calcularTotal() {
   });
   document.getElementById('totalPrecio').innerText = total.toFixed(2);
 }
+
 function guardarCotizacion() {
   const id = document.getElementById('cotizacionId').value;
 
@@ -98,16 +99,21 @@ function guardarCotizacion() {
     let precio = input.value.replace(',', '.');
     precio = parseFloat(precio);
 
-    // Si el precio no es válido, se define como null
-    if (isNaN(precio)) {
-      precio = null;
+    if (isNaN(precio) || precio < 0) {
+      precio = null; // Definir como null si el precio es inválido
     }
 
     return {
       productoId: productoId,
       precio: precio
     };
-  });
+  }).filter(item => item.precio !== null); // Filtrar precios nulos
+
+  // Verificar que hay precios válidos antes de enviar
+  if (precios.length === 0) {
+    alert('No se han ingresado precios válidos.');
+    return;
+  }
 
   // Enviar los precios actualizados al servidor
   fetch(`/vercotizaciones/actualizar/${id}`, {
@@ -115,14 +121,13 @@ function guardarCotizacion() {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ precios }) // Enviar precios al backend
+    body: JSON.stringify({ precios })
   })
     .then(response => response.json())
     .then(data => {
       console.log('Cotización actualizada:', data);
 
-    
-      if (data.success) {
+      if (data.message === 'Cotización actualizada correctamente') {
         // Actualizar los subtotales y el total en la interfaz de usuario
         actualizarSubtotales();
         calcularTotal();
@@ -152,14 +157,13 @@ function guardarCotizacion() {
 function actualizarSubtotales() {
   const filas = document.querySelectorAll('#productosTableBody tr');
   filas.forEach(fila => {
-    const cantidad = parseFloat(fila.querySelector('td:nth-child(3)').innerText);
+    const cantidad = parseFloat(fila.querySelector('td:nth-child(2)').innerText);
     const input = fila.querySelector('input[type="number"]');
     const precioUnitario = parseFloat(input.value.replace(',', '.')) || 0;
     const subtotal = precioUnitario * cantidad;
     fila.querySelector('.subtotal').innerText = subtotal.toFixed(2);
   });
 }
-
 
 function descargarPDF(idCotizacion) {
   window.location.href = `/vercotizaciones/pdf/${idCotizacion}`;
