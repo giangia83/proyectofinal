@@ -132,7 +132,7 @@ app.get('/', async (req, res) => {
 });
 
 // Ruta para renderizar la página de servicio al cliente
-app.get('/servicioalcliente', verificarAutenticacion async (req, res) => {
+app.get('/servicioalcliente', verificarAutenticacion, async (req, res) => {
     try {
         res.render('serviciocliente/index');
     } catch (error) {
