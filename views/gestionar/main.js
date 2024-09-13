@@ -62,7 +62,6 @@ document.querySelectorAll('#dropdownCategoria .dropdown-item').forEach(item => {
         this.classList.add('active');
     });
 });
-
 // Función para cargar los datos del producto en el modal
 function cargarProducto(id) {
     if (!id || typeof id !== 'string') {
@@ -71,20 +70,22 @@ function cargarProducto(id) {
         return;
     }
 
+    // Asegúrate de que el backend te devuelve los datos del producto referenciado
     fetch(`/api/productos/${id}`)
       .then(response => response.json())
       .then(producto => {
+        // Asignar los datos del producto al formulario para edición
         document.getElementById('productoId').value = producto._id;
         document.getElementById('inputNombreEditar').value = producto.nombre;
         document.getElementById('inputCostoEditar').value = producto.costo;
         document.getElementById('inputPrecioEditar').value = producto.precio;
-        
       })
       .catch(error => {
         console.error('Error al cargar el producto:', error);
         alert('Hubo un problema al cargar el producto. Por favor, intenta nuevamente.');
       });
 }
+
 
 // Actualizar producto
 document.getElementById('formEditarProducto').addEventListener('submit', async function(event) {

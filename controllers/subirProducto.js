@@ -58,7 +58,12 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
             });
 
             await nuevoProducto.save();
-            res.json({ url: fileUrl, mensaje: 'Producto subido y guardado exitosamente' });
+            res.json({ 
+                url: fileUrl, 
+                mensaje: 'Producto subido y guardado exitosamente', 
+                productoId: nuevoProducto._id // Aquí devuelves el productoId
+            });
+            
         } else {
             const errorMsg = `Error al subir el archivo. Código de estado: ${response.status}`;
             console.error(errorMsg);
@@ -136,7 +141,12 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
             return res.status(404).json({ error: 'Producto no encontrado' });
         }
 
-        res.json({ mensaje: 'Producto actualizado exitosamente', producto: updatedProducto });
+        res.json({ 
+            mensaje: 'Producto actualizado exitosamente', 
+            producto: updatedProducto,
+            productoId: updatedProducto._id // Devolvemos el productoId
+        });
+        
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Error al actualizar el producto' });
