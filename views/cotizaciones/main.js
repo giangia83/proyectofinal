@@ -93,7 +93,13 @@ function calcularTotal() {
 function guardarCotizacion() {
   const id = document.getElementById('cotizacionId').value;
 
-  // Recolectar precios actualizados y sus ids de producto
+  // Verificar que el ID de la cotización sea válido
+  if (!id) {
+    alert('No se ha seleccionado ninguna cotización.');
+    return;
+  }
+
+  // Recolectar precios actualizados y sus IDs de producto
   const precios = Array.from(document.querySelectorAll('input[type="number"]')).map(input => {
     const productoId = input.getAttribute('data-producto-id');
     let precio = input.value.replace(',', '.');
@@ -127,7 +133,7 @@ function guardarCotizacion() {
     .then(data => {
       console.log('Cotización actualizada:', data);
 
-      if (data.message === 'Cotización actualizada correctamente') {
+      if (data.mensaje === 'Cotización actualizada exitosamente') {
         // Actualizar los subtotales y el total en la interfaz de usuario
         actualizarSubtotales();
         calcularTotal();
@@ -153,6 +159,7 @@ function guardarCotizacion() {
       alert('Error al guardar la cotización. Por favor, inténtalo de nuevo más tarde.');
     });
 }
+
 
 function actualizarSubtotales() {
   const filas = document.querySelectorAll('#productosTableBody tr');
