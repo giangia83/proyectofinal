@@ -526,7 +526,7 @@ color: rgb(218, 5, 5);
     background-color: #ffffff;
 }
 
-  .menu-hamburguesa {
+.menu-hamburguesa {
     cursor: pointer;
     display: none; /* Oculta por defecto en pantallas grandes */
   }
@@ -557,6 +557,7 @@ color: rgb(218, 5, 5);
     text-decoration: none;
     margin-bottom: 10px; /* Espacio entre cada elemento del menú */
   }
+  
   
   @media (max-width: 500px) {
     /* Estilos específicos para pantallas móviles */
