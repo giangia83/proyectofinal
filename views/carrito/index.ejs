@@ -6,11 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Cotización - Starclean C.A</title>
-
-
-
   <!-- BOOTSTRAP -->
-
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
   <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
   <!-- Icono de la pestaña del navegador -->
@@ -20,22 +16,14 @@
 
 <body>
 
-
-
-
-
-
   <script src="/views/components/header.js"></script>
-
   <main>
-   
     <div class="container">
       <div class="container py-5">
         <div class="texto-info">
           <h2 class="font-weight-bold mb-2">Tu cotización</h2>
           <p class="font-italic text-muted mb-4">Verifica los productos y aumenta la cantidad.</p>
         </div>
-      
         <ul class="list-group">
           <% cart.forEach(producto => { %>
             <li class="list-group-item d-flex align-items-center justify-content-between" id="producto-<%= producto.id %>">
@@ -55,7 +43,7 @@
           <% }); %>
         </ul>
       
-        <!-- Formulario separado -->
+      
         <form action="/proseguircompra" method="POST" id="cotizacionForm">
           <div class="mt-4">
             <button type="submit" class="btn btn-primary btn-5 btn-proceed mt-3">Proseguir con la compra</button>
@@ -68,5 +56,4 @@
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 <script src="/views/carrito/main.js"></script>
 </body>
-
 </html>

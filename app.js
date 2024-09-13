@@ -91,12 +91,24 @@ app.use((req, res, next) => {
     }
 });
 
+
+// Middleware para verificar autenticación
+function verificarAutenticacion(req, res, next) {
+    if (res.locals.usuario) {
+        // Si el usuario está autenticado, continuar con la solicitud
+        return next();
+    } else {
+        // Si no está autenticado, redirigir a la página de inicio de sesión
+        return res.redirect('/iniciarsesion');
+    }
+}
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 /* rutas */
-app.get('/verproductos', async (req, res) => {
+app.get('/verproductos', verificarAutenticacion async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
         res.render('productos/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
@@ -105,6 +117,8 @@ app.get('/verproductos', async (req, res) => {
         res.status(500).send('Error al obtener productos');
     }
 });
+
+
 
 // En tu archivo principal de la aplicación (app.js o index.js)
 app.get('/', async (req, res) => {
@@ -118,18 +132,9 @@ app.get('/', async (req, res) => {
 });
 
 // Ruta para renderizar la página de servicio al cliente
-app.get('/servicioalcliente', async (req, res) => {
+app.get('/servicioalcliente', verificarAutenticacion async (req, res) => {
     try {
-    
-        const usuarioAdmin = await Usuario.findOne({ correo: "jbiadarola@hotmail.com" });
-
-        // Verificar si se encontró el usuario admin
-        if (!usuarioAdmin) {
-            return res.status(404).send('Usuario admin no encontrado');
-        }
-
-      
-        res.render('serviciocliente/index', { usuario: usuarioAdmin });
+        res.render('serviciocliente/index');
     } catch (error) {
         console.error('Error al obtener el usuario admin:', error);
         res.status(500).send('Error al obtener el usuario admin');
@@ -178,7 +183,7 @@ app.get('/clientes', verificarAdmin, async (req, res) => {
     }
 });
 
-app.get('/cuenta', async (req, res) => {
+app.get('/cuenta', verificarAutenticacion, async (req, res) => {
     try {
         const usuario = res.locals.usuario;
         if (!usuario) {
@@ -195,7 +200,7 @@ app.get('/cuenta', async (req, res) => {
     }
 });
 
-app.get('/vercarrito', async (req, res) => {
+app.get('/vercarrito', verificarAutenticacion async (req, res) => {
     try {
         const productosCarrito = req.query.productos;
         
@@ -239,7 +244,7 @@ app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
 app.use('/fav', favoritoRouter);
 
-app.post('/proseguircompra', async (req, res) => {
+app.post('/proseguircompra', verificarAutenticacion async (req, res) => {
     const { usuario, productos } = req.body;
 
     try {
@@ -274,7 +279,7 @@ app.post('/proseguircompra', async (req, res) => {
     }
 });
 
-app.get('/tuspedidos', async (req, res) => {
+app.get('/tuspedidos', verificarAutenticacion async (req, res) => {
     try {
         const usuarioNombre = req.cookies.usuario;
 
@@ -296,7 +301,7 @@ app.get('/tuspedidos', async (req, res) => {
     }
 });
 
-app.get('/informacion', (req, res) => {
+app.get('/informacion', verificarAutenticacion (req, res) => {
    
         res.render('infocuenta/index', { usuario: res.locals.usuario });
 });

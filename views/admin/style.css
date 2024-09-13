@@ -19,11 +19,6 @@ body {
 }
 
 
-
-/* Agrega más medios de comunicación según sea necesario */
-
-
-
 .list-group{
 
 margin-top: 2.5rem;
@@ -355,13 +350,13 @@ line-height :21.6px;
 }
 
 .header-center input {
-    flex-grow: 1; /* El input ocupa todo el espacio disponible */
+    flex-grow: 1;
     padding: 12px;
     border-radius: 30px;
     background-color: rgb(255, 255, 255);
     color: #1b1b1b;
-    margin-right: 10px; /* Espacio entre el input y el icono */
-    text-align: left; /* Centra el texto dentro del input */
+    margin-right: 10px; 
+    text-align: left; 
    
 }
 
@@ -414,14 +409,6 @@ margin-bottom: 1.5rem;
 }
 
 
-
-
-/* Media queries para hacer la tarjeta más receptiva */
-
-
-
-
-/* Agrega más media queries según sea necesario para adaptarse a diferentes tamaños de pantalla */
 
 
 
@@ -536,12 +523,6 @@ nav ul li a:hover {
 font-size: 1.5rem;
 
 }
-
-
-
-
-
-
 
 
 
