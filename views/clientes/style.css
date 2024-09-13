@@ -673,36 +673,3 @@ margin-top: 2rem ;
     margin-right: 20px ; /* Margen entre cada elemento <a> */
   }
   /* styles/styles.css */
-
-  .accordion-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-}
-
-.accordion-button:not(.collapsed) {
-    color: #007bff;
-    background-color: #e9ecef;
-}
-
-.accordion-button::after {
-    filter: invert(1);
-}
-
-.card-header {
-    border-bottom: 1px solid #007bff;
-}
-
-.card-body {
-    padding: 1.25rem;
-}
-
-.list-group-item {
-    border: none;
-    padding: 0.5rem 1rem;
-    background-color: #f8f9fa;
-}
-
-.list-group-item:nth-child(odd) {
-    background-color: #e9ecef;
-}

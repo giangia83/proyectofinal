@@ -77,7 +77,6 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
 });
 
 
-
 // Ruta para actualizar los precios de los productos en una cotización
 router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
     const { id } = req.params;
@@ -93,20 +92,27 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
+        let preciosActualizados = false;
+
         // Actualizar los precios de los productos en la cotización
         precios.forEach(({ productoId, precio }) => {
             if (isNaN(precio) || precio < 0) {
                 return res.status(400).json({ message: 'Precio inválido' });
             }
 
-            const producto = cotizacion.productos.find(p => p.id === productoId);
+            const producto = cotizacion.productos.find(p => p.productoId.toString() === productoId);
             if (producto) {
                 producto.precio = precio; // Actualizar el precio del producto
+                preciosActualizados = true;
             }
         });
 
-        await cotizacion.save();
-        res.json({ message: 'Cotización actualizada correctamente', cotizacion });
+        if (preciosActualizados) {
+            await cotizacion.save();
+            res.json({ message: 'Cotización actualizada correctamente', cotizacion });
+        } else {
+            res.status(400).json({ message: 'No se encontraron productos para actualizar' });
+        }
     } catch (error) {
         console.error('Error al actualizar la cotización:', error);
         res.status(500).json({ message: 'Error interno al actualizar la cotización' });
