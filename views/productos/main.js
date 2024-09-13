@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Limpia los resultados si no hay búsqueda
             resultsContainer.innerHTML = ''; 
-            loadProducts(); // Vuelve a cargar la lista de productos si no hay texto en la búsqueda
+         
         }
     };
 

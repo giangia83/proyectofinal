@@ -34,7 +34,7 @@ async function mostrarInfoPago(banco) {
 
     // Obtener información del admin
     try {
-        const response = await fetch('/admin');
+        const response = await fetch('/usuarios/admin');
         const admin = await response.json();
         if (admin) {
             adminDireccion.textContent = `Dirección: ${admin.direccion}`;

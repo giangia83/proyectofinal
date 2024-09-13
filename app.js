@@ -19,18 +19,12 @@ const Usuario = require("./models/usuario")
 const methodOverride = require('method-override');
 const subirProducto = require('./controllers/subirProducto')
 const favoritoRouter = require('./controllers/favoritos'); // Importa las rutas de favoritos
-
 const enviarCorreoCotizacion = require('./controllers/email');
-
-
 const uploadDirectory = path.join(__dirname, 'uploads');
-
 // Crear la carpeta uploads si no existe
 if (!fs.existsSync(uploadDirectory)) {
     fs.mkdirSync(uploadDirectory);
 }
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Middleware para parsear datos de formularios HTML
 app.use(cookieParser());
@@ -42,10 +36,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true, // Debería ser true en producción con HTTPS
+        secure: true, 
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 1 día de expiración
-        sameSite: 'lax' // Puede ser 'strict', 'lax', o 'none'
+        sameSite: 'lax'
     }
 }));
 
@@ -57,16 +51,11 @@ mongoose.connect(mongoURI, {
     console.log('Conexión a la base de datos establecida');
 })
 .catch(err => console.error('Error al conectar a la base de datos:', err));
-
-
-
 //storage 
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
     // Obtener el nombre de usuario desde la cookie 'usuario'
     const usuarioNombre = req.cookies.usuario;
-
     // Verificar si hay un nombre de usuario en la cookie
     if (usuarioNombre) {
         // Consultar la base de datos para obtener los detalles del usuario
@@ -102,16 +91,9 @@ app.use((req, res, next) => {
     }
 });
 
-
-
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Rutas de archivos estáticos
 app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
-
-
-
 
 /* rutas */
 app.get('/verproductos', async (req, res) => {
@@ -123,6 +105,7 @@ app.get('/verproductos', async (req, res) => {
         res.status(500).send('Error al obtener productos');
     }
 });
+
 // En tu archivo principal de la aplicación (app.js o index.js)
 app.get('/', async (req, res) => {
     try {
@@ -133,8 +116,6 @@ app.get('/', async (req, res) => {
         res.status(500).send('Error al obtener productos');
     }
 });
-
-
 
 // Ruta para renderizar la página de servicio al cliente
 app.get('/servicioalcliente', async (req, res) => {
@@ -164,7 +145,7 @@ app.get('/gestionar', verificarAdmin, async (req, res) => {
         res.status(500).send('Error al obtener productos');
     }
 });
-// En tu archivo principal de la aplicación (app.js o index.js)
+
 
 
 // Middleware para verificar si el usuario es administrador
@@ -176,7 +157,7 @@ function verificarAdmin(req, res, next) {
     }
 }
 
-// Ruta para la página de administración (solo para administradores)
+// Ruta para la página de administraciónn
 app.get('/administrar', verificarAdmin, async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
@@ -186,7 +167,6 @@ app.get('/administrar', verificarAdmin, async (req, res) => {
         res.status(500).send('Error al obtener productos');
     }
 });
-
 
 app.get('/clientes', verificarAdmin, async (req, res) => {
     try {
@@ -198,29 +178,22 @@ app.get('/clientes', verificarAdmin, async (req, res) => {
     }
 });
 
-
-
 app.get('/cuenta', async (req, res) => {
     try {
         const usuario = res.locals.usuario;
         if (!usuario) {
             return res.status(401).send('Usuario no autenticado');
         }
-        
-        // Ahora puedes acceder a usuario._id para usarlo según sea necesario
+     
         const usuarioId = usuario._id;
         
-        // Renderizar la vista 'cuenta/index' con el usuario y su _id
+       
         res.render('cuenta/index', { usuario, usuarioId });
     } catch (err) {
         console.error('Error al obtener usuario para la cuenta:', err);
         res.status(500).send('Error al obtener datos del usuario');
     }
 });
-
-
-
-
 
 app.get('/vercarrito', async (req, res) => {
     try {
@@ -229,7 +202,7 @@ app.get('/vercarrito', async (req, res) => {
         // Decodificar y parsear los productos del carrito
         const cart = JSON.parse(decodeURIComponent(productosCarrito));
         
-        // Puedes ajustar esto para consultar solo los productos que están en el carrito
+      
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
         
         // Renderizar la vista 'carrito/index' con los productos, el usuario y los productos en el carrito
@@ -257,13 +230,7 @@ app.use('/administrar', express.static(path.resolve(__dirname, 'views', 'admin')
 app.use('/verproductos', express.static(path.resolve(__dirname, 'views', 'productos')));
 app.use("/main",express.static(__dirname + '/main'));
 
-
-
-
-
 // Rutas de Controllers
-
-
 
 app.use(cotizacionesRouter);
 app.use('/usuarios', userRouter); 
@@ -286,7 +253,7 @@ app.post('/proseguircompra', async (req, res) => {
         // Crear una nueva cotización
         const nuevaCotizacion = new Cotizacion({
             usuario: usuarioDetalles._id,
-            usuarioNombre: usuarioDetalles.nombre, // Agregar el nombre del usuario
+            usuarioNombre: usuarioDetalles.nombre, 
             productos
         });
 
@@ -295,7 +262,7 @@ app.post('/proseguircompra', async (req, res) => {
 
         // Enviar correo con los detalles de la cotización
         await enviarCorreoCotizacion({
-            usuarioId: usuarioDetalles._id, // ID del usuario
+            usuarioId: usuarioDetalles._id, 
             productos
         });
 
@@ -329,16 +296,10 @@ app.get('/tuspedidos', async (req, res) => {
     }
 });
 
-
-
-
 app.get('/informacion', (req, res) => {
    
         res.render('infocuenta/index', { usuario: res.locals.usuario });
 });
-
-
-
 
 // Ruta para cerrar sesión
 app.get('/logout', (req, res) => {
@@ -349,12 +310,11 @@ app.get('/logout', (req, res) => {
         }
      
         res.clearCookie('usuario'); // Borra la cookie 'usuario'
-        res.redirect('/'); // Redirige al inicio u otra página después de cerrar sesión
+        res.redirect('/'); 
     });
 });
 
 
-// Middleware para servir archivos estáticos en la carpeta de uploads
 app.use((err, req, res, next) => {
     console.error('Error:', err.stack);
     res.status(500).send('Error interno del servidor');
