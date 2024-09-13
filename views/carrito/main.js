@@ -55,11 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 usuario: usuario,
                 estado: 'Pendiente',
                 productos: cart.map(producto => ({
-                    id: producto.id,
+                    productoId: producto.id, 
                     nombre: producto.name,
                     categoria: producto.category,
                     cantidad: parseInt(document.getElementsByName(`cantidad${producto.id}`)[0].value, 10),
                 })),
+                
             };
 
             try {
