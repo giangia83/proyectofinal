@@ -89,6 +89,7 @@ function calcularTotal() {
   });
   document.getElementById('totalPrecio').innerText = total.toFixed(2);
 }
+
 function guardarCotizacion() {
   const id = document.getElementById('cotizacionId').value;
 
@@ -163,7 +164,6 @@ function guardarCotizacion() {
       alert('Error al guardar la cotización. Por favor, inténtalo de nuevo más tarde.');
     });
 }
-
 
 function actualizarSubtotales() {
   const filas = document.querySelectorAll('#productosTableBody tr');
