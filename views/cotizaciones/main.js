@@ -58,7 +58,7 @@ function loadCotizacionDetails(id) {
         fila.innerHTML = `
           <td>${producto.productoId.nombre}</td>
           <td>${producto.cantidad}</td>
-          <td>${producto.productoId.precio || ''}" onchange="actualizarSubtotal(this)" data-producto-id="${producto.productoId._id}"></td>
+          <td>${producto.productoId.precio}></td>
           <td><span class="subtotal">${(producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0).toFixed(2)}</span></td>
         `;
         productosTableBody.appendChild(fila);
