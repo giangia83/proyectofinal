@@ -183,7 +183,6 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
                 return res.status(500).json({ message: 'Error al actualizar el estado de la cotización' });
             }
 
-            // Enviar el correo electrónico con el PDF 
             const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: cotizacion.usuario.correo,
@@ -207,20 +206,24 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${cotizacion.productos.map(producto => `
-                                        <tr>
-                                            <td style="border: 1px solid #ddd; padding: 12px;">${producto.nombre}</td>
-                                            <td style="border: 1px solid #ddd; padding: 12px;">${producto.cantidad}</td>
-                                            <td style="border: 1px solid #ddd; padding: 12px;">${producto.precio ? producto.precio.toFixed(2) : 'N/A'}</td>
-                                            <td style="border: 1px solid #ddd; padding: 12px;">${producto.precio ? (producto.precio * producto.cantidad).toFixed(2) : 'N/A'}</td>
-                                        </tr>
-                                    `).join('')}
+                                    ${cotizacion.productos.map(producto => {
+                                        const precio = producto.productoId ? producto.productoId.precio : 'N/A';
+                                        const subtotal = precio !== 'N/A' ? (precio * producto.cantidad).toFixed(2) : 'N/A';
+                                        return `
+                                            <tr>
+                                                <td style="border: 1px solid #ddd; padding: 12px;">${producto.productoId.nombre}</td>
+                                                <td style="border: 1px solid #ddd; padding: 12px;">${producto.cantidad}</td>
+                                                <td style="border: 1px solid #ddd; padding: 12px;">${precio !== 'N/A' ? precio.toFixed(2) : 'N/A'}</td>
+                                                <td style="border: 1px solid #ddd; padding: 12px;">${subtotal}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
                                 </tbody>
                             </table>
                             
-                            <p style="font-size: 16px; color: #555;">El total de la cotización es: <strong style="color: #E53935;">${cotizacion.productos.reduce((total, producto) => total + (producto.precio ? producto.precio * producto.cantidad : 0), 0).toFixed(2)}</strong></p>
+                            <p style="font-size: 16px; color: #555;">El total de la cotización es: <strong style="color: #E53935;">${cotizacion.productos.reduce((total, producto) => total + (producto.productoId ? producto.productoId.precio * producto.cantidad : 0), 0).toFixed(2)}</strong></p>
                         </section>
-
+            
                         <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
                             <p style="font-size: 16px; color: #555;">Si deseas realizar la compra, entra a nuestra pagina web y elige un metodo de pago bajo la pestaña "Contacto".</p>
                             <p style="font-size: 14px; color: #999;">Saludos cordiales,<br>Starclean C.A - Miranda, Guatire</p>
@@ -234,6 +237,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
                     }
                 ]
             };
+            
 
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
@@ -245,34 +249,36 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
             });
         });
 
-        // Generar el contenido del PDF
-        doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
-        doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
-        doc.moveDown();
+                // Generar el contenido del PDF
+            doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
+            doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
+            doc.moveDown();
 
-        doc.fontSize(12).text(`Cliente: ${cotizacion.usuario.nombre}`, { align: 'left' });
-        doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
-        doc.text(`Correo: ${cotizacion.usuario.correo}`);
-        doc.text(`Teléfono: ${cotizacion.usuario.telefono}`);
-        doc.moveDown();
+            doc.fontSize(12).text(`Cliente: ${cotizacion.usuario.nombre}`, { align: 'left' });
+            doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
+            doc.text(`Correo: ${cotizacion.usuario.correo}`);
+            doc.text(`Teléfono: ${cotizacion.usuario.telefono}`);
+            doc.moveDown();
 
-        doc.fontSize(12).text('Productos:', { underline: true });
-        doc.moveDown();
+            doc.fontSize(12).text('Productos:', { underline: true });
+            doc.moveDown();
 
-        doc.fontSize(10).text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'left' });
+            doc.fontSize(10).text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'left' });
 
-        let total = 0;
-        cotizacion.productos.forEach((producto) => {
-            const subtotal = producto.precio ? producto.precio * producto.cantidad : 0;
-            total += subtotal;
-            doc.text(
-                `${producto.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${producto.precio ? producto.precio.toFixed(2) : 'N/A'.padEnd(15)} | ${subtotal.toFixed(2)}`,
-                { align: 'left' }
-            );
-        });
+            let total = 0;
+            cotizacion.productos.forEach((producto) => {
+                const precio = producto.productoId ? producto.productoId.precio : 0;
+                const subtotal = precio * producto.cantidad;
+                total += subtotal;
+                doc.text(
+                    `${producto.productoId.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${precio.toFixed(2).padEnd(15)} | ${subtotal.toFixed(2)}`,
+                    { align: 'left' }
+                );
+            });
 
-        doc.text('--------------------------------------------------------------', { align: 'left' });
-        doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
+            doc.text('--------------------------------------------------------------', { align: 'left' });
+            doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
+
 
         doc.end();
     } catch (error) {
