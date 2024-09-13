@@ -181,7 +181,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
             select: 'nombre precio' // Selecciona los campos necesarios del producto si es necesario
         });
         
-
+/*  */
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
