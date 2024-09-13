@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadProducts() {
         try {
-            const response = await fetch('/api/productos'); // Cambia esta URL si es necesario
+            const response = await fetch('/api/productos');
             const productos = await response.json();
 
             // Limpia el contenedor antes de añadir nuevos productos
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     resultsContainer.appendChild(list);
-                    attachAddToCartEvents(); // Añadir eventos para productos buscados
+                    attachAddToCartEvents(); 
                 } else {
                     resultsContainer.innerHTML = '<p class="text-center spacedown">No se encontraron productos.</p>';
                 }
