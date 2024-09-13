@@ -4,6 +4,10 @@ const router = express.Router();
 const Usuario = require('../models/usuario');
 const bcrypt = require('bcrypt');
 
+const saltRounds = 10; 
+
+
+
 // Obtener todos los usuarios
 router.get('/', async (req, res) => {
     try {
