@@ -89,7 +89,6 @@ function calcularTotal() {
   });
   document.getElementById('totalPrecio').innerText = total.toFixed(2);
 }
-
 function guardarCotizacion() {
   const id = document.getElementById('cotizacionId').value;
 
@@ -121,6 +120,8 @@ function guardarCotizacion() {
     return;
   }
 
+  console.log('Datos a enviar:', { precios });
+
   // Enviar los precios actualizados al servidor
   fetch(`/vercotizaciones/actualizar/${id}`, {
     method: 'POST',
@@ -129,9 +130,12 @@ function guardarCotizacion() {
     },
     body: JSON.stringify({ precios })
   })
-    .then(response => response.json())
+    .then(response => {
+      console.log('Respuesta del servidor:', response);
+      return response.json();
+    })
     .then(data => {
-      console.log('Cotización actualizada:', data);
+      console.log('Datos recibidos:', data);
 
       if (data.mensaje === 'Cotización actualizada exitosamente') {
         // Actualizar los subtotales y el total en la interfaz de usuario
