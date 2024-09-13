@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
             productoElement.remove();
         }
 
-        // Si el carrito está vacío después de eliminar, puedes hacer algo más como redirigir
         if (cart.length === 0) {
             console.log('El carrito está vacío.');
         }
@@ -50,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cotizacionForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            // Preparar los datos a enviar
+          
             const data = {
                 usuario: usuario,
                 estado: 'Pendiente',
