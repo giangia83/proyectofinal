@@ -5,12 +5,17 @@ const Producto = require('../models/producto');
 const PDFDocument = require('pdfkit');
 const transporter = require('../controllers/nodemailer'); // Configuración de Nodemailer
 
-// Ruta para obtener todas las cotizaciones
 router.get('/vercotizaciones', async (req, res) => {
     try {
+        // Obtén todos los productos (si es necesario)
         const productos = await Producto.find();
-        const cotizaciones = await Cotizacion.find().populate('usuario'); 
 
+    
+        const cotizaciones = await Cotizacion.find()
+            .populate('usuario') 
+            .populate('productos.productoId');
+
+        // Renderiza la vista con los datos obtenidos
         res.render('cotizaciones/index', {
             productos,
             cotizaciones
@@ -20,6 +25,7 @@ router.get('/vercotizaciones', async (req, res) => {
         res.status(500).send('Error interno al obtener cotizaciones');
     }
 });
+
 
 // Ruta para obtener detalles de una cotización específica
 router.get('/vercotizaciones/:id', async (req, res) => {
