@@ -72,7 +72,12 @@
                 <ul class="list-group" id="listaProductos">
                   <% productos.forEach(producto => { %>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <!-- Mostrar la imagen del producto -->
+                      <img src="<%= producto.imagen.data %>" alt="<%= producto.nombre %>" class="img-thumbnail me-2" style="width: 50px; height: 50px; object-fit: cover;">
+                      
+                      <!-- Información del producto -->
                       <span><%= producto.nombre %> - <%= producto.categoria %></span>
+                      
                       <div>
                         <button class="btn btn-warning btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#editarProductoModal" onclick="cargarProducto('<%= producto._id %>')">Editar</button>
                         <form action="/api/eliminar-productos" method="post" style="display: inline;">
@@ -86,10 +91,7 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
+          
     <!-- Contenedor para mensajes de éxito -->
 <div id="mensajeExito" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
   <i class="bi bi-check-circle"></i> Producto subido exitosamente

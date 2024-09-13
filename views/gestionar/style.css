@@ -755,3 +755,43 @@ margin-top: 2rem ;
     background-color: #ff3700;
     border: none;
 }
+
+/* Estilos para la vista móvil */
+@media (max-width: 767.98px) {
+    .table-second .card {
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+      border: none;
+    }
+  
+    .table-second .card-header {
+      font-size: 1.25rem; /* Aumenta el tamaño del texto en la cabecera */
+      padding: 1rem;
+    }
+  
+    .table-second .card-body {
+      padding: 0;
+    }
+  
+    .list-group-item {
+      font-size: 0.875rem; /* Tamaño de fuente más pequeño en vista móvil */
+      padding: 0.5rem 1rem;
+    }
+  
+    .list-group-item .btn {
+      font-size: 0.75rem; /* Tamaño de fuente más pequeño en botones */
+      padding: 0.25rem 0.5rem;
+    }
+  
+    /* Ajustar la alineación de los botones */
+    .list-group-item .btn + .btn {
+      margin-left: 0.5rem;
+    }
+  
+    /* Evitar que el formulario se estire al ancho completo */
+    .list-group-item form {
+      display: inline;
+    }
+  }
+  
