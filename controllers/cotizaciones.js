@@ -7,10 +7,10 @@ const transporter = require('../controllers/nodemailer'); // Configuración de N
 
 router.get('/vercotizaciones', async (req, res) => {
     try {
-        // Obtén todos los productos (si es necesario)
+       
         const productos = await Producto.find();
         const cotizaciones = await Cotizacion.find()
-            .populate('usuario', 'nombre')
+            .populate('usuario')
             .populate('productos.productoId');
 
         // Verifica los datos antes de renderizar
@@ -170,10 +170,17 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const cotizacion = await Cotizacion.findById(id).populate({
-            path: 'productos.productoId',
-            model: 'Producto'
+        const cotizacion = await Cotizacion.findById(id)
+        .populate({
+            path: 'usuario', // Llenar los datos del usuario
+            select: 'nombre correo direccion number' 
+        })
+        .populate({
+            path: 'productos.productoId', // Llenar los datos del producto dentro de productos
+            model: 'Producto', // Asegúrate de que 'Producto' es el nombre correcto del modelo
+            select: 'nombre precio' // Selecciona los campos necesarios del producto si es necesario
         });
+        
 
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
