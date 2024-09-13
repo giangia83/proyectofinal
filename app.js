@@ -108,7 +108,7 @@ app.set('view engine', 'ejs');
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 /* rutas */
-app.get('/verproductos', verificarAutenticacion async (req, res) => {
+app.get('/verproductos', verificarAutenticacion, async (req, res) => {
     try {
         const productos = await Producto.find(); // Obtener todos los productos desde la base de datos
         res.render('productos/index', { productos,  usuario: res.locals.usuario || { nombre: '' } }); // Renderizar la vista 'productos/index' con los productos obtenidos
@@ -200,7 +200,7 @@ app.get('/cuenta', verificarAutenticacion, async (req, res) => {
     }
 });
 
-app.get('/vercarrito', verificarAutenticacion async (req, res) => {
+app.get('/vercarrito', verificarAutenticacion, async (req, res) => {
     try {
         const productosCarrito = req.query.productos;
         
@@ -244,7 +244,7 @@ app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
 app.use('/fav', favoritoRouter);
 
-app.post('/proseguircompra', verificarAutenticacion async (req, res) => {
+app.post('/proseguircompra', verificarAutenticacion, async (req, res) => {
     const { usuario, productos } = req.body;
 
     try {
@@ -279,7 +279,7 @@ app.post('/proseguircompra', verificarAutenticacion async (req, res) => {
     }
 });
 
-app.get('/tuspedidos', verificarAutenticacion async (req, res) => {
+app.get('/tuspedidos', verificarAutenticacion, async (req, res) => {
     try {
         const usuarioNombre = req.cookies.usuario;
 
@@ -301,7 +301,7 @@ app.get('/tuspedidos', verificarAutenticacion async (req, res) => {
     }
 });
 
-app.get('/informacion', verificarAutenticacion (req, res) => {
+app.get('/informacion', verificarAutenticacion, (req, res) => {
    
         res.render('infocuenta/index', { usuario: res.locals.usuario });
 });
