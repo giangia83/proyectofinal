@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productListContainer.innerHTML = '<p class="text-danger">Error al cargar los productos. Inténtalo más tarde.</p>';
         }
     }
+
     function attachAddToCartEvents() {
         document.addEventListener('click', (event) => {
             if (event.target.matches('.btn-add')) {
@@ -86,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-
     // Función para mostrar productos en el carrito
     function displayCart() {
         const cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -120,27 +120,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Eliminar producto del carrito
-function removeFromCart(productId) {
-    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    cart = cart.filter(item => item.id !== productId);
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-    console.log(`Producto con ID ${productId} eliminado del carrito.`);
+    function removeFromCart(productId) {
+        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        cart = cart.filter(item => item.id !== productId);
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        console.log(`Producto con ID ${productId} eliminado del carrito.`);
 
-    const card = document.querySelector(`.card[data-producto-id="${productId}"]`);
-    if (card) {
-        card.classList.remove('added-to-cart');
-        const button = card.querySelector('.btn-add');
-        
-        // Volver a habilitar el botón "Añadir"
-        if (button) {
-            button.disabled = false;
-            button.textContent = 'Añadir';
+        const card = document.querySelector(`.card[data-producto-id="${productId}"]`);
+        if (card) {
+            card.classList.remove('added-to-cart');
+            const button = card.querySelector('.btn-add');
+            
+            // Volver a habilitar el botón "Añadir"
+            if (button) {
+                button.disabled = false;
+                button.textContent = 'Añadir';
+            }
         }
-    }
 
-    displayCart();
-    updateCardStyles();
-}
+        displayCart();
+        updateCardStyles();
+    }
 
     // Actualiza los estilos de las tarjetas en función del carrito
     function updateCardStyles() {
@@ -194,7 +194,8 @@ function removeFromCart(productId) {
                 resultsContainer.innerHTML = '<p class="text-center text-danger spacedown">Error al buscar productos. Inténtalo de nuevo.</p>';
             }
         } else {
-            resultsContainer.innerHTML = ''; // Limpia los resultados si no hay búsqueda
+            // Limpia los resultados si no hay búsqueda
+            resultsContainer.innerHTML = ''; 
             loadProducts(); // Vuelve a cargar la lista de productos si no hay texto en la búsqueda
         }
     };
