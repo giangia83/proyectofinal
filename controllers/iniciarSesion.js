@@ -1,13 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/usuario');
+const bcrypt = require('bcrypt');
 
 router.post('/login', async (req, res) => {
     try {
         const { correo, contraseña } = req.body;
+        
+        // Buscar el usuario por correo
         const usuario = await Usuario.findOne({ correo });
+        if (!usuario) {
+            return res.status(401).json({ error: 'Credenciales inválidas' });
+        }
 
-        if (!usuario || usuario.contraseña !== contraseña) {
+        // Comparar la contraseña proporcionada con la encriptada en la base de datos
+        const match = await bcrypt.compare(contraseña, usuario.contraseña);
+        if (!match) {
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
@@ -42,6 +50,5 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Error interno al iniciar sesión' });
     }
 });
-module.exports = router;
 
-/* SALUDOS A JURADO DE EDTECNICA :D */
+module.exports = router;

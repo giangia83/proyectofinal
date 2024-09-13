@@ -160,8 +160,11 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        // Verificar la cotización
-        const cotizacion = await Cotizacion.findById(id).populate('usuario');
+        const cotizacion = await Cotizacion.findById(id).populate({
+            path: 'productos.productoId',
+            model: 'Producto'
+        });
+
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }

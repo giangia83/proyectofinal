@@ -2,8 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/usuario');
-const fetch = require('node-fetch'); 
-
+const bcrypt = require('bcrypt');
 
 // Obtener todos los usuarios
 router.get('/', async (req, res) => {
@@ -31,26 +30,26 @@ router.get('/admin', async (req, res) => {
     }
 });
 
-
 // Crear un nuevo usuario
 router.post('/', async (req, res) => {
-  
-  
     const { nombre, correo, contraseña, direccion, ciudad, rif, number } = req.body;
 
-   
-
     try {
+        // Encriptar la contraseña
+        const hashedPassword = await bcrypt.hash(contraseña, saltRounds);
+
+        // Crear el nuevo usuario con la contraseña encriptada
         const nuevoUsuario = new Usuario({
             nombre,
             correo,
-            contraseña,
+            contraseña: hashedPassword, // Guardar la contraseña encriptada
             direccion,
             ciudad,
             rif,
             number
         });
 
+        // Guardar el usuario en la base de datos
         const usuarioGuardado = await nuevoUsuario.save();
         res.status(201).json(usuarioGuardado);
     } catch (error) {

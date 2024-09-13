@@ -259,11 +259,6 @@ app.use("/main",express.static(__dirname + '/main'));
 
 
 
-// Ruta para obtener la clave de reCAPTCHA
-app.get('/recaptcha-key', (req, res) => {
-    res.json({ siteKey: process.env.TU_CLAVE_DEL_SITIO });
-});
-
 
 
 // Rutas de Controllers
