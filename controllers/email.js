@@ -119,5 +119,74 @@ async function enviarCorreoCotizacion(detallesCotizacion) {
     }
 }
 
-module.exports = enviarCorreoCotizacion;
+async function enviarCorreoPagoConfirmadoAdmin(cotizacion) {
+    try {
+        // Buscar al administrador en la base de datos
+        const admin = await Usuario.findOne({ rol: 'admin' });
+
+        if (!admin) {
+            throw new Error('Administrador no encontrado');
+        }
+
+        // Configurar el correo al administrador con los detalles de la cotización
+        const mailOptionsAdmin = {
+            from: process.env.EMAIL_USER,
+            to: admin.correo, // Correo del administrador
+            subject: 'Confirmación de Pago de Cotización',
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+                    <header style="text-align: center; padding-bottom: 20px;">
+                        <h1 style="color: #E53935;">Pago de Cotización Confirmado</h1>
+                        <p style="font-size: 16px; color: #555;">Hola Administrador,</p>
+                    </header>
+                    
+                    <section>
+                        <p style="font-size: 16px; color: #555;">El cliente ha realizado el pago de la cotización con ID: ${cotizacion._id}</p>
+                        <h4>Detalles de la cotización:</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                            <thead>
+                                <tr style="background-color: #E53935; color: #fff;">
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Producto</th>
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Categoría</th>
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Cantidad</th>
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${cotizacion.productos.map(producto => `
+                                    <tr>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.nombre}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.categoria}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.cantidad}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">$${producto.precio}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        <p style="font-size: 16px; color: #555;"><strong>Total:</strong> $${cotizacion.total}</p>
+                    </section>
+
+                    <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <p style="font-size: 14px; color: #999;">Saludos cordiales,<br>Starclean C.A - Miranda, Guatire</p>
+                    </footer>
+                </div>
+            `
+        };
+
+        // Enviar el correo al administrador
+        await transporter.sendMail(mailOptionsAdmin);
+        console.log('Correo al administrador enviado exitosamente');
+
+    } catch (error) {
+        console.error('Error al enviar el correo al administrador:', error);
+        throw new Error('Error al enviar el correo al administrador');
+    }
+}
+
+
+module.exports = {
+    enviarCorreoCotizacion,
+    enviarCorreoPagoConfirmadoAdmin
+};
+
 /* este es el codigo que envia los correos */

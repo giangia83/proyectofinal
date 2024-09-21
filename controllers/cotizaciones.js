@@ -319,6 +319,64 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
     }
 });
+// Función para verificar el pago y cambiar el estado de la cotización
+exports.verificarPagoCotizacion = async (req, res) => {
+    const cotizacionId = req.params.id;
+    
+    try {
+        // Buscar la cotización por ID
+        const cotizacion = await Cotizacion.findById(cotizacionId);
+        
+        if (!cotizacion) {
+            return res.status(404).json({ message: 'Cotización no encontrada' });
+        }
+
+        // Cambiar el estado a "Esperando confirmación de pago"
+        cotizacion.estado = 'Esperando confirmación de pago';
+
+        // Guardar la cotización actualizada
+        await cotizacion.save();
+
+        // Enviar correo al admin con los detalles de la cotización
+        await enviarCorreoConfirmacionPago(cotizacion);
+
+        // Responder con éxito
+        res.status(200).json({ message: 'Pago verificado y correo enviado al admin', cotizacion });
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al verificar el pago', error });
+    }
+};
+// Función para verificar el pago y cambiar el estado de la cotización
+exports.verificarPagoCotizacion = async (req, res) => {
+    const cotizacionId = req.params.id;
+    
+    try {
+        // Buscar la cotización por ID
+        const cotizacion = await Cotizacion.findById(cotizacionId);
+        
+        if (!cotizacion) {
+            return res.status(404).json({ message: 'Cotización no encontrada' });
+        }
+
+        // Cambiar el estado a "Esperando confirmación de pago"
+        cotizacion.estado = 'Esperando confirmación de pago';
+
+        // Guardar la cotización actualizada
+        await cotizacion.save();
+
+        // Enviar correo al admin con los detalles de la cotización
+        await enviarCorreoConfirmacionPago(cotizacion);
+
+        // Responder con éxito
+        res.status(200).json({ message: 'Pago verificado y correo enviado al admin', cotizacion });
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al verificar el pago', error });
+    }
+};
 
 
 module.exports = router;
