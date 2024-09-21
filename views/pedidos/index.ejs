@@ -53,6 +53,11 @@
                             Ver detalles
                         </button>
       
+                        <!-- Botón para declarar como pagado -->
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalPago<%= index %>">
+                            Declarar como pagado
+                        </button>
+      
                         <!-- Modal de detalles -->
                         <div class="modal fade" id="modalDetalles<%= index %>" tabindex="-1"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -65,7 +70,6 @@
                                     </div>
                                     <div class="modal-body">
                                      
-                                    
                                         <p>Estado del pedido: <%= cotizacion.estado %> </p>
                                        
                                     </div>
@@ -76,7 +80,44 @@
                                             <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
                                                 <button type="submit" class="btn btn-danger">Eliminar</button>
                                             </form>
-                                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal para declarar como pagado -->
+                        <div class="modal fade" id="modalPago<%= index %>" tabindex="-1"
+                            aria-labelledby="modalPagoLabel<%= index %>" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalPagoLabel<%= index %>">Declarar como pagado</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/vercotizaciones/pagar/<%= cotizacion._id %>" method="POST">
+                                            <div class="mb-3">
+                                                <label for="cuenta<%= index %>" class="form-label">Cuenta desde la que se pagó</label>
+                                                <input type="text" class="form-control" id="cuenta<%= index %>" name="cuenta" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="metodoPago<%= index %>" class="form-label">Método de pago</label>
+                                                <select class="form-select" id="metodoPago<%= index %>" name="metodoPago" required>
+                                                    <option value="Efectivo">Efectivo</option>
+                                                    <option value="Pago Móvil">Pago Móvil</option>
+                                                    <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="fechaPago<%= index %>" class="form-label">Fecha de pago</label>
+                                                <input type="date" class="form-control" id="fechaPago<%= index %>" name="fechaPago" required>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-success">Guardar</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -86,13 +127,9 @@
             </div>
         <% }); %>
       </div>
-      
-                    
-                      
-      
 </main>
 
-<!-- Bootstrap JS y otros scripts -->
+
 <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
