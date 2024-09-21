@@ -69,17 +69,13 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                     
                                         <p>Estado del pedido: <%= cotizacion.estado %> </p>
-                                       
                                     </div>
-                                    
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Cerrar</button>
-                                            <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
-                                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                                            </form>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +87,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalPagoLabel<%= index %>">Declarar como pagado</h5>
+                                        <h5 class="modal-title" id="modalPagoLabel<%= index %>">Verificar pago</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -100,6 +96,14 @@
                                             <div class="mb-3">
                                                 <label for="cuenta<%= index %>" class="form-label">Cuenta desde la que se pagó</label>
                                                 <input type="text" class="form-control" id="cuenta<%= index %>" name="cuenta" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="telefono<%= index %>" class="form-label">Número de teléfono</label>
+                                                <input type="text" class="form-control" id="telefono<%= index %>" name="telefono" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="numeroTransaccion<%= index %>" class="form-label">Número de transacción</label>
+                                                <input type="text" class="form-control" id="numeroTransaccion<%= index %>" name="numeroTransaccion" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="metodoPago<%= index %>" class="form-label">Método de pago</label>
@@ -129,7 +133,8 @@
       </div>
 </main>
 
-
 <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/views/pedidos/main.js"></script>
+
 </body>
 </html>
