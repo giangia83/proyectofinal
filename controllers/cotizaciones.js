@@ -320,9 +320,8 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
     }
 });
-
 // Función para verificar el pago y cambiar el estado de la cotización
-router.post('/vercotizaciones/pagar/:id'), async (req, res) => {
+router.post('/vercotizaciones/pagar/:id', async (req, res) => {
     const cotizacionId = req.params.id;
     
     try {
@@ -349,7 +348,7 @@ router.post('/vercotizaciones/pagar/:id'), async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Error al verificar el pago', error });
     }
-};
+});
 
 
 module.exports = router;
