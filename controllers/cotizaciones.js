@@ -339,7 +339,7 @@ router.post('/vercotizaciones/pagar/:id', async (req, res) => {
         await cotizacion.save();
 
         // Enviar correo al admin con los detalles de la cotización
-        await enviarCorreoConfirmacionPago(cotizacion);
+        await  enviarCorreoPagoConfirmadoAdmin(cotizacion);
 
         // Responder con éxito
         res.status(200).json({ message: 'Pago verificado y correo enviado al admin', cotizacion });
