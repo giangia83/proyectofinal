@@ -4,7 +4,9 @@ const Cotizacion = require('../models/cotizacion');
 const Producto = require('../models/producto');
 const PDFDocument = require('pdfkit');
 const transporter = require('../controllers/nodemailer'); // Configuración de Nodemailer
-const enviarCorreoPagoConfirmadoAdmin  = require('../controllers/email');
+const { enviarCorreoPagoConfirmadoAdmin } = require('../controllers/email');
+
+
 router.get('/vercotizaciones', async (req, res) => {
     try {
        
@@ -339,7 +341,7 @@ router.post('/vercotizaciones/pagar/:id', async (req, res) => {
         await cotizacion.save();
 
         // Enviar correo al admin con los detalles de la cotización
-        await  enviarCorreoPagoConfirmadoAdmin(cotizacion);
+        await enviarCorreoPagoConfirmadoAdmin(cotizacion);
 
         // Responder con éxito
         res.status(200).json({ message: 'Pago verificado y correo enviado al admin', cotizacion });
