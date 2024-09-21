@@ -282,15 +282,15 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
             });
         });
 
-                // Generar el contenido del PDF
+                        // Generar el contenido del PDF
             doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
-            doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
+            doc.fontSize(14).text('Cotización Verificada', { align: 'center', margin: [0, 10] });
             doc.moveDown();
 
             doc.fontSize(12).text(`Cliente: ${cotizacion.usuario.nombre}`, { align: 'left' });
             doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
             doc.text(`Correo: ${cotizacion.usuario.correo}`);
-            doc.text(`Teléfono: ${cotizacion.usuario.telefono}`);
+            doc.text(`Teléfono: ${cotizacion.usuario.number}`);
             doc.moveDown();
 
             doc.fontSize(12).text('Productos:', { underline: true });
@@ -300,11 +300,11 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
 
             let total = 0;
             cotizacion.productos.forEach((producto) => {
-                const precio = producto.productoId ? producto.productoId.precio : 0;
-                const subtotal = precio * producto.cantidad;
+                const precioUnitario = producto.productoId ? producto.productoId.precio : 0;
+                const subtotal = precioUnitario * producto.cantidad;
                 total += subtotal;
                 doc.text(
-                    `${producto.productoId.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${precio.toFixed(2).padEnd(15)} | ${subtotal.toFixed(2)}`,
+                    `${producto.productoId.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${precioUnitario.toFixed(2).padEnd(15)} | ${subtotal.toFixed(2)}`,
                     { align: 'left' }
                 );
             });
@@ -312,44 +312,17 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
             doc.text('--------------------------------------------------------------', { align: 'left' });
             doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
 
+            // Finalizar el documento PDF
+            doc.end();
 
-        doc.end();
     } catch (error) {
         console.error('Error al verificar y enviar la cotización:', error);
         res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
     }
 });
+
 // Función para verificar el pago y cambiar el estado de la cotización
-exports.verificarPagoCotizacion = async (req, res) => {
-    const cotizacionId = req.params.id;
-    
-    try {
-        // Buscar la cotización por ID
-        const cotizacion = await Cotizacion.findById(cotizacionId);
-        
-        if (!cotizacion) {
-            return res.status(404).json({ message: 'Cotización no encontrada' });
-        }
-
-        // Cambiar el estado a "Esperando confirmación de pago"
-        cotizacion.estado = 'Esperando confirmación de pago';
-
-        // Guardar la cotización actualizada
-        await cotizacion.save();
-
-        // Enviar correo al admin con los detalles de la cotización
-        await enviarCorreoConfirmacionPago(cotizacion);
-
-        // Responder con éxito
-        res.status(200).json({ message: 'Pago verificado y correo enviado al admin', cotizacion });
-        
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al verificar el pago', error });
-    }
-};
-// Función para verificar el pago y cambiar el estado de la cotización
-exports.verificarPagoCotizacion = async (req, res) => {
+router.post('/vercotizaciones/pagar/:id'), async (req, res) => {
     const cotizacionId = req.params.id;
     
     try {
