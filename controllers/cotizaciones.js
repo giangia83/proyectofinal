@@ -4,7 +4,7 @@ const Cotizacion = require('../models/cotizacion');
 const Producto = require('../models/producto');
 const PDFDocument = require('pdfkit');
 const transporter = require('../controllers/nodemailer'); // Configuración de Nodemailer
-
+const enviarCorreoPagoConfirmadoAdmin  = require('../controllers/email');
 router.get('/vercotizaciones', async (req, res) => {
     try {
        
