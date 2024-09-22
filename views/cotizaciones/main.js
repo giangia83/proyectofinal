@@ -140,3 +140,53 @@ function verificarCotizacion() {
       alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
     });
 }
+
+function rechazarPago(cotizacionId) {
+  // Aquí debes hacer una solicitud POST para cambiar el estado a "Pago Inválido"
+  fetch(`/vercotizaciones/rechazarPago/${cotizacionId}`, {
+    method: 'POST'
+  })
+  .then(response => {
+    if (response.ok) {
+    
+      location.reload(); // Refresca la página para ver los cambios
+    }
+  })
+  .catch(error => {
+    console.error('Error al rechazar el pago:', error);
+  });
+}
+
+function aprobarPago(cotizacionId) {
+  // Aquí debes hacer una solicitud POST para cambiar el estado a "Pago Realizado"
+  fetch(`/vercotizaciones/aprobarPago/${cotizacionId}`, {
+    method: 'POST'
+  })
+  .then(response => {
+    if (response.ok) {
+    
+      location.reload(); // Refresca la página para ver los cambios
+    }
+  })
+  .catch(error => {
+    console.error('Error al aprobar el pago:', error);
+  });
+}
+
+function loadPaymentDetails(cotizacionId) {
+
+  fetch(`/vercotizaciones/detallesPago/${cotizacionId}`)
+    .then(response => response.json())
+    .then(data => {
+      const paymentDetailsContent = document.getElementById('paymentDetailsContent');
+      paymentDetailsContent.innerHTML = `
+        <p><strong>Número de cuenta:</strong> ${data.numeroCuenta}</p>
+        <p><strong>Monto Pagado:</strong> ${data.monto}</p>
+        <p><strong>Fecha de Pago:</strong> ${data.fechaPago}</p>
+        <p><strong>Comentario:</strong> ${data.comentario || 'Ninguno'}</p>
+      `;
+    })
+    .catch(error => {
+      console.error('Error al cargar los detalles del pago:', error);
+    });
+}

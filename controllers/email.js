@@ -127,8 +127,6 @@ async function enviarCorreoPagoConfirmadoAdmin(cotizacion) {
         if (!admin) {
             throw new Error('Administrador no encontrado');
         }
-
-        // Configurar el correo al administrador con los detalles de la cotización
         const mailOptionsAdmin = {
             from: process.env.EMAIL_USER,
             to: admin.correo, // Correo del administrador
@@ -141,7 +139,7 @@ async function enviarCorreoPagoConfirmadoAdmin(cotizacion) {
                     </header>
                     
                     <section>
-                        <p style="font-size: 16px; color: #555;">El cliente ha realizado el pago de la cotización con ID: ${cotizacion._id}</p>
+                        <p style="font-size: 16px; color: #555;">El cliente <strong>${cotizacion.usuarioNombre}</strong> ha realizado el pago de la cotización con ID: ${cotizacion._id}</p>
                         <h4>Detalles de la cotización:</h4>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                             <thead>
@@ -165,7 +163,7 @@ async function enviarCorreoPagoConfirmadoAdmin(cotizacion) {
                         </table>
                         <p style="font-size: 16px; color: #555;"><strong>Total:</strong> $${cotizacion.total}</p>
                     </section>
-
+        
                     <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
                         <p style="font-size: 14px; color: #999;">Saludos cordiales,<br>Starclean C.A - Miranda, Guatire</p>
                     </footer>

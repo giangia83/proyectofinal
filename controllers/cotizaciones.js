@@ -322,7 +322,6 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
     }
 });
-// Función para verificar el pago y cambiar el estado de la cotización
 router.post('/vercotizaciones/pagar/:id', async (req, res) => {
     const cotizacionId = req.params.id;
     
@@ -343,14 +342,37 @@ router.post('/vercotizaciones/pagar/:id', async (req, res) => {
         // Enviar correo al admin con los detalles de la cotización
         await enviarCorreoPagoConfirmadoAdmin(cotizacion);
 
-        // Responder con éxito
-        res.status(200).json({ message: 'Pago verificado y correo enviado al admin', cotizacion });
-        
+        // Log del envío del correo
+        console.log('Correo al administrador enviado exitosamente');
+
+        // Responder al frontend con éxito
+        res.status(200).json({ message: 'Pago verificado y correo enviado al admin' });
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error al verificar el pago', error });
     }
 });
 
+// Ruta para aprobar el pago
+router.post('/vercotizaciones/aprobarPago/:id', (req, res) => {
+    const cotizacionId = req.params.id;
+    // Actualiza el estado de la cotización a "Pago Realizado"
+    Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Realizado' }, (err) => {
+      if (err) return res.status(500).send(err);
+      res.status(200).send('Pago aprobado');
+    });
+  });
+  
+  // Ruta para rechazar el pago
+  router.post('/vercotizaciones/rechazarPago/:id', (req, res) => {
+    const cotizacionId = req.params.id;
+    // Actualiza el estado de la cotización a "Pago Inválido"
+    Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Inválido' }, (err) => {
+      if (err) return res.status(500).send(err);
+      res.status(200).send('Pago rechazado');
+    });
+  });
+  
 
 module.exports = router;

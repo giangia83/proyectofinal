@@ -148,6 +148,10 @@
                       <button class="btn btn-success mb-2" onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
                     </div>
                     
+                    <button type="button" class="btn btn-info mb-2 me-2" data-bs-toggle="modal" data-bs-target="#verificarPagoModal" onclick="loadPaymentDetails('<%= cotizacion._id %>')">
+                      Verificar pago
+                    </button>
+                    
                     
                   </div>
                 </div>
@@ -158,6 +162,31 @@
         </div>
       </div>
     </div>
+
+        <!-- Modal para verificar el pago -->
+        <div class="modal fade" id="verificarPagoModal" tabindex="-1" aria-labelledby="verificarPagoModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="verificarPagoModalLabel">Verificación de Pago</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <!-- Aquí se mostrará la información de pago -->
+                <div id="paymentDetailsContent">
+                  <!-- Los detalles se llenarán mediante JavaScript -->
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="rechazarPago('<%= cotizacion._id %>')">Pago Inválido</button>
+                <button type="button" class="btn btn-success" onclick="aprobarPago('<%= cotizacion._id %>')">Pago Realizado</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
   </main>
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
   <script src="/views/cotizaciones/main.js"></script>
