@@ -5,17 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Gestión de Cotizaciones - Starclean C.A</title>
-
-
-  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-
-
-  <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
-
-
-  <link rel="stylesheet" href="/views/cotizaciones/style.css">
-
   
+  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/views/cotizaciones/style.css">
   <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=OJyPm0gV2SYj&format=png&color=000000">
 </head>
 
@@ -43,7 +36,7 @@
           </aside>
         </div>
 
-      
+        <!-- Main Content -->
         <div class="col-md-9">
           <!-- Modal para ver y editar detalles de la cotización -->
           <div class="modal fade" id="cotizacionModal" tabindex="-1" aria-labelledby="cotizacionModalLabel" aria-hidden="true">
@@ -60,21 +53,19 @@
                       <thead class="table-light">
                         <tr>
                           <th>Producto</th>
-                        
                           <th>Cantidad</th>
                           <th>Precio Unitario</th>
                           <th>Subtotal</th>
                         </tr>
                       </thead>
                       <tbody id="productosTableBody">
-                   
+                        <!-- Aquí se llenarán los productos mediante JS -->
                       </tbody>
                     </table>
                     <div class="mt-3">
                       <strong>Total:</strong> <span id="totalPrecio">0</span>
                     </div>
                     <div class="mt-3">
-                 
                       <button type="button" class="btn btn-success" onclick="verificarCotizacion()">Enviar</button>
                     </div>
                   </form>
@@ -92,9 +83,8 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <!-- Aquí se cargarán los detalles del usuario -->
                   <div id="userDetailsContent">
-                    <!-- Los detalles se llenarán aquí mediante JavaScript -->
+                    <!-- Los detalles del usuario se llenarán mediante JavaScript -->
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -109,15 +99,11 @@
             <% cotizaciones.forEach((cotizacion, index) => { %>
               <div class="accordion-item">
                 <h2 class="accordion-header" id="heading<%= index %>">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#collapse<%= index %>" aria-expanded="true"
-                  aria-controls="collapse<%= index %>">
-                  Cotización por: <%= cotizacion.usuario.nombre %>
-                </button>
-              
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
+                    Cotización por: <%= cotizacion.usuario.nombre %>
+                  </button>
                 </h2>
-                <div id="collapse<%= index %>" class="accordion-collapse collapse show"
-                  aria-labelledby="heading<%= index %>" data-bs-parent="#accordionCotizaciones">
+                <div id="collapse<%= index %>" class="accordion-collapse collapse show" aria-labelledby="heading<%= index %>" data-bs-parent="#accordionCotizaciones">
                   <div class="accordion-body">
                     <h5 class="card-title">Productos:</h5>
                     <ul class="list-group">
@@ -126,68 +112,50 @@
                           <%= producto.nombre %> - Cantidad: <%= producto.cantidad %>
                         </li>
                       <% }) %>
-                   
-
                     </ul>
                     <div class="card-text mt-3">
-                      <p class="small-text mt-3">Estado:</p> <%= cotizacion.estado %><br>
+                      <p class="small-text mt-3">Estado: <%= cotizacion.estado %></p>
                     </div>
                     <div class="mt-3 d-flex flex-wrap justify-content-start">
-                      <button type="button" class="btn btn-success mb-2 me-2" data-bs-toggle="modal" data-bs-target="#cotizacionModal" onclick="loadCotizacionDetails('<%= cotizacion._id %>')">
-                        Cotizar
-                      </button>
-                      
+                      <button type="button" class="btn btn-success mb-2 me-2" data-bs-toggle="modal" data-bs-target="#cotizacionModal" onclick="loadCotizacionDetails('<%= cotizacion._id %>')">Cotizar</button>
                       <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST" class="d-inline mb-2">
                         <button type="submit" class="btn btn-danger me-2">Eliminar</button>
                       </form>
-                      
-                      <button type="button" class="btn btn-warning mb-2 me-2" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario._id %>')">
-                        Ver detalles del usuario
-                      </button>
-                      
+                      <button type="button" class="btn btn-warning mb-2 me-2" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario._id %>')">Ver detalles del usuario</button>
                       <button class="btn btn-success mb-2" onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
+                      <button type="button" class="btn btn-info mb-2 me-2" data-bs-toggle="modal" data-bs-target="#verificarPagoModal" onclick="loadPaymentDetails('<%= cotizacion._id %>')">Verificar pago</button>
                     </div>
-                    
-                    <button type="button" class="btn btn-info mb-2 me-2" data-bs-toggle="modal" data-bs-target="#verificarPagoModal" onclick="loadPaymentDetails('<%= cotizacion._id %>')">
-                      Verificar pago
-                    </button>
-                    
-                    
                   </div>
                 </div>
               </div>
             <% }) %>
           </div>
-      
         </div>
       </div>
     </div>
 
-        <!-- Modal para verificar el pago -->
-        <div class="modal fade" id="verificarPagoModal" tabindex="-1" aria-labelledby="verificarPagoModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="verificarPagoModalLabel">Verificación de Pago</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <!-- Aquí se mostrará la información de pago -->
-                <div id="paymentDetailsContent">
-                  <!-- Los detalles se llenarán mediante JavaScript -->
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onclick="rechazarPago('<%= cotizacion._id %>')">Pago Inválido</button>
-                <button type="button" class="btn btn-success" onclick="aprobarPago('<%= cotizacion._id %>')">Pago Realizado</button>
-              </div>
+    <!-- Modal para verificar el pago -->
+    <div class="modal fade" id="verificarPagoModal" tabindex="-1" aria-labelledby="verificarPagoModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="verificarPagoModalLabel">Verificación de Pago</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="paymentDetailsContent">
+              <!-- Los detalles del pago se llenarán mediante JS -->
             </div>
           </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="btnRechazarPago" onclick="rechazarPago()">Pago Inválido</button>
+            <button type="button" class="btn btn-success" id="btnAprobarPago" onclick="aprobarPago()">Pago Realizado</button>
+          </div>
         </div>
-
-
-
+      </div>
+    </div>
   </main>
+
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
   <script src="/views/cotizaciones/main.js"></script>
 </body>
