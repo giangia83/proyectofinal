@@ -19,7 +19,8 @@ const Usuario = require("./models/usuario")
 const methodOverride = require('method-override');
 const subirProducto = require('./controllers/subirProducto')
 const favoritoRouter = require('./controllers/favoritos'); // Importa las rutas de favoritos
-const enviarCorreoCotizacion = require('./controllers/email');
+const { enviarCorreoCotizacion } = require('./controllers/email');
+
 const uploadDirectory = path.join(__dirname, 'uploads');
 // Crear la carpeta uploads si no existe
 if (!fs.existsSync(uploadDirectory)) {

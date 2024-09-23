@@ -133,32 +133,6 @@
         <% }); %>
       </div>
 
-<!-- Modal para declarar como pagado -->
-<div class="modal fade" id="modalPago<%= index %>" tabindex="-1" aria-labelledby="modalPagoLabel<%= index %>" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalPagoLabel<%= index %>">Verificar pago</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formPago<%= index %>" onsubmit="submitPago(event, '<%= cotizacion._id %>')">
-                    <!-- Aquí están los campos del formulario -->
-                    <div class="mb-3">
-                        <label for="cuenta<%= index %>" class="form-label">Cuenta desde la que se pagó</label>
-                        <input type="text" class="form-control" id="cuenta<%= index %>" name="cuenta" required>
-                    </div>
-                    <!-- Agrega los otros campos... -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 </main>
 
