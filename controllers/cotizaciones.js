@@ -324,7 +324,8 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
 });
 router.post('/vercotizaciones/pagar/:id', async (req, res) => {
     const cotizacionId = req.params.id;
-    
+    const { cuenta, monto, fechaPago } = req.body;
+
     try {
         // Buscar la cotización por ID
         const cotizacion = await Cotizacion.findById(cotizacionId);
@@ -332,6 +333,14 @@ router.post('/vercotizaciones/pagar/:id', async (req, res) => {
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
+
+        // Actualizar los detalles del pago y el estado de la cotización
+        cotizacion.detallesPago = {
+            numeroCuenta: cuenta,
+            monto: parseFloat(monto), 
+            fechaPago: new Date(fechaPago),
+           
+        };
 
         // Cambiar el estado a "Esperando confirmación de pago"
         cotizacion.estado = 'Esperando confirmación de pago';
@@ -343,7 +352,7 @@ router.post('/vercotizaciones/pagar/:id', async (req, res) => {
         await enviarCorreoPagoConfirmadoAdmin(cotizacion);
 
         // Log del envío del correo
-        console.log('Correo al administrador enviado exitosamente');
+        console.log('Correo enviado al administrador exitosamente');
 
         // Responder al frontend con éxito
         res.status(200).json({ message: 'Pago verificado y correo enviado al admin' });
@@ -353,6 +362,27 @@ router.post('/vercotizaciones/pagar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error al verificar el pago', error });
     }
 });
+
+router.get('/vercotizaciones/detallesPago/:id', async (req, res) => {
+    const cotizacionId = req.params.id;
+
+    try {
+        // Buscar la cotización por ID
+        const cotizacion = await Cotizacion.findById(cotizacionId).select('detallesPago');
+
+        if (!cotizacion) {
+            return res.status(404).json({ message: 'Cotización no encontrada' });
+        }
+
+        // Responder con los detalles del pago
+        res.status(200).json(cotizacion.detallesPago);
+        
+    } catch (error) {
+        console.error('Error al obtener los detalles del pago:', error);
+        res.status(500).json({ message: 'Error al obtener los detalles del pago', error });
+    }
+});
+
 
 // Ruta para aprobar el pago
 router.post('/vercotizaciones/aprobarPago/:id', (req, res) => {

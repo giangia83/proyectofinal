@@ -16,7 +16,7 @@ const cotizacionSchema = new mongoose.Schema({
     },
     productos: [{
         productoId: {
-            type: mongoose.Schema.Types.ObjectId, // Cambiado a ObjectId para referencia a Producto
+            type: mongoose.Schema.Types.ObjectId, // Referencia al modelo Producto
             ref: 'Producto',
             required: true,
         },
@@ -36,6 +36,12 @@ const cotizacionSchema = new mongoose.Schema({
             type: Number, 
         }
     }],
+    detallesPago: {
+        numeroCuenta: { type: String },
+        monto: { type: Number },
+        fechaPago: { type: Date },
+       
+    },
 });
 
 const Cotizacion = mongoose.model('Cotizacion', cotizacionSchema);
