@@ -94,6 +94,11 @@
                                     <div class="modal-body">
                                         <form action="/vercotizaciones/pagar/<%= cotizacion._id %>" method="POST">
                                             <div class="mb-3">
+                                                <label for="monto<%= index %>" class="form-label">Monto</label>
+                                                <input type="number" class="form-control" id="monto<%= index %>" name="monto" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
                                                 <label for="cuenta<%= index %>" class="form-label">Cuenta desde la que se pagó</label>
                                                 <input type="text" class="form-control" id="cuenta<%= index %>" name="cuenta" required>
                                             </div>
