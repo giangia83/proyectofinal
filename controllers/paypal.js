@@ -1,10 +1,10 @@
+// paypalPayment.js (o como lo hayas nombrado)
 const express = require('express');
-const axios = require('axios');
 const router = express.Router();
 
 router.post('/paypal/payment', async (req, res) => {
   const orderID = req.body.orderID;
-
+  
   const { data } = await axios.post(`https://api.sandbox.paypal.com/v2/checkout/orders/${orderID}/capture`, {}, {
     auth: {
       username: process.env.PAYPAL_CLIENT_ID,
@@ -15,3 +15,6 @@ router.post('/paypal/payment', async (req, res) => {
   // Procesar los detalles del pago
   res.json(data);
 });
+
+// Exportar el router
+module.exports = router; // Asegúrate de que estás exportando el router correctamente
