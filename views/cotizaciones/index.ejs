@@ -123,7 +123,7 @@
                       </form>
                       <button type="button" class="btn btn-warning mb-2 me-2" data-bs-toggle="modal" data-bs-target="#userDetailsModal" onclick="loadUserDetails('<%= cotizacion.usuario._id %>')">Ver detalles del usuario</button>
                       <button class="btn btn-success mb-2" onclick="descargarPDF('<%= cotizacion._id %>')">Descargar PDF</button>
-                      <button type="button" class="btn btn-info mb-2 me-2" data-bs-toggle="modal" data-bs-target="#verificarPagoModal" onclick="loadPaymentDetails('<%= cotizacion._id %>')">Verificar pago</button>
+                      <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#verificarPagoModal" onclick="loadPaymentDetails('<%= cotizacion._id %>')">Verificar pago</button>
                     </div>
                   </div>
                 </div>
@@ -133,6 +133,18 @@
         </div>
       </div>
     </div>
+
+<!-- Toast de Bootstrap para notificaciones -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="toastNotification" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMessage">
+        Pago aprobado
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
 
    <!-- Modal para verificar el pago -->
 <div class="modal fade" id="verificarPagoModal" tabindex="-1" aria-labelledby="verificarPagoModalLabel" aria-hidden="true">

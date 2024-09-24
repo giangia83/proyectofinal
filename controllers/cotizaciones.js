@@ -398,14 +398,20 @@ router.post('/vercotizaciones/aprobarPago/:id', async (req, res) => {
   });
   
   
-  // Ruta para rechazar el pago
-  router.post('/vercotizaciones/rechazarPago/:id', (req, res) => {
+ // Ruta para rechazar el pago
+router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
     const cotizacionId = req.params.id;
-    // Actualiza el estado de la cotización a "Pago Inválido"
-    Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Inválido' }, (err) => {
-      if (err) return res.status(500).send(err);
+  
+    try {
+      // Actualiza el estado de la cotización a "Pago Rechazado"
+      await Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Rechazado' });
+      
+      // Responde con éxito
       res.status(200).send('Pago rechazado');
-    });
+    } catch (error) {
+      // Manejo de errores
+      res.status(500).send(error);
+    }
   });
   
 

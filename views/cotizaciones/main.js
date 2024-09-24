@@ -140,12 +140,14 @@ function verificarCotizacion() {
       alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
     });
 }
+// Función para aprobar el pago
 function aprobarPago(cotizacionId) {
   fetch(`/vercotizaciones/aprobarPago/${cotizacionId}`, {
     method: 'POST'
   })
   .then(response => {
     if (response.ok) {
+      showToast('Pago aprobado', 'bg-success');
       location.reload(); // Refresca la página para ver los cambios
     }
   })
@@ -153,19 +155,35 @@ function aprobarPago(cotizacionId) {
     console.error('Error al aprobar el pago:', error);
   });
 }
-
+// Función para rechazar el pago
 function rechazarPago(cotizacionId) {
   fetch(`/vercotizaciones/rechazarPago/${cotizacionId}`, {
     method: 'POST'
   })
   .then(response => {
     if (response.ok) {
+      showToast('Pago rechazado', 'bg-danger');
       location.reload(); // Refresca la página para ver los cambios
     }
   })
   .catch(error => {
     console.error('Error al rechazar el pago:', error);
   });
+}
+
+// Función para mostrar el toast
+function showToast(message, bgClass) {
+  const toastElement = document.getElementById('toastNotification');
+  const toastMessage = document.getElementById('toastMessage');
+
+  // Actualizar el mensaje y el color de fondo del toast
+  toastMessage.textContent = message;
+  toastElement.classList.remove('bg-success', 'bg-danger'); // Remueve las clases anteriores
+  toastElement.classList.add(bgClass); // Agrega la nueva clase (bg-success o bg-danger)
+
+  // Inicializa el toast de Bootstrap y lo muestra
+  const toast = new bootstrap.Toast(toastElement);
+  toast.show();
 }
 
 let cotizacionId = null; // Variable global para almacenar el ID de la cotización
