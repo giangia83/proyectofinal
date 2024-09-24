@@ -140,15 +140,26 @@ function verificarCotizacion() {
       alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
     });
 }
+function aprobarPago(cotizacionId) {
+  fetch(`/vercotizaciones/aprobarPago/${cotizacionId}`, {
+    method: 'POST'
+  })
+  .then(response => {
+    if (response.ok) {
+      location.reload(); // Refresca la página para ver los cambios
+    }
+  })
+  .catch(error => {
+    console.error('Error al aprobar el pago:', error);
+  });
+}
 
 function rechazarPago(cotizacionId) {
-  // Aquí debes hacer una solicitud POST para cambiar el estado a "Pago Inválido"
   fetch(`/vercotizaciones/rechazarPago/${cotizacionId}`, {
     method: 'POST'
   })
   .then(response => {
     if (response.ok) {
-    
       location.reload(); // Refresca la página para ver los cambios
     }
   })
@@ -157,22 +168,10 @@ function rechazarPago(cotizacionId) {
   });
 }
 
-function aprobarPago(cotizacionId) {
+let cotizacionId = null; // Variable global para almacenar el ID de la cotización
 
-  fetch(`/vercotizaciones/aprobarPago/${cotizacionId}`, {
-    method: 'POST'
-  })
-  .then(response => {
-    if (response.ok) {
-    
-      location.reload(); // Refresca la página para ver los cambios
-    }
-  })
-  .catch(error => {
-    console.error('Error al aprobar el pago:', error);
-  });
-}
-function loadPaymentDetails(cotizacionId) {
+function loadPaymentDetails(cotizacionIdParam) {
+  cotizacionId = cotizacionIdParam; // Almacena el ID en la variable global
 
   fetch(`/vercotizaciones/detallesPago/${cotizacionId}`)
     .then(response => response.json())
@@ -199,3 +198,4 @@ function loadPaymentDetails(cotizacionId) {
       console.error('Error al cargar los detalles del pago:', error);
     });
 }
+

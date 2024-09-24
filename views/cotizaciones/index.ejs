@@ -134,27 +134,27 @@
       </div>
     </div>
 
-    <!-- Modal para verificar el pago -->
-    <div class="modal fade" id="verificarPagoModal" tabindex="-1" aria-labelledby="verificarPagoModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="verificarPagoModalLabel">Verificación de Pago</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div id="paymentDetailsContent">
-              <!-- Los detalles del pago se llenarán mediante JS -->
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" id="btnRechazarPago" onclick="rechazarPago()">Pago Inválido</button>
-            <button type="button" class="btn btn-success" id="btnAprobarPago" onclick="aprobarPago()">Pago Realizado</button>
-          </div>
+   <!-- Modal para verificar el pago -->
+<div class="modal fade" id="verificarPagoModal" tabindex="-1" aria-labelledby="verificarPagoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="verificarPagoModalLabel">Verificación de Pago</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="paymentDetailsContent">
+          <!-- Los detalles del pago se llenarán mediante JS -->
         </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="btnRechazarPago" onclick="rechazarPago(cotizacionId)">Pago Inválido</button>
+        <button type="button" class="btn btn-success" id="btnAprobarPago" onclick="aprobarPago(cotizacionId)">Pago Realizado</button>
+      </div>
     </div>
-  </main>
+  </div>
+</div>
+
 
   <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
   <script src="/views/cotizaciones/main.js"></script>
