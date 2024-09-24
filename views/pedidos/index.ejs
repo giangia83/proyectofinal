@@ -88,10 +88,13 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="modalPagoLabel<%= index %>">Verificar pago</h5>
+                                        
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
+                                    <div id="paypal-button-container<%= index %>"></div>
                                     <div class="modal-body">
+                                        
                                         <form action="/vercotizaciones/pagar/<%= cotizacion._id %>" method="POST">
                                             <div class="mb-3">
                                                 <label for="monto<%= index %>" class="form-label">Monto</label>
@@ -142,6 +145,7 @@
 </main>
 
 <script src="/views/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=SANDBOX"></script>
 <script src="/views/pedidos/main.js"></script>
 
 </body>

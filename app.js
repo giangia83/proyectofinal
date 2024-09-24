@@ -20,7 +20,7 @@ const methodOverride = require('method-override');
 const subirProducto = require('./controllers/subirProducto')
 const favoritoRouter = require('./controllers/favoritos'); // Importa las rutas de favoritos
 const { enviarCorreoCotizacion } = require('./controllers/email');
-
+const paypalPaymentRoute = require('./controllers/paypal');  // Asegúrate de tener este archivo en tu carpeta de rutas
 const uploadDirectory = path.join(__dirname, 'uploads');
 // Crear la carpeta uploads si no existe
 if (!fs.existsSync(uploadDirectory)) {
@@ -31,6 +31,7 @@ app.use(express.urlencoded({ extended: true })); // Middleware para parsear dato
 app.use(cookieParser());
 app.use(compression());
 app.use(methodOverride('_method'));
+
 // Configuración de sesión
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -245,6 +246,7 @@ app.use('/api', productosRouter);
 app.use('/sesion', iniciarSesion);
 app.use('/subir', subirProducto);
 app.use('/fav', favoritoRouter);
+app.use('/paypal', paypalPaymentRoute); 
 
 app.post('/proseguircompra', verificarAutenticacion, async (req, res) => {
     const { usuario, productos } = req.body;
