@@ -385,14 +385,18 @@ router.get('/vercotizaciones/detallesPago/:id', async (req, res) => {
 
 
 // Ruta para aprobar el pago
-router.post('/vercotizaciones/aprobarPago/:id', (req, res) => {
+router.post('/vercotizaciones/aprobarPago/:id', async (req, res) => {
     const cotizacionId = req.params.id;
-    // Actualiza el estado de la cotización a "Pago Realizado"
-    Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Realizado' }, (err) => {
-      if (err) return res.status(500).send(err);
+    
+    try {
+      // Actualiza el estado de la cotización a "Pago Realizado"
+      await Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Realizado' });
       res.status(200).send('Pago aprobado');
-    });
+    } catch (err) {
+      return res.status(500).send(err);
+    }
   });
+  
   
   // Ruta para rechazar el pago
   router.post('/vercotizaciones/rechazarPago/:id', (req, res) => {

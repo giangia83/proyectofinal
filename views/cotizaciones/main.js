@@ -158,7 +158,7 @@ function rechazarPago(cotizacionId) {
 }
 
 function aprobarPago(cotizacionId) {
-  // Aquí debes hacer una solicitud POST para cambiar el estado a "Pago Realizado"
+
   fetch(`/vercotizaciones/aprobarPago/${cotizacionId}`, {
     method: 'POST'
   })
@@ -172,7 +172,6 @@ function aprobarPago(cotizacionId) {
     console.error('Error al aprobar el pago:', error);
   });
 }
-
 function loadPaymentDetails(cotizacionId) {
 
   fetch(`/vercotizaciones/detallesPago/${cotizacionId}`)
@@ -180,10 +179,20 @@ function loadPaymentDetails(cotizacionId) {
     .then(data => {
       const paymentDetailsContent = document.getElementById('paymentDetailsContent');
       paymentDetailsContent.innerHTML = `
-        <p><strong>Número de cuenta:</strong> ${data.numeroCuenta}</p>
-        <p><strong>Monto Pagado:</strong> ${data.monto}</p>
-        <p><strong>Fecha de Pago:</strong> ${data.fechaPago}</p>
-        <p><strong>Comentario:</strong> ${data.comentario || 'Ninguno'}</p>
+        <div class="card p-3 mb-3 shadow-sm">
+          <div class="mb-2">
+            <span class="fw-bold">Número de cuenta:</span>
+            <span class="text-muted">${data.numeroCuenta}</span>
+          </div>
+          <div class="mb-2">
+            <span class="fw-bold">Monto Pagado:</span>
+            <span class="text-muted">${data.monto}</span>
+          </div>
+          <div class="mb-2">
+            <span class="fw-bold">Fecha de Pago:</span>
+            <span class="text-muted">${data.fechaPago}</span>
+          </div>
+        </div>
       `;
     })
     .catch(error => {
