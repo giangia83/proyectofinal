@@ -1,4 +1,5 @@
- document.querySelectorAll('select[name="metodoPago"]').forEach(function(selectElement, index) {
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('select[name="metodoPago"]').forEach(function(selectElement, index) {
         selectElement.addEventListener('change', function() {
             const isEfectivo = this.value === 'Efectivo';
             const cuentaField = document.getElementById('cuenta' + index);
@@ -10,6 +11,13 @@
             telefonoField.disabled = isEfectivo;
             numeroTransaccionField.disabled = isEfectivo;
         });
+    });
+
+    // Agrega un event listener para el formulario
+    const form = document.querySelector('form'); // Asegúrate de que el selector sea correcto
+    form.addEventListener('submit', function(event) {
+        const cotizacionId = this.dataset.cotizacionId; // Obtén el ID de la cotización de un atributo de datos en el formulario
+        submitPago(event, cotizacionId);
     });
 
     function submitPago(event, cotizacionId) {
@@ -41,34 +49,35 @@
             console.error('Error:', error);
         });
     }
+
     paypal.Buttons({
         createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: '100.00'  // Ajusta esto con el monto dinámico de tu producto
-              }
-            }]
-          });
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '100.00'  // Ajusta esto con el monto dinámico de tu producto
+                    }
+                }]
+            });
         },
         onApprove: function(data, actions) {
-          // Captura el pago cuando el comprador lo aprueba
-          return actions.order.capture().then(function(details) {
-            // Enviar los detalles del pago al servidor para procesarlo
-            return fetch('/paypal/payment', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                orderID: data.orderID  // El ID de la orden de PayPal
-              })
-            }).then(response => response.json())
-              .then(data => {
-                alert('Pago completado. ID de la transacción: ' + data.id);
-                // Aquí puedes redirigir a una página de confirmación o actualizar el estado del pedido
-              });
-          });
+            // Captura el pago cuando el comprador lo aprueba
+            return actions.order.capture().then(function(details) {
+                // Enviar los detalles del pago al servidor para procesarlo
+                return fetch('/paypal/payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderID: data.orderID  // El ID de la orden de PayPal
+                    })
+                }).then(response => response.json())
+                  .then(data => {
+                    alert('Pago completado. ID de la transacción: ' + data.id);
+                    // Aquí puedes redirigir a una página de confirmación o actualizar el estado del pedido
+                });
+            });
         }
-      }).render('#paypal-button-container'); // Renderiza el botón en el contenedor específico
-      
+    }).render('#paypal-button-container'); // Renderiza el botón en el contenedor específico
+});
