@@ -57,9 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializa los botones de PayPal
     initPaypalButtons();
 });
-
 // Función para inicializar los botones de PayPal
-function initPaypalButtons() {
+function initPaypalButtons(cotizacionId) {
     document.querySelectorAll('[id^="paypal-button-container"]').forEach((container, index) => {
         paypal.Buttons({
             createOrder: function(data, actions) {
@@ -73,7 +72,7 @@ function initPaypalButtons() {
             },
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    return fetch('/vercotizaciones/paypal/payment', {
+                    return fetch(`/vercotizaciones/paypal/payment/${cotizacionId}`, {  // Aquí se incluye el ID
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -82,7 +81,12 @@ function initPaypalButtons() {
                             orderID: data.orderID  // El ID de la orden de PayPal
                         })
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error en la respuesta del servidor');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         alert('Pago completado. ID de la transacción: ' + data.id);
                     })
