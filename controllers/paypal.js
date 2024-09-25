@@ -1,18 +1,20 @@
 
-const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
+const express = require('express');
+const router = express.Router();
 
-// Configura el entorno (sandbox o live)
-function environment() {
-    let clientId = process.env.PAYPAL_CLIENT_ID;
-    let clientSecret = process.env.PAYPAL_SECRET;
+router.post('/paypal/payment', async (req, res) => {
+  const orderID = req.body.orderID;
+  
+  const { data } = await axios.post(`https://api.sandbox.paypal.com/v2/checkout/orders/${orderID}/capture`, {}, {
+    auth: {
+      username: process.env.PAYPAL_CLIENT_ID,
+      password: process.env.PAYPAL_SECRET
+    }
+  });
 
-    return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
-    // Para producción:
-    // return new checkoutNodeJssdk.core.LiveEnvironment(clientId, clientSecret);
-}
+  // Procesar los detalles del pago
+  res.json(data);
+});
 
-function client() {
-    return new checkoutNodeJssdk.core.PayPalHttpClient(environment());
-}
-
-module.exports = { client };
+// Exportar el router
+module.exports = router; // Asegúrate de que estás exportando el router correctamente
