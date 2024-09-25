@@ -6,6 +6,8 @@ const PDFDocument = require('pdfkit');
 const transporter = require('../controllers/nodemailer'); // Configuración de Nodemailer
 const { enviarCorreoPagoConfirmadoAdmin } = require('../controllers/email');
 const paypalClient = require('../controllers/paypal');
+const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
+
 
 
 router.get('/vercotizaciones', async (req, res) => {
@@ -420,6 +422,18 @@ router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
     }
   });
   
+
+
+
+// Configura tu cliente de PayPal
+const client = () => {
+    return new checkoutNodeJssdk.core.Payer({
+        clientId: process.env.PAYPAL_CLIENT_ID,
+        clientSecret: process.env.PAYPAL_SECRET,
+        environment: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
+    });
+};
+
 // Función para procesar el pago de PayPal
 const procesarPagoPaypal = async (req, res) => {
     const { orderID } = req.body;
