@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@paypal/checkout-server-sdk": "^1.0.3",
     "aws-sdk": "^2.1653.0",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",

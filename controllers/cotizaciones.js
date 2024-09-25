@@ -5,6 +5,7 @@ const Producto = require('../models/producto');
 const PDFDocument = require('pdfkit');
 const transporter = require('../controllers/nodemailer'); // Configuración de Nodemailer
 const { enviarCorreoPagoConfirmadoAdmin } = require('../controllers/email');
+const paypalClient = require('../controllers/paypal');
 
 
 router.get('/vercotizaciones', async (req, res) => {
@@ -179,6 +180,11 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.status(500).send('Error interno al generar el PDF');
     }
 });
+
+
+
+
+
 
 // Ruta para verificar y enviar la cotización por correo al usuari0
 router.post('/vercotizaciones/verificar/:id', async (req, res) => {
@@ -414,5 +420,54 @@ router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
     }
   });
   
+// Función para procesar el pago de PayPal
+const procesarPagoPaypal = async (req, res) => {
+    const { orderID } = req.body;
+
+    try {
+        // Crear una solicitud para capturar el pago
+        const request = new checkoutNodeJssdk.orders.OrdersCaptureRequest(orderID);
+        request.requestBody({});
+
+        const response = await client().execute(request);
+
+        if (response.statusCode !== 201) {
+            return res.status(400).json({ error: 'No se pudo capturar el pago' });
+        }
+
+        const detallesPago = response.result;
+
+        // Obtener el ID de la cotización del cuerpo de la solicitud
+        const cotizacionId = req.params.id; // Cambia esto según cómo obtengas el ID
+        const cotizacion = await Cotizacion.findById(cotizacionId);
+
+        if (!cotizacion) {
+            return res.status(404).json({ error: 'Cotización no encontrada' });
+        }
+
+        // Actualizar el estado de la cotización
+        cotizacion.estado = 'Pagado';
+        cotizacion.pago = {
+            monto: detallesPago.purchase_units[0].amount.value,
+            metodo: 'PayPal',
+            fechaPago: new Date(),
+            idTransaccion: detallesPago.id
+        };
+
+        await cotizacion.save();
+
+        res.status(200).json({
+            message: 'Pago completado con éxito',
+            id: detallesPago.id
+        });
+
+    } catch (error) {
+        console.error('Error procesando el pago de PayPal:', error);
+        res.status(500).json({ error: 'Error procesando el pago' });
+    }
+};
+
+// Ruta para manejar el pago de PayPal
+router.post('/vercotizaciones/paypal/payment/:id', procesarPagoPaypal); 
 
 module.exports = router;
