@@ -6,7 +6,6 @@ const PDFDocument = require('pdfkit');
 const transporter = require('../controllers/nodemailer'); // Configuración de Nodemailer
 const { enviarCorreoPagoConfirmadoAdmin } = require('../controllers/email');
 const paypalClient = require('../controllers/paypal');
-const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
 
 
 
@@ -425,13 +424,16 @@ router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
 
 
 
+const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
+
 // Configura tu cliente de PayPal
 const client = () => {
-    return new checkoutNodeJssdk.core.Payer({
-        clientId: process.env.PAYPAL_CLIENT_ID,
-        clientSecret: process.env.PAYPAL_SECRET,
-        environment: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
-    });
+    return new checkoutNodeJssdk.core.PayPalHttpClient(
+        new checkoutNodeJssdk.core.SandboxEnvironment(
+            process.env.PAYPAL_CLIENT_ID,
+            process.env.PAYPAL_SECRET
+        )
+    );
 };
 
 // Función para procesar el pago de PayPal
