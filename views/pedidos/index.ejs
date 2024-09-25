@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Tus Pedidos - Starclean C.A</title>
-    
-<script src="https://sandbox.paypal.com/sdk/js?client-id=ASsDLUS421Vjb17HMIpcseFfAjj0DwOYgsQI-0qHyGluXs4sYqUkSr0YLJRF-nVBtc60ZVYthxPGgusY&components=buttons"></script>
+    <script src="https://sandbox.paypal.com/sdk/js?client-id=ASsDLUS421Vjb17HMIpcseFfAjj0DwOYgsQI-0qHyGluXs4sYqUkSr0YLJRF-nVBtc60ZVYthxPGgusY&components=buttons"></script>
+
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/views/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css"> 
@@ -60,6 +60,7 @@
                             Declarar como pagado
                         </button>
       
+                      
                         <!-- Modal de detalles -->
                         <div class="modal fade" id="modalDetalles<%= index %>" tabindex="-1"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -78,7 +79,7 @@
                                         <form action="/vercotizaciones/eliminar/<%= cotizacion._id %>" method="POST">
                                             <button type="submit" class="btn btn-danger">Eliminar</button>
                                         </form>
-                                        <div id="paypal-button-container<%= index %>"></div>
+                                   
                                     </div>
                                 </div>
                             </div>
@@ -98,6 +99,8 @@
                                 
                                     <div class="modal-body">
                                         
+                                        <div id="paypal-button-container<%= index %>"></div>
+
                                         <form action="/vercotizaciones/pagar/<%= cotizacion._id %>" method="POST">
                                             <div class="mb-3">
                                                 <label for="monto<%= index %>" class="form-label">Monto</label>
