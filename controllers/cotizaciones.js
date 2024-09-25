@@ -425,15 +425,13 @@ router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
 
 
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
-
 // Configura tu cliente de PayPal
 const client = () => {
-    return new checkoutNodeJssdk.core.PayPalHttpClient(
-        new checkoutNodeJssdk.core.SandboxEnvironment(
-            process.env.PAYPAL_CLIENT_ID,
-            process.env.PAYPAL_SECRET
-        )
-    );
+    return new checkoutNodeJssdk.core.Payer({
+        clientId: process.env.PAYPAL_CLIENT_ID,
+        clientSecret: process.env.PAYPAL_SECRET,
+        environment: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
+    });
 };
 
 // Función para procesar el pago de PayPal
@@ -454,7 +452,7 @@ const procesarPagoPaypal = async (req, res) => {
         const detallesPago = response.result;
 
         // Obtener el ID de la cotización del cuerpo de la solicitud
-        const cotizacionId = req.params.id; // Cambia esto según cómo obtengas el ID
+        const cotizacionId = req.params.id; // Asegúrate de que esta línea esté correctamente configurada
         const cotizacion = await Cotizacion.findById(cotizacionId);
 
         if (!cotizacion) {
@@ -486,4 +484,5 @@ const procesarPagoPaypal = async (req, res) => {
 // Ruta para manejar el pago de PayPal
 router.post('/vercotizaciones/paypal/payment/:id', procesarPagoPaypal); 
 
+// Exportar el router
 module.exports = router;

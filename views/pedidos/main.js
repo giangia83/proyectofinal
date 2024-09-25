@@ -73,7 +73,7 @@ function initPaypalButtons() {
             },
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    return fetch('vercotizaciones/paypal/payment', {
+                    return fetch('/vercotizaciones/paypal/payment', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
