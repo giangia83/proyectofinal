@@ -68,12 +68,11 @@ function loadCotizacionDetails(id) {
       });
 
       document.getElementById('totalPrecio').innerText = total.toFixed(2);
-      // Enviar el total al servidor al cargar los detalles
-      enviarTotalAlServidor(cotizacion._id, total);
+    
+  
     })
     .catch(error => console.error('Error al cargar los detalles de la cotización:', error));
 }
-
 function actualizarSubtotal(input) {
   const valor = input.value.replace(',', '.');
   const precioUnitario = parseFloat(valor);
@@ -87,7 +86,7 @@ function actualizarSubtotal(input) {
 function calcularTotal() {
   let total = 0;
   document.querySelectorAll('.subtotal').forEach(element => {
-    total += parseFloat(element.innerText) || 0;
+    total += parseFloat(element.innerText) || 0; // Convierte a número
   });
   document.getElementById('totalPrecio').innerText = total.toFixed(2);
   enviarTotalAlServidor(document.getElementById('cotizacionId').value, total); // Envía el total al servidor
@@ -100,7 +99,7 @@ function enviarTotalAlServidor(cotizacionId, total) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ total: total }), // Envía el total como un número
+      body: JSON.stringify({ total: Number(total) }), // Asegúrate de que total es un número
     })
     .then(response => {
       if (!response.ok) {
@@ -117,13 +116,12 @@ function enviarTotalAlServidor(cotizacionId, total) {
   }
 }
 
-
 function descargarPDF(idCotizacion) {
   window.location.href = `/vercotizaciones/pdf/${idCotizacion}`;
 }
-
 function verificarCotizacion() {
   const cotizacionId = document.getElementById('cotizacionId').value;
+  const total = parseFloat(document.getElementById('totalPrecio').innerText); // Obtener el total actual
 
   if (!cotizacionId) {
     alert('No se ha seleccionado ninguna cotización.');
@@ -141,6 +139,10 @@ function verificarCotizacion() {
     })
     .then(data => {
       alert(data.message);
+
+      // Aquí llamas a enviarTotalAlServidor para enviar el total al servidor después de verificar la cotización
+      enviarTotalAlServidor(cotizacionId, total); 
+
       const modal = document.getElementById('cotizacionModal');
       if (modal) {
         modal.classList.remove('show');
@@ -157,6 +159,7 @@ function verificarCotizacion() {
       alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
     });
 }
+
 // Función para aprobar el pago
 function aprobarPago(cotizacionId) {
   fetch(`/vercotizaciones/aprobarPago/${cotizacionId}`, {

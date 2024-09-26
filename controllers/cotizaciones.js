@@ -30,12 +30,16 @@ router.get('/vercotizaciones', async (req, res) => {
         res.status(500).send('Error interno al obtener cotizaciones');
     }
 });
-
 router.post('/vercotizaciones/actualizarTotal/:id', async (req, res) => {
     const { id } = req.params;
     const { total } = req.body;
 
     try {
+        // Verifica que el total sea un número
+        if (typeof total !== 'number') {
+            return res.status(400).json({ message: 'El total debe ser un número' });
+        }
+
         // Supongamos que tienes un modelo de Cotizacion
         const cotizacion = await Cotizacion.findById(id);
         if (!cotizacion) {
