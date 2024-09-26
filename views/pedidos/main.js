@@ -73,15 +73,17 @@ function initPaypalButtons() {
             },
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    return fetch(`/vercotizaciones/paypal/payment/${cotizacionId}`, {  // Usar el ID aquí
+                    return fetch(`/paypal/payment`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            orderID: data.orderID  // El ID de la orden de PayPal
+                            orderID: data.orderID,
+                            cotizacionId: cotizacionId  // Enviar también el ID de la cotización si lo necesitas
                         })
                     })
+                    
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Error en la respuesta del servidor');
