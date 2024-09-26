@@ -97,7 +97,7 @@ fetch(`/vercotizaciones/${cotizacionId}`)
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        amount: total.toFixed(2) // Convierte a número y formatea
+                        amount: total
                     })
                 })
                 .then(response => {
