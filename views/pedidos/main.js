@@ -63,27 +63,37 @@ function initPaypalButtons() {
 
         paypal.Buttons({
             createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: '100.00'  // Ajusta con el monto dinámico de tu producto
-                        }
-                    }]
+                // Crear la orden y devolver el orderID
+                return fetch('/paypal/create-order', {  // Cambiado a la ruta para crear la orden
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: '100.00'  // Ajusta con el monto dinámico de tu producto
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al crear la orden');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    return data.orderID;  // Devolver el orderID de la respuesta
                 });
             },
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    return fetch(`/paypal/payment`, {
+                    return fetch(`/paypal/payment`, {  // Usar la ruta para capturar el pago
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            orderID: data.orderID,
-                            cotizacionId: cotizacionId  // Enviar también el ID de la cotización si lo necesitas
+                            orderID: data.orderID  // El ID de la orden de PayPal
                         })
                     })
-                    
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Error en la respuesta del servidor');
