@@ -88,7 +88,7 @@ function initPaypalButtons() {
                     // Configurar PayPal
                     paypal.Buttons({
                         createOrder: function(data, actions) {
-                            console.log('Monto a pagar:', detallesPago.monto);
+                       
                             return fetch('/paypal/create-order', {
                                 method: 'POST',
                                 headers: {
