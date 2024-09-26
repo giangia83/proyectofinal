@@ -37,7 +37,6 @@ function loadUserDetails(userId) {
     })
     .catch(error => console.error('Error:', error));
 }
-
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
     .then(response => response.json())
@@ -58,7 +57,9 @@ function loadCotizacionDetails(id) {
         fila.innerHTML = `
           <td>${producto.productoId.nombre}</td>
           <td>${producto.cantidad}</td>
-          <td>${producto.productoId.precio}</td>
+          <td>
+            <input type="number" value="${producto.productoId.precio}" onchange="actualizarSubtotal(this)" />
+          </td>
           <td><span class="subtotal">${(producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0).toFixed(2)}</span></td>
         `;
         productosTableBody.appendChild(fila);
@@ -67,6 +68,8 @@ function loadCotizacionDetails(id) {
       });
 
       document.getElementById('totalPrecio').innerText = total.toFixed(2);
+      // Enviar el total al servidor al cargar los detalles
+      enviarTotalAlServidor(cotizacion._id, total);
     })
     .catch(error => console.error('Error al cargar los detalles de la cotización:', error));
 }
@@ -78,52 +81,42 @@ function actualizarSubtotal(input) {
   const subtotal = precioUnitario * cantidad;
 
   input.closest('tr').querySelector('.subtotal').innerText = subtotal.toFixed(2);
-
   calcularTotal(); // Asegúrate de que esta función esté actualizando el total
 }
+
 function calcularTotal() {
-    let total = 0;
-    document.querySelectorAll('.subtotal').forEach(element => {
-        total += parseFloat(element.innerText) || 0;
-    });
-    document.getElementById('totalPrecio').innerText = total.toFixed(2);
-// Enviar el total al servidor
-const cotizacionId = document.getElementById('cotizacionId').value;
-if (cotizacionId) {
+  let total = 0;
+  document.querySelectorAll('.subtotal').forEach(element => {
+    total += parseFloat(element.innerText) || 0;
+  });
+  document.getElementById('totalPrecio').innerText = total.toFixed(2);
+  enviarTotalAlServidor(document.getElementById('cotizacionId').value, total); // Envía el total al servidor
+}
+
+function enviarTotalAlServidor(cotizacionId, total) {
+  if (cotizacionId) {
     fetch(`/vercotizaciones/actualizarTotal/${cotizacionId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ total: total }), // Envía el total como un número
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ total: total }), // Envía el total como un número
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al actualizar el total en el servidor');
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error('Error al actualizar el total en el servidor');
+      }
+      return response.json();
     })
     .then(data => {
-        console.log('Total actualizado en el servidor:', data);
+      console.log('Total actualizado en el servidor:', data);
     })
     .catch(error => {
-        console.error('Error al enviar el total:', error);
+      console.error('Error al enviar el total:', error);
     });
+  }
 }
 
-}
-
-
-function actualizarSubtotales() {
-  const filas = document.querySelectorAll('#productosTableBody tr');
-  filas.forEach(fila => {
-    const cantidad = parseFloat(fila.querySelector('td:nth-child(2)').innerText);
-    const input = fila.querySelector('input[type="number"]');
-    const precioUnitario = parseFloat(input.value.replace(',', '.')) || 0;
-    const subtotal = precioUnitario * cantidad;
-    fila.querySelector('.subtotal').innerText = subtotal.toFixed(2);
-  });
-}
 
 function descargarPDF(idCotizacion) {
   window.location.href = `/vercotizaciones/pdf/${idCotizacion}`;
