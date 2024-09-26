@@ -43,7 +43,7 @@ const cotizacionSchema = new mongoose.Schema({
     },
     total: {
         type: Number,
-        default: 0 // Inicializa el total en 0
+        default: 1 // Inicializa el total en 1
     }
 }, );
 

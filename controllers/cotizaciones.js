@@ -43,7 +43,7 @@ router.post('/vercotizaciones/actualizarTotal/:id', async (req, res) => {
         }
 
         // Actualiza el total en el modelo
-        cotizacion.total = total; // Asegúrate de que el campo 'total' exista en tu modelo
+        cotizacion.total = total; 
         await cotizacion.save();
 
         res.status(200).json({ message: 'Total actualizado correctamente' });
