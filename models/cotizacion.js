@@ -40,8 +40,14 @@ const cotizacionSchema = new mongoose.Schema({
         numeroCuenta: { type: String },
         monto: { type: Number },
         fechaPago: { type: Date },
-       
     },
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+// Método virtual para calcular el total
+cotizacionSchema.virtual('total').get(function() {
+    return this.productos.reduce((sum, producto) => {
+        return sum + (producto.precio * producto.cantidad);
+    }, 0);
 });
 
 const Cotizacion = mongoose.model('Cotizacion', cotizacionSchema);
