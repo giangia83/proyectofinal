@@ -95,9 +95,11 @@ function initPaypalButtons() {
                                 },
                                 body: JSON.stringify({
                                     amount: {
-                                        value: amount.toFixed(2) // Asegúrate de que amount es un número
+                                        value: amount.toFixed(2), 
+                                        currency: "USD" 
                                     }
                                 })
+                                
                             })
                             .then(response => {
                                 if (!response.ok) {
