@@ -31,26 +31,25 @@ router.get('/vercotizaciones', async (req, res) => {
     }
 });
 
-router.post('/vercotizaciones/actualizarTotal/:id', async (req, res) => {
+app.post('/vercotizaciones/actualizarTotal/:id', async (req, res) => {
+    const { id } = req.params;
+    const { total } = req.body;
+
     try {
-        const cotizacionId = req.params.id;
-        const { total } = req.body; // Asegúrate de que estás recibiendo el total
-
-        // Encuentra la cotización y actualiza el total
-        const cotizacion = await Cotizacion.findByIdAndUpdate(
-            cotizacionId,
-            { total }, // Actualiza el total en el documento
-            { new: true } // Retorna el documento actualizado
-        );
-
+        // Supongamos que tienes un modelo de Cotizacion
+        const cotizacion = await Cotizacion.findById(id);
         if (!cotizacion) {
-            return res.status(404).json({ error: 'Cotización no encontrada' });
+            return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
-        res.json({ message: 'Total actualizado correctamente', cotizacion });
+        // Actualiza el total en el modelo
+        cotizacion.total = total; // Asegúrate de que el campo 'total' exista en tu modelo
+        await cotizacion.save();
+
+        res.status(200).json({ message: 'Total actualizado correctamente' });
     } catch (error) {
-        console.error('Error al actualizar el total:', error);
-        res.status(500).json({ error: 'Error al actualizar el total' });
+        console.error(error);
+        res.status(500).json({ message: 'Error al actualizar el total' });
     }
 });
 
