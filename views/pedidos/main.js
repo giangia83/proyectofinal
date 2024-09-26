@@ -90,7 +90,8 @@ function initPaypalButtons() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        orderID: data.orderID  // El ID de la orden de PayPal
+                        orderID: data.orderID,  // El ID de la orden de PayPal
+                        cotizacionId: cotizacionId  // Incluir el ID de la cotización
                     })
                 })
                 .then(response => {

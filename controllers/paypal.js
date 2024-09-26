@@ -40,14 +40,19 @@ router.post('/create-order', async (req, res) => {
 });
 // Ruta para capturar el pago
 router.post('/payment', async (req, res) => {
+  console.log('Recibiendo solicitud de pago');
+  
   const { orderID, cotizacionId } = req.body; // Obtener el ID de la orden y el ID de la cotización del cuerpo de la solicitud
+  console.log(`orderID: ${orderID}, cotizacionId: ${cotizacionId}`);
 
   // Validar la entrada
   if (!orderID || !cotizacionId) {
+      console.log('Faltan datos en la solicitud');
       return res.status(400).json({ error: 'El ID de la orden y el ID de la cotización son obligatorios.' });
   }
 
   try {
+      console.log('Capturando el pago');
       // Capturar el pago
       const { data: detallesPago } = await axios.post(`https://api.sandbox.paypal.com/v2/checkout/orders/${orderID}/capture`, {}, {
           auth: {
@@ -56,9 +61,12 @@ router.post('/payment', async (req, res) => {
           }
       });
 
+      console.log('Pago capturado:', detallesPago);
+
       // Obtener la cotización
       const cotizacion = await Cotizacion.findById(cotizacionId);
       if (!cotizacion) {
+          console.log('Cotización no encontrada');
           return res.status(404).json({ error: 'Cotización no encontrada' });
       }
 
@@ -72,6 +80,7 @@ router.post('/payment', async (req, res) => {
       };
 
       await cotizacion.save();
+      console.log('Cotización actualizada con éxito');
 
       // Devolver la respuesta
       res.status(200).json({
