@@ -88,13 +88,17 @@ function initPaypalButtons() {
                     // Configurar PayPal
                     paypal.Buttons({
                         createOrder: function(data, actions) {
+                            console.log('Monto a pagar:', detallesPago.monto);
                             return fetch('/paypal/create-order', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                    amount: amount.toString() // Usar el monto dinámico de la cotización
+                                    amount: {
+                                        value: detallesPago.monto.toFixed(2).toString()
+                                    }
+                                    
                                 })
                             })
                             .then(response => {
