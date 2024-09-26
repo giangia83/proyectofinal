@@ -425,17 +425,21 @@ router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
 
   const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
 
-  // Configura tu entorno de PayPal (sandbox o live)
   const environment = () => {
-      const clientId = process.env.PAYPAL_CLIENT_ID;
-      const clientSecret = process.env.PAYPAL_SECRET;
-      if (process.env.NODE_ENV === 'production') {
-          return new checkoutNodeJssdk.core.LiveEnvironment(clientId, clientSecret);
-      } else {
-          return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
-      }
-  };
-  
+    const clientId = process.env.PAYPAL_CLIENT_ID;
+    const clientSecret = process.env.PAYPAL_SECRET;
+
+    if (!clientId || !clientSecret) {
+        throw new Error('PayPal Client ID o Secret no están configurados.');
+    }
+
+    if (process.env.NODE_ENV === 'sandbox') {
+        return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
+    } else {
+        return new checkoutNodeJssdk.core.LiveEnvironment(clientId, clientSecret);
+    }
+};
+
   // Configura tu cliente de PayPal
   const client = () => {
       return new checkoutNodeJssdk.core.PayPalHttpClient(environment());
