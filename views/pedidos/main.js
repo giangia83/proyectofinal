@@ -57,9 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializa los botones de PayPal
     initPaypalButtons();
 });
-// Función para inicializar los botones de PayPal
-function initPaypalButtons(cotizacionId) {
-    document.querySelectorAll('[id^="paypal-button-container"]').forEach((container, index) => {
+function initPaypalButtons() {
+    document.querySelectorAll('[id^="paypal-button-container"]').forEach((container) => {
+        const cotizacionId = container.getAttribute('data-cotizacion-id'); // Obtener el ID de la cotización
+
         paypal.Buttons({
             createOrder: function(data, actions) {
                 return actions.order.create({
@@ -72,7 +73,7 @@ function initPaypalButtons(cotizacionId) {
             },
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    return fetch(`/vercotizaciones/paypal/payment/${cotizacionId}`, {  // Aquí se incluye el ID
+                    return fetch(`/vercotizaciones/paypal/payment/${cotizacionId}`, {  // Usar el ID aquí
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -96,6 +97,6 @@ function initPaypalButtons(cotizacionId) {
                     });
                 });
             }
-        }).render(`#paypal-button-container${index}`);
+        }).render(`#paypal-button-container${container.getAttribute('id').match(/\d+/)[0]}`);
     });
 }

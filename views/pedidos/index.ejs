@@ -99,7 +99,8 @@
                                 
                                     <div class="modal-body">
                                         
-                                        <div id="paypal-button-container<%= index %>"></div>
+                                        <div id="paypal-button-container<%= index %>" data-cotizacion-id="<%= cotizacion._id %>"></div>
+
 
                                         <form action="/vercotizaciones/pagar/<%= cotizacion._id %>" method="POST">
                                             <div class="mb-3">
