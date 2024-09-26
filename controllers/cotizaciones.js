@@ -421,7 +421,9 @@ router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
     }
   });
   
-
+  console.log('PAYPAL_CLIENT_ID:', process.env.PAYPAL_CLIENT_ID);
+  console.log('PAYPAL_SECRET:', process.env.PAYPAL_SECRET);
+  
 
   const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
 
