@@ -84,31 +84,30 @@ function initPaypalButtons() {
                 });
             },
             onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    return fetch(`/paypal/payment`, {  // Usar la ruta para capturar el pago
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            orderID: data.orderID  // El ID de la orden de PayPal
-                        })
+                return fetch(`/paypal/payment`, {  // Usar la ruta para capturar el pago
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderID: data.orderID  // El ID de la orden de PayPal
                     })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error en la respuesta del servidor');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        alert('Pago completado. ID de la transacción: ' + data.id);
-                    })
-                    .catch(error => {
-                        console.error('Error al completar el pago:', error);
-                        alert('Ocurrió un error durante el pago con PayPal.');
-                    });
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Pago completado. ID de la transacción: ' + data.id);
+                })
+                .catch(error => {
+                    console.error('Error al completar el pago:', error);
+                    alert('Ocurrió un error durante el pago con PayPal.');
                 });
             }
+            
         }).render(`#paypal-button-container${container.getAttribute('id').match(/\d+/)[0]}`);
     });
 }
