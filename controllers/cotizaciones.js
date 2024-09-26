@@ -57,7 +57,6 @@ router.post('/vercotizaciones/actualizarTotal/:id', async (req, res) => {
     }
 });
 
-
 router.get('/vercotizaciones/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -70,23 +69,17 @@ router.get('/vercotizaciones/:id', async (req, res) => {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
-        // Calcular el total basado en los productos
-        const total = cotizacion.productos.reduce((acc, producto) => {
-            return acc + (producto.precio * producto.cantidad); // Asegúrate de que estos campos existen en Producto
-        }, 0);
-
-        const { detallesPago } = cotizacion;
-
+        // Devuelve la cotización junto con el total almacenado
         res.json({
             ...cotizacion._doc,
-            detallesPago,
-            total: total.toFixed(2) // Formatear el total aquí
+            total: cotizacion.total // Asegúrate de que 'total' se almacena en la cotización
         });
     } catch (error) {
         console.error('Error al obtener cotización:', error);
         res.status(500).json({ message: 'Error interno al obtener cotización' });
     }
 });
+
 
 
 
