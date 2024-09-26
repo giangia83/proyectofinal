@@ -63,8 +63,7 @@ function initPaypalButtons() {
 
         paypal.Buttons({
             createOrder: function(data, actions) {
-                // Crear la orden y devolver el orderID
-                return fetch('/paypal/create-order', {  // Cambiado a la ruta para crear la orden
+                return fetch('/paypal/create-order', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -84,7 +83,7 @@ function initPaypalButtons() {
                 });
             },
             onApprove: function(data, actions) {
-                return fetch(`/paypal/payment`, {  // Usar la ruta para capturar el pago
+                return fetch(`/paypal/payment`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -101,14 +100,15 @@ function initPaypalButtons() {
                     return response.json();
                 })
                 .then(data => {
-                    alert('Pago completado. ID de la transacción: ' + data.id);
+                    // Mostrar el modal de éxito
+                    const modal = new bootstrap.Modal(document.getElementById('paymentSuccessModal'));
+                    modal.show();
                 })
                 .catch(error => {
                     console.error('Error al completar el pago:', error);
                     alert('Ocurrió un error durante el pago con PayPal.');
                 });
             }
-            
         }).render(`#paypal-button-container${container.getAttribute('id').match(/\d+/)[0]}`);
     });
 }

@@ -69,9 +69,9 @@ router.post('/payment', async (req, res) => {
     }
 
     // Actualizar el estado de la cotización
-    cotizacion.estado = 'Pagado';
+    cotizacion.estado = 'Pagado con paypal. Esperando confirmación.';
     cotizacion.pago = {
-        monto: detallesPago.purchase_units[0].payments.captures[0].amount.value, // Corregido aquí
+        monto: detallesPago.purchase_units[0].payments.captures[0].amount.value,
         metodo: 'PayPal',
         fechaPago: new Date(),
         idTransaccion: detallesPago.id
