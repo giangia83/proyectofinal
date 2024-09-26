@@ -41,13 +41,16 @@ const cotizacionSchema = new mongoose.Schema({
         monto: { type: Number },
         fechaPago: { type: Date },
     },
+    total: {
+        type: Number,
+        default: 0 // Inicializa el total en 0
+    }
 }, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
-// Método virtual para calcular el total
-cotizacionSchema.virtual('total').get(function() {
-    return this.productos.reduce((sum, producto) => {
-        return sum + (producto.precio * producto.cantidad);
-    }, 0);
+// Middleware para actualizar el total antes de guardar
+cotizacionSchema.pre('save', function(next) {
+    // Aquí puedes asegurarte de que el total esté actualizado
+    next();
 });
 
 const Cotizacion = mongoose.model('Cotizacion', cotizacionSchema);

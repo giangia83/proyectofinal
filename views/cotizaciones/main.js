@@ -81,14 +81,38 @@ function actualizarSubtotal(input) {
 
   calcularTotal(); // Asegúrate de que esta función esté actualizando el total
 }
-
 function calcularTotal() {
   let total = 0;
   document.querySelectorAll('.subtotal').forEach(element => {
-    total += parseFloat(element.innerText) || 0;
+      total += parseFloat(element.innerText) || 0;
   });
   document.getElementById('totalPrecio').innerText = total.toFixed(2);
+
+  // Enviar el total al servidor
+  const cotizacionId = document.getElementById('cotizacionId').value;
+  if (cotizacionId) {
+      fetch(`/vercotizaciones/actualizarTotal/${cotizacionId}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ total: total.toFixed(2) }), // Envía el total como un string
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Error al actualizar el total en el servidor');
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log('Total actualizado en el servidor:', data);
+      })
+      .catch(error => {
+          console.error('Error al enviar el total:', error);
+      });
+  }
 }
+
 
 function actualizarSubtotales() {
   const filas = document.querySelectorAll('#productosTableBody tr');

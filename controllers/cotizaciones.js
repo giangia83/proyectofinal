@@ -31,6 +31,30 @@ router.get('/vercotizaciones', async (req, res) => {
     }
 });
 
+app.post('/vercotizaciones/actualizarTotal/:id', async (req, res) => {
+    try {
+        const cotizacionId = req.params.id;
+        const { total } = req.body; // Asegúrate de que estás recibiendo el total
+
+        // Encuentra la cotización y actualiza el total
+        const cotizacion = await Cotizacion.findByIdAndUpdate(
+            cotizacionId,
+            { total }, // Actualiza el total en el documento
+            { new: true } // Retorna el documento actualizado
+        );
+
+        if (!cotizacion) {
+            return res.status(404).json({ error: 'Cotización no encontrada' });
+        }
+
+        res.json({ message: 'Total actualizado correctamente', cotizacion });
+    } catch (error) {
+        console.error('Error al actualizar el total:', error);
+        res.status(500).json({ error: 'Error al actualizar el total' });
+    }
+});
+
+
 router.get('/vercotizaciones/:id', async (req, res) => {
     const { id } = req.params;
 
