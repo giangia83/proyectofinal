@@ -56,7 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializa los botones de PayPal
     initPaypalButtons();
-});function initPaypalButtons() {
+});
+
+function initPaypalButtons() {
     document.querySelectorAll('[id^="paypal-button-container"]').forEach((container) => {
         const cotizacionId = container.getAttribute('data-cotizacion-id'); // Obtener el ID de la cotización
 
@@ -69,10 +71,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(cotizacion => {
-                const total = cotizacion.total; // Obtener el total calculado de la cotización
+                const total = parseFloat(cotizacion.total); // Obtener el total calculado de la cotización y convertirlo a número
 
                 // Verifica si el total está disponible y es válido
-                if (total == null || total <= 0) {
+                if (isNaN(total) || total <= 0) {
                     // Deshabilitar el botón de PayPal y agregar el tooltip
                     const buttonContainer = document.getElementById(`paypal-button-container${container.getAttribute('id').match(/\d+/)[0]}`);
                     buttonContainer.innerHTML = ''; // Limpiar el contenedor
@@ -98,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         currency: "USD" 
                                     }
                                 })
-                                
                             })
                             .then(response => {
                                 if (!response.ok) {
