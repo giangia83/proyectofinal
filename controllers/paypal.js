@@ -50,66 +50,64 @@ router.post('/payment', async (req, res) => {
       console.log('Faltan datos en la solicitud');
       return res.status(400).json({ error: 'El ID de la orden y el ID de la cotización son obligatorios.' });
   }
-
   try {
-      console.log('Capturando el pago');
-      // Capturar el pago
-      const { data: detallesPago } = await axios.post(`https://api.sandbox.paypal.com/v2/checkout/orders/${orderID}/capture`, {}, {
-          auth: {
-              username: process.env.PAYPAL_CLIENT_ID,
-              password: process.env.PAYPAL_SECRET
-          }
-      });
+    // Capturar el pago
+    const { data: detallesPago } = await axios.post(`https://api.sandbox.paypal.com/v2/checkout/orders/${orderID}/capture`, {}, {
+        auth: {
+            username: process.env.PAYPAL_CLIENT_ID,
+            password: process.env.PAYPAL_SECRET
+        }
+    });
 
-      console.log('Pago capturado:', detallesPago);
+    // Log para ver la respuesta completa
+    console.log('Pago capturado:', detallesPago);
 
-      // Obtener la cotización
-      const cotizacion = await Cotizacion.findById(cotizacionId);
-      if (!cotizacion) {
-          console.log('Cotización no encontrada');
-          return res.status(404).json({ error: 'Cotización no encontrada' });
-      }
+    // Obtener la cotización
+    const cotizacion = await Cotizacion.findById(cotizacionId);
+    if (!cotizacion) {
+        return res.status(404).json({ error: 'Cotización no encontrada' });
+    }
 
-      // Actualizar el estado de la cotización
-      cotizacion.estado = 'Pagado';
-      cotizacion.pago = {
-          monto: detallesPago.purchase_units[0].amount.value,
-          metodo: 'PayPal',
-          fechaPago: new Date(),
-          idTransaccion: detallesPago.id
-      };
+    // Actualizar el estado de la cotización
+    cotizacion.estado = 'Pagado';
+    cotizacion.pago = {
+        monto: detallesPago.purchase_units[0].payments.captures[0].amount.value, // Corregido aquí
+        metodo: 'PayPal',
+        fechaPago: new Date(),
+        idTransaccion: detallesPago.id
+    };
 
-      await cotizacion.save();
-      console.log('Cotización actualizada con éxito');
+    await cotizacion.save();
 
-      // Devolver la respuesta
-      res.status(200).json({
-          message: 'Pago completado con éxito',
-          id: detallesPago.id
-      });
-  } catch (error) {
-      console.error('Error al capturar el pago:', error);
-      
-      const status = error.response ? error.response.status : 500;
-      const errorCode = error.response?.data?.name;
-      let errorMessage;
+    // Devolver la respuesta
+    res.status(200).json({
+        message: 'Pago completado con éxito',
+        id: detallesPago.id
+    });
+} catch (error) {
+    console.error('Error al capturar el pago:', error);
 
-      switch (errorCode) {
-          case 'ORDER_ALREADY_CAPTURED':
-              errorMessage = 'El pago ya ha sido capturado.';
-              break;
-          case 'ORDER_NOT_APPROVED':
-              errorMessage = 'La orden no ha sido aprobada.';
-              break;
-          case 'UNPROCESSABLE_ENTITY':
-              errorMessage = 'La acción solicitada no se pudo realizar, semánticamente incorrecta o falló la validación empresarial.';
-              break;
-          default:
-              errorMessage = error.response?.data?.message || 'Error al capturar el pago.';
-      }
+    const status = error.response ? error.response.status : 500;
+    const errorCode = error.response?.data?.name;
+    let errorMessage;
 
-      res.status(status).json({ error: errorMessage });
-  }
+    switch (errorCode) {
+        case 'ORDER_ALREADY_CAPTURED':
+            errorMessage = 'El pago ya ha sido capturado.';
+            break;
+        case 'ORDER_NOT_APPROVED':
+            errorMessage = 'La orden no ha sido aprobada.';
+            break;
+        case 'UNPROCESSABLE_ENTITY':
+            errorMessage = 'La acción solicitada no se pudo realizar, semánticamente incorrecta o falló la validación empresarial.';
+            break;
+        default:
+            errorMessage = error.response?.data?.message || 'Error al capturar el pago.';
+    }
+
+    res.status(status).json({ error: errorMessage });
+}
+
 });
 
 // Exportar el router
