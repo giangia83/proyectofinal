@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-router.post('/paypal/payment', async (req, res) => {
+router.post('/payment', async (req, res) => {
   const orderID = req.body.orderID;
   const cotizacionId = req.body.cotizacionId;  // Captura el ID de la cotización si lo envías
 
