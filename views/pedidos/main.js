@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializa los botones de PayPal
     initPaypalButtons();
 });
-
 function initPaypalButtons() {
     document.querySelectorAll('[id^="paypal-button-container"]').forEach((container) => {
         const cotizacionId = container.getAttribute('data-cotizacion-id'); // Obtener el ID de la cotización
@@ -71,11 +70,12 @@ function initPaypalButtons() {
                 return response.json();
             })
             .then(cotizacion => {
-                const amount = cotizacion.detallesPago.monto; // Obtener el monto del objeto detallesPago
-                const buttonContainer = document.getElementById(`paypal-button-container${container.getAttribute('id').match(/\d+/)[0]}`);
-                
-                if (amount <= 0) {
+                const amount = cotizacion.detallesPago?.monto; // Obtener el monto del objeto detallesPago
+
+                // Verifica si el monto está disponible
+                if (amount == null || amount <= 0) {
                     // Deshabilitar el botón de PayPal y agregar el tooltip
+                    const buttonContainer = document.getElementById(`paypal-button-container${container.getAttribute('id').match(/\d+/)[0]}`);
                     buttonContainer.innerHTML = ''; // Limpiar el contenedor
                     const disabledButton = document.createElement('button');
                     disabledButton.textContent = 'Pagar con PayPal';
@@ -88,7 +88,6 @@ function initPaypalButtons() {
                     // Configurar PayPal
                     paypal.Buttons({
                         createOrder: function(data, actions) {
-                       
                             return fetch('/paypal/create-order', {
                                 method: 'POST',
                                 headers: {
@@ -96,9 +95,8 @@ function initPaypalButtons() {
                                 },
                                 body: JSON.stringify({
                                     amount: {
-                                        value: detallesPago.monto.toFixed(2).toString()
+                                        value: amount.toFixed(2) // Asegúrate de que amount es un número
                                     }
-                                    
                                 })
                             })
                             .then(response => {
@@ -138,7 +136,7 @@ function initPaypalButtons() {
                                 alert('Ocurrió un error durante el pago con PayPal.');
                             });
                         }
-                    }).render(buttonContainer);
+                    }).render(container); // Renderizar el botón en el contenedor correcto
                 }
             })
             .catch(error => {

@@ -31,10 +31,9 @@ router.get('/vercotizaciones', async (req, res) => {
     }
 });
 
-
-// Ruta para obtener detalles de una cotización específica
 router.get('/vercotizaciones/:id', async (req, res) => {
     const { id } = req.params;
+
     try {
         const cotizacion = await Cotizacion.findById(id)
             .populate('productos')
@@ -44,18 +43,24 @@ router.get('/vercotizaciones/:id', async (req, res) => {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
-        // Asegúrate de que el campo detallesPago esté presente
+        // Calcular el total basado en los productos
+        const total = cotizacion.productos.reduce((acc, producto) => {
+            return acc + (producto.precio * producto.cantidad); // Asegúrate de que estos campos existen en Producto
+        }, 0);
+
         const { detallesPago } = cotizacion;
 
         res.json({
-            ...cotizacion._doc, // Esto incluye todos los campos de la cotización
-            detallesPago // Asegúrate de incluir detallesPago
+            ...cotizacion._doc,
+            detallesPago,
+            total: total.toFixed(2) // Formatear el total aquí
         });
     } catch (error) {
         console.error('Error al obtener cotización:', error);
         res.status(500).json({ message: 'Error interno al obtener cotización' });
     }
 });
+
 
 
 // Ruta para eliminar una cotización
