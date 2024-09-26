@@ -31,7 +31,7 @@ router.get('/vercotizaciones', async (req, res) => {
     }
 });
 
-app.post('/vercotizaciones/actualizarTotal/:id', async (req, res) => {
+router.post('/vercotizaciones/actualizarTotal/:id', async (req, res) => {
     try {
         const cotizacionId = req.params.id;
         const { total } = req.body; // Asegúrate de que estás recibiendo el total
