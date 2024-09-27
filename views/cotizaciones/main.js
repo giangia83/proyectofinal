@@ -117,8 +117,23 @@ function enviarTotalAlServidor(cotizacionId, total) {
 }
 
 function descargarPDF(idCotizacion) {
+  if (!idCotizacion) {
+      console.error('ID de cotización no válido');
+      return;
+  }
+
+  // Mostrar un mensaje o spinner mientras se descarga el PDF
+  const spinner = document.getElementById('spinner'); // Asume que tienes un spinner en tu HTML
+  if (spinner) spinner.style.display = 'block';
+
   window.location.href = `/vercotizaciones/pdf/${idCotizacion}`;
+
+  // Después de un tiempo estimado o cuando se complete la descarga, ocultar el spinner
+  setTimeout(() => {
+      if (spinner) spinner.style.display = 'none';
+  }, 3000); // Esto depende de cuánto tiempo esperes que tome la descarga
 }
+
 function verificarCotizacion() {
   const cotizacionId = document.getElementById('cotizacionId').value;
   const total = parseFloat(document.getElementById('totalPrecio').innerText); // Obtener el total actual

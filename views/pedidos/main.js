@@ -67,8 +67,8 @@ function initPaypalButtons() {
     document.querySelectorAll('[id^="paypal-button-container"]').forEach((container) => {
         const cotizacionId = container.getAttribute('data-cotizacion-id'); // Obtener el ID de la cotización
 
-        // Fetch la cotización para obtener el monto total
-     // Fetch la cotización para obtener el monto total
+      
+  
 fetch(`/vercotizaciones/${cotizacionId}`)
 .then(response => {
     if (!response.ok) {
@@ -81,16 +81,16 @@ fetch(`/vercotizaciones/${cotizacionId}`)
 
     // Verifica si el total está disponible y es válido
     if (isNaN(total) || total <= 0) {
-        console.warn('Total inválido:', cotizacion.total); // Log para depuración
+        console.warn('Total inválido:', cotizacion.total); 
         // Deshabilitar el botón de PayPal y agregar el tooltip
         const buttonContainer = document.getElementById(`paypal-button-container${container.getAttribute('id').match(/\d+/)[0]}`);
         buttonContainer.innerHTML = ''; // Limpiar el contenedor
         const disabledButton = document.createElement('button');
         disabledButton.textContent = 'Pagar con PayPal';
-        disabledButton.className = 'btn btn-secondary'; // Cambia esto al estilo deseado
+        disabledButton.className = 'btn btn-secondary'; 
         disabledButton.disabled = true;
         disabledButton.title = 'Esperando monto de cotización';
-        disabledButton.style.cursor = 'not-allowed'; // Cambia el cursor para indicar que está deshabilitado
+        disabledButton.style.cursor = 'not-allowed'; 
         buttonContainer.appendChild(disabledButton);
     } else {
         // Configurar PayPal

@@ -181,9 +181,123 @@ async function enviarCorreoPagoConfirmadoAdmin(cotizacion) {
 }
 
 
+async function enviarCorreoPagoAprobadoUsuario(cotizacion) {
+    try {
+        const usuario = await Usuario.findById(cotizacion.usuarioId);
+        if (!usuario) throw new Error('Usuario no encontrado');
+
+        const mailOptionsUsuario = {
+            from: process.env.EMAIL_USER,
+            to: usuario.correo,
+            subject: 'Tu pago ha sido aprobado',
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+                    <header style="text-align: center; padding-bottom: 20px;">
+                        <h1 style="color: #E53935;">Tu pago ha sido aprobado</h1>
+                        <p style="font-size: 16px; color: #555;">Hola ${usuario.nombre},</p>
+                    </header>
+                    
+                    <section>
+                        <p style="font-size: 16px; color: #555;">Nos complace informarte que tu pago para la cotización con ID: ${cotizacion._id} ha sido aprobado.</p>
+                        <h4>Detalles de la cotización:</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                            <thead>
+                                <tr style="background-color: #E53935; color: #fff;">
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Producto</th>
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Categoría</th>
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${cotizacion.productos.map(producto => `
+                                    <tr>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.nombre}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.categoria}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.cantidad}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        <p style="font-size: 16px; color: #555;"><strong>Total:</strong> $${cotizacion.total}</p>
+                    </section>
+        
+                    <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <p style="font-size: 14px; color: #999;">Saludos cordiales,<br>Starclean C.A - Miranda, Guatire</p>
+                    </footer>
+                </div>
+            `
+        };
+
+        await transporter.sendMail(mailOptionsUsuario);
+        console.log('Correo al usuario enviado exitosamente');
+    } catch (error) {
+        console.error('Error al enviar el correo al usuario:', error);
+        throw new Error('Error al enviar el correo al usuario');
+    }
+}
+
+async function enviarCorreoPagoRechazadoUsuario(cotizacion) {
+    try {
+        const usuario = await Usuario.findById(cotizacion.usuarioId);
+        if (!usuario) throw new Error('Usuario no encontrado');
+
+        const mailOptionsUsuario = {
+            from: process.env.EMAIL_USER,
+            to: usuario.correo,
+            subject: 'Tu pago ha sido rechazado',
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+                    <header style="text-align: center; padding-bottom: 20px;">
+                        <h1 style="color: #E53935;">Tu pago ha sido rechazado</h1>
+                        <p style="font-size: 16px; color: #555;">Hola ${usuario.nombre},</p>
+                    </header>
+                    
+                    <section>
+                        <p style="font-size: 16px; color: #555;">Lamentablemente, tu pago para la cotización con ID: ${cotizacion._id} ha sido rechazado. Por favor, revisa los detalles de tu cotización y vuelve a intentar realizar el pago.</p>
+                        <h4>Detalles de la cotización:</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                            <thead>
+                                <tr style="background-color: #E53935; color: #fff;">
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Producto</th>
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Categoría</th>
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${cotizacion.productos.map(producto => `
+                                    <tr>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.nombre}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.categoria}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.cantidad}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        <p style="font-size: 16px; color: #555;">Por favor, no dudes en contactarnos si tienes alguna pregunta.</p>
+                    </section>
+        
+                    <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <p style="font-size: 14px; color: #999;">Saludos cordiales,<br>Starclean C.A - Miranda, Guatire</p>
+                    </footer>
+                </div>
+            `
+        };
+
+        // Enviar el correo al usuario
+        await transporter.sendMail(mailOptionsUsuario);
+        console.log('Correo al usuario sobre el pago rechazado enviado exitosamente');
+
+    } catch (error) {
+        console.error('Error al enviar el correo al usuario sobre el pago rechazado:', error);
+        throw new Error('Error al enviar el correo al usuario sobre el pago rechazado');
+    }
+}
+
 module.exports = {
     enviarCorreoCotizacion,
-    enviarCorreoPagoConfirmadoAdmin
+    enviarCorreoPagoConfirmadoAdmin,
+    enviarCorreoPagoAprobadoUsuario,
+    enviarCorreoPagoRechazadoUsuario
 };
 
 /* este es el codigo que envia los correos */

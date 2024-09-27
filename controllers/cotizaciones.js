@@ -4,8 +4,8 @@ const Cotizacion = require('../models/cotizacion');
 const Producto = require('../models/producto');
 const PDFDocument = require('pdfkit');
 const transporter = require('../controllers/nodemailer'); // Configuración de Nodemailer
-const { enviarCorreoPagoConfirmadoAdmin } = require('../controllers/email');
-const paypalClient = require('../controllers/paypal');
+const { enviarCorreoPagoConfirmadoAdmin,  enviarCorreoPagoAprobadoUsuario, enviarCorreoPagoRechazadoUsuario } = require('../controllers/email');
+
 
 
 
@@ -165,9 +165,9 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
             select: 'nombre correo direccion number' 
         })
         .populate({
-            path: 'productos.productoId', // Llenar los datos del producto dentro de productos
-            model: 'Producto', // Asegúrate de que 'Producto' es el nombre correcto del modelo
-            select: 'nombre precio' // Selecciona los campos necesarios del producto si es necesario
+            path: 'productos.productoId',
+            model: 'Producto', 
+            select: 'nombre precio' 
         });
 
         if (!cotizacion) {
@@ -427,19 +427,27 @@ router.get('/vercotizaciones/detallesPago/:id', async (req, res) => {
 });
 
 
-// Ruta para aprobar el pago
+const { enviarCorreoPagoAprobadoUsuario } = require('./path/to/controller');
+
+// Ruta para aprobar el pago y enviar el correo al usuario
 router.post('/vercotizaciones/aprobarPago/:id', async (req, res) => {
-    const cotizacionId = req.params.id;
-    
-    try {
-      // Actualiza el estado de la cotización a "Pago Realizado"
-      await Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Realizado' });
-      res.status(200).send('Pago aprobado');
-    } catch (err) {
-      return res.status(500).send(err);
-    }
-  });
+  const cotizacionId = req.params.id;
   
+  try {
+    // Actualiza el estado de la cotización a "Pago Realizado"
+    await Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Realizado' });
+
+    // Llamar a la función que envía el correo de pago aprobado al usuario
+    await enviarCorreoPagoAprobadoUsuario(cotizacionId);
+
+    // Enviar la respuesta una vez que el correo ha sido enviado correctamente
+    res.status(200).send('Pago aprobado y correo enviado al usuario');
+  } catch (err) {
+    console.error('Error al aprobar el pago y enviar el correo:', err);
+    return res.status(500).send('Error al aprobar el pago y enviar el correo');
+  }
+});
+
   
  // Ruta para rechazar el pago
 router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
@@ -448,7 +456,9 @@ router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
     try {
       // Actualiza el estado de la cotización a "Pago Rechazado"
       await Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Rechazado' });
-      
+    
+      await enviarCorreoPagoRechazadoUsuario(cotizacionId);
+     
       // Responde con éxito
       res.status(200).send('Pago rechazado');
     } catch (error) {
