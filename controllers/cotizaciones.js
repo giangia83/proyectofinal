@@ -155,7 +155,6 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al actualizar la cotización' });
     }
 });
-
 // Ruta para generar un PDF de la cotización
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
@@ -195,10 +194,14 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
 
         let total = 0;
         cotizacion.productos.forEach((producto) => {
-            const subtotal = producto.precio ? producto.precio * producto.cantidad : 0;
+            const precioUnitario = parseFloat(producto.precio) || 0;  // Asegurarse de que el precio sea un número
+            const cantidad = parseInt(producto.cantidad) || 0;  // Asegurarse de que la cantidad sea un número
+            const subtotal = precioUnitario * cantidad;
+
             total += subtotal;
+
             doc.text(
-                `${producto.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${producto.precio ? producto.precio.toFixed(2) : 'N/A'.padEnd(15)} | ${subtotal.toFixed(2)}`,
+                `${producto.nombre.padEnd(20)} | ${cantidad.toString().padEnd(7)} | ${precioUnitario > 0 ? precioUnitario.toFixed(2).padEnd(15) : 'N/A'.padEnd(15)} | ${subtotal.toFixed(2)}`,
                 { align: 'left' }
             );
         });
