@@ -181,7 +181,7 @@ async function enviarCorreoPagoConfirmadoAdmin(cotizacion) {
 }
 
 
-async function enviarCorreoPagoAprobadoUsuario(cotizacion) {
+async function enviarCorreoPagoAprobadoUsuario(detallesCotizacion) {
     try {
         // Obtener el usuario basado en el correo proporcionado en detallesCotizacion
         const usuario = await Usuario.findById(detallesCotizacion.usuarioId);
@@ -243,7 +243,7 @@ async function enviarCorreoPagoAprobadoUsuario(cotizacion) {
     }
 }
 
-async function enviarCorreoPagoRechazadoUsuario(cotizacion) {
+async function enviarCorreoPagoRechazadoUsuario(detallesCotizacion) {
     try {
         // Obtener el usuario basado en el correo proporcionado en detallesCotizacion
         const usuario = await Usuario.findById(detallesCotizacion.usuarioId);

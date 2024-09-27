@@ -155,20 +155,22 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al actualizar la cotización' });
     }
 });
+
+
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
         const cotizacion = await Cotizacion.findById(id)
-        .populate({
-            path: 'usuario', // Llenar los datos del usuario
-            select: 'nombre correo direccion number' 
-        })
-        .populate({
-            path: 'productos.productoId',
-            model: 'Producto', 
-            select: 'nombre precio' 
-        });
+            .populate({
+                path: 'usuario', // Llenar los datos del usuario
+                select: 'nombre correo direccion number' 
+            })
+            .populate({
+                path: 'productos.productoId',
+                model: 'Producto', 
+                select: 'nombre precio' 
+            });
 
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
@@ -178,8 +180,8 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         let filename = `cotizacion_${id}.pdf`;
         filename = encodeURI(filename);
 
-        res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
-        res.setHeader('Content-type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-Type', 'application/pdf');
 
         // Generar el contenido del PDF
         doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
@@ -199,7 +201,6 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
 
         let total = 0;
         cotizacion.productos.forEach((producto) => {
-            // Verificar si producto.productoId existe y si tiene un nombre
             const nombreProducto = producto.productoId?.nombre || 'Producto desconocido';
             const precioUnitario = producto.productoId ? producto.productoId.precio : 0;
             const subtotal = precioUnitario * producto.cantidad;
@@ -216,6 +217,9 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
 
         // Finalizar el documento PDF
         doc.end();
+
+        // Pipe the PDF to the response
+        doc.pipe(res); // Asegúrate de hacer esto para que el PDF se envíe correctamente
 
     } catch (error) {
         console.error('Error al generar el PDF:', error);
@@ -234,9 +238,9 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
             select: 'nombre correo direccion number' 
         })
         .populate({
-            path: 'productos.productoId', // Llenar los datos del producto dentro de productos
-            model: 'Producto', // Asegúrate de que 'Producto' es el nombre correcto del modelo
-            select: 'nombre precio' // Selecciona los campos necesarios del producto si es necesario
+            path: 'productos.productoId', 
+            model: 'Producto',
+            select: 'nombre precio' 
         });
         
 /*  */
