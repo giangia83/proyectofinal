@@ -183,8 +183,15 @@ async function enviarCorreoPagoConfirmadoAdmin(cotizacion) {
 
 async function enviarCorreoPagoAprobadoUsuario(cotizacion) {
     try {
-        const usuario = await Usuario.findById(cotizacion.usuarioId);
-        if (!usuario) throw new Error('Usuario no encontrado');
+        // Obtener el usuario basado en el correo proporcionado en detallesCotizacion
+        const usuario = await Usuario.findById(detallesCotizacion.usuarioId);
+       
+  
+        if (!usuario) {
+            throw new Error('Usuario no encontrado');
+        }
+
+   
 
         const mailOptionsUsuario = {
             from: process.env.EMAIL_USER,
@@ -238,8 +245,16 @@ async function enviarCorreoPagoAprobadoUsuario(cotizacion) {
 
 async function enviarCorreoPagoRechazadoUsuario(cotizacion) {
     try {
-        const usuario = await Usuario.findById(cotizacion.usuarioId);
-        if (!usuario) throw new Error('Usuario no encontrado');
+        // Obtener el usuario basado en el correo proporcionado en detallesCotizacion
+        const usuario = await Usuario.findById(detallesCotizacion.usuarioId);
+       
+  
+        if (!usuario) {
+            throw new Error('Usuario no encontrado');
+        }
+
+   
+      
 
         const mailOptionsUsuario = {
             from: process.env.EMAIL_USER,
