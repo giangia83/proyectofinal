@@ -427,7 +427,6 @@ router.get('/vercotizaciones/detallesPago/:id', async (req, res) => {
 });
 
 
-const { enviarCorreoPagoAprobadoUsuario } = require('./path/to/controller');
 
 // Ruta para aprobar el pago y enviar el correo al usuario
 router.post('/vercotizaciones/aprobarPago/:id', async (req, res) => {
