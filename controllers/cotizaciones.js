@@ -159,16 +159,19 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-            return res.status(400).send('ID de cotización inválido');
-        }
-
         const cotizacion = await Cotizacion.findById(id)
-            .populate('usuario')
-            .populate('productos.productoId'); // Asegúrate de que 'productoId' se está llenando correctamente
+        .populate({
+            path: 'usuario', // Llenar los datos del usuario
+            select: 'nombre correo direccion number' 
+        })
+        .populate({
+            path: 'productos.productoId', // Llenar los datos del producto dentro de productos
+            model: 'Producto', // Asegúrate de que 'Producto' es el nombre correcto del modelo
+            select: 'nombre precio' // Selecciona los campos necesarios del producto si es necesario
+        });
 
         if (!cotizacion) {
-            return res.status(404).send('Cotización no encontrada');
+            return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
         const doc = new PDFDocument({ margin: 50 });
