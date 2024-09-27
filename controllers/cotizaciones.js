@@ -176,52 +176,44 @@ router.get('/vercotizaciones/pdf/:id', async (req, res) => {
         res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
         res.setHeader('Content-type', 'application/pdf');
 
-        // Generar el contenido del PDF
-        doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
-        doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
-        doc.moveDown();
-
-        doc.fontSize(12).text(`Cliente: ${cotizacion.usuario.nombre}`, { align: 'left' });
-        doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
-        doc.text(`Correo: ${cotizacion.usuario.correo}`);
-        doc.text(`Teléfono: ${cotizacion.usuario.number}`);
-        doc.moveDown();
-
-        doc.fontSize(12).text('Productos:', { underline: true });
-        doc.moveDown();
-
-        doc.fontSize(10).text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'left' });
-
-        let total = 0;
-        cotizacion.productos.forEach((producto) => {
-            const precioUnitario = parseFloat(producto.precio) || 0;  // Asegurarse de que el precio sea un número
-            const cantidad = parseInt(producto.cantidad) || 0;  // Asegurarse de que la cantidad sea un número
-            const subtotal = precioUnitario * cantidad;
-
-            total += subtotal;
-
-            doc.text(
-                `${producto.nombre.padEnd(20)} | ${cantidad.toString().padEnd(7)} | ${precioUnitario > 0 ? precioUnitario.toFixed(2).padEnd(15) : 'N/A'.padEnd(15)} | ${subtotal.toFixed(2)}`,
-                { align: 'left' }
-            );
-        });
-
-        doc.text('--------------------------------------------------------------', { align: 'left' });
-        doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
-
-        // Finalizar el documento
-        doc.pipe(res);
-        doc.end();
+                   // Generar el contenido del PDF
+                   doc.fontSize(20).text('Starclean C.A', { align: 'center', underline: true });
+                   doc.fontSize(14).text('Cotización', { align: 'center', margin: [0, 10] });
+                   doc.moveDown();
+       
+                   doc.fontSize(12).text(`Cliente: ${cotizacion.usuario.nombre}`, { align: 'left' });
+                   doc.text(`Dirección: ${cotizacion.usuario.direccion}`);
+                   doc.text(`Correo: ${cotizacion.usuario.correo}`);
+                   doc.text(`Teléfono: ${cotizacion.usuario.number}`);
+                   doc.moveDown();
+       
+                   doc.fontSize(12).text('Productos:', { underline: true });
+                   doc.moveDown();
+       
+                   doc.fontSize(10).text('Descripción          | Cantidad | Precio Unitario | Subtotal', { align: 'left' });
+       
+                   let total = 0;
+                   cotizacion.productos.forEach((producto) => {
+                       const precioUnitario = producto.productoId ? producto.productoId.precio : 0;
+                       const subtotal = precioUnitario * producto.cantidad;
+                       total += subtotal;
+                       doc.text(
+                           `${producto.productoId.nombre.padEnd(20)} | ${producto.cantidad.toString().padEnd(7)} | ${precioUnitario.toFixed(2).padEnd(15)} | ${subtotal.toFixed(2)}`,
+                           { align: 'left' }
+                       );
+                   });
+       
+                   doc.text('--------------------------------------------------------------', { align: 'left' });
+                   doc.text(`Total: ${total.toFixed(2)}`, { align: 'right', margin: [0, 10] });
+       
+                   // Finalizar el documento PDF
+                   doc.end();
+       
     } catch (error) {
         console.error('Error al generar el PDF:', error);
         res.status(500).send('Error interno al generar el PDF');
     }
 });
-
-
-
-
-
 
 // Ruta para verificar y enviar la cotización por correo al usuari0
 router.post('/vercotizaciones/verificar/:id', async (req, res) => {

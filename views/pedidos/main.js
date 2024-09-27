@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Función para enviar el pago al servidor
     function submitPago(event, cotizacionId) {
         // Captura los datos del formulario
         const formData = new FormData(event.target);
@@ -42,8 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(result => {
             if (result.message === 'Pago verificado y correo enviado al admin') {
-                // Muestra un pop-up o modal de confirmación
-                alert('El pago ha sido verificado y el correo ha sido enviado exitosamente');
+                // Mostrar el modal de éxito
+                const modal = new bootstrap.Modal(document.getElementById('paymentSuccessModal'));
+                modal.show();
             } else {
                 alert('Error en la verificación del pago.');
             }
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Ocurrió un error al procesar el pago.');
         });
     }
-
+    
     // Inicializa los botones de PayPal
     initPaypalButtons();
 });

@@ -155,8 +155,7 @@ async function enviarCorreoPagoConfirmadoAdmin(cotizacion) {
                                     <tr>
                                         <td style="border: 1px solid #ddd; padding: 12px;">${producto.nombre}</td>
                                         <td style="border: 1px solid #ddd; padding: 12px;">${producto.categoria}</td>
-                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.cantidad}</td>
-                                        <td style="border: 1px solid #ddd; padding: 12px;">$${producto.precio}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.cantidad}</td>                                     
                                     </tr>
                                 `).join('')}
                             </tbody>
