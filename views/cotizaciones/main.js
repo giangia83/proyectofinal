@@ -48,28 +48,26 @@ function loadCotizacionDetails(id) {
       productosTableBody.innerHTML = '';
 
       let total = 0;
-      cotizacion.productos.forEach(producto => {
-        if (!producto.productoId) {
-          console.error('Producto sin información:', producto);
-          return;
-        }
+                // En la función loadCotizacionDetails, agregar un atributo de datos a cada fila
+            cotizacion.productos.forEach(producto => {
+              if (!producto.productoId) {
+                console.error('Producto sin información:', producto);
+                return;
+              }
 
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-          <td>${producto.productoId.nombre}</td>
-          <td>${producto.cantidad}</td>
-          <td>
-            <input type="number" value="${producto.productoId.precio}" onchange="actualizarSubtotal(this)" />
-          </td>
-          <td><span class="subtotal">${(producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0).toFixed(2)}</span></td>
-        
-      
-
-        `;
-        productosTableBody.appendChild(fila);
-
-        total += producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0;
-      });
+              const fila = document.createElement('tr');
+              fila.setAttribute('data-product-id', producto.productoId._id); // Agregar el atributo de datos
+              fila.innerHTML = `
+                <td>${producto.productoId.nombre}</td>
+                <td>${producto.cantidad}</td>
+                <td>
+                  <input type="number" value="${producto.productoId.precio}" onchange="actualizarSubtotal(this)" />
+                </td>
+                <td><span class="subtotal">${(producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0).toFixed(2)}</span></td>
+              `;
+              productosTableBody.appendChild(fila);
+              total += producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0;
+            });
 
             // Agregar botón de actualizar fuera del bucle
       const actualizarButton = document.createElement('button');
@@ -131,7 +129,8 @@ function actualizarProductos(productos) {
   const actualizaciones = [];
 
   productos.forEach(producto => {
-    const fila = document.querySelector(`tr:has(td:contains('${producto.productoId.nombre}'))`); 
+    // Cambiar a buscar por ID en el atributo de datos
+    const fila = document.querySelector(`tr[data-product-id="${producto.productoId._id}"]`); 
     const nuevoPrecio = parseFloat(fila.querySelector('input[type="number"]').value.replace(',', '.'));
 
     if (!isNaN(nuevoPrecio) && nuevoPrecio >= 0) {
@@ -169,7 +168,6 @@ function actualizarProductos(productos) {
     });
   }
 }
-
 
 
 
