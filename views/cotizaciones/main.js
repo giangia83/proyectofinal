@@ -71,11 +71,13 @@ function loadCotizacionDetails(id) {
         total += producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0;
       });
 
-        // Agregar botón de actualizar
-        const actualizarButton = document.createElement('button');
-        actualizarButton.textContent = 'Actualizar Precios';
-        actualizarButton.onclick = () => actualizarProductos(cotizacion.productos);
-        productosTableBody.appendChild(actualizarButton);
+            // Agregar botón de actualizar fuera del bucle
+      const actualizarButton = document.createElement('button');
+      actualizarButton.textContent = 'Actualizar Precios';
+      actualizarButton.classList.add('btn', 'btn-primary', 'mt-3'); // Agregar clases de Bootstrap para estilo
+      actualizarButton.onclick = () => actualizarProductos(cotizacion.productos);
+      productosTableBody.parentElement.appendChild(actualizarButton); // Colocarlo debajo de la tabla
+
 
       document.getElementById('totalPrecio').innerText = total.toFixed(2);
     
@@ -125,18 +127,12 @@ function enviarTotalAlServidor(cotizacionId, total) {
     });
   }
 }
-
 function actualizarProductos(productos) {
   const actualizaciones = [];
 
   productos.forEach(producto => {
-    const fila = document.querySelector(`tr:has(td:contains('${producto.productoId.nombre}'))`);
+    const fila = document.querySelector(`tr:has(td:contains('${producto.productoId.nombre}'))`); 
     const nuevoPrecio = parseFloat(fila.querySelector('input[type="number"]').value.replace(',', '.'));
-
-    if (!producto.productoId) {
-      console.error('ID de producto no válido:', producto);
-      return;
-    }
 
     if (!isNaN(nuevoPrecio) && nuevoPrecio >= 0) {
       actualizaciones.push({ id: producto.productoId._id, precio: nuevoPrecio });
@@ -165,7 +161,7 @@ function actualizarProductos(productos) {
     .then(data => {
       alert(data.mensaje);
       // Actualizar subtotales después de la actualización
-      actualizarSubtotal();
+      calcularTotal(); // Cambiado para recalcular el total después de la actualización
     })
     .catch(error => {
       console.error('Error al actualizar los precios:', error);
