@@ -80,7 +80,7 @@ function actualizarSubtotal(input) {
   const subtotal = precioUnitario * cantidad;
 
   input.closest('tr').querySelector('.subtotal').innerText = subtotal.toFixed(2);
-  calcularTotal(); // Asegúrate de que esta función esté actualizando el total
+  calcularTotal(); 
 }
 
 function calcularTotal() {
@@ -99,7 +99,7 @@ function enviarTotalAlServidor(cotizacionId, total) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ total: Number(total) }), // Asegúrate de que total es un número
+      body: JSON.stringify({ total: Number(total) }), 
     })
     .then(response => {
       if (!response.ok) {
@@ -122,17 +122,67 @@ function descargarPDF(idCotizacion) {
       return;
   }
 
-  // Mostrar un mensaje o spinner mientras se descarga el PDF
-  const spinner = document.getElementById('spinner'); // Asume que tienes un spinner en tu HTML
+  const spinner = document.getElementById('spinner'); 
   if (spinner) spinner.style.display = 'block';
 
   window.location.href = `/vercotizaciones/pdf/${idCotizacion}`;
 
-  // Después de un tiempo estimado o cuando se complete la descarga, ocultar el spinner
+
   setTimeout(() => {
       if (spinner) spinner.style.display = 'none';
-  }, 3000); // Esto depende de cuánto tiempo esperes que tome la descarga
+  }, 3000); 
 }
+
+const actualizarCotizacion = async () => {
+  const productos = [];
+  const cotizacionId = document.getElementById('cotizacionId').value;
+
+  // Itera sobre cada fila de la tabla de productos para obtener los valores actualizados
+  document.querySelectorAll('#productosTableBody tr').forEach(row => {
+    const productoNombre = row.querySelector('td:nth-child(1)').innerText;
+    const cantidad = parseFloat(row.querySelector('td:nth-child(2)').innerText);
+    const precioInput = row.querySelector('input[type="number"]');
+    const precio = parseFloat(precioInput.value.replace(',', '.'));
+
+    // Asegúrate de que el producto tenga un precio válido
+    if (!isNaN(precio) && cantidad > 0) {
+      productos.push({
+        nombre: productoNombre, // Puedes obtener más detalles del producto si es necesario
+        cantidad,
+        precio
+      });
+    }
+  });
+
+  const datosActualizados = {
+    productos
+  };
+
+  // Enviar la solicitud para actualizar la cotización
+  await fetch(`/vercotizaciones/actualizar/${cotizacionId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(datosActualizados)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error al actualizar la cotización');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Cotización actualizada:', data);
+    alert('Cotización actualizada exitosamente.');
+  })
+  .catch(error => {
+    console.error('Error al actualizar la cotización:', error);
+    alert('Hubo un error al actualizar la cotización. Por favor, intenta de nuevo.');
+  });
+};
+
+
 
 function verificarCotizacion() {
   const cotizacionId = document.getElementById('cotizacionId').value;
@@ -155,7 +205,7 @@ function verificarCotizacion() {
     .then(data => {
       alert(data.message);
 
-      // Aquí llamas a enviarTotalAlServidor para enviar el total al servidor después de verificar la cotización
+      
       enviarTotalAlServidor(cotizacionId, total); 
 
       const modal = document.getElementById('cotizacionModal');
@@ -199,7 +249,7 @@ function rechazarPago(cotizacionId) {
   .then(response => {
     if (response.ok) {
       showToast('Pago rechazado', 'bg-danger');
-      location.reload(); // Refresca la página para ver los cambios
+      location.reload();
     }
   })
   .catch(error => {
@@ -214,8 +264,8 @@ function showToast(message, bgClass) {
 
   // Actualizar el mensaje y el color de fondo del toast
   toastMessage.textContent = message;
-  toastElement.classList.remove('bg-success', 'bg-danger'); // Remueve las clases anteriores
-  toastElement.classList.add(bgClass); // Agrega la nueva clase (bg-success o bg-danger)
+  toastElement.classList.remove('bg-success', 'bg-danger'); 
+  toastElement.classList.add(bgClass); 
 
   // Inicializa el toast de Bootstrap y lo muestra
   const toast = new bootstrap.Toast(toastElement);
@@ -225,7 +275,7 @@ function showToast(message, bgClass) {
 let cotizacionId = null; // Variable global para almacenar el ID de la cotización
 
 function loadPaymentDetails(cotizacionIdParam) {
-  cotizacionId = cotizacionIdParam; // Almacena el ID en la variable global
+  cotizacionId = cotizacionIdParam; 
 
   fetch(`/vercotizaciones/detallesPago/${cotizacionId}`)
     .then(response => response.json())

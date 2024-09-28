@@ -201,7 +201,7 @@ async function enviarCorreoPagoAprobadoUsuario(detallesCotizacion) {
                     </header>
                     
                     <section>
-                        <p style="font-size: 16px; color: #555;">Nos complace informarte que tu pago para la cotización con ID: ${detallesCotizacion.id} ha sido aprobado.</p>
+                        <p style="font-size: 16px; color: #555;">Nos complace informarte que tu pago para la siguiente cotización ha sido aprobado.</p>
                         <h4>Detalles de la cotización:</h4>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                             <thead>
@@ -265,7 +265,7 @@ async function enviarCorreoPagoRechazadoUsuario(detallesCotizacion) {
                     </header>
                     
                     <section>
-                        <p style="font-size: 16px; color: #555;">Lamentablemente, tu pago para la cotización con ID: ${detallesCotizacion._id} ha sido rechazado. Por favor, revisa los detalles de tu cotización y vuelve a intentar realizar el pago.</p>
+                        <p style="font-size: 16px; color: #555;">Lamentablemente, tu pago para la siguiente cotización ha sido rechazado. Por favor, revisa los detalles de tu cotización y vuelve a intentar realizar el pago.</p>
                         <h4>Detalles de la cotización:</h4>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                             <thead>

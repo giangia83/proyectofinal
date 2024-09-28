@@ -113,48 +113,35 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
     }
 });
 
-
-// Ruta para actualizar los precios de los productos en una cotización
+// Ruta para actualizar los precios y cantidades de la cotización
 router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
     const { id } = req.params;
-    const { precios } = req.body;
-
-    if (!Array.isArray(precios)) {
-        return res.status(400).json({ message: 'Formato de datos incorrecto' });
-    }
+    const { productos } = req.body;
 
     try {
         const cotizacion = await Cotizacion.findById(id);
+
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
-        let preciosActualizados = false;
+        // Actualizar productos con los nuevos precios
+        cotizacion.productos = productos.map(p => ({
+            productoId: p.productoId,
+            cantidad: p.cantidad,
+            precio: p.precio // Guardar el nuevo precio
+        }));
 
-        // Actualizar los precios de los productos en la cotización
-        precios.forEach(({ productoId, precio }) => {
-            if (isNaN(precio) || precio < 0) {
-                return res.status(400).json({ message: 'Precio inválido' });
-            }
+        // Guardar los cambios en la base de datos
+        await cotizacion.save();
 
-            const producto = cotizacion.productos.find(p => p.productoId.toString() === productoId);
-            if (producto) {
-                producto.precio = precio; // Actualizar el precio del producto
-                preciosActualizados = true;
-            }
-        });
-
-        if (preciosActualizados) {
-            await cotizacion.save();
-            res.json({ message: 'Cotización actualizada correctamente', cotizacion });
-        } else {
-            res.status(400).json({ message: 'No se encontraron productos para actualizar' });
-        }
+        res.json({ message: 'Cotización actualizada exitosamente' });
     } catch (error) {
         console.error('Error al actualizar la cotización:', error);
-        res.status(500).json({ message: 'Error interno al actualizar la cotización' });
+        res.status(500).json({ message: 'Error al actualizar la cotización' });
     }
 });
+
 
 
 router.get('/vercotizaciones/pdf/:id', async (req, res) => {
@@ -369,6 +356,7 @@ router.post('/vercotizaciones/verificar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error interno al verificar y enviar la cotización' });
     }
 });
+
 router.post('/vercotizaciones/pagar/:id', async (req, res) => {
     const cotizacionId = req.params.id;
     const { cuenta, monto, fechaPago } = req.body;
