@@ -187,10 +187,6 @@ function actualizarProducto(productoId, fila, nuevoPrecio) {
       actualizarSubtotal(fila.querySelector('input[type="number"]')); 
     });
 }
-// Asumiendo que tienes un botón que llama a la función actualizarTodosLosPrecios
-document.querySelector('#actualizar-precios').addEventListener('click', actualizarTodosLosPrecios);
-
-
 
 function descargarPDF(idCotizacion) {
   if (!idCotizacion) {

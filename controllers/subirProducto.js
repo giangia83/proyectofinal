@@ -86,7 +86,8 @@ router.post('/upload', upload.single('inputImagen'), async (req, res) => {
     }
 });
 
-// Ruta para actualizar un producto existente
+let notificationSent = false; // Variable de control
+
 router.post('/actualizar-producto', upload.single('imagen'), async (req, res) => {
     const { id, nombre, costo, precio, categoria } = req.body;
     const file = req.file;
@@ -100,8 +101,6 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
 
         if (file) {
             const fileName = file.originalname.replace(/\.[^/.]+$/, '') + '.webp';
-
-          
             const fileBuffer = await sharp(file.buffer)
                 .resize(IMAGE_WIDTH, IMAGE_HEIGHT, {
                     fit: 'cover'  
@@ -141,16 +140,26 @@ router.post('/actualizar-producto', upload.single('imagen'), async (req, res) =>
             return res.status(404).json({ error: 'Producto no encontrado' });
         }
 
-        res.json({ 
-            mensaje: 'Producto actualizado exitosamente', 
-            producto: updatedProducto,
-            productoId: updatedProducto._id // Devolvemos el productoId
-        });
+       
+        if (!notificationSent) {
+            notificationSent = true; // Cambiar el estado a enviado
+            res.json({ 
+                mensaje: 'Producto actualizado exitosamente', 
+                producto: updatedProducto,
+                productoId: updatedProducto._id 
+            });
+        } else {
+            res.json({ 
+                producto: updatedProducto,
+                productoId: updatedProducto._id 
+            });
+        }
         
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Error al actualizar el producto' });
     }
 });
+
 
 module.exports = router;
