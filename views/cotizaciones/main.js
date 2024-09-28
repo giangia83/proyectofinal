@@ -299,37 +299,33 @@ function showToast(message, bgClass) {
 }
 
 let cotizacionId = null; // Variable global para almacenar el ID de la cotización
+
 function loadPaymentDetails(cotizacionIdParam) {
-  const cotizacionId = cotizacionIdParam; 
+  cotizacionId = cotizacionIdParam; 
 
   fetch(`/vercotizaciones/detallesPago/${cotizacionId}`)
-      .then(response => response.json())
-      .then(data => {
-          const paymentDetailsContent = document.getElementById('paymentDetailsContent');
-          paymentDetailsContent.innerHTML = `
-              <div class="card p-3 mb-3 shadow-sm">
-                  <div class="mb-2">
-                      <span class="fw-bold">Número de cuenta:</span>
-                      <span class="text-muted">${data.pago.numeroCuenta || 'No disponible'}</span>
-                  </div>
-                  <div class="mb-2">
-                      <span class="fw-bold">Monto Pagado:</span>
-                      <span class="text-muted">${data.pago.monto}</span>
-                  </div>
-                  <div class="mb-2">
-                      <span class="fw-bold">Fecha de Pago:</span>
-                      <span class="text-muted">${new Date(data.pago.fechaPago).toLocaleString()}</span>
-                  </div>
-                  <div class="mb-2">
-                      <span class="fw-bold">Método de Pago:</span>
-                      <span class="text-muted">${data.pago.metodo}</span>
-                  </div>
-              </div>
-          `;
-      })
-      .catch(error => {
-          console.error('Error al cargar los detalles del pago:', error);
-      });
+    .then(response => response.json())
+    .then(data => {
+      const paymentDetailsContent = document.getElementById('paymentDetailsContent');
+      paymentDetailsContent.innerHTML = `
+        <div class="card p-3 mb-3 shadow-sm">
+          <div class="mb-2">
+            <span class="fw-bold">Número de cuenta:</span>
+            <span class="text-muted">${data.numeroCuenta}</span>
+          </div>
+          <div class="mb-2">
+            <span class="fw-bold">Monto Pagado:</span>
+            <span class="text-muted">${data.monto}</span>
+          </div>
+          <div class="mb-2">
+            <span class="fw-bold">Fecha de Pago:</span>
+            <span class="text-muted">${data.fechaPago}</span>
+          </div>
+        </div>
+      `;
+    })
+    .catch(error => {
+      console.error('Error al cargar los detalles del pago:', error);
+    });
 }
-
 

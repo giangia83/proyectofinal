@@ -71,12 +71,12 @@ router.post('/payment', async (req, res) => {
 
         // Actualizar el estado de la cotización y detalles de pago
         cotizacion.estado = 'Pagado con PayPal. Esperando confirmación.';
-        cotizacion.pago = {
+        cotizacion.detallesPago = {
             monto: detallesPago.purchase_units[0].payments.captures[0].amount.value,
-            metodo: 'PayPal',
-            fechaPago: new Date(),
-            idTransaccion: detallesPago.id,
-            numeroCuenta: detallesPago.payer.payer_info.email // Puedes agregar más datos aquí si es necesario
+            numeroCuenta: 'PayPal',
+            fechaPago: new Date(fechaPago),
+          
+         
         };
 
         await cotizacion.save();
