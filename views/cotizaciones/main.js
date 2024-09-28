@@ -63,11 +63,19 @@ function loadCotizacionDetails(id) {
           </td>
           <td><span class="subtotal">${(producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0).toFixed(2)}</span></td>
         
+      
+
         `;
         productosTableBody.appendChild(fila);
 
         total += producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0;
       });
+
+        // Agregar botón de actualizar
+        const actualizarButton = document.createElement('button');
+        actualizarButton.textContent = 'Actualizar Precios';
+        actualizarButton.onclick = () => actualizarProductos(cotizacion.productos);
+        productosTableBody.appendChild(actualizarButton);
 
       document.getElementById('totalPrecio').innerText = total.toFixed(2);
     
