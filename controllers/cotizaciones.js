@@ -476,7 +476,6 @@ router.post('/vercotizaciones/aprobarPago/:id', async (req, res) => {
   // Ruta para rechazar el pago
 router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
     const cotizacionId = req.params.id;
-    const { nombreUsuario } = req.body; 
 
     try {
         // Buscar la cotización por ID y llenar los datos del usuario y productos
@@ -493,20 +492,9 @@ router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
 
         if (!cotizacion) {
             return res.status(404).json({ message: 'Cotización no encontrada' });
-        }
-
-        // Buscar el usuario por nombre
-        const usuarioDetalles = await Usuario.findOne({ nombre: nombreUsuario });
-        
-        if (!usuarioDetalles) {
-            return res.status(404).json({ message: 'Usuario no encontrado' });
-        }
-
-       
+        }  
         // Actualiza el estado de la cotización a "Pago Realizado"
         await Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Rechazado' });
-
-    
         await enviarCorreoPagoRechazadoUsuario({
             usuarioId: cotizacion.usuario._id, 
             productos: cotizacion.productos,
@@ -514,7 +502,11 @@ router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
         });
 
         // Envía una respuesta exitosa
-        res.status(200).send('Pago rechazado y correo enviado al usuario');
+        // Enviar la respuesta con los detalles de la cotización
+        res.status(200).json({
+            message: 'Pago rechazado y correo enviado al usuario',
+            detallesPago: cotizacion.detallesPago // Incluye los detalles del pago si es necesario
+        });
     } catch (err) {
         console.error('Error al rechazar el pago:', err);
         return res.status(500).send('Error al rechazar el pago');
