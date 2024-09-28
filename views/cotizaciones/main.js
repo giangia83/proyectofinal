@@ -37,6 +37,7 @@ function loadUserDetails(userId) {
     })
     .catch(error => console.error('Error:', error));
 }
+
 function loadCotizacionDetails(id) {
   fetch(`/vercotizaciones/detalles/${id}`)
     .then(response => response.json())
@@ -61,6 +62,9 @@ function loadCotizacionDetails(id) {
             <input type="number" value="${producto.productoId.precio}" onchange="actualizarSubtotal(this)" />
           </td>
           <td><span class="subtotal">${(producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0).toFixed(2)}</span></td>
+           <td>
+      <button onclick="actualizarProducto('${producto.productoId._id}', this)">Actualizar</button>
+    </td>
         `;
         productosTableBody.appendChild(fila);
 
@@ -115,6 +119,51 @@ function enviarTotalAlServidor(cotizacionId, total) {
     });
   }
 }
+function actualizarProducto(productoId, button) {
+  const nuevoPrecio = parseFloat(button.closest('tr').querySelector('input[type="number"]').value.replace(',', '.'));
+
+  if (!productoId) {
+    alert('ID de producto no válido.');
+    return;
+  }
+
+  // Validar el nuevo precio
+  if (isNaN(nuevoPrecio) || nuevoPrecio < 0) {
+    alert('Por favor, introduce un precio válido.');
+    return;
+  }
+
+  const data = {
+    id: productoId,
+    precio: nuevoPrecio,
+  };
+
+  fetch('/subir/actualizar-precio', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Error al actualizar precio: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    alert(data.mensaje); // Muestra el mensaje de éxito
+    console.log('Precio actualizado:', data.producto);
+    
+    // Aquí puedes actualizar el subtotal, si es necesario
+    actualizarSubtotal(button.closest('tr').querySelector('input[type="number"]'));
+  })
+  .catch(error => {
+    console.error('Error al actualizar el precio:', error);
+    alert('Error al actualizar el precio. Por favor, inténtalo de nuevo más tarde.');
+  });
+}
+
 
 function descargarPDF(idCotizacion) {
   if (!idCotizacion) {
@@ -132,58 +181,6 @@ function descargarPDF(idCotizacion) {
       if (spinner) spinner.style.display = 'none';
   }, 3000); 
 }
-
-const actualizarCotizacion = async () => {
-  const productos = [];
-  const cotizacionId = document.getElementById('cotizacionId').value;
-
-  
-  document.querySelectorAll('#productosTableBody tr').forEach(row => {
-    const productoNombre = row.querySelector('td:nth-child(1)').innerText;
-    const cantidad = parseFloat(row.querySelector('td:nth-child(2)').innerText);
-    const precioInput = row.querySelector('input[type="number"]');
-    const precio = parseFloat(precioInput.value.replace(',', '.')); 
-
-  
-    if (!isNaN(precio) && cantidad > 0) {
-      productos.push({
-        nombre: productoNombre, 
-        cantidad,
-        precio
-      });
-    }
-  });
-
-  const datosActualizados = {
-    productos
-  };
-
-  // Enviar la solicitud para actualizar la cotización
-  await fetch(`/vercotizaciones/actualizar/${cotizacionId}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(datosActualizados) // Aquí los datos con precios actualizados
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Error al actualizar la cotización');
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log('Cotización actualizada:', data);
-    alert('Cotización actualizada exitosamente.');
-  })
-  .catch(error => {
-    console.error('Error al actualizar la cotización:', error);
-    alert('Hubo un error al actualizar la cotización. Por favor, intenta de nuevo.');
-  });
-};
-
-
-
 
 function verificarCotizacion() {
   const cotizacionId = document.getElementById('cotizacionId').value;
