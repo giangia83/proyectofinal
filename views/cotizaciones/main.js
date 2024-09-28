@@ -119,6 +119,7 @@ function enviarTotalAlServidor(cotizacionId, total) {
     });
   }
 }
+
 function actualizarProducto(productoId, button) {
   const nuevoPrecio = parseFloat(button.closest('tr').querySelector('input[type="number"]').value.replace(',', '.'));
 
@@ -127,7 +128,6 @@ function actualizarProducto(productoId, button) {
     return;
   }
 
-  // Validar el nuevo precio
   if (isNaN(nuevoPrecio) || nuevoPrecio < 0) {
     alert('Por favor, introduce un precio válido.');
     return;
@@ -147,15 +147,15 @@ function actualizarProducto(productoId, button) {
   })
   .then(response => {
     if (!response.ok) {
-      throw new Error(`Error al actualizar precio: ${response.status}`);
+      return response.text().then(text => { // Agrega esto para obtener más detalles
+        throw new Error(`Error al actualizar precio: ${response.status}, ${text}`);
+      });
     }
     return response.json();
   })
   .then(data => {
-    alert(data.mensaje); // Muestra el mensaje de éxito
+    alert(data.mensaje);
     console.log('Precio actualizado:', data.producto);
-    
-    // Aquí puedes actualizar el subtotal, si es necesario
     actualizarSubtotal(button.closest('tr').querySelector('input[type="number"]'));
   })
   .catch(error => {
@@ -163,6 +163,7 @@ function actualizarProducto(productoId, button) {
     alert('Error al actualizar el precio. Por favor, inténtalo de nuevo más tarde.');
   });
 }
+
 
 
 function descargarPDF(idCotizacion) {
