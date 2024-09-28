@@ -180,18 +180,14 @@ async function enviarCorreoPagoConfirmadoAdmin(cotizacion) {
     }
 }
 
-
 async function enviarCorreoPagoAprobadoUsuario(detallesCotizacion) {
     try {
-        // Obtener el usuario basado en el correo proporcionado en detallesCotizacion
+        // Obtener el usuario basado en el ID proporcionado en detallesCotizacion
         const usuario = await Usuario.findById(detallesCotizacion.usuarioId);
-       
-  
+
         if (!usuario) {
             throw new Error('Usuario no encontrado');
         }
-
-   
 
         const mailOptionsUsuario = {
             from: process.env.EMAIL_USER,
@@ -205,27 +201,27 @@ async function enviarCorreoPagoAprobadoUsuario(detallesCotizacion) {
                     </header>
                     
                     <section>
-                        <p style="font-size: 16px; color: #555;">Nos complace informarte que tu pago para la cotización con ID: ${cotizacion._id} ha sido aprobado.</p>
+                        <p style="font-size: 16px; color: #555;">Nos complace informarte que tu pago para la cotización con ID: ${detallesCotizacion.id} ha sido aprobado.</p>
                         <h4>Detalles de la cotización:</h4>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                             <thead>
                                 <tr style="background-color: #E53935; color: #fff;">
                                     <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Producto</th>
-                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Categoría</th>
+                                    <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Precio</th>
                                     <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Cantidad</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${detallesCotizacion.productos.map(producto => `
                                     <tr>
-                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.nombre}</td>
-                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.categoria}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">${producto.productoId.nombre}</td>
+                                        <td style="border: 1px solid #ddd; padding: 12px;">$${producto.productoId.precio}</td>
                                         <td style="border: 1px solid #ddd; padding: 12px;">${producto.cantidad}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
                         </table>
-                        <p style="font-size: 16px; color: #555;"><strong>Total:</strong> $${cotizacion.total}</p>
+                        <p style="font-size: 16px; color: #555;"><strong>Total:</strong> $${detallesCotizacion.total}</p>
                     </section>
         
                     <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
@@ -242,6 +238,7 @@ async function enviarCorreoPagoAprobadoUsuario(detallesCotizacion) {
         throw new Error('Error al enviar el correo al usuario');
     }
 }
+
 
 async function enviarCorreoPagoRechazadoUsuario(detallesCotizacion) {
     try {
