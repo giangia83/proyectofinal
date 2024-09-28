@@ -62,9 +62,7 @@ function loadCotizacionDetails(id) {
             <input type="number" value="${producto.productoId.precio}" onchange="actualizarSubtotal(this)" />
           </td>
           <td><span class="subtotal">${(producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0).toFixed(2)}</span></td>
-           <td>
-      <button onclick="actualizarProducto('${producto.productoId._id}', this)">Actualizar</button>
-    </td>
+        
         `;
         productosTableBody.appendChild(fila);
 
@@ -120,48 +118,48 @@ function enviarTotalAlServidor(cotizacionId, total) {
   }
 }
 
-function actualizarProducto(productoId, button) {
-  const nuevoPrecio = parseFloat(button.closest('tr').querySelector('input[type="number"]').value.replace(',', '.'));
+function actualizarTodosProductos() {
+  const productos = [];
+  const filas = document.querySelectorAll('#productosTableBody tr');
 
-  if (!productoId) {
-    alert('ID de producto no válido.');
-    return;
-  }
+  filas.forEach(fila => {
+    const productoId = fila.querySelector('input[type="hidden"]').value; // Asegúrate de que el ID esté disponible
+    const nuevoPrecio = parseFloat(fila.querySelector('input[type="number"]').value.replace(',', '.'));
 
-  if (isNaN(nuevoPrecio) || nuevoPrecio < 0) {
-    alert('Por favor, introduce un precio válido.');
-    return;
-  }
-
-  const data = {
-    id: productoId,
-    precio: nuevoPrecio,
-  };
-
-  fetch('/subir/actualizar-producto', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  .then(response => {
-    if (!response.ok) {
-      return response.text().then(text => { // Agrega esto para obtener más detalles
-        throw new Error(`Error al actualizar precio: ${response.status}, ${text}`);
-      });
+    if (!isNaN(nuevoPrecio) && nuevoPrecio >= 0) {
+      productos.push({ id: productoId, precio: nuevoPrecio });
     }
-    return response.json();
-  })
-  .then(data => {
-    alert(data.mensaje);
-    console.log('Precio actualizado:', data.producto);
-    actualizarSubtotal(button.closest('tr').querySelector('input[type="number"]'));
-  })
-  .catch(error => {
-    console.error('Error al actualizar el precio:', error);
-    alert('Error al actualizar el precio. Por favor, inténtalo de nuevo más tarde.');
   });
+
+  if (productos.length > 0) {
+    fetch('/subir/actualizar-productos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productos),
+    })
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => { // Obtener más detalles en caso de error
+          throw new Error(`Error al actualizar precios: ${response.status}, ${text}`);
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      alert(data.mensaje);
+      console.log('Precios actualizados:', data);
+      // Actualizar la tabla de subtotales si es necesario
+      calcularTotal();
+    })
+    .catch(error => {
+      console.error('Error al actualizar los precios:', error);
+      alert('Error al actualizar los precios. Por favor, inténtalo de nuevo más tarde.');
+    });
+  } else {
+    alert('No hay productos para actualizar.');
+  }
 }
 
 
