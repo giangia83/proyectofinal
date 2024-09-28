@@ -137,17 +137,17 @@ const actualizarCotizacion = async () => {
   const productos = [];
   const cotizacionId = document.getElementById('cotizacionId').value;
 
-  // Itera sobre cada fila de la tabla de productos para obtener los valores actualizados
+  
   document.querySelectorAll('#productosTableBody tr').forEach(row => {
     const productoNombre = row.querySelector('td:nth-child(1)').innerText;
     const cantidad = parseFloat(row.querySelector('td:nth-child(2)').innerText);
     const precioInput = row.querySelector('input[type="number"]');
-    const precio = parseFloat(precioInput.value.replace(',', '.'));
+    const precio = parseFloat(precioInput.value.replace(',', '.')); 
 
-    // Asegúrate de que el producto tenga un precio válido
+  
     if (!isNaN(precio) && cantidad > 0) {
       productos.push({
-        nombre: productoNombre, // Puedes obtener más detalles del producto si es necesario
+        nombre: productoNombre, 
         cantidad,
         precio
       });
@@ -164,7 +164,7 @@ const actualizarCotizacion = async () => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(datosActualizados)
+    body: JSON.stringify(datosActualizados) // Aquí los datos con precios actualizados
   })
   .then(response => {
     if (!response.ok) {
@@ -181,6 +181,7 @@ const actualizarCotizacion = async () => {
     alert('Hubo un error al actualizar la cotización. Por favor, intenta de nuevo.');
   });
 };
+
 
 
 

@@ -112,8 +112,6 @@ router.get('/vercotizaciones/detalles/:id', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener cotización' });
     }
 });
-
-// Ruta para actualizar los precios y cantidades de la cotización
 router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
     const { id } = req.params;
     const { productos } = req.body;
@@ -125,7 +123,10 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
             return res.status(404).json({ message: 'Cotización no encontrada' });
         }
 
-        // Actualizar productos con los nuevos precios
+        // Verificar si los nuevos precios están llegando
+        console.log('Productos recibidos:', productos);
+
+    
         cotizacion.productos = productos.map(p => ({
             productoId: p.productoId,
             cantidad: p.cantidad,
@@ -141,6 +142,7 @@ router.post('/vercotizaciones/actualizar/:id', async (req, res) => {
         res.status(500).json({ message: 'Error al actualizar la cotización' });
     }
 });
+
 
 
 
