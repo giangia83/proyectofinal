@@ -69,13 +69,7 @@ function loadCotizacionDetails(id) {
               total += producto.productoId.precio ? producto.productoId.precio * producto.cantidad : 0;
             });
 
-         // Agregar botón de actualizar fuera del bucle
-const actualizarButton = document.createElement('button');
-actualizarButton.textContent = 'Actualizar Precios';
-actualizarButton.classList.add('btn', 'btn-primary', 'mt-3'); // Agregar clases de Bootstrap para estilo
-actualizarButton.id = 'actualizar-precios'; // Asignar un ID al botón
-actualizarButton.onclick = () => actualizarProductos(cotizacion.productos);
-actualizarButton.setAttribute('aria-label', 'Actualizar precios de los productos'); // Atributo de accesibilidad
+      
 
 // Asegúrate de que `productosTableBody` esté dentro de un contenedor adecuado
 const tableContainer = productosTableBody.parentElement; // O el contenedor que desees
@@ -131,61 +125,68 @@ function enviarTotalAlServidor(cotizacionId, total) {
     });
   }
 }
+// Modifica la función actualizarTodosLosPrecios para que devuelva una promesa
 function actualizarTodosLosPrecios() {
-  // Selecciona todas las filas de la tabla que contengan los productos
-  const filas = document.querySelectorAll('tr[data-product-id]'); // Asumiendo que cada fila tiene un atributo data-product-id
+  return new Promise((resolve, reject) => {
+    const filas = document.querySelectorAll('tr[data-product-id]');
 
-  filas.forEach(fila => {
-    const productoId = fila.dataset.productId; // Obtiene el ID del producto de la fila
-    const nuevoPrecio = parseFloat(fila.querySelector('input[type="number"]').value.replace(',', '.'));
+    let promises = []; // Arreglo para almacenar promesas
 
-    if (!productoId) {
-      alert('ID de producto no válido.');
-      return; // Salimos de la iteración si el ID no es válido
-    }
+    filas.forEach(fila => {
+      const productoId = fila.dataset.productId;
+      const nuevoPrecio = parseFloat(fila.querySelector('input[type="number"]').value.replace(',', '.'));
 
-    if (isNaN(nuevoPrecio) || nuevoPrecio < 0) {
-      alert('Por favor, introduce un precio válido.');
-      return; // Salimos de la iteración si el precio no es válido
-    }
+      if (!productoId) {
+        alert('ID de producto no válido.');
+        reject('ID de producto no válido.'); // Rechaza la promesa
+        return; 
+      }
 
-    // Llama a la función para actualizar el producto
-    actualizarProducto(productoId, fila, nuevoPrecio);
+      if (isNaN(nuevoPrecio) || nuevoPrecio < 0) {
+        alert('Por favor, introduce un precio válido.');
+        reject('Precio no válido.'); // Rechaza la promesa
+        return; 
+      }
+
+      // Llama a la función para actualizar el producto y almacena la promesa
+      promises.push(actualizarProducto(productoId, fila, nuevoPrecio));
+    });
+
+    // Espera a que todas las promesas se resuelvan
+    Promise.all(promises)
+      .then(() => resolve()) // Resuelve la promesa
+      .catch(reject); // Rechaza si alguna promesa falla
   });
 }
 
+// Modifica la función actualizarProducto para que devuelva una promesa
 function actualizarProducto(productoId, fila, nuevoPrecio) {
   const data = {
     id: productoId,
     precio: nuevoPrecio,
   };
 
-  fetch('/subir/actualizar-producto', {
+  return fetch('/subir/actualizar-producto', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   })
-  .then(response => {
-    if (!response.ok) {
-      return response.text().then(text => {
-        throw new Error(`Error al actualizar precio: ${response.status}, ${text}`);
-      });
-    }
-    return response.json();
-  })
-  .then(data => {
-    alert(data.mensaje);
-    console.log('Precio actualizado:', data.producto);
-    actualizarSubtotal(fila.querySelector('input[type="number"]')); // Llama a actualizarSubtotal si es necesario
-  })
-  .catch(error => {
-    console.error('Error al actualizar el precio:', error);
-    alert('Error al actualizar el precio. Por favor, inténtalo de nuevo más tarde.');
-  });
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(`Error al actualizar precio: ${response.status}, ${text}`);
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      alert(data.mensaje);
+      console.log('Precio actualizado:', data.producto);
+      actualizarSubtotal(fila.querySelector('input[type="number"]')); 
+    });
 }
-
 // Asumiendo que tienes un botón que llama a la función actualizarTodosLosPrecios
 document.querySelector('#actualizar-precios').addEventListener('click', actualizarTodosLosPrecios);
 
@@ -207,46 +208,51 @@ function descargarPDF(idCotizacion) {
       if (spinner) spinner.style.display = 'none';
   }, 3000); 
 }
-
 function verificarCotizacion() {
   const cotizacionId = document.getElementById('cotizacionId').value;
-  const total = parseFloat(document.getElementById('totalPrecio').innerText); // Obtener el total actual
+  const total = parseFloat(document.getElementById('totalPrecio').innerText);
 
   if (!cotizacionId) {
     alert('No se ha seleccionado ninguna cotización.');
     return;
   }
 
-  fetch(`/vercotizaciones/verificar/${cotizacionId}`, {
-    method: 'POST'
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
+  // Llama a la función para actualizar todos los precios antes de verificar la cotización
+  actualizarTodosLosPrecios().then(() => {
+    // Ahora puedes proceder a verificar la cotización
+    fetch(`/vercotizaciones/verificar/${cotizacionId}`, {
+      method: 'POST'
     })
-    .then(data => {
-      alert(data.message);
-
-      
-      enviarTotalAlServidor(cotizacionId, total); 
-
-      const modal = document.getElementById('cotizacionModal');
-      if (modal) {
-        modal.classList.remove('show');
-        modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-          backdrop.remove();
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-      }
-    })
-    .catch(error => {
-      console.error('Error al verificar la cotización:', error);
-      alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
-    });
+        return response.json();
+      })
+      .then(data => {
+        alert(data.message);
+
+        enviarTotalAlServidor(cotizacionId, total);
+
+        const modal = document.getElementById('cotizacionModal');
+        if (modal) {
+          modal.classList.remove('show');
+          modal.style.display = 'none';
+          document.body.classList.remove('modal-open');
+          const backdrop = document.querySelector('.modal-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error al verificar la cotización:', error);
+        alert('Error al verificar la cotización. Por favor, inténtalo de nuevo más tarde.');
+      });
+  }).catch(error => {
+    console.error('Error al actualizar precios:', error);
+    alert('Error al actualizar los precios. Por favor, inténtalo de nuevo.');
+  });
 }
 
 // Función para aprobar el pago
