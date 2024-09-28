@@ -74,7 +74,7 @@ router.post('/payment', async (req, res) => {
         cotizacion.detallesPago = {
             monto: detallesPago.purchase_units[0].payments.captures[0].amount.value,
             numeroCuenta: 'PayPal',
-            fechaPago: new Date(fechaPago),
+            fechaPago: new Date(),
           
          
         };
