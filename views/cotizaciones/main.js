@@ -190,6 +190,7 @@ function aprobarPago(cotizacionId) {
     console.error('Error al aprobar el pago:', error);
   });
 }
+
 // Función para rechazar el pago
 function rechazarPago(cotizacionId) {
   fetch(`/vercotizaciones/rechazarPago/${cotizacionId}`, {

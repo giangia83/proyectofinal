@@ -456,8 +456,8 @@ router.post('/vercotizaciones/aprobarPago/:id', async (req, res) => {
 
         // Llamar a la función que envía el correo de pago aprobado al usuario
         await enviarCorreoPagoAprobadoUsuario({
-            usuarioId: cotizacion.usuario._id, // Obtener el ID del usuario desde la cotización
-            productos: cotizacion.productos, // Pasar los productos de la cotización
+            usuarioId: cotizacion.usuario._id, 
+            productos: cotizacion.productos, 
             total: cotizacion.total // Pasar el total de la cotización
         });
 
