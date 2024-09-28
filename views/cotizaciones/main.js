@@ -138,7 +138,7 @@ function actualizarProducto(productoId, button) {
     precio: nuevoPrecio,
   };
 
-  fetch('/subir/actualizar-precio', {
+  fetch('/subir/actualizar-producto', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
