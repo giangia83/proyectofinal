@@ -431,32 +431,47 @@ router.get('/vercotizaciones/detallesPago/:id', async (req, res) => {
 });
 
 
-
 // Ruta para aprobar el pago y enviar el correo al usuario
 router.post('/vercotizaciones/aprobarPago/:id', async (req, res) => {
-  const cotizacionId = req.params.id;
+    const cotizacionId = req.params.id;
+    
+    try {
+      // Buscar la cotización por ID
+      const cotizacion = await Cotizacion.findById(cotizacionId);
+      
+      if (!cotizacion) {
+        return res.status(404).json({ message: 'Cotización no encontrada' });
+      }
   
-  try {
-    // Actualiza el estado de la cotización a "Pago Realizado"
-    await Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Realizado' });
-
-    // Llamar a la función que envía el correo de pago aprobado al usuario
-    await enviarCorreoPagoAprobadoUsuario(cotizacionId);
-
-    // Enviar la respuesta una vez que el correo ha sido enviado correctamente
-    res.status(200).send('Pago aprobado y correo enviado al usuario');
-  } catch (err) {
-    console.error('Error al aprobar el pago y enviar el correo:', err);
-    return res.status(500).send('Error al aprobar el pago y enviar el correo');
-  }
-});
-
+      // Actualiza el estado de la cotización a "Pago Realizado"
+      await Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Realizado' });
+  
+      // Llamar a la función que envía el correo de pago aprobado al usuario
+      await enviarCorreoPagoAprobadoUsuario(cotizacionId);
+  
+      // Enviar la respuesta con los detalles de la cotización
+      res.status(200).json({
+        message: 'Pago aprobado y correo enviado al usuario',
+        detallesPago: cotizacion.detallesPago // Incluye los detalles del pago si es necesario
+      });
+      
+    } catch (err) {
+      console.error('Error al aprobar el pago y enviar el correo:', err);
+      return res.status(500).json({ message: 'Error al aprobar el pago y enviar el correo', error: err });
+    }
+  });
   
  // Ruta para rechazar el pago
 router.post('/vercotizaciones/rechazarPago/:id', async (req, res) => {
     const cotizacionId = req.params.id;
   
     try {
+        // Buscar la cotización por ID
+        const cotizacion = await Cotizacion.findById(cotizacionId);
+        
+        if (!cotizacion) {
+          return res.status(404).json({ message: 'Cotización no encontrada' });
+        }
       // Actualiza el estado de la cotización a "Pago Rechazado"
       await Cotizacion.findByIdAndUpdate(cotizacionId, { estado: 'Pago Rechazado' });
     
