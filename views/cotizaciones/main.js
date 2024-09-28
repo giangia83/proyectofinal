@@ -126,30 +126,37 @@ function enviarTotalAlServidor(cotizacionId, total) {
   }
 }
 
-function actualizarTodosProductos() {
-  const productos = [];
-  const filas = document.querySelectorAll('#productosTableBody tr');
+function actualizarProductos(productos) {
+  const actualizaciones = [];
 
-  filas.forEach(fila => {
-    const productoId = fila.querySelector('input[type="hidden"]').value; // Asegúrate de que el ID esté disponible
+  productos.forEach(producto => {
+    const fila = document.querySelector(`tr:has(td:contains('${producto.productoId.nombre}'))`);
     const nuevoPrecio = parseFloat(fila.querySelector('input[type="number"]').value.replace(',', '.'));
 
+    if (!producto.productoId) {
+      console.error('ID de producto no válido:', producto);
+      return;
+    }
+
     if (!isNaN(nuevoPrecio) && nuevoPrecio >= 0) {
-      productos.push({ id: productoId, precio: nuevoPrecio });
+      actualizaciones.push({ id: producto.productoId._id, precio: nuevoPrecio });
+    } else {
+      alert(`Por favor, introduce un precio válido para ${producto.productoId.nombre}.`);
     }
   });
 
-  if (productos.length > 0) {
-    fetch('/subir/actualizar-productos', {
+  if (actualizaciones.length > 0) {
+    // Hacer la actualización de precios en el servidor
+    fetch('/subir/actualizar-producto', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(productos),
+      body: JSON.stringify(actualizaciones),
     })
     .then(response => {
       if (!response.ok) {
-        return response.text().then(text => { // Obtener más detalles en caso de error
+        return response.text().then(text => {
           throw new Error(`Error al actualizar precios: ${response.status}, ${text}`);
         });
       }
@@ -157,18 +164,16 @@ function actualizarTodosProductos() {
     })
     .then(data => {
       alert(data.mensaje);
-      console.log('Precios actualizados:', data);
-      // Actualizar la tabla de subtotales si es necesario
-      calcularTotal();
+      // Actualizar subtotales después de la actualización
+      actualizarSubtotal();
     })
     .catch(error => {
       console.error('Error al actualizar los precios:', error);
       alert('Error al actualizar los precios. Por favor, inténtalo de nuevo más tarde.');
     });
-  } else {
-    alert('No hay productos para actualizar.');
   }
 }
+
 
 
 
