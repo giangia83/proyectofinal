@@ -216,7 +216,7 @@ async function enviarCorreoPagoAprobadoUsuario(detallesCotizacion) {
                                 </tr>
                             </thead>
                             <tbody>
-                                ${cotizacion.productos.map(producto => `
+                                ${detallesCotizacion.productos.map(producto => `
                                     <tr>
                                         <td style="border: 1px solid #ddd; padding: 12px;">${producto.nombre}</td>
                                         <td style="border: 1px solid #ddd; padding: 12px;">${producto.categoria}</td>
@@ -279,7 +279,7 @@ async function enviarCorreoPagoRechazadoUsuario(detallesCotizacion) {
                                 </tr>
                             </thead>
                             <tbody>
-                                ${cotizacion.productos.map(producto => `
+                                ${detallesCotizacion.productos.map(producto => `
                                     <tr>
                                         <td style="border: 1px solid #ddd; padding: 12px;">${producto.nombre}</td>
                                         <td style="border: 1px solid #ddd; padding: 12px;">${producto.categoria}</td>
